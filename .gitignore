@@ -1,0 +1,13 @@
+.vs/
+x64/
+*.cmo
+*.dds
+*.lib
+!/Lib/*
+*.obj
+*.cso
+*.user
+*.log
+*.tlog
+*.pdb
+*.ini
