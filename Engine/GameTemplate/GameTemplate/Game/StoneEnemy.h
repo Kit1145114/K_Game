@@ -1,6 +1,5 @@
 #pragma once
 #include"Enemys.h"
-
 class StoneEnemy :public Enemys
 {
 public:
@@ -12,6 +11,7 @@ public:
 	void Update();
 	void Draw();
 private:
+	Enemys* enemys;
 	SkinModel seModel;						//model説明不要ッ！！！！！
 	Animation s_anim;						//アニメ
 	AnimationClip s_animClip[3];			//アニメクリップ

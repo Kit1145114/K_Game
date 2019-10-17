@@ -47,6 +47,18 @@ public:
 		m_ID = ID;
 	}
 	/// <summary>
+	/// エネミーに場所を渡す。
+	/// </summary>
+	/// <param name="position">ポジション</param>
+	void SetPosition(CVector3 position)
+	{
+		m_position = position;
+	}
+	CVector3 GetPosition()
+	{
+		return m_position;
+	}
+	/// <summary>
 	/// エネミーを創るときにパラメーターを入力させる。
 	/// </summary>
 	/// <param name="HP">ヒットポイント</param>

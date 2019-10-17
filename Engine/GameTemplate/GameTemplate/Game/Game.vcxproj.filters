@@ -142,6 +142,7 @@
     <ClCompile Include="Gamecpp\StoneEnemy.cpp" />
     <ClCompile Include="Gamecpp\Titan.cpp" />
     <ClCompile Include="Gamecpp\Golem.cpp" />
+    <ClCompile Include="HPText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -250,6 +251,7 @@
     <ClInclude Include="StoneEnemy.h" />
     <ClInclude Include="Golem.h" />
     <ClInclude Include="Titan.h" />
+    <ClInclude Include="HPText.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

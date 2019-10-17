@@ -17,5 +17,6 @@ private:
 	AnimationClip g_animClip[3];			//アニメクリップ
 	CVector3 m_position = CVector3::Zero();	//ポジション
 	EnemyInitParam prm;						//エネパラ。
+	CVector3 e2_pos = { 200.0f,0.0f,0.0f };
 };
 

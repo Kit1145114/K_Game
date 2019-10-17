@@ -5,6 +5,7 @@
 MAP::MAP()
 {
 	Map.Init(L"Assets/modelData/MAP.cmo");	//ƒ}ƒbƒv‚Ì•`‰æ
+	m_PSO.CreateMeshObject(Map, position, CQuaternion::Identity());
 }
 
 

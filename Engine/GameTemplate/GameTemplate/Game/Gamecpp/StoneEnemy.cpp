@@ -21,6 +21,7 @@ StoneEnemy::StoneEnemy()
 	prm.DEF = 30;										//ñhå‰óÕ
 	prm.SPD = 10;										//ë¨Ç≥ÅB
 	prm.model = seModel;
+	
 }
 
 void StoneEnemy::Attack()
@@ -47,6 +48,7 @@ void StoneEnemy::Update()
 {
 	Draw();
 	s_anim.Play(0);
+	//m_position.y -= 10.0f;
 	seModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
 }
 

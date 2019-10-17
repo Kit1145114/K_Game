@@ -21,6 +21,7 @@ Golem::Golem()
 	prm.DEF = 30;										//ñhå‰óÕ
 	prm.SPD = 10;										//ë¨Ç≥ÅB
 	prm.model = gModel;
+	m_position = e2_pos;
 }
 
 void Golem::Attack()
@@ -47,6 +48,7 @@ void Golem::Update()
 {
 	Draw();
 	g_anim.Play(0);
+	//m_position.y -= 10.0f;
 	gModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
 }
 

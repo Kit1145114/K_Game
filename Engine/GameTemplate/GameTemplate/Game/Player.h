@@ -26,8 +26,10 @@ public:
 	void Update();			//プレイヤーの更新関数
 	void Draw();			//プレイヤーの描画処理。
 	void Move();			//プレイヤーの移動処理。
+	void MoveOperation();		//プレイヤーの操作。
 	void Rotation();		//プレイヤーの回転処理。
 	void PlayerState();		//プレイヤーの状態
+	void PlayerAttack();	//プレイヤーの攻撃類
 	void SetDamage(float Damage)
 	{
 		HP -= Damage;
@@ -44,8 +46,8 @@ private:
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
 	CVector3 m_scale = CVector3::Zero();				//プレイヤーの大きさ用の変数
 	CQuaternion m_rotation = CQuaternion::Identity();	//プレイヤーの軸回転用の変数
-	PlayerAnimClip plClip;
-	bool PlayerMove = false;
+	PlayerAnimClip plClip;								//プレイヤーのステート変数
+	//bool PlayerMove = false;
 	//プレイヤーの移動量。
 	CharacterController m_charaCon;		//キャラクターコントローラー
 	/// <summary>
@@ -61,6 +63,7 @@ private:
 	/// </summary>
 	float DEF = 0;
 	int timer = 0;
+	bool atkAction = false;
 };
 //	クラス、関数はコーディングルール	アッパーキャメルMoveCount
 //	変数は　アンダーキャメル			m_moveCount		
