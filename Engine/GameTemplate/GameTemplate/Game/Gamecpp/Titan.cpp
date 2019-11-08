@@ -20,7 +20,7 @@ Titan::Titan()
 	prm.ATK = 60;										//çUåÇóÕ
 	prm.DEF = 30;										//ñhå‰óÕ
 	prm.SPD = 10;										//ë¨Ç≥ÅB
-	prm.model = tModel;
+//	prm.model = tModel;
 	m_position = e3_pos;
 }
 

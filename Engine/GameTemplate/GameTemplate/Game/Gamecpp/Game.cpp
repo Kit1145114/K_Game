@@ -8,6 +8,7 @@
 #include"StoneEnemy.h"
 #include "Titan.h"
 #include "Golem.h"
+#include"Sample.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -74,6 +75,8 @@ bool Game::Start()
 	enemys[0] = g_goMgr.NewAGO<StoneEnemy>();
 	enemys[1] = g_goMgr.NewAGO<Golem>();
 	enemys[2] = g_goMgr.NewAGO<Titan>();
+	enemys[3] = g_goMgr.NewAGO<Sample>();
+	enemys[3]->SetPlayer(player);
 	return true;
 }
 

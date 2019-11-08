@@ -36,9 +36,16 @@ public:
 				return;
 		}
 	}
+	void FindGO(GameObject*go) {
+		if (go->GetIsGO() == true)
+		{
+			return ;
+		}
+	}
 private:
 	//可変長配列
-	std::vector<GameObject*>m_goList;
+	std::vector<GameObject*>m_goList;			//ゲームオブジェクトのリスト
+	std::vector<GameObject*>m_delete_goList;	//デリートします。
 };
 
 extern GameObjectManajer g_goMgr;

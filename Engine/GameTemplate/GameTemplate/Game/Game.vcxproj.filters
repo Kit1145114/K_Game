@@ -143,6 +143,8 @@
     <ClCompile Include="Gamecpp\Titan.cpp" />
     <ClCompile Include="Gamecpp\Golem.cpp" />
     <ClCompile Include="HPText.cpp" />
+    <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="SpriteRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -252,6 +254,8 @@
     <ClInclude Include="Golem.h" />
     <ClInclude Include="Titan.h" />
     <ClInclude Include="HPText.h" />
+    <ClInclude Include="Sample.h" />
+    <ClInclude Include="SpriteRender.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -264,6 +268,10 @@
     <MeshContentTask Include="Assets\modelData\Enemy1.FBX" />
     <MeshContentTask Include="Assets\modelData\Enemy2.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy3.fbx" />
+    <MeshContentTask Include="Assets\modelData\enemy_00.FBX">
+      <Filter>Assets\modelData</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\animData\attack.FBX" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">
@@ -273,8 +281,19 @@
     <None Include="Assets\animData\G_walk.tka" />
     <None Include="Assets\animData\E3_idle.tka" />
     <None Include="Assets\animData\G_ATK.tka" />
+    <None Include="Assets\animData\damage.tka" />
+    <None Include="Assets\animData\death.tka" />
+    <None Include="Assets\animData\idle.tka" />
+    <None Include="Assets\animData\attack.tka" />
+    <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\Thethief_H.tks" />
+    <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\enemy_00.tks" />
+    <None Include="Assets\modelData\enemy_00.tks" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\sound\enemy_attack_00.wav" />
+    <Media Include="Assets\sound\enemy_voice_00.wav" />
   </ItemGroup>
 </Project>

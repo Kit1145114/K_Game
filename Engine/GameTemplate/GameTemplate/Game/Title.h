@@ -1,6 +1,7 @@
 #pragma once
 #include"GameObjectManajer.h"
 #include"graphics/Sprite.h"
+#include"SpriteRender.h"
 
 class Game;
 class Title : public GameObject
@@ -30,10 +31,13 @@ private:
 	/// <summary>
 	/// スプライト
 	/// </summary>
-	Sprite m_title;
+	//Sprite m_title;
 	/// <summary>
 	/// ゲームのインスタンス
 	/// </summary>
+	SpriteRender* m_sprite;
 	Game* game;
+	//ひろち
+	CQuaternion Rot = {0.0f,1.0f,0.0f,0.0f};
 };
 

@@ -107,6 +107,11 @@ public:
 		enSkinModelSRVReg_DiffuseTexture = 0,		//!<ディフューズテクスチャ。
 		enSkinModelSRVReg_BoneMatrix,				//!<ボーン行列。
 	};
+	//アニメーションイベント
+	void AddAnimationEventListener(std::function<void(const wchar_t* clipName, const wchar_t* eventName)> eventListener)
+	{
+		m_animation.AddAnimationEventListener(eventListener);
+	}
 private:
 	/*!
 	*@brief	サンプラステートの初期化。

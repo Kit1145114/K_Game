@@ -31,7 +31,7 @@ public:
 		float ATK;
 		float DEF;
 		float SPD;
-		SkinModel model;
+		//SkinModel model;
 	};
 	/// <summary>
 	/// 敵の状態。
@@ -58,6 +58,10 @@ public:
 	{
 		return m_position;
 	}
+	void SetPlayer(Player* player)
+	{
+		m_player = player;
+	}
 	/// <summary>
 	/// エネミーを創るときにパラメーターを入力させる。
 	/// </summary>
@@ -66,7 +70,7 @@ public:
 	/// <param name="Defense">防御力</param>
 	/// <param name="Speed">基礎速度</param>
 	/// <param name="model">エネミーのモデル</param>
-	void Init(float HP,float Attack, float Defense,float Speed ,SkinModel model);
+	void Init(float HP,float Attack, float Defense,float Speed /*,SkinModel model*/);
 	//bool Start();
 	//void Update();
 	//void Draw();
@@ -74,7 +78,7 @@ protected:
 	/// <summary>
 	/// プレイヤークラス。
 	/// </summary>
-	Player* player;
+	Player* m_player;
 	/// <summary>
 	/// キャラクターコントローター。
 	/// </summary>
@@ -120,5 +124,6 @@ protected:
 	/// エネミーのモデル
 	/// </summary>
 	///SkinModel model;
+	CharacterController m_charaCon;	
 };
 

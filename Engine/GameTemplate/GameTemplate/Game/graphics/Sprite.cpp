@@ -14,11 +14,11 @@ struct SSpriteCB {
 	CMatrix mWVP;		//ワールド×ビュー×プロジェクション行列。
 };
 
-
 Sprite::Sprite()
 {
 }
 
+//const CVector2 Sprite::DEFAULT_PIVOT = { 0.5f,0.5f };
 
 Sprite::~Sprite()
 {

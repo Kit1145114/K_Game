@@ -33,13 +33,22 @@ void AnimationClip::Load(const wchar_t* filePath)
 	//アニメーションクリップのヘッダーをロード。
 	AnimClipHeader header;
 	fread(&header, sizeof(header), 1, fp);
-		
 	if (header.numAnimationEvent > 0) {
-		//アニメーションイベントは未対応。
-		//就職作品でチャレンジしてみよう。
-		std::abort();
+		m_animationEvent = std::make_unique<AnimationEvent[]>(header.numAnimationEvent);
+		//アニメーションイベントがあるなら、イベント情報をロードする。
+		for (auto i = 0; i < (int)header.numAnimationEvent; i++) {
+			CAnimationEvent animEvent;
+			fread(&animEvent, sizeof(animEvent), 1, fp);
+			//イベント名をロードする。
+			static char eventName[256];
+			static wchar_t wEventName[256];
+			fread(eventName, animEvent.eventNameLength + 1, 1, fp);
+			mbstowcs(wEventName, eventName, 255);
+			m_animationEvent[i].SetInvokeTime(animEvent.invokeTime);
+			m_animationEvent[i].SetEventName(wEventName);
+		}
 	}
-
+	m_numAnimationEvent = header.numAnimationEvent;
 
 	//中身コピーするためのメモリをドカッと確保。
 	KeyframeRow* keyframes = new KeyframeRow[header.numKey];

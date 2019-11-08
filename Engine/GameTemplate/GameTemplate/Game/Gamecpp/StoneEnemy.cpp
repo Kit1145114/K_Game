@@ -20,13 +20,13 @@ StoneEnemy::StoneEnemy()
 	prm.ATK = 60;										//UŒ‚—Í
 	prm.DEF = 30;										//–hŒä—Í
 	prm.SPD = 10;										//‘¬‚³B
-	prm.model = seModel;
+//	prm.model = seModel;
 	
 }
 
 void StoneEnemy::Attack()
 {
-	player->SetDamage(m_ATK);
+	m_player->SetDamage(m_ATK);
 }
 
 void StoneEnemy::Damage(float Damage)

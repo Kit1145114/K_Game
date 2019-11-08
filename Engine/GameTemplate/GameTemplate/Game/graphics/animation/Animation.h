@@ -11,7 +11,7 @@
 
 class Skeleton;
 class SkinModel;
-
+using AnimationEventListener = std::function<void(const wchar_t* clipName, const wchar_t* eventName)>;
 
 /*!
 * @brief	アニメーションクラス。
@@ -55,7 +55,22 @@ public:
 	*@param[in]	deltaTime		アニメーションを進める時間(単位：秒)。
 	*/
 	void Update(float deltaTime);
-	
+	//	アニメーションイベントリスナーを登録。
+	//return
+	// 登録されたリスナー。
+	void AddAnimationEventListener(AnimationEventListener eventListener)
+	{
+		m_animationEventListeners.push_back(eventListener);
+	}
+
+	//	アニメーションイベントをリスナーに通知。
+
+	void NotifyAnimationEventToListener(const wchar_t* clipName, const wchar_t* eventName)
+	{
+		for (auto& listener : m_animationEventListeners) {
+			listener(clipName, eventName);
+		}
+	}
 private:
 	void PlayCommon(AnimationClip* nextClip, float interpolateTime)
 	{
@@ -115,4 +130,5 @@ private:
 	float m_interpolateTimeEnd = 0.0f;
 	bool m_isInterpolate = false;				//!<補間中？
 
+	std::vector<AnimationEventListener>	m_animationEventListeners;	//!<アニメーションイベントリスナーのリスト。
 };

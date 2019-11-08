@@ -138,6 +138,8 @@
     </ClCompile>
     <ClCompile Include="graphics\Sprite.cpp" />
     <ClCompile Include="Gamecpp\StoneEnemy.cpp" />
+    <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Gamecpp\Titan.cpp" />
     <ClCompile Include="Title.cpp" />
@@ -179,6 +181,8 @@
     <ClInclude Include="physics\PhysicsStaticObject.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="graphics\Sprite.h" />
+    <ClInclude Include="Sample.h" />
+    <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StoneEnemy.h" />
     <ClInclude Include="system\system.h" />
@@ -186,9 +190,11 @@
     <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
+    <MeshContentTask Include="Assets\animData\attack.FBX" />
     <MeshContentTask Include="Assets\modelData\Enemy1.FBX" />
     <MeshContentTask Include="Assets\modelData\Enemy2.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy3.fbx" />
+    <MeshContentTask Include="Assets\modelData\enemy_00.FBX" />
     <MeshContentTask Include="Assets\modelData\Gmodel.fbx" />
     <MeshContentTask Include="Assets\modelData\MAP.FBX" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -197,14 +203,25 @@
     </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\enemy_00.tks" />
+    <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\Thethief_H.tks" />
+    <None Include="Assets\animData\attack.tka" />
+    <None Include="Assets\animData\damage.tka" />
+    <None Include="Assets\animData\death.tka" />
     <None Include="Assets\animData\E3_idle.tka" />
     <None Include="Assets\animData\G_ATK.tka" />
     <None Include="Assets\animData\G_idle.tka" />
     <None Include="Assets\animData\G_walk.tka" />
+    <None Include="Assets\animData\idle.tka" />
     <None Include="Assets\level\Map01.tkl" />
+    <None Include="Assets\modelData\enemy_00.tks" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\sound\enemy_attack_00.wav" />
+    <Media Include="Assets\sound\enemy_voice_00.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

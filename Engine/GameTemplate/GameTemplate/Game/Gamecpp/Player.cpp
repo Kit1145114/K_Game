@@ -126,11 +126,11 @@ void Player::MoveOperation()
 		//パッドのABUTTON入力でジャンプする。
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
-		m_moveSpeed.y += 200.0f;
+		m_moveSpeed.y += 400.0f;
 	}
 	else
 	{
 		//Y方向への重力をつける。
-		m_moveSpeed.y -= 980.0f * (1.0f / 60.0f);
+		m_moveSpeed.y -= 100.0f; //* (1.0f / 60.0f);
 	}
 }

@@ -38,6 +38,7 @@ public:
 	{
 		return m_position;
 	}
+	//static Player*GetPlayer();
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//プレイヤーのアニメーション
@@ -50,6 +51,7 @@ private:
 	//bool PlayerMove = false;
 	//プレイヤーの移動量。
 	CharacterController m_charaCon;		//キャラクターコントローラー
+	static Player* player;
 	/// <summary>
 	/// プレイヤーのHP
 	/// </summary>

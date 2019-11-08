@@ -26,7 +26,7 @@ private:
 	Player* player;				//プレイヤーのインスタンス。
 	MAP* map;					//マップのインスタンス。
 	GameCamera* g_Camera;		//カメラのインスタンス。
-	Enemys* enemys[3];			//エネミーのインスタンス。
+	Enemys* enemys[4];			//エネミーのインスタンス。
 	static Game* m_instance;	//ゲームのインスタンス。
 	int enemyNum = 3;			//登場するエネミーの数をここで定義。
 };

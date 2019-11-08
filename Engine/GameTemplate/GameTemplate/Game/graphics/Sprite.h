@@ -4,6 +4,7 @@
 class Sprite
 {
 public:
+	static const CVector2	DEFAULT_PIVOT;
 	/// <summary>
 	/// インストラクタ
 	/// </summary>

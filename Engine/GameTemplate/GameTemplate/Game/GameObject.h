@@ -2,6 +2,8 @@
 class GameObject
 {
 public:
+	//基底クラスには仮想デストラクタが必要
+	virtual ~GameObject(){};
 	/// 更新関数。
 	/// </summary>
 	virtual void Update() = 0;

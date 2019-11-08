@@ -20,13 +20,13 @@ Golem::Golem()
 	prm.ATK = 60;										//UŒ‚—Í
 	prm.DEF = 30;										//–hŒä—Í
 	prm.SPD = 10;										//‘¬‚³B
-	prm.model = gModel;
+//	prm.model = gModel;
 	m_position = e2_pos;
 }
 
 void Golem::Attack()
 {
-	player->SetDamage(m_ATK);
+	m_player->SetDamage(m_ATK);
 }
 
 void Golem::Damage(float Damage)
