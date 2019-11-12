@@ -6,8 +6,8 @@ Titan::Titan()
 {
 	tModel.Init(L"Assets/modelData/Enemy1.cmo");		//モデルの呼び出し。
 //モデルのアニメーションのロード。
-	//t_animClip[0].Load(L"Assets/animData/E3_idle.tka");	//アニメーションをロード。
-	//t_animClip[0].SetLoopFlag(true);
+	t_animClip[0].Load(L"Assets/animData/E3_idle.tka");	//アニメーションをロード。
+	t_animClip[0].SetLoopFlag(true);
 	t_anim.Init(
 		tModel,
 
@@ -49,6 +49,7 @@ void Titan::Update()
 	Draw();
 	t_anim.Play(0);
 	//m_position.y -= 10.0f;
+	//t_anim.Update(0.2f);
 	tModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
 }
 

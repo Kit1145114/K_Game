@@ -36,7 +36,9 @@ void Player::Update()
 	PlayerAttack();					//プレイヤーの攻撃類
 	PlayerState();					//プレイヤーの状態を呼ぶ。
 	Rotation();						//プレイヤーの回転を呼ぶ。
-	g_anim.Update(1.0f / 30.0f);	//アニメーションをフレーム単位で描画。
+	g_anim.Update(0.1f * Hasiru);	//アニメーションをフレーム単位で描画。
+			//ワールド行列の更新。
+	Gmodel.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
 }
 //プレイヤーの描画処理。
 void Player::Draw()
@@ -53,8 +55,6 @@ void Player::Move()
 	//キャラクターコントローラーに１フレームの経過秒数、時間ベースの移動速度を渡している。
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 	m_charaCon.SetPosition(m_position);		//キャラコンに座標を渡す。
-		//ワールド行列の更新。
-	Gmodel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
 }
 //プレイヤーの回転処理
 void Player::Rotation()
@@ -121,8 +121,8 @@ void Player::PlayerAttack()
 //プレイヤーの移動類。
 void Player::MoveOperation()
 {
-	m_moveSpeed.x = g_pad[0].GetLStickXF() * 300.0f;	//X方向への移動処理。
-	m_moveSpeed.z = g_pad[0].GetLStickYF() * 300.0f;	//Y方向への移動処理。
+	m_moveSpeed.x = g_pad[0].GetLStickXF() * (500.0f * Hasiru);	//X方向への移動処理。
+	m_moveSpeed.z = g_pad[0].GetLStickYF() * (500.0f * Hasiru);	//Y方向への移動処理。
 		//パッドのABUTTON入力でジャンプする。
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
@@ -132,5 +132,13 @@ void Player::MoveOperation()
 	{
 		//Y方向への重力をつける。
 		m_moveSpeed.y -= 100.0f; //* (1.0f / 60.0f);
+	}
+	if (g_pad[0].IsPress(enButtonX) && plClip == plAnimClip_Walk)
+	{
+		Hasiru = 2.0f;
+	}
+	else
+	{
+		Hasiru = 1.0f;
 	}
 }

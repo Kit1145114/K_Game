@@ -49,7 +49,8 @@ void StoneEnemy::Update()
 	Draw();
 	s_anim.Play(0);
 	//m_position.y -= 10.0f;
-	seModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
+	seModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), Scale);
+	s_anim.Update(0.05f);
 }
 
 void StoneEnemy::Draw()

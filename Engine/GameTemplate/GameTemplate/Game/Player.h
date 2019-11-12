@@ -66,6 +66,7 @@ private:
 	float DEF = 0;
 	int timer = 0;
 	bool atkAction = false;
+	float Hasiru = 1.0f;		//走った時に値変更で、アニメーションの速さ変更。
 };
 //	クラス、関数はコーディングルール	アッパーキャメルMoveCount
 //	変数は　アンダーキャメル			m_moveCount		

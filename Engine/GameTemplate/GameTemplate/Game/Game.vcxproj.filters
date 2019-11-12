@@ -145,6 +145,7 @@
     <ClCompile Include="HPText.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
+    <ClCompile Include="Gamecpp\Font.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -256,6 +257,7 @@
     <ClInclude Include="HPText.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="SpriteRender.h" />
+    <ClInclude Include="Font.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

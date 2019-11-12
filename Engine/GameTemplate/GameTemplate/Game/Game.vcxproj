@@ -100,6 +100,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="character\CharacterController.cpp" />
+    <ClCompile Include="Gamecpp\Font.cpp" />
     <ClCompile Include="Gamecpp\Enemys.cpp" />
     <ClCompile Include="Gamecpp\Game.cpp" />
     <ClCompile Include="Gamecpp\GameCamera.cpp" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="Enemys.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameObject.h" />
