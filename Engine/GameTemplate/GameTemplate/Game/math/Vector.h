@@ -98,9 +98,9 @@ public:
 	template<class TVector>
 	void CopyTo(TVector& dst) const
 	{
-		dst.x = x;
-		dst.y = y;
-		dst.z = z;
+		dst.setX(x);
+		dst.setY(y);
+		dst.setZ(z);
 	}
 	/*!
 	* @brief	ベクトルの各要素を設定。
@@ -586,6 +586,12 @@ public:
 	{
 		static const CQuaternion identity = { 0.0f,  0.0f, 0.0f, 1.0f };
 		return identity;
+	}
+	void CopyTo(btVector3& dst) const
+	{
+		dst.setX(x);
+		dst.setY(y);
+		dst.setZ(z);
 	}
 };
 //整数型のベクトルクラス。

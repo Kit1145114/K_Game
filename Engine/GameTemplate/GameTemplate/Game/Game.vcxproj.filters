@@ -149,6 +149,8 @@
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
+    <ClCompile Include="physics\PhysicsGhostObject.cpp" />
+    <ClCompile Include="physics\BoxCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -264,6 +266,8 @@
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelEffect.h" />
+    <ClInclude Include="physics\PhysicsGhostObject.h" />
+    <ClInclude Include="physics\BoxCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

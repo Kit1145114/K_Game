@@ -10,6 +10,7 @@
 #include "Golem.h"
 #include"Sample.h"
 #include"HPText.h"
+#include"Enemys.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 

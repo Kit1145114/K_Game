@@ -1,6 +1,6 @@
 #pragma once
 #include"GameObjectManajer.h"
-#include"Enemys.h"
+//#include"Enemys.h"
 #include"RenderTarget.h"
 
 class Player;					//プレイヤー用のclassの型を作成。
