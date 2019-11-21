@@ -1,6 +1,5 @@
 #pragma once
 #include"GameObjectManajer.h"
-//#include"Enemys.h"
 #include"RenderTarget.h"
 
 class Player;					//プレイヤー用のclassの型を作成。
@@ -8,6 +7,7 @@ class MAP;						//マップ用のclassの型を生成。
 class GameCamera;				//カメラ用のclassの型を生成。
 class Enemys;					//エネミー用のclassの型を生成。
 class HPText;
+class AgoSample;
 
 class Game : public GameObject
 {
@@ -30,6 +30,7 @@ private:
 	GameCamera* g_Camera;			//カメラのインスタンス。
 	Enemys* enemys[4];				//エネミーのインスタンス。
 	HPText* hp_bar;					//HPバー。
+	AgoSample* ago;					//顎。
 	static Game* m_instance;		//ゲームのインスタンス。
 	int enemyNum = 3;				//登場するエネミーの数をここで定義。
 

@@ -151,6 +151,7 @@
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
     <ClCompile Include="physics\PhysicsGhostObject.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
+    <ClCompile Include="AgoSample.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -268,6 +269,7 @@
     <ClInclude Include="graphics\c3dmodel\C3DModelEffect.h" />
     <ClInclude Include="physics\PhysicsGhostObject.h" />
     <ClInclude Include="physics\BoxCollider.h" />
+    <ClInclude Include="AgoSample.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -284,6 +286,7 @@
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
+    <MeshContentTask Include="Assets\modelData\Ago.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">

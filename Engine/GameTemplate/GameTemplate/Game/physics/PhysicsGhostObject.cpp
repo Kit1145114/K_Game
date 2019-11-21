@@ -38,3 +38,12 @@ void PhysicsGhostObject::CreateCommon(CVector3 pos, CQuaternion rot)
 	g_physics.AddCollisionObject(m_ghostObject);
 	m_isRegistPhysicsWorld = true;
 }
+
+void PhysicsGhostObject::CreateBox(CVector3 pos, CQuaternion rot, CVector3 size)
+{
+	Release();
+	auto boxCollider = std::make_unique<BoxCollider>();
+	boxCollider->Create(size);
+	m_collider = move(boxCollider);
+	CreateCommon(pos, rot);
+}

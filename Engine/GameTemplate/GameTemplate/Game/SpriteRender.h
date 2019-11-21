@@ -16,6 +16,10 @@ public:
 	{
 		m_pivot = pivot;
 	}
+	void SetScale(const CVector3& scale)
+	{
+		m_scale = scale;
+	}
 	void Update();
 	void Draw();
 private:

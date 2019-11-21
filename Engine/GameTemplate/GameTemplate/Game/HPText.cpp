@@ -27,5 +27,5 @@ void HPText::Update()
 	{
 		wide--;
 	}
-	m_sprite->Update();
+	;
 }

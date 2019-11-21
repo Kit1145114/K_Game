@@ -24,6 +24,7 @@ namespace {
 		{
 			if (convexResult.m_hitCollisionObject == me
 				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character
+				|| convexResult.m_hitCollisionObject->getInternalType() == btCollisionObject::CO_GHOST_OBJECT
 				) {
 				//自分に衝突した。or キャラクタ属性のコリジョンと衝突した。
 				return 0.0f;
@@ -75,7 +76,8 @@ namespace {
 			//上方向と衝突点の法線のなす角度を求める。
 			float angle = fabsf(acosf(hitNormalTmp.Dot(CVector3::Up())));
 			if (angle >= CMath::PI * 0.3f		//地面の傾斜が54度以上なので壁とみなす。
-				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character	//もしくはコリジョン属性がキャラクタなので壁とみなす。
+				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character
+				|| convexResult.m_hitCollisionObject->getInternalType() == btCollisionObject::CO_GHOST_OBJECT//もしくはコリジョン属性がキャラクタなので壁とみなす。
 				) {
 				isHit = true;
 				CVector3 hitPosTmp;

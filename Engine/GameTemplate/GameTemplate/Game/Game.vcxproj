@@ -99,6 +99,7 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AgoSample.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AgoSample.h" />
     <ClInclude Include="physics\BoxCollider.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelEffect.h" />
@@ -203,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
+    <MeshContentTask Include="Assets\modelData\Ago.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy1.FBX" />
     <MeshContentTask Include="Assets\modelData\Enemy2.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy3.fbx" />

@@ -29,6 +29,7 @@ public:
 	* @brief	回転を設定。
 	*/
 	//void SetRotation(const CQuaternion& rot);
+	void CreateBox(CVector3 pos, CQuaternion rot, CVector3 size);
 private:
 	/*!
 	* @brief	ゴースト作成処理の共通処理。

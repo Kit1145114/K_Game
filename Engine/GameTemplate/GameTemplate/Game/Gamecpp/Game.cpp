@@ -11,6 +11,7 @@
 #include"Sample.h"
 #include"HPText.h"
 #include"Enemys.h"
+#include"AgoSample.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -82,6 +83,8 @@ bool Game::Start()
 	enemys[3] = g_goMgr.NewAGO<Sample>();
 	enemys[3]->SetPlayer(player);
 	//hp_bar = g_goMgr.NewAGO<HPText>();
+	//エッチ
+	ago = g_goMgr.NewAGO<AgoSample>();
 	return true;
 }
 //ゲームのアップデート。
