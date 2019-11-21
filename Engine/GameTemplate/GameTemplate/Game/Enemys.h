@@ -54,10 +54,12 @@ public:
 	{
 		m_position = position;
 	}
-	CVector3 GetPosition()
+	//ポジションもらえます。
+	CVector3 GetPosition()	const
 	{
 		return m_position;
 	}
+	//プレイヤー...いただいてます。
 	void SetPlayer(Player* player)
 	{
 		m_player = player;
@@ -124,6 +126,8 @@ protected:
 	/// エネミーのモデル
 	/// </summary>
 	///SkinModel model;
+	/// 
+	/// キャラコン。
 	CharacterController m_charaCon;	
 };
 

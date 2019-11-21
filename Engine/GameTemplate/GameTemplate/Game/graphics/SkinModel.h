@@ -6,6 +6,8 @@
 #include"animation/Animation.h"
 #include"animation/AnimationClip.h"
 #include"GameObjectManajer.h"
+#include"c3dmodel/C3DModelEffect.h"
+
 /*!
 *@brief	FBXの上方向。
 */
@@ -13,13 +15,16 @@ enum EnFbxUpAxis {
 	enFbxUpAxisY,		//Y-up
 	enFbxUpAxisZ,		//Z-up
 };
+
+const int NUM_DIRECTION_LIG = 4;	//ディレクションライト(値変更不可)
+
 /// <summary>
 /// ディレクションライト。
 /// </summary>
 struct DirectionLight
 {
-	CVector4 direction[4];	//ライトの方向。
-	CVector4 color[4];		//ライトのカラー。
+	CVector4 direction[NUM_DIRECTION_LIG];	//ライトの方向。
+	CVector4 color[NUM_DIRECTION_LIG];		//ライトのカラー。
 };
 struct SLight
 {
@@ -99,6 +104,12 @@ public:
 				onFindMesh(mesh);
 			}
 		}
+	}
+	void QueryMaterials(std::function<void(C3DModelEffect*)> func)
+	{
+		m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+			func(reinterpret_cast<C3DModelEffect*>(material));
+		});
 	}
 	/*!
 	*@brief	SRVのレジスタ番号。

@@ -9,6 +9,7 @@
 #include "Titan.h"
 #include "Golem.h"
 #include"Sample.h"
+#include"HPText.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -45,10 +46,12 @@ Game::~Game()
 		//マップを削除。
 		g_goMgr.QutavaleyaAGO(map);
 	}
+	//もしエネミーが消えてなかったら。
 	for (int i = 0; i < enemyNum; i++)
 	{
 		if (enemys[i] != nullptr)
 		{
+			//エネミーを削除。
 			g_goMgr.QutavaleyaAGO(enemys[i]);
 		}
 	}
@@ -61,7 +64,7 @@ Game* Game::GetInstance()
 	return m_instance;
 }
 
-//NewGOするものを分けて入れている。
+//ゲーム開始ィィィィ！！！！。
 bool Game::Start()
 {
 	//プレイヤーをNewGOで生成。
@@ -77,10 +80,10 @@ bool Game::Start()
 	enemys[2] = g_goMgr.NewAGO<Titan>();
 	enemys[3] = g_goMgr.NewAGO<Sample>();
 	enemys[3]->SetPlayer(player);
+	//hp_bar = g_goMgr.NewAGO<HPText>();
 	return true;
 }
-
+//ゲームのアップデート。
 void Game::Update()
 {
-
 }

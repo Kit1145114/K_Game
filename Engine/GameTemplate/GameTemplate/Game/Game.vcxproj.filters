@@ -146,6 +146,9 @@
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="Gamecpp\Font.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
+    <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -258,6 +261,9 @@
     <ClInclude Include="Sample.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
+    <ClInclude Include="graphics\c3dmodel\C3DModelEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -282,7 +288,6 @@
     <None Include="Assets\animData\G_idle.tka" />
     <None Include="Assets\animData\G_walk.tka" />
     <None Include="Assets\animData\E3_idle.tka" />
-    <None Include="Assets\animData\G_ATK.tka" />
     <None Include="Assets\animData\damage.tka" />
     <None Include="Assets\animData\death.tka" />
     <None Include="Assets\animData\idle.tka" />
@@ -290,9 +295,16 @@
     <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\Thethief_H.tks" />
     <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\enemy_00.tks" />
     <None Include="Assets\modelData\enemy_00.tks" />
+    <None Include="Assets\animData\G_ATK.tka" />
+    <None Include="Assets\animData\E2_idle.tka" />
+    <None Include="Assets\animData\E2_Death.tka" />
+    <None Include="Assets\animData\E2_ATK.tka" />
+    <None Include="Assets\animData\E3_walk.tka" />
+    <None Include="Assets\animData\E3_ATK.tka" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />
+    <ImageContentTask Include="Assets\sprite\Midori.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\sound\enemy_attack_00.wav" />

@@ -6,6 +6,6 @@ public:
 	Font();
 	~Font();
 private:
-	//DirectX::SpriteBatch*	m_spriteBatch = nullptr;	//!<スプライトバッチ。
+	DirectX::SpriteBatch*	m_spriteBatch = nullptr;	//!<スプライトバッチ。
 };
 

@@ -6,8 +6,12 @@ Golem::Golem()
 {
 	gModel.Init(L"Assets/modelData/Enemy2.cmo");		//モデルの呼び出し。
 //モデルのアニメーションのロード。
-	g_animClip[0].Load(L"Assets/animData/E3_idle.tka");	//アニメーションをロード。
+	g_animClip[0].Load(L"Assets/animData/E2_idle.tka");	//アニメーションをロード。
 	g_animClip[0].SetLoopFlag(true);
+	g_animClip[1].Load(L"Assets/animData/E2_Death.tka");	//アニメーションをロード。
+	g_animClip[1].SetLoopFlag(false);
+	g_animClip[2].Load(L"Assets/animData/E2_ATK.tka");	//アニメーションをロード。
+	g_animClip[2].SetLoopFlag(true);
 	g_anim.Init(
 		gModel,
 
@@ -49,7 +53,7 @@ void Golem::Update()
 	Draw();
 	g_anim.Play(0);
 	//m_position.y -= 10.0f;
-	//g_anim.Update(0.2f);
+	g_anim.Update(0.05f);
 	gModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), scale);
 }
 

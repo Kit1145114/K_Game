@@ -31,12 +31,8 @@ void Sample::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 	(void)clipName;
 	if (eventName)
 	{
-		MessageBox(NULL, TEXT("ëê"),TEXT("ÇﬂÇ¡Çπ"),MB_OK);
+		MessageBox(NULL, TEXT("âΩÇ‚Ç¡ÇƒÇÒÇÃÅH(ÅEÅÕÅE)"),TEXT("ÇﬂÇ¡Çπ"),MB_OK);
 	}
-	//auto ss = NewGO<prefab::CSoundSource>(0);
-	//ss->Init(eventName);
-	//ss->SetVolume(4.0f);
-	//ss->Play(false);
 }
 void Sample::Update()
 {

@@ -118,7 +118,6 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 {
 	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
-
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 
 	//定数バッファの内容を更新。

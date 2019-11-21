@@ -8,6 +8,10 @@ StoneEnemy::StoneEnemy()
 	//モデルのアニメーションのロード。
 	s_animClip[0].Load(L"Assets/animData/E3_idle.tka");	//アニメーションをロード。
 	s_animClip[0].SetLoopFlag(true);
+	s_animClip[1].Load(L"Assets/animData/E3_walk.tka");	//アニメーションをロード。
+	s_animClip[1].SetLoopFlag(true);
+	s_animClip[2].Load(L"Assets/animData/E3_ATK.tka");	//アニメーションをロード。
+	s_animClip[2].SetLoopFlag(true);
 	s_anim.Init(
 		seModel,
 

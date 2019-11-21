@@ -17,6 +17,11 @@ Player::Player()
 		g_animClip,		//アニメーションクリップの配列。
 		3				//アニメーションクリップの数
 	);
+	g_anim.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName)
+	{
+		OnAnimationEvent(clipName, eventName);
+	});
+
 	m_charaCon.Init(40.0f, 10.0f, m_position);			//キャラコンの設定（半径、高さ、初期位置。）
 	HP = 1000.0f;		//プレイヤーの初期体力。
 	ATK = 80.0f;		//プレイヤーの攻撃力。
@@ -36,7 +41,7 @@ void Player::Update()
 	PlayerAttack();					//プレイヤーの攻撃類
 	PlayerState();					//プレイヤーの状態を呼ぶ。
 	Rotation();						//プレイヤーの回転を呼ぶ。
-	g_anim.Update(0.1f * Hasiru);	//アニメーションをフレーム単位で描画。
+	g_anim.Update(0.05f * Hasiru);	//アニメーションをフレーム単位で描画。
 			//ワールド行列の更新。
 	Gmodel.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
 }
@@ -141,4 +146,14 @@ void Player::MoveOperation()
 	{
 		Hasiru = 1.0f;
 	}
+}
+//アニメーションイベント
+void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
+{
+	(void)clipName;
+	if (eventName == attack)
+	{
+		MessageBox(NULL, TEXT("..！！"), TEXT("めっせ"), MB_OK);
+	}
+
 }

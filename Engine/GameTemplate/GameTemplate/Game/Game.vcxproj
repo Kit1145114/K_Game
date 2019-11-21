@@ -99,6 +99,8 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
+    <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="Gamecpp\Font.cpp" />
     <ClCompile Include="Gamecpp\Enemys.cpp" />
@@ -139,6 +141,7 @@
     </ClCompile>
     <ClCompile Include="graphics\Sprite.cpp" />
     <ClCompile Include="Gamecpp\StoneEnemy.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="system\system.cpp" />
@@ -146,6 +149,8 @@
     <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
+    <ClInclude Include="graphics\c3dmodel\C3DModelEffect.h" />
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="Enemys.h" />
     <ClInclude Include="Font.h" />
@@ -183,6 +188,7 @@
     <ClInclude Include="physics\PhysicsStaticObject.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="graphics\Sprite.h" />
+    <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
@@ -210,7 +216,12 @@
     <None Include="Assets\animData\attack.tka" />
     <None Include="Assets\animData\damage.tka" />
     <None Include="Assets\animData\death.tka" />
+    <None Include="Assets\animData\E2_ATK.tka" />
+    <None Include="Assets\animData\E2_Death.tka" />
+    <None Include="Assets\animData\E2_idle.tka" />
+    <None Include="Assets\animData\E3_ATK.tka" />
     <None Include="Assets\animData\E3_idle.tka" />
+    <None Include="Assets\animData\E3_walk.tka" />
     <None Include="Assets\animData\G_ATK.tka" />
     <None Include="Assets\animData\G_idle.tka" />
     <None Include="Assets\animData\G_walk.tka" />
@@ -224,6 +235,9 @@
   <ItemGroup>
     <Media Include="Assets\sound\enemy_attack_00.wav" />
     <Media Include="Assets\sound\enemy_voice_00.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Midori.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

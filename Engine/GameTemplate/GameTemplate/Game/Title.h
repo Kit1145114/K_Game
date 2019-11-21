@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	///描画関数
 	/// </summary>
-	void Draw();
+	void Draw(){};
 	/// <summary>
 	/// 終焉
 	/// </summary>
@@ -36,6 +36,7 @@ private:
 	/// ゲームのインスタンス
 	/// </summary>
 	SpriteRender* m_sprite;
+	//ゲームだよ！！
 	Game* game;
 	//ひろち
 	CQuaternion Rot = {0.0f,1.0f,0.0f,0.0f};

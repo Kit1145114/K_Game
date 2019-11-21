@@ -30,15 +30,24 @@ public:
 	void Rotation();		//プレイヤーの回転処理。
 	void PlayerState();		//プレイヤーの状態
 	void PlayerAttack();	//プレイヤーの攻撃類
+	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
+	/// <summary>
+	/// プレイヤーに与えるダメージの設定。
+	/// </summary>
+	/// <param name="Damage">ダメージ（敵の攻撃力）</param>
 	void SetDamage(float Damage)
 	{
 		HP -= Damage;
-	}
-	CVector3 GetPosition()
+	}	
+	/// <summary>
+	/// プレイヤーのポジションを渡す。
+	/// </summary>
+	/// <param name="m_position">プレイヤーのポジション</param>
+	CVector3 GetPosition()	const
+
 	{
 		return m_position;
 	}
-	//static Player*GetPlayer();
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//プレイヤーのアニメーション
@@ -47,11 +56,8 @@ private:
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
 	CVector3 m_scale = CVector3::Zero();				//プレイヤーの大きさ用の変数
 	CQuaternion m_rotation = CQuaternion::Identity();	//プレイヤーの軸回転用の変数
-	PlayerAnimClip plClip;								//プレイヤーのステート変数
-	//bool PlayerMove = false;
-	//プレイヤーの移動量。
-	CharacterController m_charaCon;		//キャラクターコントローラー
-	static Player* player;
+	PlayerAnimClip plClip;								//プレイヤーのアニメーションステート
+	CharacterController m_charaCon;						//キャラクターコントローラー
 	/// <summary>
 	/// プレイヤーのHP
 	/// </summary>
@@ -67,6 +73,8 @@ private:
 	int timer = 0;
 	bool atkAction = false;
 	float Hasiru = 1.0f;		//走った時に値変更で、アニメーションの速さ変更。
+
+	const wchar_t* attack;
 };
 //	クラス、関数はコーディングルール	アッパーキャメルMoveCount
 //	変数は　アンダーキャメル			m_moveCount		

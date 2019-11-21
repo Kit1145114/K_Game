@@ -13,10 +13,9 @@ Title::~Title()
 {
 	g_goMgr.QutavaleyaAGO(m_sprite);
 }
-
+//タイトル
 void Title::Update()
 {
-	//m_title.UpdateWorldMatrix(CVector3::Zero(),Rot, CVector3::One());
 	m_sprite->Update();
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
@@ -24,20 +23,10 @@ void Title::Update()
 		this->SetUpdateFlag(false);
 	}
 }
-void Title::Draw()
-{
-	//CMatrix mView;
-	//CMatrix mProj;
-	//mView.MakeLookAt(
-	//	{ 0, 0, 1 },
-	//	{ 0, 0, 0 },
-	//	{ 0,1,0 }
-	//);
-	//mProj.MakeOrthoProjectionMatrix(1280, 720, 0.1, 100);
-	//m_title.Draw(mView, mProj);
-}
+//タイトル削除。
 void Title::Death()
 {
+	//ゲーム生成。タイトル削除。
 	game = g_goMgr.NewAGO<Game>();
 	g_goMgr.QutavaleyaAGO(this);
 }

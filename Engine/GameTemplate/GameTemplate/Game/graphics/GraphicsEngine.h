@@ -2,6 +2,19 @@
 /*!
  *@brief	グラフィックスエンジン。
  */
+
+ /// <summary>
+ /// レンダリングモード。
+ /// </summary>
+enum EnRenderMode {
+	enRenderMode_Invalid,			//不正なレンダリングモード。
+	enRenderMode_CreateShadowMap,	//シャドウマップ生成。
+	enRenderMode_Normal,			//通常レンダリング。
+	enRenderMode_Num,				//レンダリングモードの数。
+};
+
+class RenderTarget;
+
 class GraphicsEngine
 {
 public:
@@ -38,6 +51,9 @@ public:
 	 *@brief	描画終了。
 	 */
 	void EndRender();
+
+	void ChangeRenderTarget(RenderTarget* renderTarget, D3D11_VIEWPORT* viewport);
+	void ChangeRenderTarget(ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport);
 private:
 	D3D_FEATURE_LEVEL		m_featureLevel;				//Direct3D デバイスのターゲットとなる機能セット。
 	ID3D11Device*			m_pd3dDevice = NULL;		//D3D11デバイス。
