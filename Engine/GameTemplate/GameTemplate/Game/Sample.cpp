@@ -66,12 +66,12 @@ void Sample::State() {
 	switch (s_state)
 	{
 	case Sample::SSIdle:
-		m_moveSpeed.y -= 100.0f; //* (1.0f / 60.0f);
+		m_moveSpeed.y -= gravity; //* (1.0f / 60.0f);
 		m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 		s_anim.Play(0);
 		break;
 	case Sample::SSAttack:
-		m_moveSpeed.y -= 100.0f; //* (1.0f / 60.0f);
+		m_moveSpeed.y -= gravity; //* (1.0f / 60.0f);
 		m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 		s_anim.Play(1);
 		break;

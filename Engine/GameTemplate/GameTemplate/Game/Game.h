@@ -1,5 +1,6 @@
 #pragma once
 #include"GameObjectManajer.h"
+#include"graphics/c3dmodel/C3DModelDraw.h"
 #include"RenderTarget.h"
 
 class Player;					//プレイヤー用のclassの型を作成。
@@ -11,6 +12,11 @@ class AgoSample;
 
 class Game : public GameObject
 {
+	enum EnRenderMode {
+		enRenderMode_Normal,		//通常レンダリング。
+		enRenderMode_Silhouette,	//シルエットをレンダリング。
+		enRenderMode_Num,			//レンダリングモードの数。
+	};
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -32,9 +38,13 @@ private:
 	HPText* hp_bar;					//HPバー。
 	AgoSample* ago;					//顎。
 	static Game* m_instance;		//ゲームのインスタンス。
-	int enemyNum = 3;				//登場するエネミーの数をここで定義。
+	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。
 
 	//ここからレンダリングターゲット関係のメンバ変数です。
-	RenderTarget m_renderTarget;			//レンダリングターゲット。
+
+	C3DModelDraw m_playerDraw;
+	C3DModelDraw m_mapDraw;
+	C3DModelDraw m_enemysDraw[4];
+	C3DModelDraw m_AgoDraw;
 };
 

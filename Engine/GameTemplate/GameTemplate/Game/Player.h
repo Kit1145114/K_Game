@@ -1,7 +1,10 @@
 #pragma once
 #include "character/CharacterController.h"
 #include"GameObjectManajer.h"
+#include"physics/PhysicsGhostObject.h"
+#include"Enemys.h"
 
+class Enemys;
 class Player : public GameObject
 {					
 public:
@@ -30,6 +33,7 @@ public:
 	void Rotation();		//プレイヤーの回転処理。
 	void PlayerState();		//プレイヤーの状態
 	void PlayerAttack();	//プレイヤーの攻撃類
+	void Track();			//エネミー探索。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 	/// <summary>
 	/// プレイヤーに与えるダメージの設定。
@@ -44,20 +48,31 @@ public:
 	/// </summary>
 	/// <param name="m_position">プレイヤーのポジション</param>
 	CVector3 GetPosition()	const
-
 	{
 		return m_position;
 	}
+	/// <summary>
+	/// エネミーを探す。(仮)
+	/// </summary>
+	void SetEnemys(Enemys * enemy)
+	{
+		enemys = enemy;
+	}
+	//プレイヤーの前ベクトルを取得。
+	void Forward();
 private:
 	SkinModel Gmodel;									//スキンモデル。
-	Animation g_anim;									//プレイヤーのアニメーション
+	Animation g_anim;
+	Enemys* enemys;
+	//プレイヤーのアニメーション
 	AnimationClip g_animClip[3];						//プレイヤーのアニメーションクリップ
 	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。				
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
-	CVector3 m_scale = CVector3::Zero();				//プレイヤーの大きさ用の変数
+	CVector3 m_scale = {3.0f,3.0f,3.0f};				//プレイヤーの大きさ用の変数
 	CQuaternion m_rotation = CQuaternion::Identity();	//プレイヤーの軸回転用の変数
 	PlayerAnimClip plClip;								//プレイヤーのアニメーションステート
 	CharacterController m_charaCon;						//キャラクターコントローラー
+	PhysicsGhostObject m_PhyGhostObj;					//ゴースト
 	/// <summary>
 	/// プレイヤーのHP
 	/// </summary>
@@ -70,10 +85,12 @@ private:
 	/// プレイヤーの防御力
 	/// </summary>
 	float DEF = 0;
+	CVector3 m_forward = CVector3::AxisZ();			//!<エネミーの前方方向。
+	CMatrix Rot = CMatrix::Identity();
+	CVector3 toPlayer = CVector3::Zero();
 	int timer = 0;
 	bool atkAction = false;
 	float Hasiru = 1.0f;		//走った時に値変更で、アニメーションの速さ変更。
-
 	const wchar_t* attack;
 };
 //	クラス、関数はコーディングルール	アッパーキャメルMoveCount

@@ -26,6 +26,7 @@ Golem::Golem()
 	prm.SPD = 10;										//ë¨Ç≥ÅB
 //	prm.model = gModel;
 	m_position = e2_pos;
+	m_charaCon.Init(150.0f, 10.0f, m_position);
 }
 
 void Golem::Attack()
@@ -52,8 +53,10 @@ void Golem::Update()
 {
 	Draw();
 	g_anim.Play(0);
-	//m_position.y -= 10.0f;
+	m_moveSpeed.y -= 10.0f;
+	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 	g_anim.Update(0.05f);
+	m_charaCon.SetPosition(m_position);
 	gModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), scale);
 }
 

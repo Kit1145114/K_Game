@@ -20,6 +20,10 @@ public:
 	{
 		m_scale = scale;
 	}
+	void AddScaleX(float x)
+	{
+		m_scale.x += x;
+	}
 	void Update();
 	void Draw();
 private:

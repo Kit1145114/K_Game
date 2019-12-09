@@ -128,6 +128,8 @@ protected:
 	///SkinModel model;
 	/// 
 	/// キャラコン。
-	CharacterController m_charaCon;	
+	CharacterController m_charaCon;
+	//　重力。
+	float gravity = 100.0f;
 };
 

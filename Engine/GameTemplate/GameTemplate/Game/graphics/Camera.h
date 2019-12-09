@@ -46,6 +46,20 @@ public:
 		return m_up;
 	}
 	/*!
+* @brief	カメラの前方方向を取得。
+*/
+	const CVector3& GetForward() const
+	{
+		return m_forward;
+	}
+	/*!
+	* @brief	カメラの右方向を取得。
+	*/
+	const CVector3& GetRight() const
+	{
+		return m_right;
+	}
+	/*!
 	 * @brief	視点を設定。
 	 */
 	void SetPosition( CVector3 pos )
@@ -87,12 +101,33 @@ public:
 	{
 		m_viewAngle = angle;
 	}
+
+	void SetRotate(CVector3 rot)
+	{
+		m_rotate = rot;
+	}
+
+	void SetRotation(CQuaternion qrot)
+	{
+		m_Rot = qrot;
+	}
+
+	void SetAngle(float angle)
+	{
+		Angle = angle;
+	}
 private:
 	CMatrix	m_viewMatrix = CMatrix::Identity();		//ビュー行列。
 	CMatrix m_projMatrix = CMatrix::Identity();		//プロジェクション行列。
+	CMatrix m_viewMatrixInv;						//ビュー行列。
 	CVector3 m_target = CVector3::Zero();			//注視点。
 	CVector3 m_position = CVector3::Zero();			//視点。
 	CVector3 m_up = CVector3::Up();					//上方向。
+	CVector3 m_rotate = CVector3::Zero();
+	CQuaternion m_Rot = CQuaternion::Identity();
+	CVector3	m_forward = CVector3::Front();		//!<カメラの前方。
+	CVector3	m_right = CVector3::Right();			//!<カメラの右。
+	float Angle = 0.0f;
 	float m_viewAngle = CMath::DegToRad(60.0f);		//画角。
 	float m_far = 10000.0f;							//遠い平面までの距離。
 	float m_near = 1.0f;							//近平面までの距離。

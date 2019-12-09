@@ -49,7 +49,7 @@ Game::~Game()
 		g_goMgr.QutavaleyaAGO(map);
 	}
 	//もしエネミーが消えてなかったら。
-	for (int i = 0; i < enemyNum; i++)
+	for (int i = 0; i < ENEMY_NUM; i++)
 	{
 		if (enemys[i] != nullptr)
 		{
@@ -80,14 +80,18 @@ bool Game::Start()
 	enemys[0] = g_goMgr.NewAGO<StoneEnemy>();
 	enemys[1] = g_goMgr.NewAGO<Golem>();
 	enemys[2] = g_goMgr.NewAGO<Titan>();
+	enemys[2]->SetPlayer(player);
 	enemys[3] = g_goMgr.NewAGO<Sample>();
 	enemys[3]->SetPlayer(player);
-	//hp_bar = g_goMgr.NewAGO<HPText>();
+	hp_bar = g_goMgr.NewAGO<HPText>();
 	//エッチ
 	ago = g_goMgr.NewAGO<AgoSample>();
+	player->SetEnemys(enemys[2]);
 	return true;
 }
 //ゲームのアップデート。
 void Game::Update()
 {
+	//Render();
 }
+

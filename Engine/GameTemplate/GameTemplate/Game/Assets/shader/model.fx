@@ -148,12 +148,10 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 //--------------------------------------------------------------------------------------
 float4 PSMain( PSInput In ) : SV_Target0
 {
-	//return albedoTexture.Sample(Sampler, In.TexCoord);
-		//albedoテクスチャからカラーをフェッチする。
+	//albedoテクスチャからカラーをフェッチする。
 	float4 albedoColor = g_albedoTexture.Sample(g_sampler, In.TexCoord);
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
-	//lig += max(0.0f, dot(In.Normal * -1.0f, dligDirection)) * dligColor;
 	for (int i = 0; i < 4; i++) {
 		lig += max(0.0f, dot(In.Normal * -1.0f, dligDirection[i])) * dligColor[i];
 	}
@@ -161,4 +159,11 @@ float4 PSMain( PSInput In ) : SV_Target0
 	lig += ambientLight;
 	finalColor.xyz = albedoColor.xyz * lig;
 	return finalColor;
+}
+//--------------------------------------------------------------------------------------
+// シルエット描画用のピクセルシェーダーのエントリ関数。
+//--------------------------------------------------------------------------------------
+float4 PSMain_Silhouette(PSInput In) : SV_Target0
+{
+	return float4(0.5f, 0.5f, 0.5f, 1.0f);
 }

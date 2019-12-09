@@ -22,6 +22,7 @@ Titan::Titan()
 	prm.SPD = 10;										//ë¨Ç≥ÅB
 //	prm.model = tModel;
 	m_position = e3_pos;
+	m_charaCon.Init(150.0f, 10.0f, m_position);
 }
 
 void Titan::Attack()
@@ -48,9 +49,11 @@ void Titan::Update()
 {
 	Draw();
 	t_anim.Play(0);
-	//m_position.y -= 10.0f;
+	m_moveSpeed.y -= 10.0f;
+	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 	//t_anim.Update(0.2f);
 	tModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
+	m_charaCon.SetPosition(m_position);
 }
 
 void Titan::Draw()

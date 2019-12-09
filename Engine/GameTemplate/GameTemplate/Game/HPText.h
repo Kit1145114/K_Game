@@ -10,8 +10,10 @@ public:
 	~HPText();
 	void Update();		//アップデート。
 private:
+	int time = 300;
+	float wide = 50.0f;
 	SpriteRender* m_sprite;						//スプライトレンダー。
 	CVector3 m_position = {0.0f,-200.0f,0.0f};	//HPを表示させる場所の指定。
-	int wide = 500;
+	CVector3 m_scale = {0.0f,0.0f,0.0f };		//HP減ったり増えたりする用
 };
 

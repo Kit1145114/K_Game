@@ -9,7 +9,6 @@ AgoSample::AgoSample()
 	m_PhyGhostObj.CreateBox(m_position, CQuaternion::Identity(),m_scale);
 }
 
-
 AgoSample::~AgoSample()
 {
 

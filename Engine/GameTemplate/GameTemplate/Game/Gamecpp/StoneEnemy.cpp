@@ -25,7 +25,7 @@ StoneEnemy::StoneEnemy()
 	prm.DEF = 30;										//ñhå‰óÕ
 	prm.SPD = 10;										//ë¨Ç≥ÅB
 //	prm.model = seModel;
-	
+	m_charaCon.Init(150.0f, 10.0f, m_position);
 }
 
 void StoneEnemy::Attack()
@@ -52,9 +52,11 @@ void StoneEnemy::Update()
 {
 	Draw();
 	s_anim.Play(0);
-	//m_position.y -= 10.0f;
+	m_moveSpeed.y -= 10.0f;
+	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 	seModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), Scale);
 	s_anim.Update(0.05f);
+	m_charaCon.SetPosition(m_position);
 }
 
 void StoneEnemy::Draw()

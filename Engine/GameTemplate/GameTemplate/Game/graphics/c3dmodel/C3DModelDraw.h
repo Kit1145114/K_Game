@@ -11,6 +11,19 @@ struct  SDirectionLight
 };
 class C3DModelDraw
 {
+	//定数バッファ。
+	struct SVSConstantBuffer {
+		CMatrix mWorld;
+		CMatrix mView;
+		CMatrix mProj;
+	};
+
+	std::unique_ptr<DirectX::Model>		m_modelDx;				//DirectXTKが提供するモデル。
+	ID3D11Buffer*						m_cb = nullptr;			//!<定数バッファ。
+	ID3D11Buffer*						m_lightCb = nullptr;	//!<ライト用の定数バッファ。
+	SDirectionLight						m_dirLight;				//!<ディレクションライト。
+	ID3D11SamplerState* m_samplerState = nullptr;			//!<サンプラーステート。
+	CMatrix m_worldMatrix = CMatrix::Identity();			//!<ワールド行列。
 	/// <summary>
 	/// モデルエフェクト用の構造体。
 	/// </summary>
@@ -51,7 +64,7 @@ public:
 	/// </param>
 	/// <param name="viewMatrix">ビュー行列</param>
 	/// <param name="projMatrix">プロジェクション行列行列</param>
-	void Draw(EnRenderMode renderMode, CMatrix viewMatrix, CMatrix projMatrix);
+	void Draw(int renderMode/*, CMatrix viewMatrix, CMatrix projMatrix*/);
 	/// <summary>
 	/// マテリアルに対してクエリを行う。
 	/// </summary>
@@ -105,13 +118,21 @@ public:
 			std::abort();
 		}
 	}
+
+	/// ディレクションライトの初期化。
+/// </summary>
+	void InitDirectionLight();
+
+	/// <summary>
+	/// サンプラステートの初期化。
+	/// </summary>
+	void InitSamplerState();
+
+	/// <summary>
+	/// 定数バッファの初期化。
+	/// </summary>
+	void InitConstantBuffer();
 private:
-	std::unique_ptr<DirectX::Model>		m_modelDx;				//DirectXTKが提供するモデル。
-	ID3D11Buffer*						m_cb = nullptr;			//!<定数バッファ。
-	ID3D11Buffer*						m_lightCb = nullptr;	//!<ライト用の定数バッファ。
-	SDirectionLight						m_dirLight;				//!<ディレクションライト。
-	ID3D11SamplerState* m_samplerState = nullptr;			//!<サンプラーステート。
-	CMatrix m_worldMatrix = CMatrix::Identity();			//!<ワールド行列。
 	bool m_isShadowReciever = false;
 };
 

@@ -41,6 +41,8 @@ void Player::Update()
 	PlayerAttack();					//プレイヤーの攻撃類
 	PlayerState();					//プレイヤーの状態を呼ぶ。
 	Rotation();						//プレイヤーの回転を呼ぶ。
+	//Track();						//プレイヤーが敵を探す。
+	Forward();						//プレイヤーの前ベクトル取得。
 	g_anim.Update(0.05f * Hasiru);	//アニメーションをフレーム単位で描画。
 			//ワールド行列の更新。
 	Gmodel.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
@@ -56,10 +58,27 @@ void Player::Draw()
 //プレイヤーの移動処理
 void Player::Move()
 {
-	//m_moveSpeedはプレイヤーのclassのメンバ変数。
+	//進む速さの値決め。
+	float Speed = 500.0f;
+	//左スティック受け取りマシーン
+	float lStick_x = (g_pad[0].GetLStickXF());
+	float lStick_y = (g_pad[0].GetLStickYF());
+	//カメラの前方方向と右方向を取得。
+	CVector3 cameraForward = g_camera3D.GetForward();
+	CVector3 cameraRight = g_camera3D.GetRight();
+	//XZ平面での前方方向、右方向に変換する。
+	cameraForward.y = 0.0f;
+	cameraForward.Normalize();
+	cameraRight.y = 0.0f;
+	cameraRight.Normalize();
+	//XZ成分の移動速度をクリア。
+	m_moveSpeed.x = 0.0f;
+	m_moveSpeed.z = 0.0f;
+	m_moveSpeed += cameraForward * lStick_y * Speed * Hasiru;	//奥方向への移動速度を加算。
+	m_moveSpeed += cameraRight * lStick_x * Speed * Hasiru;		//右方向への移動速度を加算。
 	//キャラクターコントローラーに１フレームの経過秒数、時間ベースの移動速度を渡している。
-	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 	m_charaCon.SetPosition(m_position);		//キャラコンに座標を渡す。
+	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 }
 //プレイヤーの回転処理
 void Player::Rotation()
@@ -118,16 +137,17 @@ void Player::PlayerState()
 //プレイヤーの攻撃類。
 void Player::PlayerAttack()
 {
+	//もしBボタンが押されたら、パンチ。
+	//攻撃モーションとゴーストの当たり判定を生成。
 	if (g_pad[0].IsTrigger(enButtonB))
 	{
 		plClip = plAnimClip_Atk;
+		m_PhyGhostObj.CreateBox(m_forward, m_rotation, m_scale);
 	}
 }
 //プレイヤーの移動類。
 void Player::MoveOperation()
 {
-	m_moveSpeed.x = g_pad[0].GetLStickXF() * (500.0f * Hasiru);	//X方向への移動処理。
-	m_moveSpeed.z = g_pad[0].GetLStickYF() * (500.0f * Hasiru);	//Y方向への移動処理。
 		//パッドのABUTTON入力でジャンプする。
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
@@ -150,10 +170,28 @@ void Player::MoveOperation()
 //アニメーションイベント
 void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-	(void)clipName;
-	if (eventName == attack)
-	{
-		MessageBox(NULL, TEXT("..！！"), TEXT("めっせ"), MB_OK);
-	}
+	//(void)clipName;
+	//if (eventName)
+	//{
+	//	MessageBox(NULL, TEXT("..！！"), TEXT("めっせ"), MB_OK);
+	//	//m_PhyGhostObj.CreateBox(m_position, m_rotation, m_scale);
+	//}
 
+}
+//敵との距離計測。
+void Player::Track()
+{
+	CVector3 diff = m_position - enemys->GetPosition();
+	if (diff.Length() <= 500.0f && plClip == plAnimClip_Atk)
+	{
+		g_goMgr.QutavaleyaAGO(enemys);
+	}
+}
+//前ベクトル
+void Player::Forward()
+{
+	Rot.MakeRotationFromQuaternion(m_rotation);
+	m_forward.x = Rot.m[2][0];
+	m_forward.y = Rot.m[2][1];
+	m_forward.z = Rot.m[2][2];
 }
