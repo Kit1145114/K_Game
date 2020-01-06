@@ -12,6 +12,7 @@ class AgoSample;
 
 class Game : public GameObject
 {
+
 	enum EnRenderMode {
 		enRenderMode_Normal,		//通常レンダリング。
 		enRenderMode_Silhouette,	//シルエットをレンダリング。
@@ -26,10 +27,10 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~Game();
-	
 	static Game* GetInstance();		//シングルトン。
 	bool Start();					//ゲームのスタート関数。
 	void Update();					//ゲームのアップデート関数。
+	//敵とぷえいやーの距離を測る
 private:
 	Player* player;					//プレイヤーのインスタンス。
 	MAP* map;						//マップのインスタンス。
@@ -39,12 +40,8 @@ private:
 	AgoSample* ago;					//顎。
 	static Game* m_instance;		//ゲームのインスタンス。
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。
-
-	//ここからレンダリングターゲット関係のメンバ変数です。
-
-	C3DModelDraw m_playerDraw;
-	C3DModelDraw m_mapDraw;
-	C3DModelDraw m_enemysDraw[4];
-	C3DModelDraw m_AgoDraw;
+		//可変長配列
+	std::vector<Enemys*>m_goList;	//ゲームオブジェクトのリスト
+	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
 };
 

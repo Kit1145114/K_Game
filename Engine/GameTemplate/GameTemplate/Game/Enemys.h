@@ -2,6 +2,7 @@
 #include"GameObjectManajer.h"
 #include"character/CharacterController.h"
 #include"Player.h"
+#include"GameConst.h"
 
 class Enemy;
 class Player;
@@ -12,13 +13,16 @@ public:
 	 Enemys();
 	virtual ~Enemys();
 
-	virtual void Attack() = 0;					//攻撃
+	//virtual void Attack() = 0;					//攻撃
 	virtual void Damage(float Damage) = 0;		//DAMAGE
 	//エネミーを死亡判定にする。
-	void Death()
+	virtual void Death()
 	{
 		isDeath = true;
 	}
+
+	virtual void EnemyState() = 0;
+
 	//エネミーが死んだかどうかを返す。
 	bool GetisDeath()
 	{
@@ -36,11 +40,12 @@ public:
 	/// <summary>
 	/// 敵の状態。
 	/// </summary>
-	enum EnemyState
+	enum EnemyAnimState
 	{
 		esIdle,		//待機。
 		esTracking,	//追いかける。
-		esAttack	//攻撃。
+		esAttack,	//攻撃。
+		esDeath		//You Are Dead。
 	};
 	void SetEnemyID(int ID)
 	{
@@ -64,6 +69,11 @@ public:
 	{
 		m_player = player;
 	}
+	//死亡かどうか。
+	bool GetIsDead()
+	{
+		return isDeath;
+	}
 	/// <summary>
 	/// エネミーを創るときにパラメーターを入力させる。
 	/// </summary>
@@ -81,10 +91,6 @@ protected:
 	/// プレイヤークラス。
 	/// </summary>
 	Player* m_player;
-	/// <summary>
-	/// キャラクターコントローター。
-	/// </summary>
-	CharacterController m_cc;
 	/// <summary>
 	/// エネミーのモデル。
 	/// </summary>
@@ -109,27 +115,17 @@ protected:
 	/// エネミーの基礎速度。
 	float m_SPD = 0;
 	/// </summary>
-	/// 
+
 	int m_ID = 0;
-	/// エネミーのポジション用のメンバ変数
-	/// </summary>
-	CVector3 m_position = CVector3::Zero();
-	/// <summary>
-	/// エネミーの移動用のメンバ変数
-	/// </summary>
-	CVector3 m_moveSpeed = CVector3::Zero();
+	CVector3 m_position = CVector3::Zero();					/// エネミーのポジション用のメンバ変数
+	CVector3 m_moveSpeed = CVector3::Zero();				/// エネミーの移動用のメンバ変数
+	CQuaternion m_rotation = CQuaternion::Identity();		//回転用のメンバ変数。
 	/// <summary>
 	/// エネミーが死んだかどうかの変数
 	/// </summary>
 	bool isDeath = false;
-	/// <summary>
-	/// エネミーのモデル
-	/// </summary>
-	///SkinModel model;
-	/// 
-	/// キャラコン。
-	CharacterController m_charaCon;
-	//　重力。
-	float gravity = 100.0f;
+	CharacterController m_charaCon;							// キャラコン。
+	EnemyAnimState	e_state;								//エネミーの状態			
+	CVector3 Move = CVector3::Zero();						//敵が動くよ。（敵機の子）
 };
 

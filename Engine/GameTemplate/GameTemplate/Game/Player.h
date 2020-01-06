@@ -54,9 +54,18 @@ public:
 	/// <summary>
 	/// エネミーを探す。(仮)
 	/// </summary>
-	void SetEnemys(Enemys * enemy)
+	//void SetEnemys(Enemys * enemy)
+	//{
+	//	enemys = enemy;
+	//}
+	//
+	void SetEnemysList(std::vector<Enemys*> GetEnemy)
 	{
-		enemys = enemy;
+		m_goList = GetEnemy;
+	}
+	void SetPosition(CVector3 pos)
+	{
+		m_position = pos;
 	}
 	//プレイヤーの前ベクトルを取得。
 	void Forward();
@@ -64,34 +73,27 @@ private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;
 	Enemys* enemys;
+	std::vector<Enemys*> m_goList;	//ゲームオブジェクトのリスト
 	//プレイヤーのアニメーション
 	AnimationClip g_animClip[3];						//プレイヤーのアニメーションクリップ
-	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。				
+	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。	
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
 	CVector3 m_scale = {3.0f,3.0f,3.0f};				//プレイヤーの大きさ用の変数
 	CQuaternion m_rotation = CQuaternion::Identity();	//プレイヤーの軸回転用の変数
 	PlayerAnimClip plClip;								//プレイヤーのアニメーションステート
 	CharacterController m_charaCon;						//キャラクターコントローラー
 	PhysicsGhostObject m_PhyGhostObj;					//ゴースト
-	/// <summary>
-	/// プレイヤーのHP
-	/// </summary>
-	float HP = 0;
-	/// <summary>
-	/// プレイヤーの攻撃力
-	/// </summary>
-	float ATK = 0;
-	/// <summary>
-	/// プレイヤーの防御力
-	/// </summary>
-	float DEF = 0;
-	CVector3 m_forward = CVector3::AxisZ();			//!<エネミーの前方方向。
-	CMatrix Rot = CMatrix::Identity();
+	CVector3 m_forward = CVector3::AxisZ();				//プレイヤーの前方方向。
+	CMatrix Rot = CMatrix::Identity();					//プレイヤーの
 	CVector3 toPlayer = CVector3::Zero();
-	int timer = 0;
-	bool atkAction = false;
-	float Hasiru = 1.0f;		//走った時に値変更で、アニメーションの速さ変更。
-	const wchar_t* attack;
+	float HP = 0;									// プレイヤーのHP
+	float ATK = 50.0f;									// プレイヤーの攻撃力
+	float DEF = 0;									/// プレイヤーの防御力
+	float None = 0.0f;								//0を代入したいときに使います。
+	float NSpeed = 1.0f;							//通常のスピード。
+	float SPeed2 = 2.0f;							//２倍のスピード。
+	float JumpPower = 400.0f;						//ジャンプしたときの値
+	//float Gravity = 100.0f;							//プレイヤーのかかる重力。
 };
 //	クラス、関数はコーディングルール	アッパーキャメルMoveCount
 //	変数は　アンダーキャメル			m_moveCount		

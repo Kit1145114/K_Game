@@ -1,15 +1,17 @@
 #include "stdafx.h"
 #include "Player.h"
+#include"GameConst.h"
+#include"Game.h"
 
 Player::Player()
 {
 	//cmoファイルの読み込み。
-	Gmodel.Init(L"Assets/modelData/Gmodel.cmo");		//プレイヤーの描画
-	g_animClip[0].Load(L"Assets/animData/G_idle.tka");	//待機のロード
+	Gmodel.Init(L"Assets/modelData/Player.cmo");		//プレイヤーの描画
+	g_animClip[0].Load(L"Assets/animData/P_idle.tka");	//待機のロード
 	g_animClip[0].SetLoopFlag(true);
-	g_animClip[1].Load(L"Assets/animData/G_walk.tka");	//歩きのロード
+	g_animClip[1].Load(L"Assets/animData/P_walk.tka");	//歩きのロード
 	g_animClip[1].SetLoopFlag(true);
-	g_animClip[2].Load(L"Assets/animData/G_ATK.tka");	//殴りのロード
+	g_animClip[2].Load(L"Assets/animData/P_ATK.tka");	//殴りのロード
 	g_animClip[2].SetLoopFlag(false);
 	g_anim.Init(
 		Gmodel,			//アニメーションを流すスキンモデル
@@ -43,7 +45,7 @@ void Player::Update()
 	Rotation();						//プレイヤーの回転を呼ぶ。
 	//Track();						//プレイヤーが敵を探す。
 	Forward();						//プレイヤーの前ベクトル取得。
-	g_anim.Update(0.05f * Hasiru);	//アニメーションをフレーム単位で描画。
+	g_anim.Update(0.025f * NSpeed);	//アニメーションをフレーム単位で描画。
 			//ワールド行列の更新。
 	Gmodel.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
 }
@@ -67,15 +69,24 @@ void Player::Move()
 	CVector3 cameraForward = g_camera3D.GetForward();
 	CVector3 cameraRight = g_camera3D.GetRight();
 	//XZ平面での前方方向、右方向に変換する。
-	cameraForward.y = 0.0f;
+	cameraForward.y = None;
 	cameraForward.Normalize();
-	cameraRight.y = 0.0f;
+	cameraRight.y = None;
 	cameraRight.Normalize();
 	//XZ成分の移動速度をクリア。
-	m_moveSpeed.x = 0.0f;
-	m_moveSpeed.z = 0.0f;
-	m_moveSpeed += cameraForward * lStick_y * Speed * Hasiru;	//奥方向への移動速度を加算。
-	m_moveSpeed += cameraRight * lStick_x * Speed * Hasiru;		//右方向への移動速度を加算。
+	m_moveSpeed.x = None;
+	m_moveSpeed.z = None;
+	if (g_pad[0].IsPress(enButtonX) && plClip == plAnimClip_Walk) {
+		//走る
+		m_moveSpeed += cameraForward * lStick_y * Speed * SPeed2;	//奥方向への移動速度を加算。
+		m_moveSpeed += cameraRight * lStick_x * Speed * SPeed2;		//右方向への移動速度を加算。
+	}
+	else
+	{
+		//歩き。
+		m_moveSpeed += cameraForward * lStick_y * Speed * NSpeed;	//奥方向への移動速度を加算。
+		m_moveSpeed += cameraRight * lStick_x * Speed * NSpeed;		//右方向への移動速度を加算。
+	}
 	//キャラクターコントローラーに１フレームの経過秒数、時間ベースの移動速度を渡している。
 	m_charaCon.SetPosition(m_position);		//キャラコンに座標を渡す。
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
@@ -109,7 +120,7 @@ void Player::PlayerState()
 	{
 	case plAnimClip_idle:	//待機状態
 		MoveOperation();
-		if (m_moveSpeed.x != 0 || m_moveSpeed.z != 0)
+		if (m_moveSpeed.x != None || m_moveSpeed.z != None)
 		{
 			plClip = plAnimClip_Walk;	//歩きにチェンジ。
 		}
@@ -117,15 +128,15 @@ void Player::PlayerState()
 		break;
 	case plAnimClip_Walk:	//歩き状態。
 		MoveOperation();
-		if (m_moveSpeed.x == 0.0f && m_moveSpeed.z == 0)
+		if (m_moveSpeed.x == None && m_moveSpeed.z == None)
 		{
 			plClip = plAnimClip_idle;
 		}
 		g_anim.Play(1);
 		break;
 	case plAnimClip_Atk:	//攻撃状態。
-		m_moveSpeed.z = 0.0f;
-		m_moveSpeed.x = 0.0f;
+		m_moveSpeed.z = None;
+		m_moveSpeed.x = None;
 		g_anim.Play(2);
 		if (g_anim.IsPlaying() == false)
 		{
@@ -151,41 +162,33 @@ void Player::MoveOperation()
 		//パッドのABUTTON入力でジャンプする。
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
-		m_moveSpeed.y += 400.0f;
+		m_moveSpeed.y += JumpPower;
 	}
 	else
 	{
 		//Y方向への重力をつける。
-		m_moveSpeed.y -= 100.0f; //* (1.0f / 60.0f);
-	}
-	if (g_pad[0].IsPress(enButtonX) && plClip == plAnimClip_Walk)
-	{
-		Hasiru = 2.0f;
-	}
-	else
-	{
-		Hasiru = 1.0f;
+		m_moveSpeed.y -= gravity; //* (1.0f / 60.0f);
 	}
 }
 //アニメーションイベント
 void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-	//(void)clipName;
-	//if (eventName)
-	//{
-	//	MessageBox(NULL, TEXT("..！！"), TEXT("めっせ"), MB_OK);
-	//	//m_PhyGhostObj.CreateBox(m_position, m_rotation, m_scale);
-	//}
+	float Kyori = 500.0f;
+	for (auto enemy : m_goList) {
+		if (enemy->GetIsDead() == false) {
+			CVector3 diff = m_position - enemy->GetPosition();
+			if (diff.Length() <= Kyori && eventName)
+			{
+				MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
+				enemy->Damage(ATK);
+			}
+		}
+	}
 
 }
-//敵との距離計測。
+//敵との距離計測とキル。
 void Player::Track()
 {
-	CVector3 diff = m_position - enemys->GetPosition();
-	if (diff.Length() <= 500.0f && plClip == plAnimClip_Atk)
-	{
-		g_goMgr.QutavaleyaAGO(enemys);
-	}
 }
 //前ベクトル
 void Player::Forward()

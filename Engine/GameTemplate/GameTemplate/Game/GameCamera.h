@@ -1,6 +1,5 @@
 #pragma once
 #include"GameObjectManajer.h"
-
 class Player;
 class GameCamera : public GameObject
 {

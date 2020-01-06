@@ -3,7 +3,6 @@
 #include"physics/PhysicsStaticObject.h"
 #include"physics/PhysicsGhostObject.h"
 
-//class PhysicsStaticObject;
 class PhysicsGhostObject;
 
 class AgoSample : public GameObject

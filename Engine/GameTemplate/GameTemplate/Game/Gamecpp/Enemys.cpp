@@ -9,6 +9,7 @@ Enemys::Enemys()
 
 Enemys::~Enemys()
 {
+
 }
 
 void Enemys::Init(float HP, float Attack, float Defense, float Speed/*, SkinModel model*/)
@@ -19,15 +20,3 @@ void Enemys::Init(float HP, float Attack, float Defense, float Speed/*, SkinMode
 	m_SPD		=	Speed;			//基礎速度を代入。
 	//m_sm		=	model;			//エネミーのモデル。
 }
-
-/*void Enemys::Update()
-{
-	Draw();
-}
-void Enemys::Draw()
-{
-	m_sm.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix()
-	);
-}*/

@@ -23,9 +23,14 @@ StoneEnemy::StoneEnemy()
 	prm.HP = 100;										//HP
 	prm.ATK = 60;										//çUåÇóÕ
 	prm.DEF = 30;										//ñhå‰óÕ
-	prm.SPD = 10;										//ë¨Ç≥ÅB
+	prm.SPD = 400;										//ë¨Ç≥ÅB
 //	prm.model = seModel;
 	m_charaCon.Init(150.0f, 10.0f, m_position);
+	e_state = esIdle;
+}
+
+StoneEnemy::~StoneEnemy()
+{
 }
 
 void StoneEnemy::Attack()
@@ -45,16 +50,27 @@ void StoneEnemy::Damage(float Damage)
 
 void StoneEnemy::Search()
 {
-	//player = FindGO<Player>();
+	float Track = 0.0f;
+	Move = m_player->GetPosition() - m_position;
+	if (Move.Length() <= 500.0f)
+	{
+	e_state = esTracking;	
+	}
+	else if (Move.Length() >= 500.0f)
+	{
+		e_state = esIdle;
+		Move = CVector3::Zero();
+	}
 }
 
 void StoneEnemy::Update()
 {
 	Draw();
+	EnemyState();
 	s_anim.Play(0);
-	m_moveSpeed.y -= 10.0f;
+	m_moveSpeed.y -= gravity;
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
-	seModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), Scale);
+	seModel.UpdateWorldMatrix(m_position,m_rotation, Scale);
 	s_anim.Update(0.05f);
 	m_charaCon.SetPosition(m_position);
 }
@@ -65,4 +81,35 @@ void StoneEnemy::Draw()
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
 	);
+}
+
+void StoneEnemy::Death()
+{
+	this->SetActive(false);
+	m_charaCon.RemoveRigidBoby();
+	isDeath = true;
+}
+
+void StoneEnemy::EMove() 
+{
+	Move.Normalize();
+	m_moveSpeed = Move * prm.SPD;
+}
+
+void StoneEnemy::EnemyState()
+{
+	switch (e_state)
+	{
+	case Enemys::esIdle:
+		Search();
+		s_anim.Play(0);
+		break;
+	case Enemys::esTracking:
+		Search();
+		EMove();
+		s_anim.Play(1);
+		break;
+	case Enemys::esAttack:
+		break;
+	}
 }

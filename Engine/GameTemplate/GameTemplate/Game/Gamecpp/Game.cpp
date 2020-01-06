@@ -31,7 +31,6 @@ Game::Game()
 	Start();			
 }
 
-
 Game::~Game()
 {
 	//ゲームの削除とともに、インスタンスにnullを入れる。
@@ -65,7 +64,6 @@ Game* Game::GetInstance()
 	//インスタンスをreturnで返す。
 	return m_instance;
 }
-
 //ゲーム開始ィィィィ！！！！。
 bool Game::Start()
 {
@@ -78,15 +76,17 @@ bool Game::Start()
 	g_Camera->SetPlayer(player);
 	//エネミーを生成。
 	enemys[0] = g_goMgr.NewAGO<StoneEnemy>();
+	m_goList.push_back(enemys[0]);
+	enemys[0]->SetPlayer(player);
 	enemys[1] = g_goMgr.NewAGO<Golem>();
+	m_goList.push_back(enemys[1]);
+	enemys[1]->SetPlayer(player);
 	enemys[2] = g_goMgr.NewAGO<Titan>();
+	m_goList.push_back(enemys[2]);
 	enemys[2]->SetPlayer(player);
-	enemys[3] = g_goMgr.NewAGO<Sample>();
-	enemys[3]->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
-	//エッチ
-	ago = g_goMgr.NewAGO<AgoSample>();
-	player->SetEnemys(enemys[2]);
+	player->SetEnemysList(m_goList);
+	player->SetPosition(m_initPlayerPos);
 	return true;
 }
 //ゲームのアップデート。

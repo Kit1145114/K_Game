@@ -14,7 +14,7 @@ public:
 
 	void AgoUpdate()
 	{
-		if (isUpdate) {
+		if (isUpdate&isActive) {
 			Update();
 		}
 	}
@@ -43,10 +43,23 @@ public:
 	void SetUpdateFlag(bool flag)
 	{
 		isUpdate = flag;
+	}	
+	void SetActive(bool flag)
+	{
+		isActive = flag;
 	}
+	//void ActiveUpdate()
+	//{
+	//	if (isActive)
+	//	{
+	//		Update();
+	//		Render();
+	//	}
+	//}
 private:
 	bool isRecestDelete = false;	//ƒtƒ‰ƒO
 	bool isNewGO = false;
 	bool isUpdate = true;
+	bool isActive = true;
 };
 
