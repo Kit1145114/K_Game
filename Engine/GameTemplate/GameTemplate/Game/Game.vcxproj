@@ -247,6 +247,7 @@
     <None Include="Assets\animData\P_ATK.tka" />
     <None Include="Assets\animData\P_idle.tka" />
     <None Include="Assets\animData\P_walk.tka" />
+    <None Include="Assets\animData\RE1_ATK.tka" />
     <None Include="Assets\animData\RE1_death.tka" />
     <None Include="Assets\animData\RE1_idle.tka" />
     <None Include="Assets\animData\RE1_walk.tka" />

@@ -13,22 +13,25 @@ Player::Player()
 	g_animClip[1].SetLoopFlag(true);
 	g_animClip[2].Load(L"Assets/animData/P_ATK.tka");	//殴りのロード
 	g_animClip[2].SetLoopFlag(false);
+	//g_animClip[3].Load(L"Assets/animData/P_walk.tka");	//歩きのロード
+	//g_animClip[3].SetLoopFlag(true);
 	g_anim.Init(
 		Gmodel,			//アニメーションを流すスキンモデル
 						//これでアニメーションとスキンモデルを関連付けする。
 		g_animClip,		//アニメーションクリップの配列。
-		3				//アニメーションクリップの数
+		m_AnimClipNum		//アニメーションクリップの数
 	);
+	//よし、じゃあアニメーションイベントぶちこんでやるぜ。
 	g_anim.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName)
 	{
 		OnAnimationEvent(clipName, eventName);
 	});
 
 	m_charaCon.Init(40.0f, 10.0f, m_position);			//キャラコンの設定（半径、高さ、初期位置。）
-	HP = 1000.0f;		//プレイヤーの初期体力。
+	HP = 100.0f;		//プレイヤーの初期体力。
 	ATK = 80.0f;		//プレイヤーの攻撃力。
-	DEF = 50.0f;		//プレイヤーの防御力。
-	plClip = plAnimClip_idle;
+	DEF = 0.0f;		//プレイヤーの防御力。
+	playerState = pl_idle;
 }
 
 Player::~Player()
@@ -39,12 +42,14 @@ void Player::Update()
 {
 	//プレイヤーの更新情報を下に記述。
 	Draw();							//プレイヤーの描画を呼ぶ。
-	Move();							//プレイヤーの移動を呼ぶ。
-	PlayerAttack();					//プレイヤーの攻撃類
-	PlayerState();					//プレイヤーの状態を呼ぶ。
-	Rotation();						//プレイヤーの回転を呼ぶ。
-	//Track();						//プレイヤーが敵を探す。
-	Forward();						//プレイヤーの前ベクトル取得。
+	if (playerState != pl_Death) {
+		Move();							//プレイヤーの移動を呼ぶ。
+		PlayerAttack();					//プレイヤーの攻撃類
+		PlayerState();					//プレイヤーの状態を呼ぶ。
+		Rotation();						//プレイヤーの回転を呼ぶ。
+		//Track();						//プレイヤーが敵を探す。
+		Forward();						//プレイヤーの前ベクトル取得。
+	}
 	g_anim.Update(0.025f * NSpeed);	//アニメーションをフレーム単位で描画。
 			//ワールド行列の更新。
 	Gmodel.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
@@ -76,7 +81,7 @@ void Player::Move()
 	//XZ成分の移動速度をクリア。
 	m_moveSpeed.x = None;
 	m_moveSpeed.z = None;
-	if (g_pad[0].IsPress(enButtonX) && plClip == plAnimClip_Walk) {
+	if (g_pad[0].IsPress(enButtonX) && playerState == pl_Walk) {
 		//走る
 		m_moveSpeed += cameraForward * lStick_y * Speed * SPeed2;	//奥方向への移動速度を加算。
 		m_moveSpeed += cameraRight * lStick_x * Speed * SPeed2;		//右方向への移動速度を加算。
@@ -116,32 +121,35 @@ void Player::PlayerState()
 {
 	//もし、動いていないとき※後でわかりやすい書き方に変更予定。
 	//プレイヤーの状態で処理の変更。
-	switch (plClip)
+	switch (playerState)
 	{
-	case plAnimClip_idle:	//待機状態
+	case pl_idle:	//待機状態
 		MoveOperation();
 		if (m_moveSpeed.x != None || m_moveSpeed.z != None)
 		{
-			plClip = plAnimClip_Walk;	//歩きにチェンジ。
+			playerState = pl_Walk;	//歩きにチェンジ。
 		}
 		g_anim.Play(0);
 		break;
-	case plAnimClip_Walk:	//歩き状態。
+	case pl_Walk:	//歩き状態。
 		MoveOperation();
 		if (m_moveSpeed.x == None && m_moveSpeed.z == None)
 		{
-			plClip = plAnimClip_idle;
+			playerState = pl_idle;
 		}
 		g_anim.Play(1);
 		break;
-	case plAnimClip_Atk:	//攻撃状態。
+	case pl_Atk:	//攻撃状態。
 		m_moveSpeed.z = None;
 		m_moveSpeed.x = None;
 		g_anim.Play(2);
 		if (g_anim.IsPlaying() == false)
 		{
-			plClip = plAnimClip_idle;
+			playerState = pl_idle;
 		}
+		break;
+	case pl_Death:	//死亡状態
+		g_anim.Play(0);
 		break;
 	}
 }
@@ -152,7 +160,7 @@ void Player::PlayerAttack()
 	//攻撃モーションとゴーストの当たり判定を生成。
 	if (g_pad[0].IsTrigger(enButtonB))
 	{
-		plClip = plAnimClip_Atk;
+		playerState = pl_Atk;
 		m_PhyGhostObj.CreateBox(m_forward, m_rotation, m_scale);
 	}
 }
@@ -197,4 +205,15 @@ void Player::Forward()
 	m_forward.x = Rot.m[2][0];
 	m_forward.y = Rot.m[2][1];
 	m_forward.z = Rot.m[2][2];
+}
+//DAMAGEの処理。
+void Player::Damage(float Damage)
+{
+	HP -= (Damage - DEF);
+	//もし、HPが0以下なら死亡処理。
+	if (HP <= 0.0f)
+	{
+		playerState = pl_Death;
+		MessageBox(NULL, TEXT("はい雑魚乙＾＾"), TEXT("めっせ"), MB_OK);
+	}
 }

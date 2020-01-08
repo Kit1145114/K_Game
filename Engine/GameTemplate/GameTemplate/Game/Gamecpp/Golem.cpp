@@ -31,7 +31,7 @@ Golem::Golem()
 
 void Golem::Attack()
 {
-	m_player->SetDamage(m_ATK);
+	m_player->Damage(prm.ATK);
 }
 
 void Golem::Damage(float Damage)

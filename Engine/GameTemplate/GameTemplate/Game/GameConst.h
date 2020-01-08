@@ -3,4 +3,4 @@
 
 //グローバル定数
 const float gravity = 100.0f;		//重力。
-
+const int m_AnimClipNum = 5;		//アニメーションクリップの数指定。

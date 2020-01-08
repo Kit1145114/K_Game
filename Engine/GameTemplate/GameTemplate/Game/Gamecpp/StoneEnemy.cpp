@@ -35,7 +35,7 @@ StoneEnemy::~StoneEnemy()
 
 void StoneEnemy::Attack()
 {
-	m_player->SetDamage(m_ATK);
+	m_player->Damage(prm.ATK);
 }
 
 void StoneEnemy::Damage(float Damage)
