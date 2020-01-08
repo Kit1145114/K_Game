@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "StoneEnemy.h"
 
-
+//敵が作られて最初に呼ぶ処理。
 StoneEnemy::StoneEnemy()
 { 
 	seModel.Init(L"Assets/modelData/Enemy3.cmo");		//モデルの呼び出し。
@@ -14,30 +14,28 @@ StoneEnemy::StoneEnemy()
 	s_animClip[2].SetLoopFlag(true);
 	s_anim.Init(
 		seModel,
-
 		s_animClip,
-		3
+		m_AnimClipNum
 	);
+	s_anim.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName)
+	{
+		OnAnimationEvent(clipName, eventName);
+	});
 	//フラグをtrueへ
 	//パラメーター
 	prm.HP = 100;										//HP
 	prm.ATK = 60;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 400;										//速さ。
-//	prm.model = seModel;
 	m_charaCon.Init(150.0f, 10.0f, m_position);
 	e_state = esIdle;
 }
-
-StoneEnemy::~StoneEnemy()
-{
-}
-
+//敵の攻撃処理。
 void StoneEnemy::Attack()
 {
 	m_player->Damage(prm.ATK);
 }
-
+//DAMAGE受ける処理
 void StoneEnemy::Damage(float Damage)
 {
 	prm.HP -= (Damage - prm.DEF);
@@ -47,7 +45,7 @@ void StoneEnemy::Damage(float Damage)
 		Death();
 	}
 }
-
+//プレイヤーの見つける処理。
 void StoneEnemy::Search()
 {
 	float Track = 0.0f;
@@ -62,7 +60,7 @@ void StoneEnemy::Search()
 		Move = CVector3::Zero();
 	}
 }
-
+//敵の更新内容。
 void StoneEnemy::Update()
 {
 	Draw();
@@ -74,7 +72,7 @@ void StoneEnemy::Update()
 	s_anim.Update(0.05f);
 	m_charaCon.SetPosition(m_position);
 }
-
+//敵の描画処理。
 void StoneEnemy::Draw()
 {
 	seModel.Draw(
@@ -82,20 +80,20 @@ void StoneEnemy::Draw()
 		g_camera3D.GetProjectionMatrix()
 	);
 }
-
+//倒されたときに呼ぶ処理。
 void StoneEnemy::Death()
 {
 	this->SetActive(false);
 	m_charaCon.RemoveRigidBoby();
 	isDeath = true;
 }
-
+//エネミーが進む処理。
 void StoneEnemy::EMove() 
 {
 	Move.Normalize();
 	m_moveSpeed = Move * prm.SPD;
 }
-
+//エネミーのアニメーション状態で変えてるよ
 void StoneEnemy::EnemyState()
 {
 	switch (e_state)
@@ -111,5 +109,38 @@ void StoneEnemy::EnemyState()
 		break;
 	case Enemys::esAttack:
 		break;
+	}
+}
+//エネミーの回転処理。
+void StoneEnemy::Rotation()
+{
+	float None = 0.0f;		//マジックナンバーを防ぐ0を入れた数
+	float Rot = atan2(Move.x, Move.z);
+	CQuaternion qRot;
+	qRot.SetRotation(CVector3::AxisY(), Rot);
+	seModel.SetRotation(qRot);
+	//もし、動いていたら回転させる。
+	if (m_moveSpeed.x != None || m_moveSpeed.z != None)
+	{
+		m_rotation = qRot;
+		seModel.SetRotation(m_rotation);
+	}
+	if (m_moveSpeed.x == None && m_moveSpeed.z == None)
+	{
+		seModel.SetRotation(m_rotation);
+	}
+	seModel.SetRotation(m_rotation);
+}
+//アニメーションイベント
+void StoneEnemy::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
+{
+	float Kyori = 500.0f;
+	if (m_player->GetIsDead() == false) {
+		CVector3 diff = m_position - m_player->GetPosition();
+		if (diff.Length() <= Kyori && eventName)
+		{
+			//MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
+			m_player->Damage(prm.ATK);
+		}
 	}
 }
