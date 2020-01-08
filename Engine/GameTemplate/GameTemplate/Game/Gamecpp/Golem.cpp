@@ -66,11 +66,12 @@ void Golem::Update()
 {
 	Draw();
 	EnemyState();
+	Rotation();
 	m_moveSpeed.y -= gravity;
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 	g_anim.Update(0.05f);
 	m_charaCon.SetPosition(m_position);
-	gModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), scale);
+	gModel.UpdateWorldMatrix(m_position, m_rotation, scale);
 }
 //“G‚Ì•`‰æˆ—B
 void Golem::Draw()

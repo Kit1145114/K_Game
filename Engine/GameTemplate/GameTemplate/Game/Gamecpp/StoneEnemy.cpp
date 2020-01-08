@@ -65,6 +65,7 @@ void StoneEnemy::Update()
 {
 	Draw();
 	EnemyState();
+	Rotation();
 	s_anim.Play(0);
 	m_moveSpeed.y -= gravity;
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
