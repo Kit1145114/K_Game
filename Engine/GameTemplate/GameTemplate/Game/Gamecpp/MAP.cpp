@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "MAP.h"
-
+#include"Enemys.h"
+#include"Golem.h"
+#include"StoneEnemy.h"
+#include"Titan.h"
+#include"Player.h"
 
 MAP::MAP()
 {

@@ -59,6 +59,20 @@ public:
 	{
 		m_position = position;
 	}
+	/// <summary>
+	/// 回転くーるくる
+	/// </summary>
+	void SetRotation(CQuaternion rotation)
+	{
+		m_rotation = rotation;
+	}
+	/// <summary>
+	/// サイズ変えるよ。
+	/// </summary>
+	void SetScale()
+	{
+		
+	}
 	//ポジションもらえます。
 	CVector3 GetPosition()	const
 	{

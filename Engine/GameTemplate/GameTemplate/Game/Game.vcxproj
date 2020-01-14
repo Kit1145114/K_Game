@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="AgoSample.cpp" />
     <ClCompile Include="AroundPlayer.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
@@ -159,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="AgoSample.h" />
     <ClInclude Include="AroundPlayer.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="GameConst.h" />
     <ClInclude Include="physics\BoxCollider.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
@@ -217,6 +219,7 @@
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
     <MeshContentTask Include="Assets\modelData\Ago.fbx" />
+    <MeshContentTask Include="Assets\modelData\Door.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy1.FBX" />
     <MeshContentTask Include="Assets\modelData\Enemy2.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy3.fbx" />
@@ -253,6 +256,7 @@
     <None Include="Assets\animData\RE1_death.tka" />
     <None Include="Assets\animData\RE1_idle.tka" />
     <None Include="Assets\animData\RE1_walk.tka" />
+    <None Include="Assets\level\FirstStage.tkl" />
     <None Include="Assets\level\Map01.tkl" />
     <None Include="Assets\modelData\enemy_00.tks" />
   </ItemGroup>

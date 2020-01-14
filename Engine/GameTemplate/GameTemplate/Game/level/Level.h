@@ -2,7 +2,6 @@
 
 
 class MapChip;
-
 /*!
 * @brief	オブジェクト名。
 */
@@ -10,6 +9,15 @@ struct LevelObjectData {
 	CVector3 position;		//<座標。
 	CQuaternion rotation;	//!<回転。
 	const wchar_t* name;	//!<名前。
+	/// <summary>
+	/// 引数で渡したオブジェクト名を調べる
+	/// </summary>
+	/// <param name="objName">調べる名前</param>
+	/// <returns>名前が同じならtrueを返す。</returns>
+	bool EqualObjectName(const wchar_t* objName)
+	{
+		return wcscmp(objName, name) == 0;
+	}
 };
 /*!
  * @brief	レベル
@@ -19,6 +27,16 @@ class Level {
 public :
 	Level();
 	~Level();
+
+	/// <summary>
+	/// 引数で渡したオブジェクト名を調べる
+	/// </summary>
+	/// <param name="objName">調べる名前</param>
+	/// <returns>名前が同じならtrueを返す。</returns>
+	bool EqualObjectName(const wchar_t* objName)
+	{
+		return wcscmp(objName, levelobjData.name) == 0;
+	}
 	/*!
 	* @brief	マップチップのスマートポインタの別名定義。
 	*@details
@@ -48,10 +66,12 @@ public :
 	*									詳細はHookWhenBuildObjectFuncのコメントを参照。
 	*/
 	void Init(const wchar_t* levelDataFilePath, HookWhenBuildObjectFunc hookFunc);
+	//void Init(const wchar_t* levelDataFilePath, std::function<bool(LevelObjectData& objData)>hookFunc);
 	/*!
 	* @brief	レベルを描画。
 	*/
 	void Draw();
 private:
-	std::vector<MapChipPtr> m_mapChipArray;		//!<マップチップの可変長配列。
+	std::vector<MapChipPtr> m_mapChipArray;//!<マップチップの可変長配列。
+	LevelObjectData levelobjData;
 };

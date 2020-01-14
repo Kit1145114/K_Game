@@ -62,6 +62,10 @@ public:
 	{
 		m_position = pos;
 	}
+	void SetRotation(CQuaternion rot)
+	{
+		m_rotation = rot;
+	}
 	float GetPlayerHP()
 	{
 		return HP;
