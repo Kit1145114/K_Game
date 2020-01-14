@@ -74,6 +74,7 @@ bool Game::Start()
 	//ゲームカメラをNewGOで生成。
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
+	g_Camera->SetEnemysList(m_goList);
 	//エネミーを生成。
 	enemys[0] = g_goMgr.NewAGO<StoneEnemy>();
 	m_goList.push_back(enemys[0]);
@@ -92,6 +93,7 @@ bool Game::Start()
 //ゲームのアップデート。
 void Game::Update()
 {
+	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	//Render();
 }
 

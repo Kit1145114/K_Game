@@ -100,6 +100,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AgoSample.cpp" />
+    <ClCompile Include="AroundPlayer.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AgoSample.h" />
+    <ClInclude Include="AroundPlayer.h" />
     <ClInclude Include="GameConst.h" />
     <ClInclude Include="physics\BoxCollider.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />

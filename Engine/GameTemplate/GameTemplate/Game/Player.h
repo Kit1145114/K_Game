@@ -54,14 +54,6 @@ public:
 	{
 		return m_position;
 	}
-	/// <summary>
-	/// エネミーを探す。(仮)
-	/// </summary>
-	//void SetEnemys(Enemys * enemy)
-	//{
-	//	enemys = enemy;
-	//}
-	//
 	void SetEnemysList(std::vector<Enemys*> GetEnemy)
 	{
 		m_goList = GetEnemy;
@@ -70,8 +62,13 @@ public:
 	{
 		m_position = pos;
 	}
+	float GetPlayerHP()
+	{
+		return HP;
+	}
 	//プレイヤーの前ベクトルを取得。
 	void Forward();
+
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//アニメーション。
@@ -88,7 +85,7 @@ private:
 	CVector3 m_forward = CVector3::AxisZ();				//プレイヤーの前方方向。
 	CMatrix Rot = CMatrix::Identity();					//プレイヤーの
 	CVector3 toPlayer = CVector3::Zero();				//前方向を図るようのもの。
-	float HP = 0;										//プレイヤーのHP
+	float HP = 100;										//プレイヤーのHP
 	float ATK = 50.0f;									//プレイヤーの攻撃力
 	float DEF = 0;										//プレイヤーの防御力
 	float None = 0.0f;									//0を代入したいときに使います。

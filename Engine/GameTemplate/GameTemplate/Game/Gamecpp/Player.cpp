@@ -194,7 +194,7 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 	}
 
 }
-//敵との距離計測とキル。
+//敵との距離計測とキル。(未使用)
 void Player::Track()
 {
 }

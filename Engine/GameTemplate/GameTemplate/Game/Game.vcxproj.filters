@@ -156,6 +156,7 @@
     <ClCompile Include="sound\SoundEngine.cpp" />
     <ClCompile Include="sound\WaveFile.cpp" />
     <ClCompile Include="sound\WaveFileBank.cpp" />
+    <ClCompile Include="AroundPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -279,6 +280,7 @@
     <ClInclude Include="sound\WaveFile.h" />
     <ClInclude Include="sound\WaveFileBank.h" />
     <ClInclude Include="GameConst.h" />
+    <ClInclude Include="AroundPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

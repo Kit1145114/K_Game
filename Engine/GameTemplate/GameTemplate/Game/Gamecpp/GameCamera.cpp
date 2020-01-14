@@ -10,6 +10,7 @@ GameCamera::GameCamera()
 	g_camera3D.SetPosition({ 0.0f, 100.0f, 300.0f });
 	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
 	g_camera3D.SetFar(10000.0f);
+	c_State = toPlayer;
 }
 
 
@@ -19,7 +20,24 @@ GameCamera::~GameCamera()
 
 void GameCamera::Update()
 {
-	CameraRotate();
+	if (g_pad[0].IsPress(enButtonRB2) && c_State == toPlayer)
+	{
+		c_State == toEnemys;
+	}
+	else if (g_pad[0].IsPress(enButtonRB2) && c_State == toEnemys)
+	{
+		c_State == toPlayer;
+	}
+
+	switch (c_State)
+	{
+	case GameCamera::toPlayer:
+		CameraRotate();
+		break;
+	case GameCamera::toEnemys:
+		CameraLookEnemys();
+		break;
+	}
 	//CVector3 targetPos = m_player->GetPosition();	//プレイヤーのポジションを取得。
 	//targetPos.y += 100.0f;							//上から見たいので100.0f代入。
 	//CVector3 position = targetPos;					//ポジションにプレイヤーのポジションを入れる。
@@ -78,6 +96,7 @@ void GameCamera::Hutu()
 {
 	m_target = { 0.0f,0.0f,0.0f };
 	m_target.y += 140.0f;
+
 	m_target += m_player->GetPosition();
 	//注視点を計算する。
 	//target.y += 200.0f;
@@ -100,4 +119,22 @@ void GameCamera::Hutu()
 	m_toPos *= 4;
 	m_target -= m_toPos;
 	m_toPos *= 1.5f;
+}
+
+void GameCamera::CameraLookEnemys()
+{
+	for (auto enemy : m_goList) {
+		if (enemy->GetIsDead() == false) {
+			CVector3 diff = enemy->GetPosition();
+			if (diff.Length() >= 400)
+			{
+				m_target = enemy->GetPosition();
+			}
+		}
+	}
+	g_camera3D.SetTarget(m_target);
+	//座標
+	g_camera3D.SetPosition(m_position);
+	//カメラの更新。
+	g_camera3D.Update();
 }
