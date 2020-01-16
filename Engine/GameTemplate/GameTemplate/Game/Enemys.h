@@ -47,10 +47,16 @@ public:
 		esAttack,	//攻撃。
 		esDeath		//You Are Dead。
 	};
-	void SetEnemyID(int ID)
+	/// <summary>
+	/// ボス用の状態。
+	/// </summary>
+	enum BossAnimState
 	{
-		m_ID = ID;
-	}
+		bsIdle,			//待機。
+		bsTracking,		//追いかける。
+		bsDeath,		//You Are Dead。
+		bsAttack,		//攻撃。
+	};
 	/// <summary>
 	/// エネミーに場所を渡す。
 	/// </summary>
@@ -65,13 +71,6 @@ public:
 	void SetRotation(CQuaternion rotation)
 	{
 		m_rotation = rotation;
-	}
-	/// <summary>
-	/// サイズ変えるよ。
-	/// </summary>
-	void SetScale()
-	{
-		
 	}
 	//ポジションもらえます。
 	CVector3 GetPosition()	const
@@ -96,50 +95,25 @@ public:
 	/// <param name="Defense">防御力</param>
 	/// <param name="Speed">基礎速度</param>
 	/// <param name="model">エネミーのモデル</param>
-	void Init(float HP,float Attack, float Defense,float Speed /*,SkinModel model*/);
-	//bool Start();
-	//void Update();
-	//void Draw();
+	void Init(float HP,float Attack, float Defense,float Speed);
 protected:
-	/// <summary>
-	/// プレイヤークラス。
-	/// </summary>
-	Player* m_player;
-	/// <summary>
-	/// エネミーのモデル。
-	/// </summary>
-	SkinModel m_sm;
-	/// <summary>
-	/// エネミーのHP
-	/// </summary>
-	float m_HP = 0;
-	/// <summary>
-	/// エネミーの最大HP
-	/// </summary>
-	float m_MaxHP = 0;
-	/// <summary>
-	/// エネミーの攻撃力。
-	/// </summary>
-	float m_ATK = 0;
-	/// <summary>
-	/// エネミーの防御力。
-	/// </summary>
-	float m_DEF = 0;
-	/// <summary>
-	/// エネミーの基礎速度。
-	float m_SPD = 0;
-	/// </summary>
-
-	int m_ID = 0;
-	CVector3 m_position = CVector3::Zero();					/// エネミーのポジション用のメンバ変数
-	CVector3 m_moveSpeed = CVector3::Zero();				/// エネミーの移動用のメンバ変数
-	CQuaternion m_rotation = CQuaternion::Identity();		//回転用のメンバ変数。
-	/// <summary>
-	/// エネミーが死んだかどうかの変数
-	/// </summary>
-	bool isDeath = false;
-	CharacterController m_charaCon;							// キャラコン。
-	EnemyAnimState	e_state;								//エネミーの状態			
-	CVector3 Move = CVector3::Zero();						//敵が動くよ。（敵機の子）
+	Player* m_player;									//プレイヤークラス。
+	SkinModel Model;									//エネミーのモデル。
+	float m_HP = 0;										//エネミーのHP
+	float m_MaxHP = 0;									//エネミーの最大HP
+	float m_ATK = 0;									//エネミーの攻撃力
+	float m_DEF = 0;									//エネミーの防御力
+	float m_SPD = 0;									//エネミーのスピード
+	bool isDeath = false;								//エネミーが死んだかどうか。
+	CVector3 m_position = CVector3::Zero();				//エネミーのポジション用のメンバ変数
+	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動用のメンバ変数
+	CVector3 m_scale = CVector3::Zero();				//エネミーの大きさ用のメンバ変数。
+	CVector3 Move = CVector3::Zero();					//敵が動くよ。（敵機の子）
+	CQuaternion m_rotation = CQuaternion::Identity();	//回転用のメンバ変数。
+	CharacterController m_charaCon;						//キャラコン。
+	EnemyAnimState	e_state;							//エネミーの状態			
+	EnemyInitParam prm;									//エネミーのパラメーターが入ってるよ。
+	Animation anim;										//アニメ
+	AnimationClip animClip[m_AnimClipNum];				//アニメクリップ
 };
 

@@ -6,7 +6,6 @@ Title::Title()
 {
 	m_sprite = g_goMgr.NewAGO<SpriteRender>();
 	m_sprite->Init(L"Assets/sprite/title1.dds", 1280, 720);
-	//m_title.Init(L"Assets/sprite/title1.dds", 1280, 720);
 }
 
 Title::~Title()

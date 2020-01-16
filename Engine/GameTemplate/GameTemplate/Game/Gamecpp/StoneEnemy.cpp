@@ -27,8 +27,10 @@ StoneEnemy::StoneEnemy()
 	prm.ATK = 60;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 400;										//速さ。
-	m_charaCon.Init(150.0f, 10.0f, m_position);
-	e_state = esIdle;
+	m_scale = { 3.0f,3.0f,3.0f };						//モデルの大きさ。
+	m_position = e_pos2;
+	m_charaCon.Init(150.0f, 10.0f, m_position);			//判定の大きさ
+	e_state = esIdle;									//最初なので待機。
 }
 //敵の攻撃処理。
 void StoneEnemy::Attack()
@@ -69,7 +71,7 @@ void StoneEnemy::Update()
 	s_anim.Play(0);
 	m_moveSpeed.y -= gravity;
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
-	seModel.UpdateWorldMatrix(m_position,m_rotation, Scale);
+	seModel.UpdateWorldMatrix(m_position,m_rotation, m_scale);
 	s_anim.Update(0.05f);
 	m_charaCon.SetPosition(m_position);
 }

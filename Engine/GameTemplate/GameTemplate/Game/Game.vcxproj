@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="AgoSample.cpp" />
     <ClCompile Include="AroundPlayer.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="AgoSample.h" />
     <ClInclude Include="AroundPlayer.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="GameConst.h" />
     <ClInclude Include="physics\BoxCollider.h" />
@@ -227,6 +229,7 @@
     <MeshContentTask Include="Assets\modelData\Gmodel.fbx" />
     <MeshContentTask Include="Assets\modelData\MAP.FBX" />
     <MeshContentTask Include="Assets\modelData\Player.fbx" />
+    <MeshContentTask Include="Assets\modelData\RobbotBoss.fbx" />
     <MeshContentTask Include="Assets\modelData\RobbotEnemy1.fbx" />
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Assets\modelData\%(Filename).cmo</ContentOutput>
@@ -234,7 +237,6 @@
     </MeshContentTask>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\enemy_00.tks" />
     <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\Thethief_H.tks" />
     <None Include="Assets\animData\attack.tka" />
     <None Include="Assets\animData\damage.tka" />
@@ -252,6 +254,11 @@
     <None Include="Assets\animData\P_ATK.tka" />
     <None Include="Assets\animData\P_idle.tka" />
     <None Include="Assets\animData\P_walk.tka" />
+    <None Include="Assets\animData\RB_BigATK.tka" />
+    <None Include="Assets\animData\RB_death.tka" />
+    <None Include="Assets\animData\RB_idle.tka" />
+    <None Include="Assets\animData\RB_shortATK.tka" />
+    <None Include="Assets\animData\RB_walk.tka" />
     <None Include="Assets\animData\RE1_ATK.tka" />
     <None Include="Assets\animData\RE1_death.tka" />
     <None Include="Assets\animData\RE1_idle.tka" />

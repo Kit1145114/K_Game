@@ -17,6 +17,7 @@ Golem::Golem()
 		g_animClip,
 		m_AnimClipNum
 	);
+	//アニメーションイベントを呼ぶ。
 	g_anim.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName)
 	{
 		OnAnimationEvent(clipName, eventName);
@@ -27,9 +28,10 @@ Golem::Golem()
 	prm.ATK = 60;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 200;										//速さ。
-	m_position = e2_pos;
-	m_charaCon.Init(150.0f, 10.0f, m_position);
-	e_state = esIdle;
+	m_scale = { 5.0f,5.0f,5.0f };							//大きさ
+	m_position = e_pos1;
+	m_charaCon.Init(150.0f, 10.0f, m_position);			//判定の大きさ。
+	e_state = esIdle;									//最初に待機状態。
 }
 //敵の攻撃処理。
 void Golem::Attack()
@@ -71,7 +73,7 @@ void Golem::Update()
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 	g_anim.Update(0.05f);
 	m_charaCon.SetPosition(m_position);
-	gModel.UpdateWorldMatrix(m_position, m_rotation, scale);
+	gModel.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 }
 //敵の描画処理。
 void Golem::Draw()

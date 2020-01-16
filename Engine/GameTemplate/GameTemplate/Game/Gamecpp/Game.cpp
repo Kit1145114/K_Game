@@ -8,6 +8,7 @@
 #include"StoneEnemy.h"
 #include "Titan.h"
 #include "Golem.h"
+#include"Boss.h"
 #include"Sample.h"
 #include"HPText.h"
 #include"Enemys.h"
@@ -94,6 +95,7 @@ bool Game::Start()
 	//hp_bar = g_goMgr.NewAGO<HPText>();
 	//player->SetEnemysList(m_goList);
 	//player->SetPosition(m_initPlayerPos);
+
 	mapLevel.Init(L"Assets/level/FirstStage.tkl",
 		[&](LevelObjectData& objData)
 	{
@@ -134,7 +136,7 @@ bool Game::Start()
 			player = g_goMgr.NewAGO<Player>();
 			player->SetPosition(objData.position);
 			player->SetRotation(objData.rotation);
-			player->SetEnemysList(m_enemysList);
+			//player->SetEnemysList(m_enemysList);
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -160,6 +162,13 @@ bool Game::Start()
 void Game::Update()
 {
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
-	//Render();
+
+}
+//ボス出現用
+bool Game::NewBoss()
+{
+	Enemys* enemys = g_goMgr.NewAGO<Boss>();
+	m_enemysList.push_back(enemys);
+	return true;
 }
 

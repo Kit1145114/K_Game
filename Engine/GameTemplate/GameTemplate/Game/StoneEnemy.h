@@ -19,8 +19,6 @@ private:
 	Enemys* enemys;
 	SkinModel seModel;						//model説明不要ッ！！！！！
 	Animation s_anim;						//アニメ
-	AnimationClip s_animClip[m_AnimClipNum];			//アニメクリップ
-	EnemyInitParam prm;						//エネパラ。
-	CVector3 Scale = { 3.0f,3.0f,3.0f };	//大きさいじるよう
+	AnimationClip s_animClip[m_AnimClipNum];//アニメクリップ
 };
 

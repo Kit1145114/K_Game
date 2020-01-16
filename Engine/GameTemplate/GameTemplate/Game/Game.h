@@ -31,6 +31,7 @@ public:
 	~Game();
 	static Game* GetInstance();		//シングルトン。
 	bool Start();					//ゲームのスタート関数。
+	bool NewBoss();					//ボスを呼ぶ関数
 	void Update();					//ゲームのアップデート関数。
 	//敵とぷえいやーの距離を測る
 private:

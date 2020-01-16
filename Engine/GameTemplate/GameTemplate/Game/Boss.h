@@ -1,13 +1,12 @@
 #pragma once
 #include"Enemys.h"
-
-class Golem : public Enemys
+class Boss : public Enemys
 {
 public:
-	Golem();
-	~Golem() {};
-	void Attack();					//攻撃(今は未実装)
-	void Damage(float Damage) override;		//DAMAGE（今は未実装）
+	Boss();
+	~Boss() {};
+	void Attack();							//攻撃(今は未実装)
+	void Damage(float Damage);				//DAMAGE
 	void Search();							//プレイヤーを見つける関数
 	void Update();							//敵の更新内容を記入
 	void Draw();							//エネミーをドロー処理だよ。
@@ -17,8 +16,5 @@ public:
 	void Rotation();						//エネミーが動きに合わせて回転する処理だよ。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 private:
-	SkinModel gModel;						//model説明不要ッ！！！！！
-	Animation g_anim;						//アニメ
-	AnimationClip g_animClip[m_AnimClipNum];//アニメクリップ
 };
 
