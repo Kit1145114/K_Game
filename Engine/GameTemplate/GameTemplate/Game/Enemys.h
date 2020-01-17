@@ -55,7 +55,8 @@ public:
 		bsIdle,			//待機。
 		bsTracking,		//追いかける。
 		bsDeath,		//You Are Dead。
-		bsAttack,		//攻撃。
+		bsSmallAttack,	//弱攻撃。
+		bsBigAttack		//強攻撃。
 	};
 	/// <summary>
 	/// エネミーに場所を渡す。
@@ -86,6 +87,10 @@ public:
 	bool GetIsDead()
 	{
 		return isDeath;
+	}
+	CharacterController GetCharaCon()
+	{
+		return m_charaCon;
 	}
 	/// <summary>
 	/// エネミーを創るときにパラメーターを入力させる。

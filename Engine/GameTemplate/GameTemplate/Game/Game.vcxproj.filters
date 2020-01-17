@@ -159,6 +159,8 @@
     <ClCompile Include="AroundPlayer.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="DebugWireframe.cpp" />
+    <ClCompile Include="EnergyText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -285,6 +287,8 @@
     <ClInclude Include="AroundPlayer.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="DebugWireframe.h" />
+    <ClInclude Include="EnergyText.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -339,10 +343,12 @@
     <None Include="Assets\animData\RB_idle.tka" />
     <None Include="Assets\animData\RB_shortATK.tka" />
     <None Include="Assets\animData\RB_BigATK.tka" />
+    <None Include="Assets\animData\P_FlyMove.tka" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />
     <ImageContentTask Include="Assets\sprite\Midori.jpg" />
+    <ImageContentTask Include="Assets\sprite\glass.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\sound\enemy_attack_00.wav" />

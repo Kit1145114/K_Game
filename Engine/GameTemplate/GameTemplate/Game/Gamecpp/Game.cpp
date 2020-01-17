@@ -11,8 +11,8 @@
 #include"Boss.h"
 #include"Sample.h"
 #include"HPText.h"
+#include"EnergyText.h"
 #include"Enemys.h"
-#include"AgoSample.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -29,7 +29,8 @@ Game::Game()
 		m_instance = this;
 	}
 	//ゲームのスタート関数呼び出し。
-	Start();			
+	//Start();
+	NewBoss();
 }
 
 Game::~Game()
@@ -156,19 +157,57 @@ bool Game::Start()
 	g_Camera->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
+	energy_bar = g_goMgr.NewAGO<EnergyText>();
+	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 	return true;
 }
 //ゲームのアップデート。
 void Game::Update()
 {
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
-
+	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 }
 //ボス出現用
 bool Game::NewBoss()
 {
-	Enemys* enemys = g_goMgr.NewAGO<Boss>();
-	m_enemysList.push_back(enemys);
+	mapLevel.Init(L"Assets/level/BossStage.tkl",
+		[&](LevelObjectData& objData)
+	{
+		if (objData.EqualObjectName(L"RobbotBoss") == true) {
+			//敵(一人目)のオブジェクト。
+			Enemys* enemys = g_goMgr.NewAGO<Boss>();
+			enemys->SetPosition(objData.position);
+			enemys->SetRotation(objData.rotation);
+			//後で削除するのでリストに積んで記憶しておく。
+			m_enemysList.push_back(enemys);
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Player") == true) {
+			player = g_goMgr.NewAGO<Player>();
+			player->SetPosition(objData.position);
+			player->SetRotation(objData.rotation);
+			//player->SetEnemysList(m_enemysList);
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		else if (objData.EqualObjectName(L"MAP") == true) {
+			map = g_goMgr.NewAGO<MAP>();
+			map->SetPosition(objData.position);
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		return true;
+	});
+	for (auto enemy : m_enemysList) {
+		enemy->SetPlayer(player);
+	}
+	player->SetEnemysList(m_enemysList);
+	g_Camera = g_goMgr.NewAGO<GameCamera>();
+	g_Camera->SetPlayer(player);
+	hp_bar = g_goMgr.NewAGO<HPText>();
+	hp_bar->SetPlayerHP(player->GetPlayerHP());
+	energy_bar = g_goMgr.NewAGO<EnergyText>();
+	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 	return true;
 }
-

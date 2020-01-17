@@ -67,8 +67,8 @@ void GameCamera::CameraRotate()
 	m_playerposition.z -= 400.0f;
 	//右スティックの入力
 	//右スティック
-	m_sdegreexz = -stickR.x * 2.0f;
-	m_sdegreey = -stickR.y*2.0f;
+	m_sdegreexz = -stickR.x * 5.0f;
+	m_sdegreey = -stickR.y*5.0f;
 
 	//回転度加算
 	m_degreexz += m_sdegreexz;

@@ -9,8 +9,8 @@ class Player;					//プレイヤー用のclassの型を作成。
 class MAP;						//マップ用のclassの型を生成。
 class GameCamera;				//カメラ用のclassの型を生成。
 class Enemys;					//エネミー用のclassの型を生成。
-class HPText;
-class AgoSample;
+class HPText;					//HPバー用のclass
+class EnergyText;				//エナジーバー用のclass
 
 class Game : public GameObject
 {
@@ -40,7 +40,7 @@ private:
 	GameCamera* g_Camera;			//カメラのインスタンス。
 	Enemys* enemys;					//エネミーのインスタンス。
 	HPText* hp_bar;					//HPバー。
-	AgoSample* ago;					//顎。
+	EnergyText* energy_bar;			//エナジーバー
 	Level		mapLevel;			//マップのレベル。。。。。。
 	static Game* m_instance;		//ゲームのインスタンス。
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。

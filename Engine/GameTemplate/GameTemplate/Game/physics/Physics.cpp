@@ -2,6 +2,7 @@
 #include "physics/Physics.h"
 #include "Physics/RigidBody.h"
 #include "../character/CharacterController.h"
+#include "../DebugWireframe.h"
 PhysicsWorld g_physics;
 
 namespace {
@@ -30,6 +31,7 @@ void PhysicsWorld::Release()
 	delete overlappingPairCache;
 	delete collisionDispatcher;
 	delete collisionConfig;
+	delete m_dw;
 
 	dynamicWorld = nullptr;
 	constraintSolver = nullptr;
@@ -40,6 +42,10 @@ void PhysicsWorld::Release()
 void PhysicsWorld::Init()
 {
 	Release();
+
+	m_dw = new DebugWireframe();
+	m_dw->Prepare();
+
 	//•¨—ƒGƒ“ƒWƒ“‚ð‰Šú‰»B
 	///collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
 	collisionConfig = new btDefaultCollisionConfiguration();
@@ -61,6 +67,8 @@ void PhysicsWorld::Init()
 		);
 
 	dynamicWorld->setGravity(btVector3(0, -10, 0));
+
+	dynamicWorld->setDebugDrawer(m_dw);
 }
 void PhysicsWorld::Update()
 {
@@ -99,4 +107,11 @@ void PhysicsWorld::ContactTest(
 )
 {
 	ContactTest(*charaCon.GetRigidBody(), cb);
+}
+
+void PhysicsWorld::DebugDraw()
+{
+	m_dw->Context();
+
+	dynamicWorld->debugDrawWorld();
 }

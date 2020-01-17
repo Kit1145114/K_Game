@@ -28,17 +28,24 @@ Boss::Boss()
 	//フラグをtrueへ
 	//パラメーター
 	prm.HP = 100;										//HP
-	prm.ATK = 60;										//攻撃力
-	prm.DEF = 30;										//防御力
-	prm.SPD = 300;										//速さ。
-	m_scale = { 30.0f,30.0f,30.0f };					//エネミーの大きさ
-	m_charaCon.Init(150.0f, 10.0f, m_position);			//判定の大きさ
-	e_state = esIdle;									//最初なので待機。
+	prm.ATK = 80;										//攻撃力
+	prm.DEF = 40;										//防御力
+	prm.SPD = 350;										//速さ。
+	m_scale = { 1.5f,1.5f,1.5f };						//エネミーの大きさ
+	m_charaCon.Init(100.0f, 600.0f, m_position);		//判定の大きさ
+	boss_State = bsIdle;								//最初なので待機。
+	Mode = SmallATK;									//何攻撃をするか。
 }
 //敵の更新内容。
 void Boss::Update()
 {
-
+	Draw();
+	EnemyState();
+	m_moveSpeed.y -= gravity;
+	anim.Update(0.03f);
+	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
+	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
+	m_charaCon.SetPosition(m_position);
 }
 //敵の描画処理。
 void Boss::Draw()
@@ -51,7 +58,7 @@ void Boss::Draw()
 //敵の攻撃処理。
 void Boss::Attack()
 {
-	m_player->Damage(m_ATK);
+	m_player->Damage(prm.ATK);
 }
 //エネミーが進む処理。
 void Boss::EMove()
@@ -66,32 +73,40 @@ void Boss::Damage(float Dam)
 	//もし、HPが0以下なら死亡処理。
 	if (prm.HP <= 0.0f)
 	{
-		e_state = esDeath;
+		boss_State = bsDeath;
 	}
 }
 //プレイヤーの見つける処理。
 void Boss::Search()
 {
-	float Track = 500.0f;
+	float Track = 1250.0f;
 	Move = m_player->GetPosition() - m_position;
 	if (Move.Length() <= Track)
 	{
-		e_state = esTracking;
-		if (Move.Length() <= 200.0f)
+		boss_State = bsTracking;
+		if (Move.Length() <= Kyori && Mode == SmallATK)
 		{
-			e_state = esAttack;
+			m_moveSpeed.x = ZERO;
+			m_moveSpeed.z = ZERO;
+			boss_State = bsSmallAttack;
+		}
+		else if (Move.Length() <= Kyori && Mode == BigATK)
+		{
+			m_moveSpeed.x = ZERO;
+			m_moveSpeed.z = ZERO;
+			boss_State = bsBigAttack;
 		}
 	}
 	else if (Move.Length() >= Track)
 	{
-		e_state = esIdle;
+		boss_State = bsIdle;
 		Move = CVector3::Zero();
 	}
 }
 //倒されたときに呼ぶ処理。
 void Boss::Death()
 {
-	//anim.Play(2);
+	anim.Play(2);
 	if (anim.IsPlaying() == false)
 	{
 		this->SetActive(false);
@@ -102,26 +117,31 @@ void Boss::Death()
 //エネミーのアニメーション状態で変えてるよ
 void Boss::EnemyState()
 {
-	switch (e_state)
+	switch (boss_State)
 	{
-	case Enemys::esIdle:
+	case Enemys::bsIdle:
 		Search();
 		Rotation();
-		//anim.Play(0);
+		anim.Play(0);
 		break;
-	case Enemys::esTracking:
+	case Enemys::bsTracking:
 		Search();
 		EMove();
 		Rotation();
 		anim.Play(1);
 		break;
-	case Enemys::esAttack:
+	case Enemys::bsDeath:
+		Death();
+		break;
+	case Enemys::bsSmallAttack:
 		Search();
 		Rotation();
-		//anim.Play(3);
+		anim.Play(3);
 		break;
-	case Enemys::esDeath:
-		Death();
+	case Enemys::bsBigAttack:
+		Search();
+		Rotation();
+		anim.Play(4);
 	}
 }
 //エネミーの回転処理。
@@ -147,5 +167,28 @@ void Boss::Rotation()
 //アニメーションイベント
 void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-
+	if (m_player->GetIsDead() == false) {
+		if (boss_State == bsSmallAttack 
+			&& eventName
+			&& Move.Length() <= Kyori)
+		{
+			//MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
+			Attack();
+			if (!anim.IsPlaying())
+			{
+				Mode = BigATK;
+			}
+		}
+		else if (boss_State == bsBigAttack 
+			&& eventName
+			&& Move.Length() <= Kyori)
+		{
+			prm.ATK * 2;
+			Attack();
+			if (!anim.IsPlaying())
+			{
+				Mode = SmallATK;
+			}
+		}
+	}
 }

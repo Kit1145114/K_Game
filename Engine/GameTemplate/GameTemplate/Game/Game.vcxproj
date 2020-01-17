@@ -102,7 +102,9 @@
     <ClCompile Include="AgoSample.cpp" />
     <ClCompile Include="AroundPlayer.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="DebugWireframe.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="EnergyText.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
@@ -162,7 +164,9 @@
     <ClInclude Include="AgoSample.h" />
     <ClInclude Include="AroundPlayer.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="DebugWireframe.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="EnergyText.h" />
     <ClInclude Include="GameConst.h" />
     <ClInclude Include="physics\BoxCollider.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
@@ -252,6 +256,7 @@
     <None Include="Assets\animData\G_walk.tka" />
     <None Include="Assets\animData\idle.tka" />
     <None Include="Assets\animData\P_ATK.tka" />
+    <None Include="Assets\animData\P_FlyMove.tka" />
     <None Include="Assets\animData\P_idle.tka" />
     <None Include="Assets\animData\P_walk.tka" />
     <None Include="Assets\animData\RB_BigATK.tka" />
@@ -276,6 +281,9 @@
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Midori.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\glass.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

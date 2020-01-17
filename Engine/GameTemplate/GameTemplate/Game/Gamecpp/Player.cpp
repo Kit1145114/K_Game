@@ -11,10 +11,10 @@ Player::Player()
 	g_animClip[0].SetLoopFlag(true);
 	g_animClip[1].Load(L"Assets/animData/P_walk.tka");	//歩きのロード
 	g_animClip[1].SetLoopFlag(true);
-	g_animClip[2].Load(L"Assets/animData/P_ATK.tka");	//殴りのロード
-	g_animClip[2].SetLoopFlag(false);
-	//g_animClip[3].Load(L"Assets/animData/P_walk.tka");	//歩きのロード
-	//g_animClip[3].SetLoopFlag(true);
+	g_animClip[2].Load(L"Assets/animData/P_FlyMove.tka");	//ブーストのロード
+	g_animClip[2].SetLoopFlag(true);
+	g_animClip[3].Load(L"Assets/animData/P_ATK.tka");	//殴りのロード
+	g_animClip[3].SetLoopFlag(false);
 	g_anim.Init(
 		Gmodel,			//アニメーションを流すスキンモデル
 						//これでアニメーションとスキンモデルを関連付けする。
@@ -27,11 +27,13 @@ Player::Player()
 		OnAnimationEvent(clipName, eventName);
 	});
 
-	m_charaCon.Init(40.0f, 10.0f, m_position);			//キャラコンの設定（半径、高さ、初期位置。）
+	m_charaCon.Init(100.0f, 200.0f, m_position);			//キャラコンの設定（半径、高さ、初期位置。）
 	HP = 100.0f;		//プレイヤーの初期体力。
-	ATK = 80.0f;		//プレイヤーの攻撃力。
-	DEF = 0.0f;		//プレイヤーの防御力。
+	ATK = 100.0f;		//プレイヤーの攻撃力。
+	DEF = 500.0f;		//プレイヤーの防御力。
+	ENERGY = 300.0f;	//プレイヤーのブースト量。
 	playerState = pl_idle;
+	playerENE = ene_Full;
 }
 
 Player::~Player()
@@ -43,6 +45,7 @@ void Player::Update()
 	//プレイヤーの更新情報を下に記述。
 	Draw();							//プレイヤーの描画を呼ぶ。
 	if (playerState != pl_Death) {
+		//Energy();
 		Move();							//プレイヤーの移動を呼ぶ。
 		PlayerAttack();					//プレイヤーの攻撃類
 		PlayerState();					//プレイヤーの状態を呼ぶ。
@@ -66,7 +69,7 @@ void Player::Draw()
 void Player::Move()
 {
 	//進む速さの値決め。
-	float Speed = 500.0f;
+	float Speed = 750.0f;
 	//左スティック受け取りマシーン
 	float lStick_x = (g_pad[0].GetLStickXF());
 	float lStick_y = (g_pad[0].GetLStickYF());
@@ -81,7 +84,7 @@ void Player::Move()
 	//XZ成分の移動速度をクリア。
 	m_moveSpeed.x = None;
 	m_moveSpeed.z = None;
-	if (g_pad[0].IsPress(enButtonX) && playerState == pl_Walk) {
+	if (g_pad[0].IsPress(enButtonX) && playerState == pl_FlyMove) {
 		//走る
 		m_moveSpeed += cameraForward * lStick_y * Speed * SPeed2;	//奥方向への移動速度を加算。
 		m_moveSpeed += cameraRight * lStick_x * Speed * SPeed2;		//右方向への移動速度を加算。
@@ -125,24 +128,20 @@ void Player::PlayerState()
 	{
 	case pl_idle:	//待機状態
 		MoveOperation();
-		if (m_moveSpeed.x != None || m_moveSpeed.z != None)
-		{
-			playerState = pl_Walk;	//歩きにチェンジ。
-		}
 		g_anim.Play(0);
 		break;
 	case pl_Walk:	//歩き状態。
 		MoveOperation();
-		if (m_moveSpeed.x == None && m_moveSpeed.z == None)
-		{
-			playerState = pl_idle;
-		}
 		g_anim.Play(1);
 		break;
-	case pl_Atk:	//攻撃状態。
-		m_moveSpeed.z = None;
-		m_moveSpeed.x = None;
+	case pl_FlyMove:
+		MoveOperation();
 		g_anim.Play(2);
+		break;
+	case pl_Atk:	//攻撃状態。
+		m_moveSpeed.z = ZERO;
+		m_moveSpeed.x = ZERO;
+		g_anim.Play(3);
 		if (g_anim.IsPlaying() == false)
 		{
 			playerState = pl_idle;
@@ -150,6 +149,7 @@ void Player::PlayerState()
 		break;
 	case pl_Death:	//死亡状態
 		g_anim.Play(0);
+		MessageBox(NULL, TEXT("はい雑魚乙＾＾"), TEXT("めっせ"), MB_OK);
 		break;
 	}
 }
@@ -161,38 +161,72 @@ void Player::PlayerAttack()
 	if (g_pad[0].IsTrigger(enButtonB))
 	{
 		playerState = pl_Atk;
-		m_PhyGhostObj.CreateBox(m_forward, m_rotation, m_scale);
+		CVector3 A = m_position + (m_forward * 150.0f);
+		A.y += 150.0f;
+		m_PhyGhostObj.CreateBox(A, m_rotation, box_scale);
 	}
 }
 //プレイヤーの移動類。
 void Player::MoveOperation()
 {
-		//パッドのABUTTON入力でジャンプする。
-	if (g_pad[0].IsTrigger(enButtonA))
+		//パッドのABUTTON入力で上昇する。
+	if (g_pad[0].IsPress(enButtonA))
 	{
 		m_moveSpeed.y += JumpPower;
 	}
-	else
+	else 
 	{
-		//Y方向への重力をつける。
-		m_moveSpeed.y -= gravity; //* (1.0f / 60.0f);
+		//まず上昇した分のスピードをゼロへ。
+		if (!g_pad[0].IsPress(enButtonA) && m_moveSpeed.y >= ZERO) {
+			//Y方向への重力をつける。
+			m_moveSpeed.y = ZERO; //* (1.0f / 60.0f);
+		}
+		//ここで落下
+		if(!g_pad[0].IsPress(enButtonA))
+		{
+			m_moveSpeed.y -= gravity * 1.5;
+		}
+	}
+	//動いてないときは待機に。
+	if (m_moveSpeed.x == ZERO && m_moveSpeed.z == ZERO)
+	{
+		playerState = pl_idle;
+	}
+	//浮遊移動とき。
+	else if (m_moveSpeed.x != ZERO && m_moveSpeed.z != ZERO 
+		&& g_pad[0].IsPress(enButtonX)&& ENERGY > MINENERGY)
+	{
+		playerState = pl_FlyMove;
+	}
+	//歩きの時。
+	else if (m_moveSpeed.x != ZERO && m_moveSpeed.z != ZERO)
+	{
+		playerState = pl_Walk;
 	}
 }
 //アニメーションイベント
 void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
+	//float Kyori = 500.0f;
+	//for (auto enemy : m_goList) {
+	//	if (enemy->GetIsDead() == false) {
+	//		PhysicsWorld().ContactTest(enemy->GetCharaCon(), [&](const btCollisionObject& contactObject) {
+	//			if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
+	//					MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
+	//					enemy->Damage(ATK);
+	//			}
+	//		});
+	//	}
+	//}
 	float Kyori = 500.0f;
 	for (auto enemy : m_goList) {
-		if (enemy->GetIsDead() == false) {
-			CVector3 diff = m_position - enemy->GetPosition();
-			if (diff.Length() <= Kyori && eventName)
-			{
-				MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
-				enemy->Damage(ATK);
+		if (enemy->GetIsDead() == false){
+				if (m_position.Length() <= Kyori && eventName) {
+					MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
+					enemy->Damage(ATK);
 			}
 		}
 	}
-
 }
 //敵との距離計測とキル。(未使用)
 void Player::Track()
@@ -201,19 +235,55 @@ void Player::Track()
 //前ベクトル
 void Player::Forward()
 {
-	Rot.MakeRotationFromQuaternion(m_rotation);
-	m_forward.x = Rot.m[2][0];
-	m_forward.y = Rot.m[2][1];
-	m_forward.z = Rot.m[2][2];
+	auto mRot = CMatrix::Identity();
+	mRot.MakeRotationFromQuaternion(m_rotation);
+	m_forward.x = mRot.m[2][0];
+	m_forward.y = mRot.m[2][1];
+	m_forward.z = mRot.m[2][2];
 }
 //DAMAGEの処理。
-void Player::Damage(float Damage)
+void Player::Damage(int Damage)
 {
-	HP -= (Damage - DEF);
+	if (Damage - DEF >= None) {
+		HP -= (Damage - DEF);
+	}
 	//もし、HPが0以下なら死亡処理。
 	if (HP <= 0.0f)
 	{
+		m_death = true;
+	}
+	if (m_death)
+	{
 		playerState = pl_Death;
-		MessageBox(NULL, TEXT("はい雑魚乙＾＾"), TEXT("めっせ"), MB_OK);
+	}
+}
+//エネルギーに関する処理。
+void Player::Energy()
+{
+	if (ENERGY > MINENERGY && playerENE == ene_Full)
+	{
+		//MIN規定値以下＆浮遊移動中。
+		if (playerState == pl_FlyMove && ENERGY > MINENERGY)
+		{
+			ENERGY -= ENERGYFLUCT;
+		}
+		if (g_pad[0].IsPress(enButtonA))
+		{
+			ENERGY -= ENERGYFLUCT;
+		}
+		//MAX規定値以下＆待機中。
+		if (playerState == pl_idle && ENERGY < MAXENERGY && !g_pad[0].IsPress(enButtonA))
+		{
+			ENERGY += ENERGYFLUCT;
+		}
+		//MAX規定値以下＆歩き中＆地上にいるとき。
+		if (playerState == pl_Walk && ENERGY < MAXENERGY && !g_pad[0].IsPress(enButtonA))
+		{
+			ENERGY += ENERGYFLUCT;
+		}
+	}
+	else if (ENERGY == MINENERGY && playerENE == ene_Full)
+	{
+		playerENE == ene_Full;
 	}
 }
