@@ -221,9 +221,11 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 	float Kyori = 500.0f;
 	for (auto enemy : m_goList) {
 		if (enemy->GetIsDead() == false){
-				if (m_position.Length() <= Kyori && eventName) {
-					MessageBox(NULL, TEXT("Hit114514"), TEXT("‚ß‚Á‚¹"), MB_OK);
-					enemy->Damage(ATK);
+			CVector3 diff = m_position - enemy->GetPosition();
+			if (diff.Length() <= Kyori && eventName)
+			{
+				MessageBox(NULL, TEXT("Hit114514"), TEXT("‚ß‚Á‚¹"), MB_OK);
+				enemy->Damage(ATK);
 			}
 		}
 	}
