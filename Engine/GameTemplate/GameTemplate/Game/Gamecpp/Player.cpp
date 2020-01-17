@@ -45,7 +45,7 @@ void Player::Update()
 	//プレイヤーの更新情報を下に記述。
 	Draw();							//プレイヤーの描画を呼ぶ。
 	if (playerState != pl_Death) {
-		//Energy();
+		Energy();
 		Move();							//プレイヤーの移動を呼ぶ。
 		PlayerAttack();					//プレイヤーの攻撃類
 		PlayerState();					//プレイヤーの状態を呼ぶ。
@@ -84,12 +84,12 @@ void Player::Move()
 	//XZ成分の移動速度をクリア。
 	m_moveSpeed.x = None;
 	m_moveSpeed.z = None;
-	if (g_pad[0].IsPress(enButtonX) && playerState == pl_FlyMove) {
+	if (g_pad[0].IsPress(enButtonX) && playerENE == ene_Full) {
 		//走る
 		m_moveSpeed += cameraForward * lStick_y * Speed * SPeed2;	//奥方向への移動速度を加算。
 		m_moveSpeed += cameraRight * lStick_x * Speed * SPeed2;		//右方向への移動速度を加算。
 	}
-	else
+	else if(!g_pad[0].IsPress(enButtonX)|| playerENE == ene_Charge)
 	{
 		//歩き。
 		m_moveSpeed += cameraForward * lStick_y * Speed * NSpeed;	//奥方向への移動速度を加算。
@@ -170,7 +170,7 @@ void Player::PlayerAttack()
 void Player::MoveOperation()
 {
 		//パッドのABUTTON入力で上昇する。
-	if (g_pad[0].IsPress(enButtonA))
+	if (g_pad[0].IsPress(enButtonA) && playerENE == ene_Full)
 	{
 		m_moveSpeed.y += JumpPower;
 	}
@@ -182,7 +182,7 @@ void Player::MoveOperation()
 			m_moveSpeed.y = ZERO; //* (1.0f / 60.0f);
 		}
 		//ここで落下
-		if(!g_pad[0].IsPress(enButtonA))
+		if(!g_pad[0].IsPress(enButtonA) || playerENE == ene_Charge)
 		{
 			m_moveSpeed.y -= gravity * 1.5;
 		}
@@ -194,12 +194,12 @@ void Player::MoveOperation()
 	}
 	//浮遊移動とき。
 	else if (m_moveSpeed.x != ZERO && m_moveSpeed.z != ZERO 
-		&& g_pad[0].IsPress(enButtonX)&& ENERGY > MINENERGY)
+		&& g_pad[0].IsPress(enButtonX)&& playerENE == ene_Full)
 	{
 		playerState = pl_FlyMove;
 	}
 	//歩きの時。
-	else if (m_moveSpeed.x != ZERO && m_moveSpeed.z != ZERO)
+	else if (m_moveSpeed.x != ZERO && m_moveSpeed.z != ZERO || playerENE == ene_Charge)
 	{
 		playerState = pl_Walk;
 	}
@@ -262,10 +262,25 @@ void Player::Damage(int Damage)
 //エネルギーに関する処理。
 void Player::Energy()
 {
+	//エナジーが0になったらモード変更。
+	if (ENERGY == MINENERGY)
+	{
+		playerENE = ene_Charge;
+	}
+	//chargeモード＆エナジーがマックスになるまで
+	if (playerENE == ene_Charge && ENERGY < MAXENERGY)
+	{
+		ENERGY += ENERGYFLUCT / 3;
+	}
+	//エナジーがフルになったら通常モード
+	if (ENERGY == MAXENERGY)
+	{
+		playerENE = ene_Full;
+	}
 	if (ENERGY > MINENERGY && playerENE == ene_Full)
 	{
 		//MIN規定値以下＆浮遊移動中。
-		if (playerState == pl_FlyMove && ENERGY > MINENERGY)
+		if (playerState == pl_FlyMove)
 		{
 			ENERGY -= ENERGYFLUCT;
 		}
@@ -284,8 +299,5 @@ void Player::Energy()
 			ENERGY += ENERGYFLUCT;
 		}
 	}
-	else if (ENERGY == MINENERGY && playerENE == ene_Full)
-	{
-		playerENE == ene_Full;
-	}
+
 }
