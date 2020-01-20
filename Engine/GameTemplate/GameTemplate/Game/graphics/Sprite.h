@@ -30,6 +30,10 @@ public:
 	/// <param name="mView">カメラ行列</param>
 	/// <param name="mProj">プロジェクション行列</param>
 	void Draw(CMatrix mView, CMatrix mProj);
+	void SetActiveFlag(bool flag)
+	{
+		Active = flag;
+	}
 private:
 	/// <summary>
 	/// シェーダーをロード。
@@ -55,7 +59,7 @@ private:
 	/// <param name="textureFilePath">ロードするテクスチャのファイルパス</param>
 	void LoadTexture(const wchar_t* textureFilePath);
 private:
-
+	bool Active = true;
 	Shader m_vs;
 	Shader m_ps;
 	ID3D11Buffer*	m_vertexBuffer = nullptr;

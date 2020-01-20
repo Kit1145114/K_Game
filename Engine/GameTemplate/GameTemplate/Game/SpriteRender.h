@@ -24,10 +24,15 @@ public:
 	{
 		m_scale.x += x;
 	}
+	void SetActiveFlag(bool flag)
+	{
+		m_sprite.SetActiveFlag(flag);
+	}
 	void Update();
 	void Draw();
 private:
 	bool m_isDraw3D = false;
+	bool Active = true;
 	Sprite	m_sprite;				//!<スプライト。
 	CVector3 m_position = CVector3::Zero();
 	CQuaternion m_rotation = {0.0f,1.0f,0.0f,0.0f};			//!<回転。

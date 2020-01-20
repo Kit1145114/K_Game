@@ -51,13 +51,20 @@ void Golem::Damage(float Damage)
 //プレイヤーの見つける処理。
 void Golem::Search()
 {
-	float Track = 0.0f;
-	Move = m_player->GetPosition() - m_position;
-	if (Move.Length() <= 1500.0f)
+	float Track = 500.0f;
+	CVector3 diff = m_player->GetPosition() - m_position;
+	if (diff.Length() <= Track)
 	{
+		Move = m_player->GetPosition() - m_position;
 		e_state = esTracking;
+		if (diff.Length() <= 200.0f)
+		{
+			m_moveSpeed.x = ZERO;
+			m_moveSpeed.z = ZERO;
+			e_state = esAttack;
+		}
 	}
-	else if (Move.Length() >= 1500.0f)
+	else if (diff.Length() >= Track)
 	{
 		e_state = esIdle;
 		Move = CVector3::Zero();

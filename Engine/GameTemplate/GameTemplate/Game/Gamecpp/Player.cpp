@@ -27,7 +27,7 @@ Player::Player()
 		OnAnimationEvent(clipName, eventName);
 	});
 
-	m_charaCon.Init(100.0f, 200.0f, m_position);			//キャラコンの設定（半径、高さ、初期位置。）
+	m_charaCon.Init(100.0f, 250.0f, m_position);			//キャラコンの設定（半径、高さ、初期位置。）
 	HP = 100.0f;		//プレイヤーの初期体力。
 	ATK = 100.0f;		//プレイヤーの攻撃力。
 	DEF = 500.0f;		//プレイヤーの防御力。
@@ -207,26 +207,15 @@ void Player::MoveOperation()
 //アニメーションイベント
 void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-	//float Kyori = 500.0f;
-	//for (auto enemy : m_goList) {
-	//	if (enemy->GetIsDead() == false) {
-	//		PhysicsWorld().ContactTest(enemy->GetCharaCon(), [&](const btCollisionObject& contactObject) {
-	//			if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
-	//					MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
-	//					enemy->Damage(ATK);
-	//			}
-	//		});
-	//	}
-	//}
 	float Kyori = 500.0f;
 	for (auto enemy : m_goList) {
-		if (enemy->GetIsDead() == false){
-			CVector3 diff = m_position - enemy->GetPosition();
-			if (diff.Length() <= Kyori && eventName)
-			{
-				MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
-				enemy->Damage(ATK);
-			}
+		if (enemy->GetIsDead() == false) {
+			g_physics.ContactTest(enemy->GetCharaCon(), [&](const btCollisionObject& contactObject) {
+				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
+						MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
+						enemy->Damage(ATK);
+				}
+			});
 		}
 	}
 }
@@ -263,17 +252,17 @@ void Player::Damage(int Damage)
 void Player::Energy()
 {
 	//エナジーが0になったらモード変更。
-	if (ENERGY == MINENERGY)
+	if (ENERGY <= MINENERGY)
 	{
 		playerENE = ene_Charge;
 	}
 	//chargeモード＆エナジーがマックスになるまで
-	if (playerENE == ene_Charge && ENERGY < MAXENERGY)
+	if (ENERGY < MAXENERGY && playerENE == ene_Charge)
 	{
 		ENERGY += ENERGYFLUCT / 3;
 	}
 	//エナジーがフルになったら通常モード
-	if (ENERGY == MAXENERGY)
+	if (ENERGY >= MAXENERGY)
 	{
 		playerENE = ene_Full;
 	}
@@ -284,17 +273,17 @@ void Player::Energy()
 		{
 			ENERGY -= ENERGYFLUCT;
 		}
-		if (g_pad[0].IsPress(enButtonA))
+		else if (g_pad[0].IsPress(enButtonA))
 		{
 			ENERGY -= ENERGYFLUCT;
 		}
 		//MAX規定値以下＆待機中。
-		if (playerState == pl_idle && ENERGY < MAXENERGY && !g_pad[0].IsPress(enButtonA))
+		else if (playerState == pl_idle && ENERGY < MAXENERGY && !g_pad[0].IsPress(enButtonA))
 		{
 			ENERGY += ENERGYFLUCT;
 		}
 		//MAX規定値以下＆歩き中＆地上にいるとき。
-		if (playerState == pl_Walk && ENERGY < MAXENERGY && !g_pad[0].IsPress(enButtonA))
+		else if (playerState == pl_Walk && ENERGY < MAXENERGY && !g_pad[0].IsPress(enButtonA))
 		{
 			ENERGY += ENERGYFLUCT;
 		}

@@ -53,16 +53,19 @@ void Titan::Damage(float Damage)
 void Titan::Search()
 {
 	float Track = 500.0f;
-	Move = m_player->GetPosition() - m_position;
-	if (Move.Length() <= Track)
+	CVector3 diff = m_player->GetPosition() - m_position;
+	if (diff.Length() <= Track)
 	{
+		Move = m_player->GetPosition() - m_position;
 		e_state = esTracking;
-		if (Move.Length() <= 200.0f)
+		if (diff.Length() <= 200.0f)
 		{
+			m_moveSpeed.x = ZERO;
+			m_moveSpeed.z = ZERO;
 			e_state = esAttack;
 		}
 	}
-	else if (Move.Length() >= Track)
+	else if (diff.Length() >= Track)
 	{
 		e_state = esIdle;
 		Move = CVector3::Zero();

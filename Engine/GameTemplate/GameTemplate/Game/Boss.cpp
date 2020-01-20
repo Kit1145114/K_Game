@@ -80,24 +80,25 @@ void Boss::Damage(float Dam)
 void Boss::Search()
 {
 	float Track = 1250.0f;
-	Move = m_player->GetPosition() - m_position;
-	if (Move.Length() <= Track)
+	CVector3 diff = m_player->GetPosition() - m_position;
+	if (diff.Length() <= Track)
 	{
+		Move = m_player->GetPosition() - m_position;
 		boss_State = bsTracking;
-		if (Move.Length() <= Kyori && Mode == SmallATK)
+		if (diff.Length() <= Kyori && Mode == SmallATK)
 		{
 			m_moveSpeed.x = ZERO;
 			m_moveSpeed.z = ZERO;
 			boss_State = bsSmallAttack;
 		}
-		else if (Move.Length() <= Kyori && Mode == BigATK)
+		else if (diff.Length() <= Kyori && Mode == BigATK)
 		{
 			m_moveSpeed.x = ZERO;
 			m_moveSpeed.z = ZERO;
 			boss_State = bsBigAttack;
 		}
 	}
-	else if (Move.Length() >= Track)
+	else if (diff.Length() >= Track)
 	{
 		boss_State = bsIdle;
 		Move = CVector3::Zero();
@@ -172,12 +173,7 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			&& eventName
 			&& Move.Length() <= Kyori)
 		{
-			//MessageBox(NULL, TEXT("Hit114514"), TEXT("‚ß‚Á‚¹"), MB_OK);
 			Attack();
-			if (!anim.IsPlaying())
-			{
-				Mode = BigATK;
-			}
 		}
 		else if (boss_State == bsBigAttack 
 			&& eventName
@@ -185,10 +181,6 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		{
 			prm.ATK * 2;
 			Attack();
-			if (!anim.IsPlaying())
-			{
-				Mode = SmallATK;
-			}
 		}
 	}
 }

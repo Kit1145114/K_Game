@@ -33,7 +33,8 @@ void PhysicsGhostObject::CreateCommon(CVector3 pos, CQuaternion rot)
 	btTrans.setOrigin({ pos.x, pos.y, pos.z });
 	btTrans.setRotation({ rot.x, rot.y, rot.z, rot.w });
 	m_ghostObject.setWorldTransform(btTrans);
-
+	m_ghostObject.setCollisionFlags(m_ghostObject.getCollisionFlags() 
+		| btCollisionObject::CF_NO_CONTACT_RESPONSE);
 	//ï®óùÉGÉìÉWÉìÇ…ìoò^ÅB
 	g_physics.AddCollisionObject(m_ghostObject);
 	m_isRegistPhysicsWorld = true;
