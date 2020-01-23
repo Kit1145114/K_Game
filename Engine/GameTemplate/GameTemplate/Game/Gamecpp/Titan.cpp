@@ -40,7 +40,7 @@ void Titan::Attack()
 	m_player->Damage(m_ATK);
 }
 //DAMAGEó‚¯‚éˆ—
-void Titan::Damage(float Damage)
+void Titan::Damage(int Damage)
 {
 	prm.HP -= (Damage - prm.DEF);
 	//‚à‚µAHP‚ª0ˆÈ‰º‚È‚ç€–Sˆ—B

@@ -39,7 +39,7 @@ void Golem::Attack()
 	m_player->Damage(prm.ATK);
 }
 //DAMAGEó‚¯‚éˆ—
-void Golem::Damage(float Damage)
+void Golem::Damage(int Damage)
 {
 	prm.HP -= (Damage - prm.DEF);
 	//‚à‚µAHP‚ª0ˆÈ‰º‚È‚ç€–Sˆ—B

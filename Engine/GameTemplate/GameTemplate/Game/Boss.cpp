@@ -40,6 +40,7 @@ Boss::Boss()
 void Boss::Update()
 {
 	Draw();
+	VectorAcquisition();
 	EnemyState();
 	m_moveSpeed.y -= gravity;
 	anim.Update(0.03f);
@@ -67,7 +68,7 @@ void Boss::EMove()
 	m_moveSpeed = Move * prm.SPD;
 }
 //DAMAGE受ける処理
-void Boss::Damage(float Dam)
+void Boss::Damage(int Dam)
 {
 	prm.HP -= (Dam - prm.DEF);
 	//もし、HPが0以下なら死亡処理。
@@ -79,14 +80,16 @@ void Boss::Damage(float Dam)
 //プレイヤーの見つける処理。
 void Boss::Search()
 {
-	float Track = 1250.0f;
-	CVector3 diff = m_player->GetPosition() - m_position;
-	if (diff.Length() <= Track)
+	ViewingAngle();
+	//もし距離内かつ視野角内なら。
+	if (diff.Length() <= Track && fabsf(angle) < CMath::PI * 0.25f)
 	{
+		//追いかける。
 		Move = m_player->GetPosition() - m_position;
 		boss_State = bsTracking;
 		if (diff.Length() <= Kyori && Mode == SmallATK)
 		{
+			//距離内に近づいたら攻撃。
 			m_moveSpeed.x = ZERO;
 			m_moveSpeed.z = ZERO;
 			boss_State = bsSmallAttack;
@@ -183,4 +186,21 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			Attack();
 		}
 	}
+}
+//エネミーの視野角
+void Boss::ViewingAngle()
+{
+	diff = m_player->GetPosition() - m_position;
+	m_toPlayer = m_player->GetPosition() - m_position;
+	m_toPlayer.Normalize();
+	angle = acosf(m_toPlayer.Dot(m_forward));
+}
+//エネミーのベクトルを取得。
+void Boss::VectorAcquisition()
+{
+	auto mRot = CMatrix::Identity();
+	mRot.MakeRotationFromQuaternion(m_rotation);
+	m_forward.x = mRot.m[2][0];
+	m_forward.y = mRot.m[2][1];
+	m_forward.z = mRot.m[2][2];
 }

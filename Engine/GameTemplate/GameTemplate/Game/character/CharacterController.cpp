@@ -124,6 +124,9 @@ void CharacterController::Init(float radius, float height, const CVector3& posit
 }
 const CVector3& CharacterController::Execute(float deltaTime, CVector3& moveSpeed)
 {
+	if (m_isRemoveRigidBody) {
+		return CVector3::Zero();
+	}
 	if (moveSpeed.y > 0.0f) {
 		//êÅÇ¡îÚÇ—íÜÇ…Ç∑ÇÈÅB
 		m_isJump = true;
@@ -297,6 +300,10 @@ const CVector3& CharacterController::Execute(float deltaTime, CVector3& moveSpee
 */
 void CharacterController::RemoveRigidBoby()
 {
-	g_physics.RemoveRigidBody(m_rigidBody);
+	if (m_isRemoveRigidBody == false) {
+		g_physics.RemoveRigidBody(m_rigidBody);
+		m_isRemoveRigidBody = true;
+	}
+	
 }
 

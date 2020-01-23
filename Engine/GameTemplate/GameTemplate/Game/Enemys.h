@@ -14,7 +14,7 @@ public:
 	virtual ~Enemys();
 
 	//virtual void Attack() = 0;					//攻撃
-	virtual void Damage(float Damage) = 0;		//DAMAGE
+	virtual void Damage(int Damage) = 0;		//DAMAGE
 	//エネミーを死亡判定にする。
 	virtual void Death()
 	{
@@ -88,7 +88,7 @@ public:
 	{
 		return isDeath;
 	}
-	CharacterController GetCharaCon()
+	CharacterController& GetCharaCon()
 	{
 		return m_charaCon;
 	}
@@ -104,15 +104,17 @@ public:
 protected:
 	Player* m_player;									//プレイヤークラス。
 	SkinModel Model;									//エネミーのモデル。
-	float m_HP = 0;										//エネミーのHP
-	float m_MaxHP = 0;									//エネミーの最大HP
-	float m_ATK = 0;									//エネミーの攻撃力
-	float m_DEF = 0;									//エネミーの防御力
-	float m_SPD = 0;									//エネミーのスピード
+	int m_HP = 0;										//エネミーのHP
+	int m_MaxHP = 0;									//エネミーの最大HP
+	int m_ATK = 0;										//エネミーの攻撃力
+	int m_DEF = 0;										//エネミーの防御力
+	int m_SPD = 0;										//エネミーのスピード
 	bool isDeath = false;								//エネミーが死んだかどうか。
 	CVector3 m_position = CVector3::Zero();				//エネミーのポジション用のメンバ変数
 	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動用のメンバ変数
 	CVector3 m_scale = CVector3::Zero();				//エネミーの大きさ用のメンバ変数。
+	CVector3 m_toPlayer = CVector3::Zero();				//プレイヤーに向かうベクトル用。
+	CVector3 m_forward = CVector3::AxisZ();				//<エネミーの前方方向。
 	CVector3 Move = CVector3::Zero();					//敵が動くよ。（敵機の子）
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転用のメンバ変数。
 	CharacterController m_charaCon;						//キャラコン。

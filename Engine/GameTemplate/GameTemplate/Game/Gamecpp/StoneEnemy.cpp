@@ -38,7 +38,7 @@ void StoneEnemy::Attack()
 	m_player->Damage(prm.ATK);
 }
 //DAMAGEó‚¯‚éˆ—
-void StoneEnemy::Damage(float Damage)
+void StoneEnemy::Damage(int Damage)
 {
 	prm.HP -= (Damage - prm.DEF);
 	//‚à‚µAHP‚ª0ˆÈ‰º‚È‚ç€–Sˆ—B
