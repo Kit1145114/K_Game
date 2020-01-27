@@ -50,20 +50,24 @@ Game::~Game()
 		g_goMgr.QutavaleyaAGO(map);
 	}
 	//もしエネミーが消えてなかったら。
-		if (enemys != nullptr)
-	{
-		//エネミーを削除。
-		g_goMgr.QutavaleyaAGO(enemys);
+	for (auto enemy : m_enemysList) {
+		if (enemy != nullptr) {
+			g_goMgr.QutavaleyaAGO(enemy);
+		}
 	}
-
-	//for (int i = 0; i < ENEMY_NUM; i++)
-	//{
-	//	if (enemys != nullptr)
-	//	{
-	//		//エネミーを削除。
-	//		g_goMgr.QutavaleyaAGO(enemys[i]);
-	//	}
-	//}
+	//カメラ削除
+	if (g_Camera != nullptr)
+	{
+		g_goMgr.QutavaleyaAGO(g_Camera);
+	}
+	//HPバー削除
+	if (hp_bar != nullptr) {
+		g_goMgr.QutavaleyaAGO(hp_bar);
+	}
+	//エナジーバー削除
+	if (energy_bar != nullptr) {
+		g_goMgr.QutavaleyaAGO(energy_bar);
+	}
 }
 
 Game* Game::GetInstance()
@@ -166,6 +170,7 @@ void Game::Update()
 {
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
+	//g_Camera->SetPlayer(player);
 }
 //ボス出現用
 bool Game::NewBoss()

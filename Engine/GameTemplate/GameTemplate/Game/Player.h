@@ -51,19 +51,23 @@ public:
 	void Damage(int Damage);
 	bool GetIsDead()
 	{
-		return m_death;
+		return m_isdeath;
 	}
 	/// <summary>
 	/// プレイヤーのポジションを渡す。
 	/// </summary>
 	/// <param name="m_position">プレイヤーのポジション</param>
-	CVector3 GetPosition()	const
+	const CVector3& GetPosition()	
 	{
 		return m_position;
 	}
+	const CVector3& GetRookEnemyPos()
+	{
+		return m_enemyPos;
+	}
 	void SetEnemysList(std::vector<Enemys*> GetEnemy)
 	{
-		m_goList = GetEnemy;
+		m_enemysList = GetEnemy;
 	}
 	void SetPosition(CVector3 pos)
 	{
@@ -83,19 +87,26 @@ public:
 	{
 		return ENERGY;
 	}
+	bool GetIsRooking()
+	{
+		return m_isRookOn;
+	}
 	//プレイヤーの前ベクトルを取得。
 	void Forward();
-
+	//敵をロックオンするときの処理。
+	void RookOnEnemys();
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//アニメーション。
-	Enemys* enemys;										//敵の情報を得るためのclass的なもの。s
-	std::vector<Enemys*> m_goList;						//ゲームオブジェクトのリスト
+	Enemys* enemys;										//敵の情報を得るためのclass的なもの。
+	std::vector<Enemys*> m_enemysList;					//ゲームオブジェクトのリスト
 	AnimationClip g_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
 	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。	
+	CVector3 m_enemyPos = CVector3::Zero();
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
 	CVector3 m_scale = {3.0f,3.0f,3.0f};				//プレイヤーの大きさ用の変数
 	CVector3 box_scale = { 50.0f,50.0f,50.0f };			//ボックス大きさ
+	CVector3 diff = { 0.0f,0.0f,0.0f };					//エネミーとプレイヤーの距離
 	CQuaternion m_rotation = CQuaternion::Identity();	//プレイヤーの軸回転用の変数
 	PlayerStateClip playerState;						//プレイヤーのステート
 	ENERGYState	playerENE;								//プレイヤーのエナジー。
@@ -115,7 +126,8 @@ private:
 	float NSpeed = 1.0f;								//通常のスピード。
 	float SPeed2 = 3.5f;								//２倍のスピード。
 	float JumpPower = 40.0f;							//ジャンプしたときの値
-	bool m_death = false;								//死亡判定。
+	bool m_isdeath = false;								//死亡判定。
+	bool m_isRookOn = false;							//敵をロックオンしているかどうか。
 };
 //	クラス、関数はコーディングルール	アッパーキャメルMoveCount
 //	変数は　アンダーキャメル			m_moveCount		

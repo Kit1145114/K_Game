@@ -60,6 +60,14 @@ void Boss::Draw()
 void Boss::Attack()
 {
 	m_player->Damage(prm.ATK);
+	if (Mode == SmallATK)
+	{
+		Mode = BigATK;
+	}
+	else if(Mode == BigATK)
+	{
+		Mode = SmallATK;
+	}
 }
 //エネミーが進む処理。
 void Boss::EMove()

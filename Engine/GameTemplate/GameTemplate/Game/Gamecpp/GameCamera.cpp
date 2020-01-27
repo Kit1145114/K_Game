@@ -13,31 +13,21 @@ GameCamera::GameCamera()
 	c_State = toPlayer;
 }
 
-
 GameCamera::~GameCamera()
 {
 }
 
 void GameCamera::Update()
 {
-	if (g_pad[0].IsPress(enButtonRB2) && c_State == toPlayer)
+	if (m_player->GetIsRooking())
 	{
-		c_State == toEnemys;
+		c_State = toEnemys;
 	}
-	else if (g_pad[0].IsPress(enButtonRB2) && c_State == toEnemys)
+	else if (!m_player->GetIsRooking())
 	{
-		c_State == toPlayer;
+		c_State = toPlayer;
 	}
-
-	switch (c_State)
-	{
-	case GameCamera::toPlayer:
-		CameraRotate();
-		break;
-	case GameCamera::toEnemys:
-		CameraLookEnemys();
-		break;
-	}
+	State();
 	//CVector3 targetPos = m_player->GetPosition();	//プレイヤーのポジションを取得。
 	//targetPos.y += 100.0f;							//上から見たいので100.0f代入。
 	//CVector3 position = targetPos;					//ポジションにプレイヤーのポジションを入れる。
@@ -123,18 +113,38 @@ void GameCamera::Hutu()
 
 void GameCamera::CameraLookEnemys()
 {
-	for (auto enemy : m_goList) {
-		if (enemy->GetIsDead() == false) {
-			CVector3 diff = enemy->GetPosition();
-			if (diff.Length() >= 400)
-			{
-				m_target = enemy->GetPosition();
-			}
-		}
-	}
+	//プレイヤーの座標、エネミーの座標取得。
+	m_playerposition = m_player->GetPosition();
+	m_enemyposition = m_player->GetRookEnemyPos();
+	//注視点はエネミーの座標にします。
+	m_target = m_enemyposition;
+	//エネミーからプレイヤーに伸びるベクトルを求めます。
+	CVector3 pos = m_playerposition - m_enemyposition;
+	//カメラの高さは一定にしたいので、y成分を0にします。
+	pos.y = 0.0f;
+	//ベクトルを正規化します。
+	pos.Normalize();
+	//スカラーをかける。
+	pos *= 500.0f;
+	//プレイヤーの座標に求めたベクトルを足して、カメラの座標とする。
+	m_position = m_playerposition + pos;
+	m_position.y += 200.0f;
 	g_camera3D.SetTarget(m_target);
 	//座標
 	g_camera3D.SetPosition(m_position);
 	//カメラの更新。
 	g_camera3D.Update();
+}
+//カメラのの状態
+void GameCamera::State()
+{
+	switch (c_State)
+	{
+	case GameCamera::toPlayer:
+		CameraRotate();
+		break;
+	case GameCamera::toEnemys:
+		CameraLookEnemys();
+		break;
+	}
 }
