@@ -10,7 +10,8 @@ public:
 		SmallATK,							//弱攻撃。
 		BigATK								//強攻撃。
 	};
-	void Attack();							//攻撃(今は未実装)
+	void Attack();							//攻撃
+	void AttackRange();						//攻撃できるかの処理。
 	void Damage(int Damage);				//DAMAGE
 	void Search();							//プレイヤーを見つける関数
 	void Update();							//敵の更新内容を記入
@@ -24,7 +25,7 @@ public:
 	void VectorAcquisition();				//エネミーのベクトルを取得するための関数。
 private:
 	BossAnimState boss_State;				//ボスのステート。
-	BossMode Mode;
+	BossMode Mode;							//ボスの攻撃用のステート。
 	CVector3 diff = CVector3::Zero();		//プレイヤーと距離を測る用
 	float attackDistance = 300.0f;			//範囲内で攻撃するための変数
 	float track = 1500.0f;					//追いかけるための変数

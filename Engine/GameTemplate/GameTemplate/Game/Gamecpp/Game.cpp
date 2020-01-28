@@ -13,6 +13,7 @@
 #include"HPText.h"
 #include"EnergyText.h"
 #include"Enemys.h"
+#include"Title.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -170,6 +171,13 @@ void Game::Update()
 {
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
+	for (auto enemy : m_enemysList) {
+		if (enemy->GetIsDead())
+		{
+			Title* title = g_goMgr.NewAGO<Title>();
+			g_goMgr.QutavaleyaAGO(this);
+		}
+	}
 }
 //ボス出現用
 bool Game::NewBoss()

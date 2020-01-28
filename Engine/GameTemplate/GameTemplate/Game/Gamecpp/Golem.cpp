@@ -30,7 +30,7 @@ Golem::Golem()
 	prm.SPD = 200;										//速さ。
 	m_scale = { 5.0f,5.0f,5.0f };							//大きさ
 	m_position = e_pos1;
-	m_charaCon.Init(150.0f, 10.0f, m_position);			//判定の大きさ。
+	m_charaCon.Init(150.0f, 500.0f, m_position);			//判定の大きさ。
 	e_state = esIdle;									//最初に待機状態。
 }
 //敵の攻撃処理。
@@ -87,7 +87,8 @@ void Golem::Draw()
 {
 	gModel.Draw(
 		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix()
+		g_camera3D.GetProjectionMatrix(),
+		1
 	);
 }
 //倒されたときに呼ぶ処理。

@@ -33,10 +33,10 @@ public:
 private:
 	bool m_isDraw3D = false;
 	bool Active = true;
-	Sprite	m_sprite;				//!<スプライト。
+	Sprite	m_sprite;								//!<スプライト。
 	CVector3 m_position = CVector3::Zero();
-	CQuaternion m_rotation = {0.0f,1.0f,0.0f,0.0f};			//!<回転。
-	CVector3 m_scale = CVector3::One();			//!<拡大率。
-	CVector2 m_pivot = { 0.5f,0.5f };//Sprite::DEFAULT_PIVOT;	//!<ピボット。
+	CQuaternion m_rotation = {0.0f,1.0f,0.0f,0.0f};	//!<回転。
+	CVector3 m_scale = CVector3::One();				//!<拡大率。
+	CVector2 m_pivot = { 0.5f,0.5f };				//!<ピボット。
 };
 

@@ -115,7 +115,7 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 	m_skeleton.Update(m_worldMatrix);
 	
 }
-void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
+void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix,int Spec)
 {
 	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
@@ -130,7 +130,10 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	d3dDeviceContext->VSSetConstantBuffers(0, 1, &m_cb);
 	d3dDeviceContext->PSSetConstantBuffers(0, 1, &m_cb);
 	//ライト用の定数バッファを更新。
-	d3dDeviceContext->UpdateSubresource(m_lightCb, 0, nullptr, &m_sLight.m_dirLight, 0, 0);
+	m_sLight.eyePos = g_camera3D.GetPosition();
+	m_sLight.specPow = 7.0f;
+	m_sLight.hasSpec = Spec;
+	d3dDeviceContext->UpdateSubresource(m_lightCb, 0, nullptr, &m_sLight, 0, 0);
 	d3dDeviceContext->PSSetConstantBuffers(0, 1, &m_lightCb);
 	//サンプラステートを設定。
 	d3dDeviceContext->PSSetSamplers(0, 1, &m_samplerState);

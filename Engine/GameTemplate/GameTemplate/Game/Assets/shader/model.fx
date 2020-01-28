@@ -33,7 +33,10 @@ cbuffer VSPSCb : register(b0){
 cbuffer LightCb : register(b0) {
 	float3 dligDirection[4];
 	float4 dligColor[4];
+	float3 eyePos;
+	float specPow;
 	float3 ambientLight;
+	int hasSpec;
 };
 /////////////////////////////////////////////////////////////
 //各種構造体
@@ -69,6 +72,7 @@ struct PSInput{
 	float3 Normal		: NORMAL;
 	float3 Tangent		: TANGENT;
 	float2 TexCoord 	: TEXCOORD0;
+	float3 worldPos		: TEXCOORD1;
 };
 /*!
  *@brief	スキン行列を計算。
@@ -94,6 +98,7 @@ PSInput VSMain( VSInputNmTxVcTangent In )
 {
 	PSInput psInput = (PSInput)0;
 	float4 pos = mul(mWorld, In.Position);
+	psInput.worldPos = pos;
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
 	psInput.Position = pos;
@@ -133,6 +138,7 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 	  	//頂点座標にスキン行列を乗算して、頂点をワールド空間に変換。
 		//mulは乗算命令。
 	    pos = mul(skinning, In.Position);
+		psInput.worldPos = pos;
 	}
 	psInput.Normal = normalize( mul(skinning, In.Normal) );
 	psInput.Tangent = normalize( mul(skinning, In.Tangent) );
@@ -154,6 +160,14 @@ float4 PSMain( PSInput In ) : SV_Target0
 	float3 lig = 0.0f;
 	for (int i = 0; i < 4; i++) {
 		lig += max(0.0f, dot(In.Normal * -1.0f, dligDirection[i])) * dligColor[i];
+		//鏡面反射の光の量を計算する。
+		if (hasSpec == 1) {
+			float3 rv = reflect(dligDirection[i], In.Normal);
+			float3 toEye = normalize(eyePos - In.worldPos);
+			float t = max(0.0f, dot(toEye, rv));
+			t = pow(t, 4.0f);
+			lig += t * dligColor[i] * specPow;
+		}
 	}
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	lig += ambientLight;

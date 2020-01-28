@@ -34,6 +34,8 @@ public:
 	{
 		Active = flag;
 	}
+public:
+	void Update(const CVector3& trans, const CQuaternion& rot, const CVector3& scale, const CVector2& pivot);
 private:
 	/// <summary>
 	/// シェーダーをロード。
@@ -68,5 +70,6 @@ private:
 	ID3D11ShaderResourceView* m_texture = nullptr;
 	ID3D11SamplerState* m_samplerState = nullptr;
 	CMatrix m_world = CMatrix::Identity();
+	CVector2				m_size = CVector2::Zero();		//!<サイズ。
 };
 

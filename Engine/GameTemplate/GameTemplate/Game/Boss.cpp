@@ -30,8 +30,9 @@ Boss::Boss()
 	//フラグをtrueへ
 	//パラメーター
 	prm.HP = 100;										//HP
+	m_MaxHP = prm.HP;									//MAXHP;
 	prm.ATK = 80;										//攻撃力
-	prm.DEF = 40;										//防御力
+	prm.DEF = 80;										//防御力
 	prm.SPD = 350;										//速さ。
 	m_scale = { 1.5f,1.5f,1.5f };						//エネミーの大きさ
 	m_charaCon.Init(100.0f, 600.0f, m_position);		//判定の大きさ
@@ -55,19 +56,44 @@ void Boss::Draw()
 {
 	Model.Draw(
 		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix()
+		g_camera3D.GetProjectionMatrix(),
+		1
 	);
 }
 //敵の攻撃処理。
 void Boss::Attack()
 {
+
 	m_player->Damage(prm.ATK);
+}
+//攻撃できる範囲か調べる処理
+void Boss::AttackRange()
+{
+	if (diff.Length() <= attackDistance && Mode == SmallATK)
+	{
+		//距離内に近づいたら攻撃。
+		boss_State = bsSmallAttack;
+	}
+	else if (diff.Length() <= attackDistance && Mode == BigATK)
+	{
+		boss_State = bsBigAttack;
+	}
+
 }
 //エネミーが進む処理。
 void Boss::EMove()
 {
 	Move.Normalize();
-	if (boss_State == bsWalkTracking) {
+	if (boss_State == bsIdle)
+	{
+		m_moveSpeed = CVector3::Zero();
+	}
+	else if (boss_State == bsBigAttack || boss_State == bsSmallAttack)
+	{
+		m_moveSpeed.x = ZERO;
+		m_moveSpeed.z = ZERO;
+	}
+	else if (boss_State == bsWalkTracking) {
 		m_moveSpeed = Move * prm.SPD;
 	}
 	else if (boss_State == bsFlyTracking)
@@ -89,40 +115,50 @@ void Boss::Damage(int Dam)
 void Boss::Search()
 {
 	ViewingAngle();
-	//もし範囲外がいなら
-	if (diff.Length() >= track || fabsf(angle) > CMath::PI * 0.40f)
-	{
-		Move = CVector3::Zero();
-		boss_State = bsIdle;
+	//体力MAX時
+	if (prm.HP == m_MaxHP) {
+		//範囲外かつ視野角外なら
+		if (diff.Length() >= track || fabsf(angle) > CMath::PI * 0.40f)
+		{
+			boss_State = bsIdle;
+		}
+		//範囲内かつ視野角内なら
+		else if (diff.Length() <= track || fabsf(angle) < CMath::PI * 0.40f)
+		{
+			Move = m_player->GetPosition() - m_position;
+			//飛行距離内なら
+			if (diff.Length() >= flyDistance)
+			{
+				Move = m_player->GetPosition() - m_position;
+				boss_State = bsFlyTracking;
+			}
+			//歩行距離内なら
+			else if (diff.Length() >= walkingDistance)
+			{
+				Move = m_player->GetPosition() - m_position;
+				boss_State = bsWalkTracking;
+			}
+		}
 	}
-	//もし距離内かつ視野角内なら。
-	else if (diff.Length() <= track && fabsf(angle) < CMath::PI * 0.40f)
+	//体力がMAXじゃないとき。ひたすら追いかける。
+	else if (prm.HP < m_MaxHP)
 	{
 		Move = m_player->GetPosition() - m_position;
 		//飛行距離内なら
 		if (diff.Length() >= flyDistance)
 		{
+			Move = m_player->GetPosition() - m_position;
 			boss_State = bsFlyTracking;
 		}
 		//歩行距離内なら
 		else if (diff.Length() >= walkingDistance)
 		{
+			Move = m_player->GetPosition() - m_position;
 			boss_State = bsWalkTracking;
 		}
-		if (diff.Length() <= attackDistance && Mode == SmallATK)
-		{
-			//距離内に近づいたら攻撃。
-			m_moveSpeed.x = ZERO;
-			m_moveSpeed.z = ZERO;
-			boss_State = bsSmallAttack;
-		}
-		else if (diff.Length() <= attackDistance && Mode == BigATK)
-		{
-			m_moveSpeed.x = ZERO;
-			m_moveSpeed.z = ZERO;
-			boss_State = bsBigAttack;
-		}
 	}
+	//攻撃の範囲計算。
+	AttackRange();
 }
 //倒されたときに呼ぶ処理。
 void Boss::Death()
@@ -142,6 +178,7 @@ void Boss::EnemyState()
 	{
 	case Enemys::bsIdle:
 		Search();
+		EMove();
 		Rotation();
 		anim.Play(bsIdle);
 		break;
@@ -161,11 +198,13 @@ void Boss::EnemyState()
 		break;
 	case Enemys::bsSmallAttack:
 		Search();
+		EMove();
 		Rotation();
 		anim.Play(bsSmallAttack);
 		break;
 	case Enemys::bsBigAttack:
 		Search();
+		EMove();
 		Rotation();
 		anim.Play(bsBigAttack);
 	}

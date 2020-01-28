@@ -32,6 +32,7 @@ struct SLight
 	CVector3	eyePos;			//視点の座標。
 	float		specPow;		//鏡面反射の絞り
 	CVector3	ambientLight;	//アンビエントライト。
+	int			hasSpec;		//スペキュラライトを当て
 };
 
 /*!
@@ -85,7 +86,7 @@ public:
 	*@param[in]	projMatrix		プロジェクション行列。
 	*  カメラ座標系の3Dモデルをスクリーン座標系に変換する行列です。
 	*/
-	void Draw( CMatrix viewMatrix, CMatrix projMatrix );
+	void Draw( CMatrix viewMatrix, CMatrix projMatrix,int Spec);
 	/*!
 	*@brief	スケルトンの取得。
 	*/

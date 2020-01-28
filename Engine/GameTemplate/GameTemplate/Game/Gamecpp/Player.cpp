@@ -65,7 +65,8 @@ void Player::Draw()
 {
 	Gmodel.Draw(
 		g_camera3D.GetViewMatrix(), 
-		g_camera3D.GetProjectionMatrix()
+		g_camera3D.GetProjectionMatrix(),
+		1
 	);
 }
 //プレイヤーの移動処理
@@ -131,20 +132,20 @@ void Player::PlayerState()
 	{
 	case pl_idle:	//待機状態
 		MoveOperation();
-		g_anim.Play(0);
+		g_anim.Play(0, 0.1f);
 		break;
 	case pl_Walk:	//歩き状態。
 		MoveOperation();
-		g_anim.Play(1);
+		g_anim.Play(1, 0.1f);
 		break;
 	case pl_FlyMove:
 		MoveOperation();
-		g_anim.Play(2);
+		g_anim.Play(2, 0.1f);
 		break;
 	case pl_Atk:	//攻撃状態。
 		m_moveSpeed.z = ZERO;
 		m_moveSpeed.x = ZERO;
-		g_anim.Play(3);
+		g_anim.Play(3, 0.1f);
 		if (g_anim.IsPlaying() == false)
 		{
 			playerState = pl_idle;
@@ -164,9 +165,6 @@ void Player::PlayerAttack()
 	if (g_pad[0].IsTrigger(enButtonY))
 	{
 		playerState = pl_Atk;
-		CVector3 A = m_position + (m_forward * 150.0f);
-		A.y += 150.0f;
-		m_PhyGhostObj.CreateBox(A, m_rotation, box_scale);
 	}
 }
 //プレイヤーの移動類。
@@ -209,17 +207,22 @@ void Player::MoveOperation()
 //アニメーションイベント
 void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
+	CVector3 A = m_position + (m_forward * UpPhyGhostObjPosition);
+	A.y += UpPhyGhostObjPosition;
+	m_PhyGhostObj.CreateBox(A, m_rotation, box_scale);
 	float Kyori = 500.0f;
 	for (auto enemy : m_enemysList) {
 		if (enemy->GetIsDead() == false) {
 			g_physics.ContactTest(enemy->GetCharaCon(), [&](const btCollisionObject& contactObject) {
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
-						MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
+						//MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
 						enemy->Damage(ATK);
 				}
 			});
 		}
 	}
+	//削除。
+	m_PhyGhostObj.Release();
 }
 //敵との距離計測とキル。(未使用)
 void Player::Track()

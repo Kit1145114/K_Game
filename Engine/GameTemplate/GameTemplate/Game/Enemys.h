@@ -45,7 +45,8 @@ public:
 		esIdle,		//待機。
 		esTracking,	//追いかける。
 		esAttack,	//攻撃。
-		esDeath		//You Are Dead。
+		esDeath,	//You Are Dead。
+		esAttackMe		//攻撃受けた。
 	};
 	/// <summary>
 	/// ボス用の状態。
@@ -57,7 +58,8 @@ public:
 		bsFlyTracking,	//飛行で追いかける。
 		bsDeath,		//You Are Dead。
 		bsSmallAttack,	//弱攻撃。
-		bsBigAttack		//強攻撃。
+		bsBigAttack,	//強攻撃。
+		bsAttackMe			//攻撃を受けた
 	};
 	/// <summary>
 	/// エネミーに場所を渡す。
