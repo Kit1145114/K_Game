@@ -144,7 +144,6 @@
     <ClCompile Include="Gamecpp\Golem.cpp" />
     <ClCompile Include="HPText.cpp" />
     <ClCompile Include="Sample.cpp" />
-    <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="Gamecpp\Font.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
@@ -161,6 +160,7 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="DebugWireframe.cpp" />
     <ClCompile Include="EnergyText.cpp" />
+    <ClCompile Include="graphics\SpriteRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -271,7 +271,6 @@
     <ClInclude Include="Titan.h" />
     <ClInclude Include="HPText.h" />
     <ClInclude Include="Sample.h" />
-    <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
@@ -289,6 +288,7 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="DebugWireframe.h" />
     <ClInclude Include="EnergyText.h" />
+    <ClInclude Include="graphics\SpriteRender.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -344,6 +344,7 @@
     <None Include="Assets\animData\RB_shortATK.tka" />
     <None Include="Assets\animData\RB_BigATK.tka" />
     <None Include="Assets\animData\P_FlyMove.tka" />
+    <None Include="Assets\animData\RB_FlyMove.tka" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

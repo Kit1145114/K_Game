@@ -26,8 +26,8 @@ private:
 	BossAnimState boss_State;				//ボスのステート。
 	BossMode Mode;
 	CVector3 diff = CVector3::Zero();		//プレイヤーと距離を測る用
-	float Kyori = 300.0f;
-	float Track = 850.0f;
+	float attackDistance = 300.0f;			//範囲内で攻撃するための変数
+	float track = 1500.0f;					//追いかけるための変数
 	float angle = 0.0f;
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 #include"GameObjectManajer.h"
 #include"graphics/Sprite.h"
-#include"SpriteRender.h"
+#include"../Game/graphics/SpriteRender.h"
 
 class Game;
 class Title : public GameObject

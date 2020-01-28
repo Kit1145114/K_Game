@@ -102,7 +102,7 @@ private:
 	std::vector<Enemys*> m_enemysList;					//ゲームオブジェクトのリスト
 	AnimationClip g_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
 	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。	
-	CVector3 m_enemyPos = CVector3::Zero();
+	CVector3 m_enemyPos = CVector3::Zero();				//エネミーのポジション取得用。
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
 	CVector3 m_scale = {3.0f,3.0f,3.0f};				//プレイヤーの大きさ用の変数
 	CVector3 box_scale = { 50.0f,50.0f,50.0f };			//ボックス大きさ
@@ -129,11 +129,6 @@ private:
 	bool m_isdeath = false;								//死亡判定。
 	bool m_isRookOn = false;							//敵をロックオンしているかどうか。
 };
-//	クラス、関数はコーディングルール	アッパーキャメルMoveCount
-//	変数は　アンダーキャメル			m_moveCount		
-//　メンバ変数にはm_を付ける。
-//	統一することが大事。
-//引数、変数、戻り値、メンバ変数にコメント
 /// <summary>
 /// プレイヤー、タグ。
 /// </summary>

@@ -53,7 +53,8 @@ public:
 	enum BossAnimState
 	{
 		bsIdle,			//待機。
-		bsTracking,		//追いかける。
+		bsWalkTracking,	//歩いて追いかける。
+		bsFlyTracking,	//飛行で追いかける。
 		bsDeath,		//You Are Dead。
 		bsSmallAttack,	//弱攻撃。
 		bsBigAttack		//強攻撃。
@@ -109,6 +110,8 @@ protected:
 	int m_ATK = 0;										//エネミーの攻撃力
 	int m_DEF = 0;										//エネミーの防御力
 	int m_SPD = 0;										//エネミーのスピード
+	float walkingDistance = 450.0f;						//歩行距離内。
+	float flyDistance = 500.0f;							//飛行距離内
 	bool isDeath = false;								//エネミーが死んだかどうか。
 	CVector3 m_position = CVector3::Zero();				//エネミーのポジション用のメンバ変数
 	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動用のメンバ変数

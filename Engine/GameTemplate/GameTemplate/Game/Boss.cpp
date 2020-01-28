@@ -6,16 +6,18 @@ Boss::Boss()
 {
 	Model.Init(L"Assets/modelData/RobbotBoss.cmo");		//モデルの呼び出し。
 	//モデルのアニメーションのロード。
-	animClip[0].Load(L"Assets/animData/RB_idle.tka");	//待機をロード。
-	animClip[0].SetLoopFlag(true);
-	animClip[1].Load(L"Assets/animData/RE1_walk.tka");	//歩きをロード。
-	animClip[1].SetLoopFlag(true);
-	animClip[2].Load(L"Assets/animData/RB_death.tka");	//死亡をロード。
-	animClip[2].SetLoopFlag(false);
-	animClip[3].Load(L"Assets/animData/RB_shortATK.tka");	//攻撃をロード。
-	animClip[3].SetLoopFlag(true);
-	animClip[4].Load(L"Assets/animData/RB_BigATK.tka");	//攻撃をロード。
-	animClip[4].SetLoopFlag(true);
+	animClip[bsIdle].Load(L"Assets/animData/RB_idle.tka");	//待機をロード。
+	animClip[bsIdle].SetLoopFlag(true);
+	animClip[bsWalkTracking].Load(L"Assets/animData/RB_walk.tka");	//歩きをロード。
+	animClip[bsWalkTracking].SetLoopFlag(true);
+	animClip[bsFlyTracking].Load(L"Assets/animData/RB_FlyMove.tka");	//歩きをロード。
+	animClip[bsFlyTracking].SetLoopFlag(true);
+	animClip[bsDeath].Load(L"Assets/animData/RB_death.tka");	//死亡をロード。
+	animClip[bsDeath].SetLoopFlag(false);
+	animClip[bsSmallAttack].Load(L"Assets/animData/RB_shortATK.tka");	//攻撃をロード。
+	animClip[bsSmallAttack].SetLoopFlag(true);
+	animClip[bsBigAttack].Load(L"Assets/animData/RB_BigATK.tka");	//攻撃をロード。
+	animClip[bsBigAttack].SetLoopFlag(true);
 	anim.Init(
 		Model,
 		animClip,
@@ -60,20 +62,18 @@ void Boss::Draw()
 void Boss::Attack()
 {
 	m_player->Damage(prm.ATK);
-	if (Mode == SmallATK)
-	{
-		Mode = BigATK;
-	}
-	else if(Mode == BigATK)
-	{
-		Mode = SmallATK;
-	}
 }
 //エネミーが進む処理。
 void Boss::EMove()
 {
 	Move.Normalize();
-	m_moveSpeed = Move * prm.SPD;
+	if (boss_State == bsWalkTracking) {
+		m_moveSpeed = Move * prm.SPD;
+	}
+	else if (boss_State == bsFlyTracking)
+	{
+		m_moveSpeed = Move * prm.SPD * 2;
+	}
 }
 //DAMAGE受ける処理
 void Boss::Damage(int Dam)
@@ -89,36 +89,45 @@ void Boss::Damage(int Dam)
 void Boss::Search()
 {
 	ViewingAngle();
-	//もし距離内かつ視野角内なら。
-	if (diff.Length() <= Track && fabsf(angle) < CMath::PI * 0.25f)
+	//もし範囲外がいなら
+	if (diff.Length() >= track || fabsf(angle) > CMath::PI * 0.40f)
 	{
-		//追いかける。
+		Move = CVector3::Zero();
+		boss_State = bsIdle;
+	}
+	//もし距離内かつ視野角内なら。
+	else if (diff.Length() <= track && fabsf(angle) < CMath::PI * 0.40f)
+	{
 		Move = m_player->GetPosition() - m_position;
-		boss_State = bsTracking;
-		if (diff.Length() <= Kyori && Mode == SmallATK)
+		//飛行距離内なら
+		if (diff.Length() >= flyDistance)
+		{
+			boss_State = bsFlyTracking;
+		}
+		//歩行距離内なら
+		else if (diff.Length() >= walkingDistance)
+		{
+			boss_State = bsWalkTracking;
+		}
+		if (diff.Length() <= attackDistance && Mode == SmallATK)
 		{
 			//距離内に近づいたら攻撃。
 			m_moveSpeed.x = ZERO;
 			m_moveSpeed.z = ZERO;
 			boss_State = bsSmallAttack;
 		}
-		else if (diff.Length() <= Kyori && Mode == BigATK)
+		else if (diff.Length() <= attackDistance && Mode == BigATK)
 		{
 			m_moveSpeed.x = ZERO;
 			m_moveSpeed.z = ZERO;
 			boss_State = bsBigAttack;
 		}
 	}
-	else if (diff.Length() >= Track)
-	{
-		boss_State = bsIdle;
-		Move = CVector3::Zero();
-	}
 }
 //倒されたときに呼ぶ処理。
 void Boss::Death()
 {
-	anim.Play(2);
+	anim.Play(bsDeath);
 	if (anim.IsPlaying() == false)
 	{
 		this->SetActive(false);
@@ -134,26 +143,31 @@ void Boss::EnemyState()
 	case Enemys::bsIdle:
 		Search();
 		Rotation();
-		anim.Play(0);
+		anim.Play(bsIdle);
 		break;
-	case Enemys::bsTracking:
+	case Enemys::bsWalkTracking:
 		Search();
 		EMove();
 		Rotation();
-		anim.Play(1);
+		anim.Play(bsWalkTracking);
 		break;
+	case Enemys::bsFlyTracking:
+		Search();
+		EMove();
+		Rotation();
+		anim.Play(bsFlyTracking);
 	case Enemys::bsDeath:
 		Death();
 		break;
 	case Enemys::bsSmallAttack:
 		Search();
 		Rotation();
-		anim.Play(3);
+		anim.Play(bsSmallAttack);
 		break;
 	case Enemys::bsBigAttack:
 		Search();
 		Rotation();
-		anim.Play(4);
+		anim.Play(bsBigAttack);
 	}
 }
 //エネミーの回転処理。
@@ -181,17 +195,17 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
 	if (m_player->GetIsDead() == false) {
 		if (boss_State == bsSmallAttack 
-			&& eventName
-			&& Move.Length() <= Kyori)
+			&& eventName)
 		{
 			Attack();
+			Mode = BigATK;
 		}
 		else if (boss_State == bsBigAttack 
-			&& eventName
-			&& Move.Length() <= Kyori)
+			&& eventName)
 		{
 			prm.ATK * 2;
 			Attack();
+			Mode = SmallATK;
 		}
 	}
 }

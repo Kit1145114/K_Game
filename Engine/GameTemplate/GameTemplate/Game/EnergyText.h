@@ -1,7 +1,7 @@
 #pragma once
 #include"GameObjectManajer.h"
 #include"graphics/Sprite.h"
-#include"SpriteRender.h"
+#include"graphics/SpriteRender.h"
 
 class Player;
 class EnergyText : public GameObject

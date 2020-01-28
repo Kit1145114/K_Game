@@ -153,7 +153,7 @@
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp" />
     <ClCompile Include="sound\SoundSource.cpp" />
-    <ClCompile Include="SpriteRender.cpp" />
+    <ClCompile Include="graphics\SpriteRender.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Gamecpp\Titan.cpp" />
     <ClCompile Include="Title.cpp" />
@@ -213,7 +213,7 @@
     <ClInclude Include="Sample.h" />
     <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="sound\SoundSource.h" />
-    <ClInclude Include="SpriteRender.h" />
+    <ClInclude Include="graphics\SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StoneEnemy.h" />
     <ClInclude Include="system\system.h" />
@@ -261,6 +261,7 @@
     <None Include="Assets\animData\P_walk.tka" />
     <None Include="Assets\animData\RB_BigATK.tka" />
     <None Include="Assets\animData\RB_death.tka" />
+    <None Include="Assets\animData\RB_FlyMove.tka" />
     <None Include="Assets\animData\RB_idle.tka" />
     <None Include="Assets\animData\RB_shortATK.tka" />
     <None Include="Assets\animData\RB_walk.tka" />
