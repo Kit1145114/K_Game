@@ -170,7 +170,6 @@ void Game::Update()
 {
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
-	//g_Camera->SetPlayer(player);
 }
 //ボス出現用
 bool Game::NewBoss()

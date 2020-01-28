@@ -196,12 +196,12 @@ void Player::MoveOperation()
 		playerState = pl_idle;
 	}
 	//•‚—VˆÚ“®‚Æ‚«B
-	else if (g_pad[0].IsPress(enButtonX))
+	else if (g_pad[0].IsPress(enButtonX) && playerENE == ene_Full)
 	{
 		playerState = pl_FlyMove;
 	}
 	//•à‚«‚ÌB
-	else if (!g_pad[0].IsPress(enButtonX))
+	else if (!g_pad[0].IsPress(enButtonX) || playerENE == ene_Charge)
 	{
 		playerState = pl_Walk;
 	}
