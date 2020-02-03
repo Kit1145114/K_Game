@@ -20,6 +20,7 @@ class Game : public GameObject
 		enRenderMode_Silhouette,	//シルエットをレンダリング。
 		enRenderMode_Num,			//レンダリングモードの数。
 	};
+	//ステージの振り分け。
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -42,6 +43,8 @@ private:
 	HPText* hp_bar;					//HPバー。
 	EnergyText* energy_bar;			//エナジーバー
 	Level		mapLevel;			//マップのレベル。。。。。。
+	int			m_stage;			//ステージ
+	bool isLive = false;			//生きてるかどうか
 	static Game* m_instance;		//ゲームのインスタンス。
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。
 		//可変長配列

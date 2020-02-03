@@ -23,6 +23,7 @@ public:
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 	void ViewingAngle();					//エネミーの視野角。
 	void VectorAcquisition();				//エネミーのベクトルを取得するための関数。
+	void HitMe();							//ダメージを受けるｚ....
 private:
 	BossAnimState boss_State;				//ボスのステート。
 	BossMode Mode;							//ボスの攻撃用のステート。

@@ -24,8 +24,8 @@ void SpriteRender::Update()
 	//	m_rotation,
 	//	m_scale
 	//);
-	m_sprite.Update(m_position, m_rotation, m_scale, m_pivot);
 	Draw();
+	//m_sprite.Update(m_position, m_rotation, m_scale, m_pivot);
 }
 
 void SpriteRender::Draw()
@@ -37,6 +37,7 @@ void SpriteRender::Draw()
 		{ 0, 0, 0 },
 		{ 0,1,0 }
 	);
-	mProj.MakeOrthoProjectionMatrix(1280, 720, 0.1, 100);
+	mProj.MakeOrthoProjectionMatrix(1280.0f, 720.0f, 0.10f, 100.0f);
+	m_sprite.Update(m_position, m_rotation, m_scale, m_pivot);
 	m_sprite.Draw(mView, mProj);
 }

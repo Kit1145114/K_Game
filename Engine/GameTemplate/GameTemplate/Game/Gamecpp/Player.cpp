@@ -215,8 +215,8 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		if (enemy->GetIsDead() == false) {
 			g_physics.ContactTest(enemy->GetCharaCon(), [&](const btCollisionObject& contactObject) {
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
-						//MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
 						enemy->Damage(ATK);
+						enemy->SetHitMe(true);
 				}
 			});
 		}
@@ -311,7 +311,7 @@ void Player::RookOnEnemys()
 	{
 		CVector3 pos = m_position - enemys->GetPosition();
 		diff = m_position - enemys->GetPosition();
-		//プレイヤーとエネミーの距離が言って以外だったら下の処理をスキップ。
+		//プレイヤーとエネミーの距離が一定以外だったら下の処理をスキップ。
 		if (pos.Length() >= unRange)
 			continue;
 		//プレイヤーとエネミーを結ぶベクトルを出す。

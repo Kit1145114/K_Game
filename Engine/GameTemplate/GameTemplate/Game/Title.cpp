@@ -6,6 +6,7 @@ Title::Title()
 {
 	m_sprite = g_goMgr.NewAGO<SpriteRender>();
 	m_sprite->Init(L"Assets/sprite/title1.dds", 1280, 720);
+	m_sprite->SetPivot(CVector2(0.5f,0.5f));
 }
 
 Title::~Title()

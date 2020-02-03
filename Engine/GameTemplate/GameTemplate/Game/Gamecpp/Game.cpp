@@ -29,7 +29,16 @@ Game::Game()
 		//何もない場合はゲームを代入。
 		m_instance = this;
 	}
-	//ゲームのスタート関数呼び出し。
+	////ゲームのスタート関数呼び出し。
+	//switch (m_stage)
+	//{
+	//case FirstStage:
+	//	Start();
+	//	break;
+	//case SecondStage:
+	//	NewBoss();
+	//	break;
+	//}
 	//Start();
 	NewBoss();
 }
@@ -80,28 +89,6 @@ Game* Game::GetInstance()
 //ゲーム開始ィィィィ！！！！。
 bool Game::Start()
 {
-	////プレイヤーをNewGOで生成。
-	//player = g_goMgr.NewAGO<Player>();
-	////マップをNewGOで生成。
-	//map = g_goMgr.NewAGO<MAP>();
-	////ゲームカメラをNewGOで生成。
-	//g_Camera = g_goMgr.NewAGO<GameCamera>();
-	//g_Camera->SetPlayer(player);
-	//g_Camera->SetEnemysList(m_goList);
-	////エネミーを生成。
-	//enemys[0] = g_goMgr.NewAGO<StoneEnemy>();
-	//m_goList.push_back(enemys[0]);
-	//enemys[0]->SetPlayer(player);
-	//enemys[1] = g_goMgr.NewAGO<Golem>();
-	//m_goList.push_back(enemys[1]);
-	//enemys[1]->SetPlayer(player);
-	//enemys[2] = g_goMgr.NewAGO<Titan>();
-	//m_goList.push_back(enemys[2]);
-	//enemys[2]->SetPlayer(player);
-	//hp_bar = g_goMgr.NewAGO<HPText>();
-	//player->SetEnemysList(m_goList);
-	//player->SetPosition(m_initPlayerPos);
-
 	mapLevel.Init(L"Assets/level/FirstStage.tkl",
 		[&](LevelObjectData& objData)
 	{
@@ -172,11 +159,19 @@ void Game::Update()
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 	for (auto enemy : m_enemysList) {
-		if (enemy->GetIsDead())
+		if (!enemy->GetIsDead())
 		{
-			Title* title = g_goMgr.NewAGO<Title>();
-			g_goMgr.QutavaleyaAGO(this);
+			isLive = true;
 		}
+		else
+		{
+			isLive = false;
+		}
+	}
+	if (!isLive)
+	{
+		Title* title = g_goMgr.NewAGO<Title>();
+		g_goMgr.QutavaleyaAGO(this);
 	}
 }
 //ボス出現用

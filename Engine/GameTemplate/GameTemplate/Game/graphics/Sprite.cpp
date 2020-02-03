@@ -42,6 +42,8 @@ Sprite::~Sprite()
 
 void Sprite::Init(const wchar_t*textureFilePath, float w, float h)
 {
+	m_size.x = w;
+	m_size.y = h;
 	//シェーダーをロード。
 	LoadShader();
 	//頂点バッファを作成。
@@ -237,16 +239,19 @@ void Sprite::Update(const CVector3& trans, const CQuaternion& rot, const CVector
 	CVector2 halfSize = m_size;
 	halfSize.x *= 0.5f;
 	halfSize.y *= 0.5f;
+	//halfSize.x = 1000.0f;
 	CMatrix mPivotTrans;
 
 	mPivotTrans.MakeTranslation(
-		{ halfSize.x * localPivot.x, halfSize.y * localPivot.y, 0.0f }
+		{ halfSize.x *localPivot.x, halfSize.y * localPivot.y, 0.0f }
 	);
 	CMatrix mTrans, mRot, mScale;
+
 	mTrans.MakeTranslation(trans);
 	mRot.MakeRotationFromQuaternion(rot);
 	mScale.MakeScaling(scale);
+
 	m_world.Mul(mPivotTrans,mScale);
-	m_world.Mul(mScale, mRot);
+	m_world.Mul(m_world, mRot);
 	m_world.Mul(m_world, mTrans);
 }

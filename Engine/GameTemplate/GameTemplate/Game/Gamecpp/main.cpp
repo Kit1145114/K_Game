@@ -4,7 +4,7 @@
 #include"Title.h";
 #include"Game.h"
 #include"GameObjectManajer.h"
-
+#include"GameConst.h"
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
@@ -13,8 +13,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームの初期化。
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 
-	//ゲームをNewGOで生成。
-	//Game* game = g_goMgr.NewAGO<Game>();
 	//タイトルのNewGOで生成。
 	Title* title = g_goMgr.NewAGO<Title>();
 	//ゲームループ。

@@ -18,6 +18,8 @@ Boss::Boss()
 	animClip[bsSmallAttack].SetLoopFlag(true);
 	animClip[bsBigAttack].Load(L"Assets/animData/RB_BigATK.tka");	//攻撃をロード。
 	animClip[bsBigAttack].SetLoopFlag(true);
+	animClip[bsHitMe].Load(L"Assets/animData/RB_HitDamage.tka");	//攻撃をロード。
+	animClip[bsHitMe].SetLoopFlag(false);
 	anim.Init(
 		Model,
 		animClip,
@@ -43,6 +45,7 @@ Boss::Boss()
 void Boss::Update()
 {
 	Draw();
+	HitMe();
 	VectorAcquisition();
 	EnemyState();
 	m_moveSpeed.y -= gravity;
@@ -69,12 +72,14 @@ void Boss::Attack()
 //攻撃できる範囲か調べる処理
 void Boss::AttackRange()
 {
-	if (diff.Length() <= attackDistance && Mode == SmallATK)
+	if (diff.Length() <= attackDistance && Mode == SmallATK
+		&& isTracking)
 	{
 		//距離内に近づいたら攻撃。
 		boss_State = bsSmallAttack;
 	}
-	else if (diff.Length() <= attackDistance && Mode == BigATK)
+	else if (diff.Length() <= attackDistance && Mode == BigATK
+		&& isTracking)
 	{
 		boss_State = bsBigAttack;
 	}
@@ -105,11 +110,6 @@ void Boss::EMove()
 void Boss::Damage(int Dam)
 {
 	prm.HP -= (Dam - prm.DEF);
-	//もし、HPが0以下なら死亡処理。
-	if (prm.HP <= 0.0f)
-	{
-		boss_State = bsDeath;
-	}
 }
 //プレイヤーの見つける処理。
 void Boss::Search()
@@ -121,11 +121,13 @@ void Boss::Search()
 		if (diff.Length() >= track || fabsf(angle) > CMath::PI * 0.40f)
 		{
 			boss_State = bsIdle;
+			isTracking = false;	
 		}
 		//範囲内かつ視野角内なら
-		else if (diff.Length() <= track || fabsf(angle) < CMath::PI * 0.40f)
+		else if (diff.Length() <= track && fabsf(angle) < CMath::PI * 0.40f)
 		{
 			Move = m_player->GetPosition() - m_position;
+			isTracking = true;
 			//飛行距離内なら
 			if (diff.Length() >= flyDistance)
 			{
@@ -144,6 +146,7 @@ void Boss::Search()
 	else if (prm.HP < m_MaxHP)
 	{
 		Move = m_player->GetPosition() - m_position;
+		isTracking = true;
 		//飛行距離内なら
 		if (diff.Length() >= flyDistance)
 		{
@@ -207,6 +210,10 @@ void Boss::EnemyState()
 		EMove();
 		Rotation();
 		anim.Play(bsBigAttack);
+		break;
+	case Enemys::bsHitMe:
+		anim.Play(bsHitMe);
+		break;
 	}
 }
 //エネミーの回転処理。
@@ -264,4 +271,22 @@ void Boss::VectorAcquisition()
 	m_forward.x = mRot.m[2][0];
 	m_forward.y = mRot.m[2][1];
 	m_forward.z = mRot.m[2][2];
+}
+//DAMAGE受けたときの...
+void Boss::HitMe()
+{
+	if (isHitMe)
+	{
+		boss_State = bsHitMe;
+		//もし、HPが0以下なら死亡処理。
+		if (prm.HP <= 0.0f)
+		{
+			boss_State = bsDeath;
+		}
+		else if (!anim.IsPlaying() && prm.HP >= 0.0f)
+		{
+			isHitMe = false;
+			boss_State = bsIdle;
+		}
+	}
 }

@@ -262,6 +262,7 @@
     <None Include="Assets\animData\RB_BigATK.tka" />
     <None Include="Assets\animData\RB_death.tka" />
     <None Include="Assets\animData\RB_FlyMove.tka" />
+    <None Include="Assets\animData\RB_HitDamage.tka" />
     <None Include="Assets\animData\RB_idle.tka" />
     <None Include="Assets\animData\RB_shortATK.tka" />
     <None Include="Assets\animData\RB_walk.tka" />

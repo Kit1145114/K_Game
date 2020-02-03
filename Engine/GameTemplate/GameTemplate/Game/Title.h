@@ -2,11 +2,13 @@
 #include"GameObjectManajer.h"
 #include"graphics/Sprite.h"
 #include"../Game/graphics/SpriteRender.h"
+#include"GameConst.h"
 
 class Game;
 class Title : public GameObject
 {
 public:
+	//ステージ。
 	/// <summary>
 	/// インストラクタ。
 	/// </summary>
@@ -27,14 +29,15 @@ public:
 	/// 終焉
 	/// </summary>
 	 void Death();
+	 const void SetStageNum(StageNum& num)
+	 {
+		 stagenum = num;
+	 }
 private:
-	/// <summary>
-	/// スプライト
-	/// </summary>
-	//Sprite m_title;
-	/// <summary>
-	/// ゲームのインスタンス
-	/// </summary>
+	//ステージ
+	int m_stageNum;
+	StageNum stagenum;
+	//スプライト
 	SpriteRender* m_sprite;
 	//ゲームだよ！！
 	Game* game;

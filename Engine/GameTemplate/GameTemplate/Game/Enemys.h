@@ -46,7 +46,7 @@ public:
 		esTracking,	//追いかける。
 		esAttack,	//攻撃。
 		esDeath,	//You Are Dead。
-		esAttackMe		//攻撃受けた。
+		esAttackMe	//攻撃受けた。
 	};
 	/// <summary>
 	/// ボス用の状態。
@@ -59,7 +59,7 @@ public:
 		bsDeath,		//You Are Dead。
 		bsSmallAttack,	//弱攻撃。
 		bsBigAttack,	//強攻撃。
-		bsAttackMe			//攻撃を受けた
+		bsHitMe		//攻撃を受けた
 	};
 	/// <summary>
 	/// エネミーに場所を渡す。
@@ -95,6 +95,10 @@ public:
 	{
 		return m_charaCon;
 	}
+	void SetHitMe(bool isHit)
+	{
+		isHitMe = isHit;
+	}
 	/// <summary>
 	/// エネミーを創るときにパラメーターを入力させる。
 	/// </summary>
@@ -115,6 +119,8 @@ protected:
 	float walkingDistance = 450.0f;						//歩行距離内。
 	float flyDistance = 500.0f;							//飛行距離内
 	bool isDeath = false;								//エネミーが死んだかどうか。
+	bool isHitMe = false;								//攻撃受けた。
+	bool isTracking = false;							//エネミーが追いかけるよ。
 	CVector3 m_position = CVector3::Zero();				//エネミーのポジション用のメンバ変数
 	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動用のメンバ変数
 	CVector3 m_scale = CVector3::Zero();				//エネミーの大きさ用のメンバ変数。
