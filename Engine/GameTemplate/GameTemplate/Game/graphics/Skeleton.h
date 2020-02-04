@@ -88,7 +88,6 @@ public:
 	{
 		return m_boneId;
 	}
-
 	/*!
 	*@brief	子供を追加。
 	*/
@@ -128,7 +127,7 @@ private:
 	CMatrix			m_invBindPose;	//!<バインドポーズの逆行列。
 	CMatrix			m_localMatrix = CMatrix::Identity();	//!<ローカル行列。
 	CMatrix			m_worldMatrix = CMatrix::Identity();	//!<ワールド行列。
-	CVector3		m_positoin = CVector3::Zero();			//!<このボーンのワールド空間での位置。最後にCalcWorldTRSを実行したときの結果が格納されている。
+	CVector3		m_position = CVector3::Zero();			//!<このボーンのワールド空間での位置。最後にCalcWorldTRSを実行したときの結果が格納されている。
 	CVector3		m_scale = CVector3::One();				//!<このボーンの拡大率。最後にCalcWorldTRSを実行したときの結果が格納されている。
 	CQuaternion		m_rotation = CQuaternion::Identity();	//!<このボーンの回転。最後にCalcWorldTRSを実行したときの結果が格納されている。
 	std::vector<Bone*>	m_children;		//!<子供。
@@ -187,6 +186,20 @@ public:
 	{
 		return m_bones[boneNo];
 	}
+/// <summary>
+/// ここからは自分で追加してみたもの
+/// </summary>
+	CMatrix GetFrame_StepBone()
+	{
+		return m_FrameStepBone;
+	}
+/// <summary>
+/// m_isfirstをfalseにする
+/// </summary>
+	void m_firstisFalse()
+	{
+		m_isFirst = true;
+	}
 	/*!
 	*@brief	ボーン行列の配列をGPUに転送。
 	*/
@@ -203,7 +216,7 @@ public:
 	/*!
 	 *@brief	更新。
 	 */
-	void Update(const CMatrix& mWorld);
+	void Update(const CMatrix mWorld);
 	/*!
 	*@brief	ボーンのワールド行列の更新関数。
 	*@details
@@ -213,9 +226,12 @@ public:
 	*/
 	static 	void UpdateBoneWorldMatrix(Bone& bone, const CMatrix& parentMatrix);
 private:
-	
+	bool m_isFirst = true;
 	std::vector<Bone*>			m_bones;					//!<ボーンの配列。
 	std::vector<CMatrix>		m_boneMatrixs;				//!<ボーン行列。
 	ID3D11Buffer*				m_boneMatrixSB = nullptr;	//!<ボーン行列のストラクチャーバッファ。
 	ID3D11ShaderResourceView*	m_boneMatrixSRV = nullptr;	//!<ボーン行列のSRV。
-};
+	CMatrix						m_stepBoneMatrix = CMatrix::Identity();
+	CMatrix						m_laststepBoneMatrix = CMatrix::Identity();
+	CMatrix						m_FrameStepBone = CMatrix::Identity();
+}; 

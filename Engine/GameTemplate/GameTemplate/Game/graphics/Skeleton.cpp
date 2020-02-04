@@ -16,7 +16,7 @@ void Bone::CalcWorldTRS(CVector3& trans, CQuaternion& rot, CVector3& scale)
 	m_scale = scale;
 	//行列から平行移動量を取得する。
 	trans.Set(mWorld.v[3]);
-	m_positoin = trans;
+	m_position = trans;
 	//行列から拡大率と平行移動量を除去して回転量を取得する。
 	mWorld.v[0].Normalize();
 	mWorld.v[1].Normalize();
@@ -196,17 +196,24 @@ void Skeleton::InitBoneMatrixArrayShaderResourceView()
 
 	g_graphicsEngine->GetD3DDevice()->CreateShaderResourceView(m_boneMatrixSB, &desc, &m_boneMatrixSRV);
 }
-void Skeleton::Update(const CMatrix& mWorld)
+void Skeleton::Update(CMatrix mWorld)
 {
 	//ここがワールド行列を計算しているところ！！！
 	for (int boneNo = 0; boneNo < m_bones.size(); boneNo++) {
 		Bone* bone = m_bones[boneNo];
-		if (bone->GetParentId() != -1) {
-			continue;
-		}
-		//ルートが見つかったので、ボーンのワールド行列を計算していく。
-		UpdateBoneWorldMatrix(*bone, mWorld);
+		CMatrix mBoneWorld;
+		CMatrix localMatrix = bone->GetLocalMatrix();
+		//親の行列とローカル行列を乗算して、ワールド行列を計算する。
+		mBoneWorld.Mul(localMatrix, mWorld);
+		bone->SetWorldMatrix(mBoneWorld);
 	}
+
+
+	////footstepの1f分の移動量を全てのボーンから引いている。xとzのみ適応
+	//最後の足軽を倒したときにエラーが出る。ここかもしれない。
+	m_FrameStepBone.m[3][0] = m_stepBoneMatrix.m[3][0] - m_laststepBoneMatrix.m[3][0];
+	m_FrameStepBone.m[3][2] = m_stepBoneMatrix.m[3][2] - m_laststepBoneMatrix.m[3][2];
+	m_laststepBoneMatrix = m_stepBoneMatrix;
 
 	//ボーン行列を計算
 	for (int boneNo = 0; boneNo < m_bones.size(); boneNo++) {

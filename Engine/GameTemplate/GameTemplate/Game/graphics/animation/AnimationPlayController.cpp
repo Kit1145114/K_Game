@@ -10,10 +10,10 @@
 
 
 	
-	
 void AnimationPlayController::Init(Skeleton* skeleton, int footStepBoneNo)
 {
 	m_footstepBoneNo = footStepBoneNo;
+	//m_footstepBoneNo = -1;
 	int numBones = skeleton->GetNumBones();
 	//ボーン行列をバシッと確保。
 	m_boneMatrix.resize(numBones);
