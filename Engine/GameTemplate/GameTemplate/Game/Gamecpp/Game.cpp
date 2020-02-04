@@ -19,6 +19,9 @@ Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
 Game::Game()
 {
+	m_soundEngine.Init();
+	m_bgm.Init(L"Assets/sound/Result.wav");
+	m_bgm.Play(true);
 	//もし、ゲームが既に存在していたら
 	if (m_instance != nullptr)
 	{
@@ -156,6 +159,7 @@ bool Game::Start()
 //ゲームのアップデート。
 void Game::Update()
 {
+	m_soundEngine.Update();
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 	for (auto enemy : m_enemysList) {

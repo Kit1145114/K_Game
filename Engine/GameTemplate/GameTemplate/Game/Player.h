@@ -4,6 +4,9 @@
 #include"physics/PhysicsGhostObject.h"
 #include"Enemys.h"
 #include"GameConst.h"
+#include"sound/SoundEngine.h"
+#include"sound/SoundSource.h"
+
 
 class Enemys;
 class Player : public GameObject
@@ -101,6 +104,9 @@ private:
 	Enemys* enemys;										//敵の情報を得るためのclass的なもの。
 	std::vector<Enemys*> m_enemysList;					//ゲームオブジェクトのリスト
 	AnimationClip g_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
+	//音
+	CSoundEngine m_soundEngine;							//サウンドエンジン
+	CSoundSource m_se;									//SE	
 	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。	
 	CVector3 m_enemyPos = CVector3::Zero();				//エネミーのポジション取得用。
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数

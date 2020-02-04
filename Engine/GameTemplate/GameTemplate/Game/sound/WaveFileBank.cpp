@@ -1,3 +1,7 @@
+/*!
+ *@brief	波形データバンク。
+ */
+
 #include "stdafx.h"
 #include "sound/WaveFile.h"
 #include "sound/WaveFileBank.h"
@@ -33,3 +37,4 @@ CWaveFilePtr CWaveFileBank::FindWaveFile(int groupID, const wchar_t* filePath)
 	}
 	return CWaveFilePtr();
 }
+

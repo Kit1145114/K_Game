@@ -1,4 +1,9 @@
+/*!
+ * @brief	waveファイル
+ */
+
 #pragma once
+
 #include <thread>
 
 /*!
@@ -18,7 +23,7 @@ public:
 		*@param[in]	fileName		ファイル名。
 		*@return	falseを返して来たらオープンに失敗。
 		*/
-	bool Open(const wchar_t* fileName);
+	bool Open( const wchar_t* fileName );
 	/*!
 	* @brief	波形データを読み込み。
 	*@param[out]	pBuffer		波形データを書き込むバッファ。
@@ -30,7 +35,7 @@ public:
 	*@param[out]	pBuffer		波形データを書き込むバッファ。
 	*@param[in]		sizeToRead	読み込むデータサイズ。
 	*/
-	void ReadAsync(char* pBuffer, unsigned int sizeToRead, unsigned int* currentReadSize);
+	void ReadAsync( char* pBuffer, unsigned int sizeToRead, unsigned int* currentReadSize);
 	/*!
 	* @brief	読み込み終了判定。
 	*/
@@ -97,4 +102,3 @@ private:
 	std::wstring	m_filePath;			//ファイルパス。
 	unsigned int	m_filePathHash = 0;		//ファイルパスのハッシュコード。
 };
-

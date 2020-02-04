@@ -4,6 +4,8 @@
 #include"RenderTarget.h"
 #include"level/Level.h"
 #include"GameConst.h"
+#include"sound/SoundEngine.h"
+#include"sound/SoundSource.h"
 
 class Player;					//プレイヤー用のclassの型を作成。
 class MAP;						//マップ用のclassの型を生成。
@@ -50,5 +52,7 @@ private:
 		//可変長配列
 	std::vector<Enemys*>m_enemysList;	//エネミーオブジェクトのリスト
 	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
+	CSoundEngine m_soundEngine;
+	CSoundSource m_bgm;
 };
 

@@ -1,4 +1,8 @@
+/*!
+ *@brief	波形データバンク。
+ */
 #pragma once
+
 #include <map>
 class CWaveFile;
 using CWaveFilePtr = std::shared_ptr<CWaveFile>;
@@ -27,7 +31,7 @@ public:
 	*@return 波形データ。登録されていない場合はNULLが返る。
 	*/
 	CWaveFilePtr FindWaveFile(int groupID, const wchar_t* filePath);
-
+	
 	/*!
 	*@brief	波形データをバンクから登録解除。
 	*@param[in]	groupID		グループＩＤ。指定できるＩＤの最大値はMAX_GROUP-1。
@@ -51,4 +55,3 @@ private:
 	static const int MAX_GROUP = 256;
 	CWaveFilePtrMap	m_waveFileMap[MAX_GROUP];		//!<waveファイルのリスト。
 };
-

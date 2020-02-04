@@ -1,3 +1,7 @@
+/*!
+ * @brief	waveファイル。
+ */
+
 #include "stdafx.h"
 #include "sound/WaveFile.h"
 #include "util/Util.h"
@@ -93,7 +97,7 @@ bool CWaveFile::Open(const wchar_t* fileName)
 	// Ascend the input file out of the 'fmt ' chunk.
 	if (0 != mmioAscend(m_hmmio, &ckIn, 0))
 	{
-		Release();
+		Release();			
 		return false;
 	}
 	ResetFile();
@@ -109,13 +113,13 @@ void CWaveFile::ResetFile()
 	// Seek to the data
 	if (-1 == mmioSeek(m_hmmio, m_ckRiff.dwDataOffset + sizeof(FOURCC),
 		SEEK_SET)) {
-		return;
+		return ;
 	}
 
 	// Search the input file for the 'data' chunk.
 	m_ck.ckid = mmioFOURCC('d', 'a', 't', 'a');
-	if (0 != mmioDescend(m_hmmio, &m_ck, &m_ckRiff, MMIO_FINDCHUNK)) {
-		return;
+	if (0 != mmioDescend(m_hmmio, &m_ck, &m_ckRiff, MMIO_FINDCHUNK)){
+		return ;
 	}
 }
 
@@ -126,13 +130,13 @@ void CWaveFile::Read(char* pBuffer, unsigned int sizeToRead, unsigned int* curre
 	if (m_hmmio == NULL) {
 		return;
 	}
-	if (pBuffer == NULL) {
-		return;
+	if (pBuffer == NULL){
+		return ;
 	}
 
 
 	if (0 != mmioGetInfo(m_hmmio, &mmioinfoIn, 0)) {
-		return;
+		return ;
 	}
 
 	UINT cbDataIn = sizeToRead;
@@ -148,7 +152,7 @@ void CWaveFile::Read(char* pBuffer, unsigned int sizeToRead, unsigned int* curre
 		if (mmioinfoIn.pchNext == mmioinfoIn.pchEndRead)
 		{
 			if (0 != mmioAdvance(m_hmmio, &mmioinfoIn, MMIO_READ)) {
-				return;
+				return ;
 			}
 
 			if (mmioinfoIn.pchNext == mmioinfoIn.pchEndRead) {
@@ -166,7 +170,7 @@ void CWaveFile::Read(char* pBuffer, unsigned int sizeToRead, unsigned int* curre
 		return;
 	}*/
 	m_isReadEnd = true;
-	return;
+	return ;
 }
 void CWaveFile::ReadAsync(char* pBuffer, unsigned int sizeToRead, unsigned int* currentReadSize)
 {
@@ -175,7 +179,7 @@ void CWaveFile::ReadAsync(char* pBuffer, unsigned int sizeToRead, unsigned int* 
 		m_isInvokeReadAsyncThread = false;
 	}
 	m_isReadEnd = false;
-
+		
 	//読み込みスレッドを立てる。
 	m_readAsyncThread = std::thread([this, pBuffer, sizeToRead, currentReadSize] {
 		this->Read(pBuffer, sizeToRead, currentReadSize);
@@ -189,11 +193,11 @@ void CWaveFile::Release()
 		m_isInvokeReadAsyncThread = false;
 	}
 
-	if (m_hmmio != NULL)
-	{
-		mmioClose(m_hmmio, 0);
-		m_hmmio = NULL;
-	}
+	if ( m_hmmio != NULL )
+    {
+        mmioClose( m_hmmio, 0 );
+        m_hmmio = NULL;
+    }
 	delete[] m_pwfx;
 	m_pwfx = NULL;
 }

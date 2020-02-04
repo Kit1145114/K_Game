@@ -7,6 +7,11 @@
 
 Player::Player()
 {
+	//サウンドエンジン初期化
+	m_soundEngine.Init();
+	//ワンショット再生
+	m_se.Init(L"Assets/sound/enemy_attack.wav");
+
 	//cmoファイルの読み込み。
 	Gmodel.Init(L"Assets/modelData/Player.cmo");		//プレイヤーの描画
 	g_animClip[0].Load(L"Assets/animData/P_idle.tka");	//待機のロード
@@ -165,6 +170,7 @@ void Player::PlayerAttack()
 	if (g_pad[0].IsTrigger(enButtonY))
 	{
 		playerState = pl_Atk;
+		m_se.Play(false);
 	}
 }
 //プレイヤーの移動類。
