@@ -347,6 +347,7 @@ void Player::RookOnEnemys()
 		//求めた値を比較していき、一番小さい値を決めていきます。
 		if (fabs(degreemum) >= fabs(degree))
 		{
+			m_enemyPos = enemys->GetPosition();
 			degreemum = degree;
 		}
 	}	

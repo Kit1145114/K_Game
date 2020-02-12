@@ -83,6 +83,7 @@ Game::~Game()
 	}
 }
 
+
 Game* Game::GetInstance()
 {
 	//‚Ç‚±‚©‚ç‚Å‚àƒQ[ƒ€‚ªŒÄ‚Ño‚¹‚é‚æ‚¤‚É
