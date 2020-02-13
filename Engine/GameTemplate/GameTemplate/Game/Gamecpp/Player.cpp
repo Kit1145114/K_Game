@@ -10,7 +10,7 @@ Player::Player()
 	//サウンドエンジン初期化
 	m_soundEngine.Init();
 	//ワンショット再生
-	m_se.Init(L"Assets/sound/enemy_attack.wav");
+	m_se.Init(L"Assets/sound/enemy_attack_00.wav");
 
 	//cmoファイルの読み込み。
 	Gmodel.Init(L"Assets/modelData/Player.cmo");		//プレイヤーの描画
@@ -52,7 +52,8 @@ Player::~Player()
 void Player::Update()
 {
 	//プレイヤーの更新情報を下に記述。
-	Draw();							//プレイヤーの描画を呼ぶ。
+	Draw();	
+	m_soundEngine.Update();//プレイヤーの描画を呼ぶ。
 	if (playerState != pl_Death) {
 		Energy();
 		Move();							//プレイヤーの移動を呼ぶ。
@@ -62,7 +63,6 @@ void Player::Update()
 		//Track();						//プレイヤーが敵を探す。
 		Forward();						//プレイヤーの前ベクトル取得。
 		RookOnEnemys();					//エネミーをターゲティングする用。
-		m_soundEngine.Update();
 	}
 	g_anim.Update(0.025f * NSpeed);	//アニメーションをフレーム単位で描画。
 			//ワールド行列の更新。
@@ -175,7 +175,6 @@ void Player::PlayerAttack()
 	else if (g_pad[0].IsTrigger(enButtonY))
 	{
 		playerState = pl_Atk;
-		m_se.Play(false);
 		m_isCombo = true;
 	}
 }
@@ -229,6 +228,7 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
 						enemy->Damage(ATK);
 						enemy->SetHitMe(true);
+						m_se.Play(false);
 				}
 			});
 		}

@@ -135,7 +135,7 @@ private:
 	int ATK = 0;										//プレイヤーの攻撃力
 	int DEF = 0;										//プレイヤーの防御力
 	int ENERGY = 0;										//プレイヤーのブースト容量。
-	int ENERGYFLUCT = 10;								//エナジー変動値。
+	int ENERGYFLUCT = 5;								//エナジー変動値。
 	int MAXENERGY = 300;								//最大エナジー。
 	int MINENERGY = 0;									//最小エネルギー。
 	float None = 0.0f;									//0を代入したいときに使います。

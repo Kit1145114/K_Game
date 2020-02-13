@@ -22,7 +22,7 @@ Game::Game()
 	m_soundEngine.Init();
 	m_bgm.Init(L"Assets/sound/Result.wav");
 	m_bgm.Play(true);
-	m_bgm.SetVolume(0.2f);
+	m_bgm.SetVolume(0.15f);
 	//‚à‚µAƒQ[ƒ€‚ªŠù‚É‘¶İ‚µ‚Ä‚¢‚½‚ç
 	if (m_instance != nullptr)
 	{
