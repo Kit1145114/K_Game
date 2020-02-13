@@ -96,16 +96,18 @@ void Player::Move()
 	//XZ成分の移動速度をクリア。
 	m_moveSpeed.x = None;
 	m_moveSpeed.z = None;
-	if (g_pad[0].IsPress(enButtonX) && playerENE == ene_Full) {
-		//走る
-		m_moveSpeed += cameraForward * lStick_y * Speed * SPeed2;	//奥方向への移動速度を加算。
-		m_moveSpeed += cameraRight * lStick_x * Speed * SPeed2;		//右方向への移動速度を加算。
-	}
-	else if(!g_pad[0].IsPress(enButtonX)|| playerENE == ene_Charge)
-	{
-		//歩き。
-		m_moveSpeed += cameraForward * lStick_y * Speed * NSpeed;	//奥方向への移動速度を加算。
-		m_moveSpeed += cameraRight * lStick_x * Speed * NSpeed;		//右方向への移動速度を加算。
+	if (playerState != pl_Atk) {
+		if (g_pad[0].IsPress(enButtonX) && playerENE == ene_Full) {
+			//走る
+			m_moveSpeed += cameraForward * lStick_y * Speed * SPeed2;	//奥方向への移動速度を加算。
+			m_moveSpeed += cameraRight * lStick_x * Speed * SPeed2;		//右方向への移動速度を加算。
+		}
+		else if (!g_pad[0].IsPress(enButtonX) || playerENE == ene_Charge)
+		{
+			//歩き。
+			m_moveSpeed += cameraForward * lStick_y * Speed * NSpeed;	//奥方向への移動速度を加算。
+			m_moveSpeed += cameraRight * lStick_x * Speed * NSpeed;		//右方向への移動速度を加算。
+		}
 	}
 	//キャラクターコントローラーに１フレームの経過秒数、時間ベースの移動速度を渡している。
 	m_charaCon.SetPosition(m_position);		//キャラコンに座標を渡す。
@@ -181,38 +183,38 @@ void Player::PlayerAttack()
 void Player::MoveOperation()
 {
 		//パッドのABUTTON入力で上昇する。
-	if (g_pad[0].IsPress(enButtonA) && playerENE == ene_Full)
-	{
-		m_moveSpeed.y += JumpPower;
-	}
-	else 
-	{
-		//まず上昇した分のスピードをゼロへ。
-		if (!g_pad[0].IsPress(enButtonA) && m_moveSpeed.y >= ZERO) {
-			//Y方向への重力をつける。
-			m_moveSpeed.y = ZERO; //* (1.0f / 60.0f);
-		}
-		//ここで落下
-		if(!g_pad[0].IsPress(enButtonA) || playerENE == ene_Charge)
+		if (g_pad[0].IsPress(enButtonA) && playerENE == ene_Full)
 		{
-			m_moveSpeed.y -= gravity * 1.5;
+			m_moveSpeed.y += JumpPower;
 		}
-	}
-	//動いてないときは待機に。
-	if (m_moveSpeed.x == ZERO && m_moveSpeed.z == ZERO)
-	{
-		playerState = pl_idle;
-	}
-	//浮遊移動とき。
-	else if (g_pad[0].IsPress(enButtonX) && playerENE == ene_Full)
-	{
-		playerState = pl_FlyMove;
-	}
-	//歩きの時。
-	else if (!g_pad[0].IsPress(enButtonX) || playerENE == ene_Charge)
-	{
-		playerState = pl_Walk;
-	}
+		else
+		{
+			//まず上昇した分のスピードをゼロへ。
+			if (!g_pad[0].IsPress(enButtonA) && m_moveSpeed.y >= ZERO) {
+				//Y方向への重力をつける。
+				m_moveSpeed.y = ZERO; //* (1.0f / 60.0f);
+			}
+			//ここで落下
+			if (!g_pad[0].IsPress(enButtonA) || playerENE == ene_Charge)
+			{
+				m_moveSpeed.y -= gravity * 1.5;
+			}
+		}
+		//動いてないときは待機に。
+		if (m_moveSpeed.x == ZERO && m_moveSpeed.z == ZERO)
+		{
+			playerState = pl_idle;
+		}
+		//浮遊移動とき。
+		else if (g_pad[0].IsPress(enButtonX) && playerENE == ene_Full)
+		{
+			playerState = pl_FlyMove;
+		}
+		//歩きの時。
+		else if (!g_pad[0].IsPress(enButtonX) || playerENE == ene_Charge)
+		{
+			playerState = pl_Walk;
+		}
 }
 //アニメーションイベント
 void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)

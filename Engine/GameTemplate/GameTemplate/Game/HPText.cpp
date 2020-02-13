@@ -5,7 +5,7 @@
 HPText::HPText()
 {
 	m_sprite = g_goMgr.NewAGO<SpriteRender>();
-	m_sprite->Init(L"Assets/sprite/Midori.dds", 10, 40);
+	m_sprite->Init(L"Assets/sprite/Midori.dds", 5, 30);
 	m_sprite->SetPosition(m_position);
 	m_sprite->SetPivot(PIVOT);
 	m_scale = { 1.0,1.0f,0.0f };		//HPå∏Ç¡ÇΩÇËëùÇ¶ÇΩÇËÇ∑ÇÈóp
