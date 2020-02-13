@@ -12,6 +12,7 @@ struct Vertex {
 /// </summary>
 struct SSpriteCB {
 	CMatrix mWVP;		//ワールド×ビュー×プロジェクション行列。
+	float		alpha;		//α
 };
 
 Sprite::Sprite()
@@ -179,16 +180,16 @@ void Sprite::LoadTexture(const wchar_t* textureFIlePath)
 		&m_texture);
 }
 
-void Sprite::UpdateWorldMatrix(CVector3 pos, CQuaternion rot, CVector3 scale)
-{
-	//ワールド行列を計算する
-	CMatrix mTrans, mRot, mScale;
-	mTrans.MakeTranslation(pos);
-	mRot.MakeRotationFromQuaternion(rot);
-	mScale.MakeScaling(scale);
-	m_world.Mul(mScale, mRot);
-	m_world.Mul(m_world, mTrans);
-}
+//void Sprite::UpdateWorldMatrix(CVector3 pos, CQuaternion rot, CVector3 scale, float a)
+//{
+//	//ワールド行列を計算する
+//	CMatrix mTrans, mRot, mScale;
+//	mTrans.MakeTranslation(pos);
+//	mRot.MakeRotationFromQuaternion(rot);
+//	mScale.MakeScaling(scale);
+//	m_world.Mul(mScale, mRot);
+//	m_world.Mul(m_world, mTrans);
+//}
 void Sprite::Draw(CMatrix mView, CMatrix mProj)
 {
 	//デバイスコンテキストを引っ張ってくる。
@@ -199,10 +200,12 @@ void Sprite::Draw(CMatrix mView, CMatrix mProj)
 	//ワールド×ビュー×プロジェクション行列を計算。
 	cb.mWVP.Mul(m_world, mView);
 	cb.mWVP.Mul(cb.mWVP, mProj);
+	cb.alpha = m_alpha;
 	//定数バッファの内容をメインメモリからVRAMにコピー。
 	deviceContext->UpdateSubresource(m_cbGPU, 0, nullptr, &cb, 0, 0);
 	//定数バッファをレジスタb0にバインドする。
 	deviceContext->VSSetConstantBuffers(0, 1, &m_cbGPU);
+	deviceContext->PSSetConstantBuffers(0, 1, &m_cbGPU);
 	//テクスチャをレジスタt0にバインドする。
 	deviceContext->PSSetShaderResources(0, 1, &m_texture);
 	//サンプラステートをレジスタs0にバインドする。
@@ -226,7 +229,7 @@ void Sprite::Draw(CMatrix mView, CMatrix mProj)
 	deviceContext->DrawIndexed(4, 0, 0);
 }
 
-void Sprite::Update(const CVector3& trans, const CQuaternion& rot, const CVector3& scale, const CVector2& pivot)
+void Sprite::Update(const CVector3& trans, const CQuaternion& rot, const CVector3& scale, const CVector2& pivot, float a)
 {
 	//ピボットを考慮に入れた平行移動行列を作成。
 		//ピボットは真ん中が0.0, 0.0、左上が-1.0f, -1.0、右下が1.0、1.0になるようにする。
@@ -250,6 +253,7 @@ void Sprite::Update(const CVector3& trans, const CQuaternion& rot, const CVector
 	mTrans.MakeTranslation(trans);
 	mRot.MakeRotationFromQuaternion(rot);
 	mScale.MakeScaling(scale);
+	m_alpha = a;
 
 	m_world.Mul(mPivotTrans,mScale);
 	m_world.Mul(m_world, mRot);

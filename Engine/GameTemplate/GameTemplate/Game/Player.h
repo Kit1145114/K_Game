@@ -6,7 +6,7 @@
 #include"GameConst.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
-
+#include"graphics/2Dgraphics/Font.h"
 
 class Enemys;
 class Player : public GameObject
@@ -38,8 +38,9 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~Player();
-	void Update();			//プレイヤーの更新関数
+	void Update()override;			//プレイヤーの更新関数
 	void Draw();			//プレイヤーの描画処理。
+	void Render()override;	//レンダー
 	void Move();			//プレイヤーの移動処理。
 	void MoveOperation();		//プレイヤーの操作。
 	void Rotation();		//プレイヤーの回転処理。
@@ -131,6 +132,7 @@ private:
 	CVector3 m_forward = CVector3::AxisZ();				//プレイヤーの前方方向。
 	CMatrix Rot = CMatrix::Identity();					//プレイヤーの
 	CVector3 toPlayer = CVector3::Zero();				//前方向を図るようのもの。
+	Font m_font;
 	int HP = 0;											//プレイヤーのHP
 	int ATK = 0;										//プレイヤーの攻撃力
 	int DEF = 0;										//プレイヤーの防御力

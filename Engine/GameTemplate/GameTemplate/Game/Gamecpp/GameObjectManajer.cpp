@@ -61,19 +61,9 @@ void GameObjectManajer::ForwordRender()
 
 void GameObjectManajer::PostRender()
 {
-	////レンダリングターゲットをフレームバッファに戻す。
-	//auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
-	//ChangeRenderTarget(
-	//	d3dDeviceContext,
-	//	m_frameBufferRenderTargetView,
-	//	m_frameBufferDepthStencilView,
-	//	&m_frameBufferViewports
-	//);
-	////ドロドロ
-	//m_copyMainRtToFrameBufferSprite.Draw();
-
-	//m_frameBufferRenderTargetView->Release();
-	//m_frameBufferDepthStencilView->Release();
+	for (auto go : m_goList) {
+		go->PostRenderWarapper();
+	}
 }
 
 void GameObjectManajer::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, RenderTarget * renderTarget, D3D11_VIEWPORT * viewport)

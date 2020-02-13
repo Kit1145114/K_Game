@@ -28,6 +28,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_physics.Update();
 		g_goMgr.Update();
 		g_physics.DebugDraw();
+		g_goMgr.PostRender();
 		//ゲームの更新。
 		//game->Update();
 		//タイトルの表示

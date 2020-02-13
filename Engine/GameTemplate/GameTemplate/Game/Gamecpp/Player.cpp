@@ -77,6 +77,11 @@ void Player::Draw()
 		1
 	);
 }
+//プレイヤーのレンダー
+void Player::Render()
+{
+	m_font.DrawScreenPos(L"ハッセ", CVector2(FRAME_BUFFER_W / 2, FRAME_BUFFER_H / 2));
+}
 //プレイヤーの移動処理
 void Player::Move()
 {

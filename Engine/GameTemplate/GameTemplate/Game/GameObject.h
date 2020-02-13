@@ -18,6 +18,15 @@ public:
 			Update();
 		}
 	}
+	//ポストレンダー
+	//virtual void PostRender();
+
+	void PostRenderWarapper()
+	{
+		if (isUpdate&isActive) {
+			Render();
+		}
+	}
 	void RecestDelete()
 	{
 		isRecestDelete = true;

@@ -23,7 +23,7 @@ public:
 	/// </summary>
 	/// <param name="rot">回転</param>
 	/// <param name="scale">拡大率</param>
-	void UpdateWorldMatrix(CVector3 pos, CQuaternion rot, CVector3 scale);
+	//void UpdateWorldMatrix(CVector3 pos, CQuaternion rot, CVector3 scale);
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -35,7 +35,7 @@ public:
 		Active = flag;
 	}
 public:
-	void Update(const CVector3& trans, const CQuaternion& rot, const CVector3& scale, const CVector2& pivot);
+	void Update(const CVector3& trans, const CQuaternion& rot, const CVector3& scale, const CVector2& pivot, float a = 0.5f);
 private:
 	/// <summary>
 	/// シェーダーをロード。
@@ -71,5 +71,6 @@ private:
 	ID3D11SamplerState* m_samplerState = nullptr;
 	CMatrix m_world = CMatrix::Identity();
 	CVector2				m_size = CVector2::Zero();		//!<サイズ。
+	float m_alpha = 1.0f;									//α値
 };
 

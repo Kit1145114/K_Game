@@ -51,7 +51,14 @@ public:
 	 *@brief	描画終了。
 	 */
 	void EndRender();
-
+	DirectX::SpriteBatch* GetSpriteBatch()
+	{
+		return m_spriteBatch.get();
+	}
+	DirectX::SpriteFont* GetSpriteFont()
+	{
+		return m_spriteFont.get();
+	}
 	void ChangeRenderTarget(RenderTarget* renderTarget, D3D11_VIEWPORT* viewport);
 	void ChangeRenderTarget(ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport);
 private:
@@ -63,6 +70,10 @@ private:
 	ID3D11RasterizerState*	m_rasterizerState = NULL;	//ラスタライザステート。
 	ID3D11Texture2D*		m_depthStencil = NULL;		//デプスステンシル。
 	ID3D11DepthStencilView* m_depthStencilView = NULL;	//デプスステンシルビュー。
+
+	//定義。
+	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;     //これが肝
+	std::unique_ptr<DirectX::SpriteFont> m_spriteFont;		//これも肝
 
 };
 
