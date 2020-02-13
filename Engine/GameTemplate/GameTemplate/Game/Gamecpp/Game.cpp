@@ -163,15 +163,16 @@ void Game::Update()
 	m_soundEngine.Update();
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
+	bool isLive = false;
 	for (auto enemy : m_enemysList) {
 		if (!enemy->GetIsDead())
 		{
 			isLive = true;
 		}
-		else
+		/*else
 		{
 			isLive = false;
-		}
+		}*/
 	}
 	if (!isLive)
 	{

@@ -255,6 +255,7 @@
     <None Include="Assets\animData\G_idle.tka" />
     <None Include="Assets\animData\G_walk.tka" />
     <None Include="Assets\animData\idle.tka" />
+    <None Include="Assets\animData\PlayerCombo.tka" />
     <None Include="Assets\animData\P_ATK.tka" />
     <None Include="Assets\animData\P_FlyMove.tka" />
     <None Include="Assets\animData\P_idle.tka" />

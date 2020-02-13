@@ -22,6 +22,8 @@ Player::Player()
 	g_animClip[2].SetLoopFlag(true);
 	g_animClip[3].Load(L"Assets/animData/P_ATK.tka");	//殴りのロード
 	g_animClip[3].SetLoopFlag(false);
+	g_animClip[4].Load(L"Assets/animData/PlayerCombo.tka");	//殴りのロード
+	g_animClip[4].SetLoopFlag(false);
 	g_anim.Init(
 		Gmodel,			//アニメーションを流すスキンモデル
 						//これでアニメーションとスキンモデルを関連付けする。
@@ -148,13 +150,9 @@ void Player::PlayerState()
 		g_anim.Play(2, 0.1f);
 		break;
 	case pl_Atk:	//攻撃状態。
+		ComboAttack();
 		m_moveSpeed.z = ZERO;
 		m_moveSpeed.x = ZERO;
-		g_anim.Play(3, 0.1f);
-		if (g_anim.IsPlaying() == false)
-		{
-			playerState = pl_idle;
-		}
 		break;
 	case pl_Death:	//死亡状態
 		g_anim.Play(0);
@@ -167,10 +165,15 @@ void Player::PlayerAttack()
 {
 	//もしBボタンが押されたら、パンチ。
 	//攻撃モーションとゴーストの当たり判定を生成。
-	if (g_pad[0].IsTrigger(enButtonY))
+	if (m_isCombo && g_pad[0].IsTrigger(enButtonY))
+	{
+		m_ComboNow = true;
+	}
+	else if (g_pad[0].IsTrigger(enButtonY))
 	{
 		playerState = pl_Atk;
 		m_se.Play(false);
+		m_isCombo = true;
 	}
 }
 //プレイヤーの移動類。
@@ -315,6 +318,8 @@ void Player::RookOnEnemys()
 	float distance = 750.0f;
 	for (Enemys* enemys : m_enemysList)
 	{
+		if (enemys->GetisDeath())
+			continue;
 		CVector3 pos = m_position - enemys->GetPosition();
 		diff = m_position - enemys->GetPosition();
 		//プレイヤーとエネミーの距離が一定以外だったら下の処理をスキップ。
@@ -363,5 +368,33 @@ void Player::RookOnEnemys()
 	else if (m_isRookOn && g_pad[0].IsTrigger(enButtonB))
 	{
 		m_isRookOn = false;
+	}
+}
+//言ったらバーサーカーソウル。
+void Player::ComboAttack()
+{
+	//コンボじゃないときは一回
+	if (!m_ComboNow)
+	{
+		g_anim.Play(3,0.1f);
+		//攻撃が終わったら。
+		if (!g_anim.IsPlaying())
+		{
+			playerState = pl_idle;
+			m_isCombo = false;
+			m_ComboNow = false;
+		}
+	}
+	//コンボ中は二回
+	else if (m_ComboNow && !g_anim.IsPlaying())
+	{
+		g_anim.Play(4,0.1f);
+		//攻撃が終わったら。
+		if (!g_anim.IsPlaying())
+		{
+			playerState = pl_idle;
+			m_isCombo = false;
+			m_ComboNow = false;
+		}
 	}
 }

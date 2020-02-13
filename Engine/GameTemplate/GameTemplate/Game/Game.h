@@ -36,6 +36,7 @@ public:
 	bool Start();					//ゲームのスタート関数。
 	bool NewBoss();					//ボスを呼ぶ関数
 	void Update();					//ゲームのアップデート関数。
+	//bool isLive = false;			//生きてるかどうか
 	//敵とぷえいやーの距離を測る
 private:
 	Player* player;					//プレイヤーのインスタンス。
@@ -46,7 +47,6 @@ private:
 	EnergyText* energy_bar;			//エナジーバー
 	Level		mapLevel;			//マップのレベル。。。。。。
 	int			m_stage;			//ステージ
-	bool isLive = false;			//生きてるかどうか
 	static Game* m_instance;		//ゲームのインスタンス。
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。
 		//可変長配列

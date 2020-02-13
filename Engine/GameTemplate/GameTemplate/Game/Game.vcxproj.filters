@@ -346,6 +346,7 @@
     <None Include="Assets\animData\P_FlyMove.tka" />
     <None Include="Assets\animData\RB_FlyMove.tka" />
     <None Include="Assets\animData\RB_HitDamage.tka" />
+    <None Include="Assets\animData\PlayerCombo.tka" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

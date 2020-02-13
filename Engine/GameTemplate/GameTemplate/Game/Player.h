@@ -98,6 +98,8 @@ public:
 	void Forward();
 	//敵をロックオンするときの処理。
 	void RookOnEnemys();
+	//プレイヤーがコンボ攻撃をする処理。
+	void ComboAttack();
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//アニメーション。
@@ -134,6 +136,8 @@ private:
 	float JumpPower = 40.0f;							//ジャンプしたときの値
 	bool m_isdeath = false;								//死亡判定。
 	bool m_isRookOn = false;							//敵をロックオンしているかどうか。
+	bool m_isCombo = false;								//コンボするか？
+	bool m_ComboNow = false;
 };
 /// <summary>
 /// プレイヤー、タグ。
