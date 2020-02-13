@@ -21,6 +21,7 @@ public:
 		pl_Walk,		//歩き
 		pl_FlyMove,		//浮遊移動。
 		pl_Atk,			//攻撃
+		pl_Combo,		//コンボ中。
 		pl_Death		//死亡
 	};
 	//プレイヤーのエナジー。
@@ -93,6 +94,13 @@ public:
 	bool GetIsRooking()
 	{
 		return m_isRookOn;
+	}
+	//コンボ関連をリセット
+	void ComboReset()
+	{
+		playerState = pl_idle;
+		m_isCombo = false;
+		m_ComboNow = false;
 	}
 	//プレイヤーの前ベクトルを取得。
 	void Forward();

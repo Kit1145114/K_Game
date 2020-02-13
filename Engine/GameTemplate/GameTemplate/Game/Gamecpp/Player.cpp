@@ -14,16 +14,16 @@ Player::Player()
 
 	//cmoファイルの読み込み。
 	Gmodel.Init(L"Assets/modelData/Player.cmo");		//プレイヤーの描画
-	g_animClip[0].Load(L"Assets/animData/P_idle.tka");	//待機のロード
-	g_animClip[0].SetLoopFlag(true);
-	g_animClip[1].Load(L"Assets/animData/P_walk.tka");	//歩きのロード
-	g_animClip[1].SetLoopFlag(true);
-	g_animClip[2].Load(L"Assets/animData/P_FlyMove.tka");	//ブーストのロード
-	g_animClip[2].SetLoopFlag(true);
-	g_animClip[3].Load(L"Assets/animData/P_ATK.tka");	//殴りのロード
-	g_animClip[3].SetLoopFlag(false);
-	g_animClip[4].Load(L"Assets/animData/PlayerCombo.tka");	//殴りのロード
-	g_animClip[4].SetLoopFlag(false);
+	g_animClip[pl_idle].Load(L"Assets/animData/P_idle.tka");	//待機のロード
+	g_animClip[pl_idle].SetLoopFlag(true);
+	g_animClip[pl_Walk].Load(L"Assets/animData/P_walk.tka");	//歩きのロード
+	g_animClip[pl_Walk].SetLoopFlag(true);
+	g_animClip[pl_FlyMove].Load(L"Assets/animData/P_FlyMove.tka");	//ブーストのロード
+	g_animClip[pl_FlyMove].SetLoopFlag(true);
+	g_animClip[pl_Atk].Load(L"Assets/animData/P_ATK.tka");	//殴りのロード
+	g_animClip[pl_Atk].SetLoopFlag(false);
+	g_animClip[pl_Combo].Load(L"Assets/animData/PlayerCombo.tka");	//殴りのロード
+	g_animClip[pl_Combo].SetLoopFlag(false);
 	g_anim.Init(
 		Gmodel,			//アニメーションを流すスキンモデル
 						//これでアニメーションとスキンモデルを関連付けする。
@@ -62,6 +62,7 @@ void Player::Update()
 		//Track();						//プレイヤーが敵を探す。
 		Forward();						//プレイヤーの前ベクトル取得。
 		RookOnEnemys();					//エネミーをターゲティングする用。
+		m_soundEngine.Update();
 	}
 	g_anim.Update(0.025f * NSpeed);	//アニメーションをフレーム単位で描画。
 			//ワールド行列の更新。
@@ -139,15 +140,15 @@ void Player::PlayerState()
 	{
 	case pl_idle:	//待機状態
 		MoveOperation();
-		g_anim.Play(0, 0.1f);
+		g_anim.Play(pl_idle, 0.1f);
 		break;
 	case pl_Walk:	//歩き状態。
 		MoveOperation();
-		g_anim.Play(1, 0.1f);
+		g_anim.Play(pl_Walk, 0.1f);
 		break;
 	case pl_FlyMove:
 		MoveOperation();
-		g_anim.Play(2, 0.1f);
+		g_anim.Play(pl_FlyMove, 0.1f);
 		break;
 	case pl_Atk:	//攻撃状態。
 		ComboAttack();
@@ -376,25 +377,21 @@ void Player::ComboAttack()
 	//コンボじゃないときは一回
 	if (!m_ComboNow)
 	{
-		g_anim.Play(3,0.1f);
+		g_anim.Play(pl_Atk,0.1f);
 		//攻撃が終わったら。
 		if (!g_anim.IsPlaying())
 		{
-			playerState = pl_idle;
-			m_isCombo = false;
-			m_ComboNow = false;
+			ComboReset();
 		}
 	}
 	//コンボ中は二回
-	else if (m_ComboNow && !g_anim.IsPlaying())
+	else if (m_ComboNow&& !g_anim.IsPlaying())
 	{
-		g_anim.Play(4,0.1f);
+		g_anim.Play(pl_Combo,0.1f);
 		//攻撃が終わったら。
 		if (!g_anim.IsPlaying())
 		{
-			playerState = pl_idle;
-			m_isCombo = false;
-			m_ComboNow = false;
+			ComboReset();
 		}
 	}
 }
