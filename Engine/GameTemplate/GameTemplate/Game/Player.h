@@ -3,12 +3,14 @@
 #include"GameObjectManajer.h"
 #include"physics/PhysicsGhostObject.h"
 #include"Enemys.h"
+#include"ITEM/ITEMBox.h"
 #include"GameConst.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
 #include"graphics/2Dgraphics/Font.h"
 
 class Enemys;
+class ITEMBox;
 class Player : public GameObject
 {					
 public:
@@ -74,6 +76,10 @@ public:
 	{
 		m_enemysList = GetEnemy;
 	}
+	void SetBox(ITEMBox* box)
+	{
+		ItemBox = box;
+	}
 	void SetPosition(CVector3 pos)
 	{
 		m_position = pos;
@@ -112,6 +118,7 @@ public:
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//アニメーション。
+	ITEMBox* ItemBox;									//アイテム用のもの
 	Enemys* enemys;										//敵の情報を得るためのclass的なもの。
 	std::vector<Enemys*> m_enemysList;					//ゲームオブジェクトのリスト
 	AnimationClip g_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
@@ -132,7 +139,7 @@ private:
 	CVector3 m_forward = CVector3::AxisZ();				//プレイヤーの前方方向。
 	CMatrix Rot = CMatrix::Identity();					//プレイヤーの
 	CVector3 toPlayer = CVector3::Zero();				//前方向を図るようのもの。
-	Font m_font;
+	Font m_font;									//名前。
 	int HP = 0;											//プレイヤーのHP
 	int ATK = 0;										//プレイヤーの攻撃力
 	int DEF = 0;										//プレイヤーの防御力

@@ -13,7 +13,7 @@ class GameCamera;				//カメラ用のclassの型を生成。
 class Enemys;					//エネミー用のclassの型を生成。
 class HPText;					//HPバー用のclass
 class EnergyText;				//エナジーバー用のclass
-
+class ITEMBox;					//箱のclass
 class Game : public GameObject
 {
 
@@ -44,6 +44,7 @@ private:
 	GameCamera* g_Camera;			//カメラのインスタンス。
 	Enemys* enemys;					//エネミーのインスタンス。
 	HPText* hp_bar;					//HPバー。
+	ITEMBox* itemBox;				//箱
 	EnergyText* energy_bar;			//エナジーバー
 	Level		mapLevel;			//マップのレベル。。。。。。
 	int			m_stage;			//ステージ

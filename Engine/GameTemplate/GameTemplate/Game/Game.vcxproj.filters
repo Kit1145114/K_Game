@@ -161,6 +161,8 @@
     <ClCompile Include="EnergyText.cpp" />
     <ClCompile Include="graphics\SpriteRender.cpp" />
     <ClCompile Include="graphics\2Dgraphics\Font.cpp" />
+    <ClCompile Include="ITEM\ITEMBox.cpp" />
+    <ClCompile Include="ITEM\RecoveryITEM.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -289,6 +291,8 @@
     <ClInclude Include="EnergyText.h" />
     <ClInclude Include="graphics\SpriteRender.h" />
     <ClInclude Include="graphics\2Dgraphics\Font.h" />
+    <ClInclude Include="ITEM\ITEMBox.h" />
+    <ClInclude Include="ITEM\RecoveryITEM.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -310,6 +314,7 @@
     <MeshContentTask Include="Assets\modelData\Player.fbx" />
     <MeshContentTask Include="Assets\modelData\Door.fbx" />
     <MeshContentTask Include="Assets\modelData\RobbotBoss.fbx" />
+    <MeshContentTask Include="Assets\modelData\BOX.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">
@@ -347,6 +352,7 @@
     <None Include="Assets\animData\RB_FlyMove.tka" />
     <None Include="Assets\animData\RB_HitDamage.tka" />
     <None Include="Assets\animData\PlayerCombo.tka" />
+    <None Include="Assets\animData\box_open.tka" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

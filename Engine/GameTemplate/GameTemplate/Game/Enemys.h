@@ -128,7 +128,7 @@ protected:
 	bool isDeath = false;								//エネミーが死んだかどうか。
 	bool isHitMe = false;								//攻撃受けた。
 	bool isTracking = false;							//エネミーが追いかけるよ。
-	CVector3 m_position; //= CVector3::Zero();				//エネミーのポジション用のメンバ変数
+	CVector3 m_position= CVector3::Zero();				//エネミーのポジション用のメンバ変数
 	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動用のメンバ変数
 	CVector3 m_scale = CVector3::Zero();				//エネミーの大きさ用のメンバ変数。
 	CVector3 m_toPlayer = CVector3::Zero();				//プレイヤーに向かうベクトル用。

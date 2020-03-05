@@ -80,7 +80,13 @@ void Player::Draw()
 //プレイヤーのレンダー
 void Player::Render()
 {
-	m_font.DrawScreenPos(L"ハッセ", CVector2(FRAME_BUFFER_W / 2, FRAME_BUFFER_H / 2));
+	//場所と色の指定。
+	m_font.DrawScreenPos(L"Player", CVector2(190, 40),
+		CVector4(0.0f,1.0f,0.0f,1.0f));
+	wchar_t text[10];
+	swprintf_s(text, L"%d",HP);
+	m_font.DrawScreenPos(text, CVector2(400, 40),
+		CVector4(0.0f, 1.0f, 0.0f, 1.0f));
 }
 //プレイヤーの移動処理
 void Player::Move()

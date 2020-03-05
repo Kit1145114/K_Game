@@ -105,6 +105,7 @@
     <ClCompile Include="DebugWireframe.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EnergyText.cpp" />
+    <ClCompile Include="ITEM\ITEMBox.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
@@ -149,6 +150,7 @@
     </ClCompile>
     <ClCompile Include="graphics\Sprite.cpp" />
     <ClCompile Include="Gamecpp\StoneEnemy.cpp" />
+    <ClCompile Include="ITEM\RecoveryITEM.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp" />
@@ -168,6 +170,7 @@
     <ClInclude Include="Door.h" />
     <ClInclude Include="EnergyText.h" />
     <ClInclude Include="GameConst.h" />
+    <ClInclude Include="ITEM\ITEMBox.h" />
     <ClInclude Include="physics\BoxCollider.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelEffect.h" />
@@ -209,6 +212,7 @@
     <ClInclude Include="physics\PhysicsStaticObject.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="graphics\Sprite.h" />
+    <ClInclude Include="ITEM\RecoveryITEM.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="sound\SoundEngine.h" />
@@ -225,6 +229,7 @@
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
     <MeshContentTask Include="Assets\modelData\Ago.fbx" />
+    <MeshContentTask Include="Assets\modelData\BOX.fbx" />
     <MeshContentTask Include="Assets\modelData\Door.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy1.FBX" />
     <MeshContentTask Include="Assets\modelData\Enemy2.fbx" />
@@ -243,6 +248,7 @@
   <ItemGroup>
     <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\Thethief_H.tks" />
     <None Include="Assets\animData\attack.tka" />
+    <None Include="Assets\animData\box_open.tka" />
     <None Include="Assets\animData\damage.tka" />
     <None Include="Assets\animData\death.tka" />
     <None Include="Assets\animData\E2_ATK.tka" />

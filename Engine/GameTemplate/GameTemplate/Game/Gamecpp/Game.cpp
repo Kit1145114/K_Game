@@ -14,6 +14,7 @@
 #include"EnergyText.h"
 #include"Enemys.h"
 #include"Title.h"
+#include"ITEM/ITEMBox.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -213,10 +214,12 @@ bool Game::NewBoss()
 		}
 		return true;
 	});
+	itemBox = g_goMgr.NewAGO<ITEMBox>();
 	for (auto enemy : m_enemysList) {
 		enemy->SetPlayer(player);
 	}
 	player->SetEnemysList(m_enemysList);
+	player->SetBox(itemBox);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
