@@ -233,8 +233,9 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 	A.y += UpPhyGhostObjPosition;
 	m_PhyGhostObj.CreateBox(A, m_rotation, box_scale);
 	float Kyori = 500.0f;
+	//“G‚Æ‚Ì”»’è
 	for (auto enemy : m_enemysList) {
-		if (enemy->GetIsDead() == false) {
+		if (!enemy->GetIsDead()) {
 			g_physics.ContactTest(enemy->GetCharaCon(), [&](const btCollisionObject& contactObject) {
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
 						enemy->Damage(ATK);
@@ -244,6 +245,15 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			});
 		}
 	}
+	//” ‚Æ‚Ì”»’èB
+	//if (!ItemBox->GetIsOpen()) {
+	//	g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
+	//		if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
+	//			ItemBox->SetIsOpen(true);
+	//			m_se.Play(false);
+	//		}
+	//	});
+	//}
 	//íœB
 	m_PhyGhostObj.Release();
 }

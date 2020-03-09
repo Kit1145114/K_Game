@@ -11,7 +11,8 @@ public:
 	~ITEMBox();
 	enum boxstate
 	{
-		open
+		open,
+		close
 	};
 	void Update();							//アップデート処理。
 	void Draw();							//ドロー関数。
@@ -21,6 +22,14 @@ public:
 	void SetIsOpen(bool is)
 	{
 		isOpen = is;
+	}
+	bool GetIsOpen()
+	{
+		return isOpen;
+	}
+	CharacterController& GetCharaCon()
+	{
+		return m_charaCon;
 	}
 private:
 	SkinModel	Box;							//マップのスキンモデル。

@@ -14,6 +14,7 @@ class Enemys;					//エネミー用のclassの型を生成。
 class HPText;					//HPバー用のclass
 class EnergyText;				//エナジーバー用のclass
 class ITEMBox;					//箱のclass
+class Door;
 class Game : public GameObject
 {
 
@@ -46,12 +47,16 @@ private:
 	HPText* hp_bar;					//HPバー。
 	ITEMBox* itemBox;				//箱
 	EnergyText* energy_bar;			//エナジーバー
+	Door*	door;					//ドア
 	Level		mapLevel;			//マップのレベル。。。。。。
 	int			m_stage;			//ステージ
+	bool		StageChange = false;
+	//bool		isLive = false;
 	static Game* m_instance;		//ゲームのインスタンス。
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。
 		//可変長配列
 	std::vector<Enemys*>m_enemysList;	//エネミーオブジェクトのリスト
+
 	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
 	CSoundEngine m_soundEngine;
 	CSoundSource m_bgm;

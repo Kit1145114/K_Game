@@ -15,6 +15,7 @@
 #include"Enemys.h"
 #include"Title.h"
 #include"ITEM/ITEMBox.h"
+#include"Door.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -83,8 +84,12 @@ Game::~Game()
 	if (energy_bar != nullptr) {
 		g_goMgr.QutavaleyaAGO(energy_bar);
 	}
-}
+	if (door != nullptr)
+	{
+		g_goMgr.QutavaleyaAGO(door);
+	}
 
+}
 
 Game* Game::GetInstance()
 {
@@ -165,21 +170,29 @@ void Game::Update()
 	m_soundEngine.Update();
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
-	bool isLive = false;
+	bool		isLive = false;
 	for (auto enemy : m_enemysList) {
 		if (!enemy->GetIsDead())
 		{
 			isLive = true;
 		}
-		/*else
+		else if (enemy->GetIsDead())
 		{
-			isLive = false;
-		}*/
+			m_enemysList.pop_back();
+		}
 	}
-	if (!isLive)
+	if (!isLive && !StageChange)
 	{
-		Title* title = g_goMgr.NewAGO<Title>();
-		g_goMgr.QutavaleyaAGO(this);
+		door = g_goMgr.NewAGO<Door>();
+		door->SetPlayer(player);
+		StageChange = true;
+	}
+	else if (!isLive && StageChange) {
+		if (door->GetChangeSta())
+		{
+			Title* title = g_goMgr.NewAGO<Title>();
+			g_goMgr.QutavaleyaAGO(this);
+		}
 	}
 }
 //ボス出現用
@@ -214,12 +227,12 @@ bool Game::NewBoss()
 		}
 		return true;
 	});
-	itemBox = g_goMgr.NewAGO<ITEMBox>();
+	//itemBox = g_goMgr.NewAGO<ITEMBox>();
 	for (auto enemy : m_enemysList) {
 		enemy->SetPlayer(player);
 	}
 	player->SetEnemysList(m_enemysList);
-	player->SetBox(itemBox);
+	//player->SetBox(itemBox);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
