@@ -76,6 +76,10 @@ public:
 	{
 		m_enemysList = GetEnemy;
 	}
+	void SetList(std::list<Enemys*>GetList)
+	{
+		enemysList = GetList;
+	}
 	void SetBox(ITEMBox* box)
 	{
 		ItemBox = box;
