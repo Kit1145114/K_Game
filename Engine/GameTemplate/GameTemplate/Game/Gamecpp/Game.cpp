@@ -45,8 +45,8 @@ Game::Game()
 	//	NewBoss();
 	//	break;
 	//}
-	//Start();
-	NewBoss();
+	Start();
+	//NewBoss();
 }
 
 Game::~Game()
@@ -66,7 +66,7 @@ Game::~Game()
 		g_goMgr.QutavaleyaAGO(map);
 	}
 	//もしエネミーが消えてなかったら。
-	for (auto enemy : m_enemysList) {
+	for (auto enemy : enemysList) {
 		if (enemy != nullptr) {
 			g_goMgr.QutavaleyaAGO(enemy);
 		}
@@ -110,7 +110,7 @@ bool Game::Start()
 			enemys->SetRotation(objData.rotation);
 			//enemys->SetScale(objData.scale);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
+			enemysList.push_back(enemys);
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -121,7 +121,7 @@ bool Game::Start()
 			enemys->SetRotation(objData.rotation);
 			//enemys->SetScale(objData.scale);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
+			enemysList.push_back(enemys);
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -132,7 +132,7 @@ bool Game::Start()
 			enemys->SetRotation(objData.rotation);
 			//enemys->SetScale(objData.scale);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
+			enemysList.push_back(enemys);
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -152,10 +152,10 @@ bool Game::Start()
 		}
 		return true;
 	});
-	for (auto enemy : m_enemysList) {
+	for (auto enemy : enemysList) {
 		enemy->SetPlayer(player);
 	}
-	player->SetEnemysList(m_enemysList);
+	player->SetList(enemysList);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
@@ -171,14 +171,14 @@ void Game::Update()
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 	bool		isLive = false;
-	for (auto enemy : m_enemysList) {
+	for (auto enemy : enemysList) {
 		if (!enemy->GetIsDead())
 		{
 			isLive = true;
 		}
 		else if (enemy->GetIsDead())
-		{
-			m_enemysList.pop_back();
+		{	
+			//enemysList.erase(enemy);
 		}
 	}
 	if (!isLive && !StageChange)

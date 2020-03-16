@@ -76,6 +76,10 @@ public:
 	{
 		m_enemysList = GetEnemy;
 	}
+	void SetList(std::list<Enemys*>GetList)
+	{
+		enemysList = GetList;
+	}
 	void SetBox(ITEMBox* box)
 	{
 		ItemBox = box;
@@ -120,7 +124,8 @@ private:
 	Animation g_anim;									//アニメーション。
 	ITEMBox* ItemBox;									//アイテム用のもの
 	Enemys* enemys;										//敵の情報を得るためのclass的なもの。
-	std::vector<Enemys*> m_enemysList;					//ゲームオブジェクトのリスト
+	std::vector<Enemys*> m_enemysList;					//エネミーのVector配列
+	std::list<Enemys*> enemysList;					//エネミーのリスト。
 	AnimationClip g_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
 	//音
 	CSoundEngine m_soundEngine;							//サウンドエンジン
