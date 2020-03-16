@@ -163,6 +163,7 @@
     <ClCompile Include="graphics\2Dgraphics\Font.cpp" />
     <ClCompile Include="ITEM\ITEMBox.cpp" />
     <ClCompile Include="ITEM\RecoveryITEM.cpp" />
+    <ClCompile Include="ChangeScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -293,6 +294,7 @@
     <ClInclude Include="graphics\2Dgraphics\Font.h" />
     <ClInclude Include="ITEM\ITEMBox.h" />
     <ClInclude Include="ITEM\RecoveryITEM.h" />
+    <ClInclude Include="ChangeScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -359,6 +361,7 @@
     <ImageContentTask Include="Assets\sprite\title1.png" />
     <ImageContentTask Include="Assets\sprite\Midori.jpg" />
     <ImageContentTask Include="Assets\sprite\glass.jpg" />
+    <ImageContentTask Include="Assets\sprite\AGO.JPG" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\sound\enemy_attack_00.wav" />

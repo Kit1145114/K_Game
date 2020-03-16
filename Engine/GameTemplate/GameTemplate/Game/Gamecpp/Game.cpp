@@ -16,15 +16,12 @@
 #include"Title.h"
 #include"ITEM/ITEMBox.h"
 #include"Door.h"
+#include"ChangeScreen.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
 Game::Game()
 {
-	m_soundEngine.Init();
-	m_bgm.Init(L"Assets/sound/Result.wav");
-	m_bgm.Play(true);
-	m_bgm.SetVolume(0.15f);
 	//もし、ゲームが既に存在していたら
 	if (m_instance != nullptr)
 	{
@@ -35,18 +32,7 @@ Game::Game()
 		//何もない場合はゲームを代入。
 		m_instance = this;
 	}
-	////ゲームのスタート関数呼び出し。
-	//switch (m_stage)
-	//{
-	//case FirstStage:
-	//	Start();
-	//	break;
-	//case SecondStage:
-	//	NewBoss();
-	//	break;
-	//}
-	//Start();
-	NewBoss();
+	Start();
 }
 
 Game::~Game()
@@ -100,6 +86,59 @@ Game* Game::GetInstance()
 //ゲーム開始ィィィィ！！！！。
 bool Game::Start()
 {
+	m_soundEngine.Init();
+	m_bgm.Init(L"Assets/sound/Result.wav");
+	m_bgm.Play(true);
+	m_bgm.SetVolume(0.15f);
+	//ゲームのスタート関数呼び出し。
+	switch (m_stage)
+	{
+	case First:
+		FirstStage();
+		break;
+	case Second:
+		NewBoss();
+		break;
+	}
+	//FirstStage();
+	//NewBoss();
+	return true;
+}
+//ゲームのアップデート。
+void Game::Update()
+{
+	m_soundEngine.Update();
+	hp_bar->SetPlayerHP(player->GetPlayerHP());
+	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
+	bool		isLive = false;
+	for (auto enemy : m_enemysList) {
+		if (!enemy->GetIsDead())
+		{
+			isLive = true;
+		}
+		else if (enemy->GetIsDead())
+		{	
+			//enemysList.erase(enemy);
+			m_enemysList.pop_back();
+		}
+	}
+	if (!isLive && !StageChange)
+	{
+		door = g_goMgr.NewAGO<Door>();
+		door->SetPlayer(player);
+		StageChange = true;
+	}
+	else if (!isLive && StageChange) {
+		if (door->GetChangeSta())
+		{
+			ChangeScreen* changescreen = g_goMgr.NewAGO<ChangeScreen>();
+			g_goMgr.QutavaleyaAGO(this);
+		}
+	}
+}
+//最初のステージ
+bool Game::FirstStage()
+{
 	mapLevel.Init(L"Assets/level/FirstStage.tkl",
 		[&](LevelObjectData& objData)
 	{
@@ -114,17 +153,17 @@ bool Game::Start()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		else if (objData.EqualObjectName(L"Enemy3") == true) {
-			//敵(二人目)のオブジェクト。
-			Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
-			enemys->SetPosition(objData.position);
-			enemys->SetRotation(objData.rotation);
-			//enemys->SetScale(objData.scale);
-			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
-			//フックしたのでtrueを返す。
-			return true;
-		}
+		//else if (objData.EqualObjectName(L"Enemy3") == true) {
+		//	//敵(二人目)のオブジェクト。
+		//	Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
+		//	enemys->SetPosition(objData.position);
+		//	enemys->SetRotation(objData.rotation);
+		//	//enemys->SetScale(objData.scale);
+		//	//後で削除するのでリストに積んで記憶しておく。
+		//	m_enemysList.push_back(enemys);
+		//	//フックしたのでtrueを返す。
+		//	return true;
+		//}
 		else if (objData.EqualObjectName(L"RobbotEnemy1") == true) {
 			//敵(二人目)のオブジェクト。
 			enemys = g_goMgr.NewAGO<Titan>();
@@ -163,37 +202,6 @@ bool Game::Start()
 	energy_bar = g_goMgr.NewAGO<EnergyText>();
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 	return true;
-}
-//ゲームのアップデート。
-void Game::Update()
-{
-	m_soundEngine.Update();
-	hp_bar->SetPlayerHP(player->GetPlayerHP());
-	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
-	bool		isLive = false;
-	for (auto enemy : m_enemysList) {
-		if (!enemy->GetIsDead())
-		{
-			isLive = true;
-		}
-		else if (enemy->GetIsDead())
-		{
-			m_enemysList.pop_back();
-		}
-	}
-	if (!isLive && !StageChange)
-	{
-		door = g_goMgr.NewAGO<Door>();
-		door->SetPlayer(player);
-		StageChange = true;
-	}
-	else if (!isLive && StageChange) {
-		if (door->GetChangeSta())
-		{
-			Title* title = g_goMgr.NewAGO<Title>();
-			g_goMgr.QutavaleyaAGO(this);
-		}
-	}
 }
 //ボス出現用
 bool Game::NewBoss()

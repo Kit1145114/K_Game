@@ -23,7 +23,6 @@ class Game : public GameObject
 		enRenderMode_Silhouette,	//シルエットをレンダリング。
 		enRenderMode_Num,			//レンダリングモードの数。
 	};
-	//ステージの振り分け。
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -35,10 +34,16 @@ public:
 	~Game();
 	static Game* GetInstance();		//シングルトン。
 	bool Start();					//ゲームのスタート関数。
+	bool FirstStage();				//最初のステージ
 	bool NewBoss();					//ボスを呼ぶ関数
 	void Update();					//ゲームのアップデート関数。
 	//bool isLive = false;			//生きてるかどうか
 	//敵とぷえいやーの距離を測る
+public:
+	void SetStage(int n)
+	{
+		m_stage = n;
+	}
 private:
 	Player* player;					//プレイヤーのインスタンス。
 	MAP* map;						//マップのインスタンス。
@@ -49,16 +54,16 @@ private:
 	EnergyText* energy_bar;			//エナジーバー
 	Door*	door;					//ドア
 	Level		mapLevel;			//マップのレベル。。。。。。
-	int			m_stage;			//ステージ
-	bool		StageChange = false;
+	StageNum	stage;
+	bool StageChange = false;
+	int	m_stage = 0;
+	int m_stagenum = 0;
 	//bool		isLive = false;
 	static Game* m_instance;		//ゲームのインスタンス。
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。
 		//可変長配列
 	std::vector<Enemys*>m_enemysList;	//エネミーオブジェクトのリスト
-
 	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
 	CSoundEngine m_soundEngine;
 	CSoundSource m_bgm;
 };
-

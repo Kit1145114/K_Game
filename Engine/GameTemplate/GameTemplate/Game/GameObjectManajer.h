@@ -83,8 +83,8 @@ private:
 	RenderTarget m_renderTarget;
 	static GameObjectManajer* m_instance;		//ゲームのインスタンス。//レンダリングターゲット。
 	//可変長配列
-	std::vector<GameObject*>m_goList;			//ゲームオブジェクトのリスト
-	std::vector<GameObject*>m_delete_goList;	//デリートします。
+	std::list<GameObject*>m_goList;			//ゲームオブジェクトのリスト
+	std::list<GameObject*>m_delete_goList;	//デリートします。
 	//レンダーターゲット
 	Sprite m_copyMainRtToFrameBufferSprite;			//メインレンダリングターゲットに描かれた絵をフレームバッファにコピーするためのスプライト。
 	D3D11_VIEWPORT m_frameBufferViewports;			//フレームバッファのビューポート。

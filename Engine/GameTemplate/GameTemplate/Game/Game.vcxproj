@@ -102,6 +102,7 @@
     <ClCompile Include="AgoSample.cpp" />
     <ClCompile Include="AroundPlayer.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="ChangeScreen.cpp" />
     <ClCompile Include="DebugWireframe.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EnergyText.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="AgoSample.h" />
     <ClInclude Include="AroundPlayer.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="ChangeScreen.h" />
     <ClInclude Include="DebugWireframe.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EnergyText.h" />
@@ -294,6 +296,9 @@
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\glass.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\AGO.JPG" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

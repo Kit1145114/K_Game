@@ -7,6 +7,7 @@ Title::Title()
 	m_sprite = g_goMgr.NewAGO<SpriteRender>();
 	m_sprite->Init(L"Assets/sprite/title1.dds", 1280, 720);
 	m_sprite->SetPivot(CVector2(0.5f,0.5f));
+	Stage = First;
 }
 
 Title::~Title()
@@ -27,6 +28,8 @@ void Title::Update()
 void Title::Death()
 {
 	//ゲーム生成。タイトル削除。
-	game = g_goMgr.NewAGO<Game>();
+	//ゲームだよ！！
+	Game* game = g_goMgr.NewAGO<Game>();
+	game->SetStage(0);
 	g_goMgr.QutavaleyaAGO(this);
 }
