@@ -42,7 +42,7 @@ Game::Game()
 	//	NewBoss();
 	//	break;
 	//}
-	Start();
+	//Start();
 	//NewBoss();
 }
 

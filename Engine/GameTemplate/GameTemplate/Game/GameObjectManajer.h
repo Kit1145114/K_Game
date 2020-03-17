@@ -9,6 +9,7 @@
 class GameObjectManajer 
 {
 public:
+	bool Start();
 	/// <summary>
 	/// XVB
 	/// </summary>

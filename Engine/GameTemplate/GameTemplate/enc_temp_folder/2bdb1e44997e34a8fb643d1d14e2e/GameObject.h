@@ -12,8 +12,7 @@ public:
 	/// </summary>
 	virtual void Render();
 
-	bool Start();
-
+	bool Start() { return true; };
 	void AgoUpdate()
 	{
 		if (isUpdate&isActive) {
