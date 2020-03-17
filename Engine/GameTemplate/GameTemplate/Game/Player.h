@@ -76,6 +76,7 @@ public:
 	{
 		m_enemysList = GetEnemy;
 	}
+
 	void SetBox(ITEMBox* box)
 	{
 		ItemBox = box;

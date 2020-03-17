@@ -44,6 +44,10 @@ public:
 	{
 		m_stage = n;
 	}
+	void SetGameNum(int n)
+	{
+		gameData->SetNum(n);
+	}
 private:
 	Player* player;					//プレイヤーのインスタンス。
 	MAP* map;						//マップのインスタンス。
@@ -66,4 +70,5 @@ private:
 	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
 	CSoundEngine m_soundEngine;
 	CSoundSource m_bgm;
+
 };
