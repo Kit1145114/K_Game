@@ -16,7 +16,7 @@ public:
 
 	void AgoUpdate()
 	{
-		if (isUpdate&isActive) {
+		if (isUpdate&&isActive&&isStart) {
 			Update();
 		}
 	}
@@ -25,7 +25,7 @@ public:
 
 	void PostRenderWarapper()
 	{
-		if (isUpdate&isActive) {
+		if (isUpdate&isActive&&isStart) {
 			Render();
 		}
 	}
