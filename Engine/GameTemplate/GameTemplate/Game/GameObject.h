@@ -11,6 +11,8 @@ public:
 	/// レンダ関数
 	/// </summary>
 	virtual void Render();
+	//スタート関数。
+	virtual bool Start() = 0;
 
 	void AgoUpdate()
 	{
@@ -57,18 +59,20 @@ public:
 	{
 		isActive = flag;
 	}
-	//void ActiveUpdate()
-	//{
-	//	if (isActive)
-	//	{
-	//		Update();
-	//		Render();
-	//	}
-	//}
+	//スタート関数のフラグを変える。
+	void SetIsStart(bool flag)
+	{
+		isStart = flag;
+	}
+	bool GetIsStart()
+	{
+		return isStart;
+	}
 private:
 	bool isRecestDelete = false;	//フラグ
 	bool isNewGO = false;
 	bool isUpdate = true;
 	bool isActive = true;
+	bool isStart = false;
 };
 

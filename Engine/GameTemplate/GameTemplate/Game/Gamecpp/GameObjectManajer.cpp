@@ -6,6 +6,15 @@ GameObjectManajer g_goMgr;
 
 void GameObjectManajer::Update()
 {
+	for (auto go : m_goList)
+	{
+		if (!go->GetIsStart())
+		{
+			go->SetIsStart(true);
+			go->Start();
+		}
+	}
+
 	for (auto go : m_goList) {
 		go->AgoUpdate();
 	}
