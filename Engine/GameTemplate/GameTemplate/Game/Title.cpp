@@ -2,6 +2,7 @@
 #include "Title.h"
 #include"Game.h"
 
+
 Title::Title()
 {
 	m_sprite = g_goMgr.NewAGO<SpriteRender>();

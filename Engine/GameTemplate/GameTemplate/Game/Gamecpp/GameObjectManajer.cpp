@@ -19,6 +19,7 @@ bool GameObjectManajer::Start()
 
 void GameObjectManajer::Update()
 {
+	Start();
 	for (auto go : m_goList) {
 		go->AgoUpdate();
 	}

@@ -12,7 +12,7 @@ public:
 	/// </summary>
 	virtual void Render();
 
-	bool Start();
+	virtual bool Start();
 
 	void AgoUpdate()
 	{

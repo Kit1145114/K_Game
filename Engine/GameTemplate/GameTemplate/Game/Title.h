@@ -24,6 +24,8 @@ public:
 	/// 終焉
 	/// </summary>
 	 void Death();
+
+	 bool Start() { return true; };
 private:
 	//ステージ
 	StageNum Stage;
