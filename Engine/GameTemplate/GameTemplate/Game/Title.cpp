@@ -30,6 +30,6 @@ void Title::Death()
 	//ゲーム生成。タイトル削除。
 	//ゲームだよ！！
 	Game* game = g_goMgr.NewAGO<Game>();
-	game->SetGameNum(0);
+	game->SetStage(0);
 	g_goMgr.QutavaleyaAGO(this);
 }
