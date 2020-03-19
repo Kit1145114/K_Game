@@ -164,6 +164,7 @@
     <ClCompile Include="ITEM\ITEMBox.cpp" />
     <ClCompile Include="ITEM\RecoveryITEM.cpp" />
     <ClCompile Include="ChangeScreen.cpp" />
+    <ClCompile Include="GameSystem\GameClear.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -247,9 +248,6 @@
     <ClInclude Include="level\MapChip.h">
       <Filter>level</Filter>
     </ClInclude>
-    <ClInclude Include="GameCamera.h">
-      <Filter>ヘッダー</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>ヘッダー</Filter>
     </ClInclude>
@@ -295,6 +293,10 @@
     <ClInclude Include="ITEM\ITEMBox.h" />
     <ClInclude Include="ITEM\RecoveryITEM.h" />
     <ClInclude Include="ChangeScreen.h" />
+    <ClInclude Include="GameCamera.h">
+      <Filter>ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSystem\GameClear.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -362,9 +364,15 @@
     <ImageContentTask Include="Assets\sprite\Midori.jpg" />
     <ImageContentTask Include="Assets\sprite\glass.jpg" />
     <ImageContentTask Include="Assets\sprite\AGO.JPG" />
+    <ImageContentTask Include="Assets\sprite\Change.png" />
+    <ImageContentTask Include="Assets\sprite\GameClear.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\sound\enemy_attack_00.wav" />
     <Media Include="Assets\sound\enemy_voice_00.wav" />
+    <Media Include="Assets\sound\FirstBGM.wav" />
+    <Media Include="Assets\sound\BossBGM.wav" />
+    <Media Include="Assets\sound\Button.wav" />
+    <Media Include="Assets\sound\Result.wav" />
   </ItemGroup>
 </Project>

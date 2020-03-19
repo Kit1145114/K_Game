@@ -106,6 +106,7 @@
     <ClCompile Include="DebugWireframe.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EnergyText.cpp" />
+    <ClCompile Include="GameSystem\GameClear.cpp" />
     <ClCompile Include="ITEM\ITEMBox.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="DebugWireframe.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EnergyText.h" />
+    <ClInclude Include="GameSystem\GameClear.h" />
     <ClInclude Include="GameConst.h" />
     <ClInclude Include="ITEM\ITEMBox.h" />
     <ClInclude Include="physics\BoxCollider.h" />
@@ -288,8 +290,12 @@
     <ImageContentTask Include="Assets\sprite\title1.png" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Assets\sound\BossBGM.wav" />
+    <Media Include="Assets\sound\Button.wav" />
     <Media Include="Assets\sound\enemy_attack_00.wav" />
     <Media Include="Assets\sound\enemy_voice_00.wav" />
+    <Media Include="Assets\sound\FirstBGM.wav" />
+    <Media Include="Assets\sound\Result.wav" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Midori.jpg" />
@@ -299,6 +305,10 @@
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\AGO.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\Change.png" />
+    <ImageContentTask Include="Assets\sprite\GameClear.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

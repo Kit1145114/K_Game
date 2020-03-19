@@ -17,6 +17,7 @@
 #include"ITEM/ITEMBox.h"
 #include"Door.h"
 #include"ChangeScreen.h"
+#include"../GameSystem/GameClear.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -32,18 +33,6 @@ Game::Game()
 		//何もない場合はゲームを代入。
 		m_instance = this;
 	}
-	////ゲームのスタート関数呼び出し。
-	//switch (m_stage)
-	//{
-	//case FirstStage:
-	//	Start();
-	//	break;
-	//case SecondStage:
-	//	NewBoss();
-	//	break;
-	//}
-	//Start();
-	//NewBoss();
 }
 
 Game::~Game()
@@ -98,9 +87,6 @@ Game* Game::GetInstance()
 bool Game::Start()
 {
 	m_soundEngine.Init();
-	m_bgm.Init(L"Assets/sound/Result.wav");
-	m_bgm.Play(true);
-	m_bgm.SetVolume(0.15f);
 	//ゲームのスタート関数呼び出し。
 	switch (m_stage)
 	{
@@ -140,9 +126,14 @@ void Game::Update()
 		StageChange = true;
 	}
 	else if (!isLive && StageChange) {
-		if (door->GetChangeSta())
+		if (door->GetChangeSta() && m_stage == First)
 		{
 			ChangeScreen* changescreen = g_goMgr.NewAGO<ChangeScreen>();
+			g_goMgr.QutavaleyaAGO(this);
+		}
+		else if (door->GetChangeSta() && m_stage == Second)
+		{
+			GameClear* gameClear = g_goMgr.NewAGO<GameClear>();
 			g_goMgr.QutavaleyaAGO(this);
 		}
 	}
@@ -150,6 +141,10 @@ void Game::Update()
 //最初のステージ
 bool Game::FirstStage()
 {
+	//BGM
+	m_bgm.Init(L"Assets/sound/FirstBGM.wav");
+	m_bgm.Play(true);
+	m_bgm.SetVolume(0.15f);
 	mapLevel.Init(L"Assets/level/FirstStage.tkl",
 		[&](LevelObjectData& objData)
 	{
@@ -217,6 +212,10 @@ bool Game::FirstStage()
 //ボス出現用
 bool Game::NewBoss()
 {
+	//BGM
+	m_bgm.Init(L"Assets/sound/BossBGM.wav");
+	m_bgm.Play(true);
+	m_bgm.SetVolume(0.15f);
 	mapLevel.Init(L"Assets/level/BossStage.tkl",
 		[&](LevelObjectData& objData)
 	{

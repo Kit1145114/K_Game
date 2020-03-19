@@ -2,6 +2,8 @@
 #include"GameObjectManajer.h"
 #include"../Game/graphics/SpriteRender.h"
 #include"GameConst.h"
+#include"sound/SoundEngine.h"
+#include"sound/SoundSource.h"
 
 class Game;
 class Title : public GameObject
@@ -25,7 +27,6 @@ public:
 	/// </summary>
 	 void Death();
 
-	 bool Start() { return true; };
 private:
 	//ステージ
 	StageNum Stage;
@@ -33,5 +34,8 @@ private:
 	SpriteRender* m_sprite;
 	//ひろち
 	CQuaternion Rot = { 0.0f,1.0f,0.0f,0.0f };
+	//音楽
+	CSoundEngine m_soundEngine;
+	CSoundSource m_bgm[2];
 };
 
