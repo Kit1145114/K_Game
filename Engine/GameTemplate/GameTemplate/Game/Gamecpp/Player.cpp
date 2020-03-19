@@ -10,8 +10,9 @@ Player::Player()
 	//サウンドエンジン初期化
 	m_soundEngine.Init();
 	//ワンショット再生
-	m_se.Init(L"Assets/sound/enemy_attack_00.wav");
-
+	m_se[0].Init(L"Assets/sound/enemy_attack_00.wav");
+	m_se[1].Init(L"Assets/sound/Boost.wav");
+	m_se[1].SetVolume(0.2f);
 	//cmoファイルの読み込み。
 	Gmodel.Init(L"Assets/modelData/Player.cmo");		//プレイヤーの描画
 	g_animClip[pl_idle].Load(L"Assets/animData/P_idle.tka");	//待機のロード
@@ -154,14 +155,17 @@ void Player::PlayerState()
 	case pl_idle:	//待機状態
 		MoveOperation();
 		g_anim.Play(pl_idle, 0.1f);
+		m_se[1].Stop();
 		break;
 	case pl_Walk:	//歩き状態。
 		MoveOperation();
 		g_anim.Play(pl_Walk, 0.1f);
+		m_se[1].Stop();
 		break;
 	case pl_FlyMove:
 		MoveOperation();
 		g_anim.Play(pl_FlyMove, 0.1f);
+		m_se[1].Play(false);
 		break;
 	case pl_Atk:	//攻撃状態。
 		ComboAttack();
@@ -171,6 +175,7 @@ void Player::PlayerState()
 	case pl_Death:	//死亡状態
 		g_anim.Play(0);
 		MessageBox(NULL, TEXT("はい雑魚乙＾＾"), TEXT("めっせ"), MB_OK);
+		m_se[1].Stop();
 		break;
 	}
 }
@@ -240,7 +245,7 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
 						enemy->Damage(ATK);
 						enemy->SetHitMe(true);
-						m_se.Play(false);
+						m_se[0].Play(false);
 				}
 			});
 		}

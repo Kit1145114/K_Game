@@ -4,6 +4,9 @@
 //敵が作られて最初に呼ぶ処理。
 Boss::Boss()
 {
+	m_soundEngine.Init();
+	m_se[0].Init(L"Assets/sound/BossAttack1.wav");
+	m_se[1].Init(L"Assets/sound/BossAttack2.wav");
 	Model.Init(L"Assets/modelData/RobbotBoss.cmo");		//モデルの呼び出し。
 	//モデルのアニメーションのロード。
 	animClip[bsIdle].Load(L"Assets/animData/RB_idle.tka");	//待機をロード。
@@ -245,6 +248,7 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		{
 			Attack();
 			Mode = BigATK;
+			m_se[0].Play(false);
 		}
 		else if (boss_State == bsBigAttack 
 			&& eventName)
@@ -252,6 +256,7 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			prm.ATK * 2;
 			Attack();
 			Mode = SmallATK;
+			m_se[1].Play(false);
 		}
 	}
 }

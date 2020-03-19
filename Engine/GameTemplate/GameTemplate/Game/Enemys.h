@@ -3,6 +3,8 @@
 #include"character/CharacterController.h"
 #include"Player.h"
 #include"GameConst.h"
+#include"sound/SoundEngine.h"
+#include"sound/SoundSource.h"
 
 class Enemy;
 class Player;
@@ -140,5 +142,8 @@ protected:
 	EnemyInitParam prm;									//エネミーのパラメーターが入ってるよ。
 	Animation anim;										//アニメ
 	AnimationClip animClip[m_AnimClipNum];				//アニメクリップ
+	//音
+	CSoundEngine m_soundEngine;							//サウンドエンジン
+	CSoundSource m_se[3];								//SE	
 };
 

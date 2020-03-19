@@ -290,6 +290,9 @@
     <ImageContentTask Include="Assets\sprite\title1.png" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Assets\sound\Boost.wav" />
+    <Media Include="Assets\sound\BossAttack1.wav" />
+    <Media Include="Assets\sound\BossAttack2.wav" />
     <Media Include="Assets\sound\BossBGM.wav" />
     <Media Include="Assets\sound\Button.wav" />
     <Media Include="Assets\sound\enemy_attack_00.wav" />

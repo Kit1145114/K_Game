@@ -11,12 +11,11 @@ Title::Title()
 	//‰¹
 	m_soundEngine.Init();
 	//BGM
-	m_bgm[0].Init(L"Assets/sound/Result.wav");
+	m_bgm[0].InitStreaming(L"Assets/sound/Result.wav");
 	m_bgm[0].Play(true);
 	m_bgm[0].SetVolume(0.15f);
 	////Œø‰Ê‰¹
 	m_bgm[1].Init(L"Assets/sound/Button.wav");
-	m_bgm[1].SetVolume(0.4f);
 }
 
 Title::~Title()

@@ -125,7 +125,7 @@ private:
 	AnimationClip g_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
 	//音
 	CSoundEngine m_soundEngine;							//サウンドエンジン
-	CSoundSource m_se;									//SE	
+	CSoundSource m_se[2];								//SE
 	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。	
 	CVector3 m_enemyPos = CVector3::Zero();				//エネミーのポジション取得用。
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
