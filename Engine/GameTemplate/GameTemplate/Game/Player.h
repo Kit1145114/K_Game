@@ -110,6 +110,15 @@ public:
 		m_isCombo = false;
 		m_ComboNow = false;
 	}
+	//音
+	void Sound(int SoundNum)
+	{
+		m_se[SoundNum].Play(false);
+	}
+	void StopSound(int SoundNum)
+	{
+		m_se[SoundNum].Stop();
+	}
 	//プレイヤーの前ベクトルを取得。
 	void Forward();
 	//敵をロックオンするときの処理。
@@ -125,7 +134,7 @@ private:
 	AnimationClip g_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
 	//音
 	CSoundEngine m_soundEngine;							//サウンドエンジン
-	CSoundSource m_se[2];								//SE
+	CSoundSource m_se[3];								//SE
 	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。	
 	CVector3 m_enemyPos = CVector3::Zero();				//エネミーのポジション取得用。
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
