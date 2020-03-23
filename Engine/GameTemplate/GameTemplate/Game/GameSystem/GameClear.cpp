@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameClear.h"
-#include"../Title.h"
+#include"../GameSystem/Title.h"
 
 GameClear::GameClear()
 {

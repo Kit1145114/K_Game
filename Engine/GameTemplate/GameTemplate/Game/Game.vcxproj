@@ -102,7 +102,7 @@
     <ClCompile Include="AgoSample.cpp" />
     <ClCompile Include="AroundPlayer.cpp" />
     <ClCompile Include="Chara\Boss.cpp" />
-    <ClCompile Include="ChangeScreen.cpp" />
+    <ClCompile Include="GameSystem\ChangeScreen.cpp" />
     <ClCompile Include="DebugWireframe.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EnergyText.cpp" />
@@ -115,7 +115,7 @@
     <ClCompile Include="graphics\2Dgraphics\Font.cpp" />
     <ClCompile Include="Chara\Enemys.cpp" />
     <ClCompile Include="Gamecpp\Game.cpp" />
-    <ClCompile Include="Gamecpp\GameCamera.cpp" />
+    <ClCompile Include="GameSystem\GameCamera.cpp" />
     <ClCompile Include="Gamecpp\GameObject.cpp" />
     <ClCompile Include="Gamecpp\GameObjectManajer.cpp" />
     <ClCompile Include="Chara\Golem.cpp" />
@@ -160,7 +160,7 @@
     <ClCompile Include="graphics\SpriteRender.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Chara\Titan.cpp" />
-    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="GameSystem\Title.cpp" />
     <ClCompile Include="sound\WaveFile.cpp" />
     <ClCompile Include="sound\WaveFileBank.cpp" />
   </ItemGroup>
@@ -168,12 +168,12 @@
     <ClInclude Include="AgoSample.h" />
     <ClInclude Include="AroundPlayer.h" />
     <ClInclude Include="Chara\Boss.h" />
-    <ClInclude Include="ChangeScreen.h" />
+    <ClInclude Include="GameSystem\ChangeScreen.h" />
     <ClInclude Include="DebugWireframe.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EnergyText.h" />
     <ClInclude Include="GameSystem\GameClear.h" />
-    <ClInclude Include="GameConst.h" />
+    <ClInclude Include="GameSystem\GameConst.h" />
     <ClInclude Include="ITEM\ITEMBox.h" />
     <ClInclude Include="physics\BoxCollider.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
@@ -182,7 +182,7 @@
     <ClInclude Include="Chara\Enemys.h" />
     <ClInclude Include="graphics\2Dgraphics\Font.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="GameSystem\GameCamera.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManajer.h" />
     <ClInclude Include="Chara\Golem.h" />
@@ -226,7 +226,7 @@
     <ClInclude Include="Chara\StoneEnemy.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Chara\Titan.h" />
-    <ClInclude Include="Title.h" />
+    <ClInclude Include="GameSystem\Title.h" />
     <ClInclude Include="sound\WaveFile.h" />
     <ClInclude Include="sound\WaveFileBank.h" />
   </ItemGroup>

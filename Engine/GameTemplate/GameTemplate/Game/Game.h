@@ -3,7 +3,7 @@
 #include"graphics/c3dmodel/C3DModelDraw.h"
 #include"RenderTarget.h"
 #include"level/Level.h"
-#include"GameConst.h"
+#include"../Game/GameSystem/GameConst.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
 

@@ -2,7 +2,7 @@
 #include"GameObjectManajer.h"
 #include"character/CharacterController.h"
 #include"Player.h"
-#include"GameConst.h"
+#include"../GameSystem/GameConst.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
 

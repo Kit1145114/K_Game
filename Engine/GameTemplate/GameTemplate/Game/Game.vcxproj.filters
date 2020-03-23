@@ -115,9 +115,6 @@
       <Filter>level</Filter>
     </ClCompile>
     <ClCompile Include="Gamecpp\Game.cpp" />
-    <ClCompile Include="Gamecpp\GameCamera.cpp">
-      <Filter>ソース</Filter>
-    </ClCompile>
     <ClCompile Include="Gamecpp\GameObject.cpp">
       <Filter>ソース</Filter>
     </ClCompile>
@@ -134,7 +131,6 @@
       <Filter>ソース</Filter>
     </ClCompile>
     <ClCompile Include="graphics\Sprite.cpp" />
-    <ClCompile Include="Title.cpp" />
     <ClCompile Include="HPText.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
@@ -155,7 +151,6 @@
     <ClCompile Include="graphics\2Dgraphics\Font.cpp" />
     <ClCompile Include="ITEM\ITEMBox.cpp" />
     <ClCompile Include="ITEM\RecoveryITEM.cpp" />
-    <ClCompile Include="ChangeScreen.cpp" />
     <ClCompile Include="GameSystem\GameClear.cpp" />
     <ClCompile Include="Chara\Enemys.cpp" />
     <ClCompile Include="Chara\Player.cpp">
@@ -165,6 +160,11 @@
     <ClCompile Include="Chara\Titan.cpp" />
     <ClCompile Include="Chara\Golem.cpp" />
     <ClCompile Include="Chara\Boss.cpp" />
+    <ClCompile Include="GameSystem\ChangeScreen.cpp" />
+    <ClCompile Include="GameSystem\GameCamera.cpp">
+      <Filter>ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSystem\Title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -262,7 +262,6 @@
     </ClInclude>
     <ClInclude Include="Game.h" />
     <ClInclude Include="graphics\Sprite.h" />
-    <ClInclude Include="Title.h" />
     <ClInclude Include="HPText.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -275,7 +274,6 @@
     <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="sound\WaveFile.h" />
     <ClInclude Include="sound\WaveFileBank.h" />
-    <ClInclude Include="GameConst.h" />
     <ClInclude Include="AroundPlayer.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="DebugWireframe.h" />
@@ -284,10 +282,6 @@
     <ClInclude Include="graphics\2Dgraphics\Font.h" />
     <ClInclude Include="ITEM\ITEMBox.h" />
     <ClInclude Include="ITEM\RecoveryITEM.h" />
-    <ClInclude Include="ChangeScreen.h" />
-    <ClInclude Include="GameCamera.h">
-      <Filter>ヘッダー</Filter>
-    </ClInclude>
     <ClInclude Include="GameSystem\GameClear.h" />
     <ClInclude Include="Chara\Boss.h" />
     <ClInclude Include="Chara\Titan.h" />
@@ -297,6 +291,12 @@
     </ClInclude>
     <ClInclude Include="Chara\Golem.h" />
     <ClInclude Include="Chara\Enemys.h" />
+    <ClInclude Include="GameSystem\ChangeScreen.h" />
+    <ClInclude Include="GameSystem\GameConst.h" />
+    <ClInclude Include="GameSystem\GameCamera.h">
+      <Filter>ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSystem\Title.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

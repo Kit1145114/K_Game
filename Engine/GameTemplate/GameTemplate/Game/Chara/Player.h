@@ -1,13 +1,12 @@
 #pragma once
-#include "character/CharacterController.h"
 #include"GameObjectManajer.h"
-#include"physics/PhysicsGhostObject.h"
 #include"Enemys.h"
 #include"ITEM/ITEMBox.h"
-#include"GameConst.h"
+#include"character/CharacterController.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
 #include"graphics/2Dgraphics/Font.h"
+#include"physics/PhysicsGhostObject.h"
 
 class Enemys;
 class ITEMBox;

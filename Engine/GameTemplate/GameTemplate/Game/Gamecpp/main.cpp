@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "system/system.h"
 #include "level/Level.h"
-#include"Title.h";
+#include"../GameSystem/Title.h";
 #include"Game.h"
 #include"GameObjectManajer.h"
-#include"GameConst.h"
+#include"../GameSystem/GameConst.h"
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////

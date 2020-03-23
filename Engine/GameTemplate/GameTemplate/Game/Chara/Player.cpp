@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
-#include"GameConst.h"
+#include"../GameSystem/GameConst.h"
 #include"Game.h"
 #define _USE_MATH_DEFINES //M_PI ‰~ü—¦ŒÄ‚Ño‚µ
 #include <math.h> 

@@ -1,7 +1,7 @@
 #pragma once
 #include"GameObjectManajer.h"
 #include"physics/PhysicsStaticObject.h"
-#include"GameConst.h"
+#include"../GameSystem/GameConst.h"
 #include "character/CharacterController.h"
 
 class ITEMBox : public GameObject
