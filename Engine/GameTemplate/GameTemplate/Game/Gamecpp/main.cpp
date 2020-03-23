@@ -13,8 +13,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームの初期化。
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 
+	g_soundEngine = new CSoundEngine();
+	g_soundEngine->Init();
 	//タイトルのNewGOで生成。
 	Title* title = g_goMgr.NewAGO<Title>();
+	
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
 	{
@@ -24,11 +27,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		for (auto& pad : g_pad) {
 			pad.Update();
 		}
+		g_soundEngine->Update();
 		//物理エンジンの更新。
 		g_physics.Update();
 		g_goMgr.Update();
-		g_physics.DebugDraw();
 		g_goMgr.PostRender();
+		g_goMgr.FontRender();
+		//g_physics.DebugDraw();
+		
 		//ゲームの更新。
 		//game->Update();
 		//タイトルの表示

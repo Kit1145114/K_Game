@@ -143,8 +143,6 @@ protected:
 	Animation anim;										//アニメ
 	AnimationClip animClip[m_AnimClipNum];				//アニメクリップ
 	//音
-	CSoundEngine m_soundEngine;							//サウンドエンジン
-	//CSoundSource m_se[3];								//SE	
-	CSoundSource m_se;
+	CSoundSource m_se[3];
 };
 

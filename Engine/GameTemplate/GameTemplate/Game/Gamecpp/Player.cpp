@@ -7,8 +7,7 @@
 
 Player::Player()
 {
-	//サウンドエンジン初期化
-	m_soundEngine.Init();
+	//効果音
 	m_se[0].Init(L"Assets/sound/enemy_attack_00.wav");
 	m_se[1].Init(L"Assets/sound/Boost.wav");
 	//cmoファイルの読み込み。
@@ -50,9 +49,10 @@ Player::~Player()
 //プレイヤーのアップデート。
 void Player::Update()
 {
+	//m_attakSe.Play(false);
 	//プレイヤーの更新情報を下に記述。
 	Draw();	
-	m_soundEngine.Update();//プレイヤーの描画を呼ぶ。
+	//m_soundEngine.Update();//プレイヤーの描画を呼ぶ。
 	if (playerState != pl_Death) {
 		Energy();
 		Move();							//プレイヤーの移動を呼ぶ。
@@ -76,8 +76,14 @@ void Player::Draw()
 		1
 	);
 }
+
 //プレイヤーのレンダー
 void Player::Render()
+{
+
+}
+
+void Player::FontRender()
 {
 	//場所と色の指定。
 	m_font.DrawScreenPos(L"Player", CVector2(190, 40),
@@ -87,6 +93,7 @@ void Player::Render()
 	m_font.DrawScreenPos(text, CVector2(400, 40),
 		CVector4(0.0f, 1.0f, 0.0f, 1.0f));
 }
+
 //プレイヤーの移動処理
 void Player::Move()
 {
@@ -243,7 +250,8 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
 						enemy->Damage(ATK);
 						enemy->SetHitMe(true);
-						Sound(0);
+						//m_attakSe.Init(L"Assets/sound/enemy_attack_00.wav");
+						m_attakSe.Play(false);
 				}
 			});
 		}

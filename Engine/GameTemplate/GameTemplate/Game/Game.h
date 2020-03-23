@@ -65,6 +65,6 @@ private:
 		//可変長配列
 	std::vector<Enemys*>m_enemysList;	//エネミーオブジェクトのリスト
 	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
-	CSoundEngine m_soundEngine;
+	//BGM
 	CSoundSource m_bgm;
 };

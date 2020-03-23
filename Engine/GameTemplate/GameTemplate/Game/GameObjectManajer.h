@@ -68,6 +68,10 @@ public:
 	/// </summary>
 	void PostRender();
 	/// <summary>
+	/// フォントレンダリング
+	/// </summary>
+	void FontRender();
+	/// <summary>
 	/// レンダリングターゲットの切り替え。
 	/// </summary>
 	/// <param name="d3dDeviceContext">D3Dデバイスコンテキスト</param>

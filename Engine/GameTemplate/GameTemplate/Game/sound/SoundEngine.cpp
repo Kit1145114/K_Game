@@ -71,7 +71,7 @@ namespace {
 	*/
 CSoundEngine::CSoundEngine()
 {
-	g_soundEngine = this;
+	//g_soundEngine = this;
 }
 /*!
 	* @brief	デストラクタ。

@@ -12,6 +12,8 @@ public:
 	/// </summary>
 	virtual void Render();
 
+	virtual void FontRender() {}
+
 	virtual bool Start();
 
 	void AgoUpdate()
@@ -27,6 +29,12 @@ public:
 	{
 		if (isUpdate&isActive&&isStart) {
 			Render();
+		}
+	}
+	void FontRenderWarapper()
+	{
+		if (isUpdate&isActive&&isStart) {
+			FontRender();
 		}
 	}
 	void RecestDelete()

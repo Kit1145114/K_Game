@@ -43,6 +43,7 @@ public:
 	void Update()override;			//プレイヤーの更新関数
 	void Draw();			//プレイヤーの描画処理。
 	void Render()override;	//レンダー
+	void FontRender() override;  //文字表示
 	void Move();			//プレイヤーの移動処理。
 	void MoveOperation();		//プレイヤーの操作。
 	void Rotation();		//プレイヤーの回転処理。
@@ -133,8 +134,7 @@ private:
 	std::vector<Enemys*> m_enemysList;					//エネミーのVector配列
 	AnimationClip g_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
 	//音
-	CSoundEngine m_soundEngine;							//サウンドエンジン
-	CSoundSource m_se[3];								//SE
+	CSoundSource m_se[2];								//SE
 	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。	
 	CVector3 m_enemyPos = CVector3::Zero();				//エネミーのポジション取得用。
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数

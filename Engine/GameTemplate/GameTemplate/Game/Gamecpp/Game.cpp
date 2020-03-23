@@ -74,7 +74,6 @@ Game::~Game()
 	{
 		g_goMgr.QutavaleyaAGO(door);
 	}
-
 }
 
 Game* Game::GetInstance()
@@ -86,7 +85,6 @@ Game* Game::GetInstance()
 //ゲーム開始ィィィィ！！！！。
 bool Game::Start()
 {
-	m_soundEngine.Init();
 	//ゲームのスタート関数呼び出し。
 	switch (m_stage)
 	{
@@ -97,14 +95,11 @@ bool Game::Start()
 		NewBoss();
 		break;
 	}
-	//FirstStage();
-	//NewBoss();
 	return true;
 }
 //ゲームのアップデート。
 void Game::Update()
 {
-	m_soundEngine.Update();
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 	bool		isLive = false;
@@ -115,7 +110,6 @@ void Game::Update()
 		}
 		else if (enemy->GetIsDead())
 		{	
-			//enemysList.erase(enemy);
 			m_enemysList.pop_back();
 		}
 	}

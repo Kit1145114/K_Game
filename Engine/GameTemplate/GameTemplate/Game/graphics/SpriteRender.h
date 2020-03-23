@@ -30,6 +30,7 @@ public:
 	}
 	void Update();
 	void Draw();
+	void Render() override;
 private:
 	bool m_isDraw3D = false;
 	bool Active = true;

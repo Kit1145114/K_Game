@@ -80,6 +80,13 @@ void GameObjectManajer::PostRender()
 	}
 }
 
+void GameObjectManajer::FontRender()
+{
+	for (auto go : m_goList) {
+		go->FontRenderWarapper();
+	}
+}
+
 void GameObjectManajer::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, RenderTarget * renderTarget, D3D11_VIEWPORT * viewport)
 {
 	ChangeRenderTarget(
