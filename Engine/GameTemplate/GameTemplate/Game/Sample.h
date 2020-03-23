@@ -1,6 +1,5 @@
 #pragma once
-#include"Enemys.h"
-#include"Player.h"
+#include"../Game/Chara/Enemys.h"
 class Sample : public Enemys
 {
 public:

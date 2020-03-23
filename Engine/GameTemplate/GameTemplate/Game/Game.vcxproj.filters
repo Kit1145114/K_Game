@@ -130,18 +130,11 @@
     <ClCompile Include="Gamecpp\MAP.cpp">
       <Filter>ソース</Filter>
     </ClCompile>
-    <ClCompile Include="Gamecpp\Player.cpp">
-      <Filter>ソース</Filter>
-    </ClCompile>
     <ClCompile Include="Gamecpp\stdafx.cpp">
       <Filter>ソース</Filter>
     </ClCompile>
     <ClCompile Include="graphics\Sprite.cpp" />
     <ClCompile Include="Title.cpp" />
-    <ClCompile Include="Gamecpp\Enemys.cpp" />
-    <ClCompile Include="Gamecpp\StoneEnemy.cpp" />
-    <ClCompile Include="Gamecpp\Titan.cpp" />
-    <ClCompile Include="Gamecpp\Golem.cpp" />
     <ClCompile Include="HPText.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
@@ -156,7 +149,6 @@
     <ClCompile Include="sound\WaveFileBank.cpp" />
     <ClCompile Include="AroundPlayer.cpp" />
     <ClCompile Include="Door.cpp" />
-    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="DebugWireframe.cpp" />
     <ClCompile Include="EnergyText.cpp" />
     <ClCompile Include="graphics\SpriteRender.cpp" />
@@ -165,6 +157,14 @@
     <ClCompile Include="ITEM\RecoveryITEM.cpp" />
     <ClCompile Include="ChangeScreen.cpp" />
     <ClCompile Include="GameSystem\GameClear.cpp" />
+    <ClCompile Include="Chara\Enemys.cpp" />
+    <ClCompile Include="Chara\Player.cpp">
+      <Filter>ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\StoneEnemy.cpp" />
+    <ClCompile Include="Chara\Titan.cpp" />
+    <ClCompile Include="Chara\Golem.cpp" />
+    <ClCompile Include="Chara\Boss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -257,19 +257,12 @@
     <ClInclude Include="MAP.h">
       <Filter>ヘッダー</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="Game.h" />
     <ClInclude Include="graphics\Sprite.h" />
     <ClInclude Include="Title.h" />
-    <ClInclude Include="Enemys.h" />
-    <ClInclude Include="StoneEnemy.h" />
-    <ClInclude Include="Golem.h" />
-    <ClInclude Include="Titan.h" />
     <ClInclude Include="HPText.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -285,7 +278,6 @@
     <ClInclude Include="GameConst.h" />
     <ClInclude Include="AroundPlayer.h" />
     <ClInclude Include="Door.h" />
-    <ClInclude Include="Boss.h" />
     <ClInclude Include="DebugWireframe.h" />
     <ClInclude Include="EnergyText.h" />
     <ClInclude Include="graphics\SpriteRender.h" />
@@ -297,6 +289,14 @@
       <Filter>ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="GameSystem\GameClear.h" />
+    <ClInclude Include="Chara\Boss.h" />
+    <ClInclude Include="Chara\Titan.h" />
+    <ClInclude Include="Chara\StoneEnemy.h" />
+    <ClInclude Include="Chara\Player.h">
+      <Filter>ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Golem.h" />
+    <ClInclude Include="Chara\Enemys.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

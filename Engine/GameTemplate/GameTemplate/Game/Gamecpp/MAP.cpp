@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "MAP.h"
-#include"Enemys.h"
-#include"Golem.h"
-#include"StoneEnemy.h"
-#include"Titan.h"
-#include"Player.h"
+#include"../Chara/Enemys.h"
+#include"../Chara/Golem.h"
+#include"../Chara/StoneEnemy.h"
+#include"../Chara/Titan.h"
+#include"../Chara/Player.h"
 
 MAP::MAP()
 {

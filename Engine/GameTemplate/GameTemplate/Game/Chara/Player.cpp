@@ -251,7 +251,7 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 						enemy->Damage(ATK);
 						enemy->SetHitMe(true);
 						//m_attakSe.Init(L"Assets/sound/enemy_attack_00.wav");
-						m_attakSe.Play(false);
+						m_se[1].Play(false);
 				}
 			});
 		}

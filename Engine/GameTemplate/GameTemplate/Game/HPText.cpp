@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "HPText.h"
-#include"Player.h"
+#include"../Game/Chara/Player.h"
 
 HPText::HPText()
 {

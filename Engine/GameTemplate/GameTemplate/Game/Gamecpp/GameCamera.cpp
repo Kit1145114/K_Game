@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameCamera.h"
-#include"Player.h"
+#include"../Chara/Player.h"
 #define _USE_MATH_DEFINES //M_PI ‰~ü—¦ŒÄ‚Ño‚µ
 #include <math.h> 
 

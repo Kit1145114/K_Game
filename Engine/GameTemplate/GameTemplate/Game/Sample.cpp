@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Sample.h"
 
-
 Sample::Sample()
 {
 	SModel.Init(L"Assets/modelData/enemy_00.cmo");

@@ -101,7 +101,7 @@
   <ItemGroup>
     <ClCompile Include="AgoSample.cpp" />
     <ClCompile Include="AroundPlayer.cpp" />
-    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Chara\Boss.cpp" />
     <ClCompile Include="ChangeScreen.cpp" />
     <ClCompile Include="DebugWireframe.cpp" />
     <ClCompile Include="Door.cpp" />
@@ -113,12 +113,12 @@
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="graphics\2Dgraphics\Font.cpp" />
-    <ClCompile Include="Gamecpp\Enemys.cpp" />
+    <ClCompile Include="Chara\Enemys.cpp" />
     <ClCompile Include="Gamecpp\Game.cpp" />
     <ClCompile Include="Gamecpp\GameCamera.cpp" />
     <ClCompile Include="Gamecpp\GameObject.cpp" />
     <ClCompile Include="Gamecpp\GameObjectManajer.cpp" />
-    <ClCompile Include="Gamecpp\Golem.cpp" />
+    <ClCompile Include="Chara\Golem.cpp" />
     <ClCompile Include="graphics\animation\Animation.cpp" />
     <ClCompile Include="graphics\animation\AnimationClip.cpp" />
     <ClCompile Include="graphics\animation\AnimationPlayController.cpp" />
@@ -145,13 +145,13 @@
     <ClCompile Include="physics\RigidBody.cpp" />
     <ClCompile Include="physics\CapsuleCollider.cpp" />
     <ClCompile Include="physics\PhysicsStaticObject.cpp" />
-    <ClCompile Include="Gamecpp\Player.cpp" />
+    <ClCompile Include="Chara\Player.cpp" />
     <ClCompile Include="Gamecpp\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="graphics\Sprite.cpp" />
-    <ClCompile Include="Gamecpp\StoneEnemy.cpp" />
+    <ClCompile Include="Chara\StoneEnemy.cpp" />
     <ClCompile Include="ITEM\RecoveryITEM.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Sample.cpp" />
@@ -159,7 +159,7 @@
     <ClCompile Include="sound\SoundSource.cpp" />
     <ClCompile Include="graphics\SpriteRender.cpp" />
     <ClCompile Include="system\system.cpp" />
-    <ClCompile Include="Gamecpp\Titan.cpp" />
+    <ClCompile Include="Chara\Titan.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="sound\WaveFile.cpp" />
     <ClCompile Include="sound\WaveFileBank.cpp" />
@@ -167,7 +167,7 @@
   <ItemGroup>
     <ClInclude Include="AgoSample.h" />
     <ClInclude Include="AroundPlayer.h" />
-    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Chara\Boss.h" />
     <ClInclude Include="ChangeScreen.h" />
     <ClInclude Include="DebugWireframe.h" />
     <ClInclude Include="Door.h" />
@@ -179,13 +179,13 @@
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelEffect.h" />
     <ClInclude Include="character\CharacterController.h" />
-    <ClInclude Include="Enemys.h" />
+    <ClInclude Include="Chara\Enemys.h" />
     <ClInclude Include="graphics\2Dgraphics\Font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManajer.h" />
-    <ClInclude Include="Golem.h" />
+    <ClInclude Include="Chara\Golem.h" />
     <ClInclude Include="graphics\animation\Animation.h" />
     <ClInclude Include="graphics\animation\AnimationClip.h" />
     <ClInclude Include="graphics\animation\AnimationPlayController.h" />
@@ -214,7 +214,7 @@
     <ClInclude Include="physics\CapsuleCollider.h" />
     <ClInclude Include="physics\CollisionAttr.h" />
     <ClInclude Include="physics\PhysicsStaticObject.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Chara\Player.h" />
     <ClInclude Include="graphics\Sprite.h" />
     <ClInclude Include="ITEM\RecoveryITEM.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -223,9 +223,9 @@
     <ClInclude Include="sound\SoundSource.h" />
     <ClInclude Include="graphics\SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="StoneEnemy.h" />
+    <ClInclude Include="Chara\StoneEnemy.h" />
     <ClInclude Include="system\system.h" />
-    <ClInclude Include="Titan.h" />
+    <ClInclude Include="Chara\Titan.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="sound\WaveFile.h" />
     <ClInclude Include="sound\WaveFileBank.h" />
