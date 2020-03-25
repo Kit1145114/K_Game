@@ -6,31 +6,30 @@
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
 
-class Enemy;
 class Player;
-
 class Enemys : public GameObject
 {
 public:
 	 Enemys();
 	virtual ~Enemys();
-
-	//virtual void Attack() = 0;					//攻撃
-	virtual void Damage(int Damage) = 0;		//DAMAGE
+	virtual void Damage(int Damage) = 0;			//DAMAGE
 	//エネミーを死亡判定にする。
 	virtual void Death()
 	{
 		isDeath = true;
 	}
-
+	//ステートの純粋仮想関数
 	virtual void EnemyState() = 0;
-
+	//ここから先は敵の共通する処理を記載。呼び出しはEnemys::〇〇;
+	void Draw();				//敵の描画処理。
+	void ViewingAngle();		//エネミーの視野角。
+	void VectorAcquisition();	//エネミーのベクトルを取得するための関数。
+public:
 	//エネミーが死んだかどうかを返す。
 	bool GetisDeath()
 	{
 		return isDeath;
 	}
-
 	struct EnemyInitParam
 	{
 		float HP;
@@ -127,6 +126,9 @@ protected:
 	int m_SPD = 0;										//エネミーのスピード
 	float walkingDistance = 450.0f;						//歩行距離内。
 	float flyDistance = 500.0f;							//飛行距離内
+	float m_angle = 0.0f;
+	float m_enemytrack = 600.0f;						//追いかける範囲。
+	float attackDistance = 300.0f;						//範囲内で攻撃するための変数
 	bool isDeath = false;								//エネミーが死んだかどうか。
 	bool isHitMe = false;								//攻撃受けた。
 	bool isTracking = false;							//エネミーが追いかけるよ。
@@ -135,6 +137,7 @@ protected:
 	CVector3 m_scale = CVector3::Zero();				//エネミーの大きさ用のメンバ変数。
 	CVector3 m_toPlayer = CVector3::Zero();				//プレイヤーに向かうベクトル用。
 	CVector3 m_forward = CVector3::AxisZ();				//<エネミーの前方方向。
+	CVector3 m_diff = CVector3::Zero();
 	CVector3 Move = CVector3::Zero();					//敵が動くよ。（敵機の子）
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転用のメンバ変数。
 	CharacterController m_charaCon;						//キャラコン。

@@ -49,7 +49,6 @@ Player::~Player()
 //プレイヤーのアップデート。
 void Player::Update()
 {
-	//m_attakSe.Play(false);
 	//プレイヤーの更新情報を下に記述。
 	Draw();	
 	//m_soundEngine.Update();//プレイヤーの描画を呼ぶ。
@@ -242,7 +241,6 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 	CVector3 A = m_position + (m_forward * UpPhyGhostObjPosition);
 	A.y += UpPhyGhostObjPosition;
 	m_PhyGhostObj.CreateBox(A, m_rotation, box_scale);
-	float Kyori = 500.0f;
 	//敵との判定
 	for (auto enemy : m_enemysList) {
 		if (!enemy->GetIsDead()) {
@@ -250,7 +248,6 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
 						enemy->Damage(ATK);
 						enemy->SetHitMe(true);
-						//m_attakSe.Init(L"Assets/sound/enemy_attack_00.wav");
 						m_se[1].Play(false);
 				}
 			});

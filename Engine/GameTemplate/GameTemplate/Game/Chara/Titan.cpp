@@ -6,14 +6,14 @@ Titan::Titan()
 {
 	Model.Init(L"Assets/modelData/RobbotEnemy1.cmo");		//モデルの呼び出し。
 	//モデルのアニメーションのロード。
-	animClip[0].Load(L"Assets/animData/RE1_idle.tka");	//待機をロード。
-	animClip[0].SetLoopFlag(true);
-	animClip[1].Load(L"Assets/animData/RE1_walk.tka");	//歩きをロード。
-	animClip[1].SetLoopFlag(true);
-	animClip[2].Load(L"Assets/animData/RE1_death.tka");	//死亡をロード。
-	animClip[2].SetLoopFlag(false);
-	animClip[3].Load(L"Assets/animData/RE1_ATK.tka");	//攻撃をロード。
-	animClip[3].SetLoopFlag(true);
+	animClip[esIdle].Load(L"Assets/animData/RE1_idle.tka");	//待機をロード。
+	animClip[esIdle].SetLoopFlag(true);
+	animClip[esTracking].Load(L"Assets/animData/RE1_walk.tka");	//歩きをロード。
+	animClip[esTracking].SetLoopFlag(true);
+	animClip[esAttack].Load(L"Assets/animData/RE1_ATK.tka");	//攻撃をロード。
+	animClip[esAttack].SetLoopFlag(true);
+	animClip[esDeath].Load(L"Assets/animData/RE1_death.tka");	//死亡をロード。
+	animClip[esDeath].SetLoopFlag(false);
 	anim.Init(
 		Model,
 		animClip,
@@ -26,6 +26,7 @@ Titan::Titan()
 	//フラグをtrueへ
 	//パラメーター
 	prm.HP = 100;										//HP
+	m_MaxHP = prm.HP;									//MAXHP;
 	prm.ATK = 60;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
@@ -52,29 +53,38 @@ void Titan::Damage(int Damage)
 //プレイヤーの見つける処理。
 void Titan::Search()
 {
-	float Track = 500.0f;
-	CVector3 diff = m_player->GetPosition() - m_position;
-	if (diff.Length() <= Track)
-	{
-		Move = m_player->GetPosition() - m_position;
-		e_state = esTracking;
-		if (diff.Length() <= 200.0f)
+	Enemys::ViewingAngle();
+	//体力MAX時
+	if (prm.HP == m_MaxHP) {
+		//範囲外かつ視野角外なら
+		if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
 		{
-			m_moveSpeed.x = ZERO;
-			m_moveSpeed.z = ZERO;
-			e_state = esAttack;
+			e_state = esIdle;
+			isTracking = false;
+		}
+		//範囲内かつ視野角内なら
+		else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
+		{
+			Move = m_player->GetPosition() - m_position;
+			isTracking = true;
+			e_state = esTracking;
 		}
 	}
-	else if (diff.Length() >= Track)
+	//体力がMAXじゃないとき。ひたすら追いかける。
+	else if (prm.HP < m_MaxHP)
 	{
-		e_state = esIdle;
-		Move = CVector3::Zero();
+		Move = m_player->GetPosition() - m_position;
+		isTracking = true;
+		e_state = esTracking;
 	}
+	//攻撃の範囲計算。
+	AttackRange();
 }
 //敵の更新内容。
 void Titan::Update()
 {
-	Draw();
+	Enemys::Draw();
+	Enemys::VectorAcquisition();
 	EnemyState();
 	Rotation();
 	m_moveSpeed.y -= gravity;
@@ -82,15 +92,6 @@ void Titan::Update()
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	m_charaCon.SetPosition(m_position);
-}
-//敵の描画処理。
-void Titan::Draw()
-{
-	Model.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix(),
-		1
-	);
 }
 //倒されたときに呼ぶ処理。
 void Titan::Death()
@@ -111,18 +112,18 @@ void Titan::EnemyState()
 	case Enemys::esIdle:
 		Search();
 		Rotation();
-		anim.Play(0);
+		anim.Play(esIdle);
 		break;
 	case Enemys::esTracking:
 		Search();
 		EMove();
 		Rotation();
-		anim.Play(1);
+		anim.Play(esTracking);
 		break;
 	case Enemys::esAttack:
 		Search();
 		Rotation();
-		anim.Play(3);
+		anim.Play(esAttack);
 		break;
 	case Enemys::esDeath:
 		Death();
@@ -132,7 +133,14 @@ void Titan::EnemyState()
 void Titan::EMove()
 {
 	Move.Normalize();
-	m_moveSpeed = Move * prm.SPD;
+	if (e_state == esIdle || e_state == esAttack)
+	{
+		m_moveSpeed.x = 0.0f;
+		m_moveSpeed.z = 0.0f;
+	}
+	else if (e_state == esTracking) {
+		m_moveSpeed = Move * prm.SPD;
+	}
 }
 //エネミーの回転処理。
 void Titan::Rotation()
@@ -157,13 +165,20 @@ void Titan::Rotation()
 //アニメーションイベント
 void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-	float Kyori = 500.0f;
 	if (m_player->GetIsDead() == false) {
-			CVector3 diff = m_position - m_player->GetPosition();
-			if (diff.Length() <= Kyori && eventName)
-			{
-				//MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
-				m_player->Damage(prm.ATK);
-			}
+		if (e_state == esAttack && eventName)
+		{
+			Attack();
+			m_se[0].Play(false);
 		}
 	}
+}
+//攻撃できるか
+void Titan::AttackRange()
+{
+	if (m_diff.Length() <= attackDistance && isTracking)
+	{
+		//距離内に近づいたら攻撃。
+		e_state = esAttack;
+	}
+}

@@ -46,9 +46,9 @@ Boss::Boss()
 //敵の更新内容。
 void Boss::Update()
 {
-	Draw();
+	Enemys::Draw();
+	Enemys::VectorAcquisition();
 	HitMe();
-	VectorAcquisition();
 	EnemyState();
 	m_moveSpeed.y -= gravity;
 	anim.Update(0.03f);
@@ -56,31 +56,21 @@ void Boss::Update()
 	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	m_charaCon.SetPosition(m_position);
 }
-//敵の描画処理。
-void Boss::Draw()
-{
-	Model.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix(),
-		1
-	);
-}
 //敵の攻撃処理。
 void Boss::Attack()
 {
-
 	m_player->Damage(prm.ATK);
 }
 //攻撃できる範囲か調べる処理
 void Boss::AttackRange()
 {
-	if (diff.Length() <= attackDistance && Mode == SmallATK
+	if (m_diff.Length() <= attackDistance && Mode == SmallATK
 		&& isTracking)
 	{
 		//距離内に近づいたら攻撃。
 		boss_State = bsSmallAttack;
 	}
-	else if (diff.Length() <= attackDistance && Mode == BigATK
+	else if (m_diff.Length() <= attackDistance && Mode == BigATK
 		&& isTracking)
 	{
 		boss_State = bsBigAttack;
@@ -116,28 +106,28 @@ void Boss::Damage(int Dam)
 //プレイヤーの見つける処理。
 void Boss::Search()
 {
-	ViewingAngle();
+	Enemys::ViewingAngle();
 	//体力MAX時
 	if (prm.HP == m_MaxHP) {
 		//範囲外かつ視野角外なら
-		if (diff.Length() >= track || fabsf(angle) > CMath::PI * 0.40f)
+		if (m_diff.Length() >= track || fabsf(m_angle) > CMath::PI * 0.40f)
 		{
 			boss_State = bsIdle;
 			isTracking = false;	
 		}
 		//範囲内かつ視野角内なら
-		else if (diff.Length() <= track && fabsf(angle) < CMath::PI * 0.40f)
+		else if (m_diff.Length() <= track && fabsf(m_angle) < CMath::PI * 0.40f)
 		{
 			Move = m_player->GetPosition() - m_position;
 			isTracking = true;
 			//飛行距離内なら
-			if (diff.Length() >= flyDistance)
+			if (m_diff.Length() >= flyDistance)
 			{
 				Move = m_player->GetPosition() - m_position;
 				boss_State = bsFlyTracking;
 			}
 			//歩行距離内なら
-			else if (diff.Length() >= walkingDistance)
+			else if (m_diff.Length() >= walkingDistance)
 			{
 				Move = m_player->GetPosition() - m_position;
 				boss_State = bsWalkTracking;
@@ -150,13 +140,13 @@ void Boss::Search()
 		Move = m_player->GetPosition() - m_position;
 		isTracking = true;
 		//飛行距離内なら
-		if (diff.Length() >= flyDistance)
+		if (m_diff.Length() >= flyDistance)
 		{
 			Move = m_player->GetPosition() - m_position;
 			boss_State = bsFlyTracking;
 		}
 		//歩行距離内なら
-		else if (diff.Length() >= walkingDistance)
+		else if (m_diff.Length() >= walkingDistance)
 		{
 			Move = m_player->GetPosition() - m_position;
 			boss_State = bsWalkTracking;
@@ -258,23 +248,6 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			m_se[1].Play(false);
 		}
 	}
-}
-//エネミーの視野角
-void Boss::ViewingAngle()
-{
-	diff = m_player->GetPosition() - m_position;
-	m_toPlayer = m_player->GetPosition() - m_position;
-	m_toPlayer.Normalize();
-	angle = acosf(m_toPlayer.Dot(m_forward));
-}
-//エネミーのベクトルを取得。
-void Boss::VectorAcquisition()
-{
-	auto mRot = CMatrix::Identity();
-	mRot.MakeRotationFromQuaternion(m_rotation);
-	m_forward.x = mRot.m[2][0];
-	m_forward.y = mRot.m[2][1];
-	m_forward.z = mRot.m[2][2];
 }
 //DAMAGE受けたときの...
 void Boss::HitMe()

@@ -4,27 +4,31 @@
 //敵が作られて最初に呼ぶ処理。
 Golem::Golem()
 {
-	gModel.Init(L"Assets/modelData/Enemy2.cmo");		//モデルの呼び出し。
+	m_se[0].Init(L"Assets/sound/BossAttack1.wav");				//音の初期化。
+	Model.Init(L"Assets/modelData/Enemy2.cmo");				//モデルの初期化。
 //モデルのアニメーションのロード。
-	g_animClip[0].Load(L"Assets/animData/E2_idle.tka");	//待機アニメーションをロード。
-	g_animClip[0].SetLoopFlag(true);
-	g_animClip[1].Load(L"Assets/animData/E2_Death.tka");//死ぬアニメーションをロード。
-	g_animClip[1].SetLoopFlag(false);
-	g_animClip[2].Load(L"Assets/animData/E2_ATK.tka");	//攻撃アニメーションをロード。
-	g_animClip[2].SetLoopFlag(true);
-	g_anim.Init(
-		gModel,
-		g_animClip,
+	animClip[esIdle].Load(L"Assets/animData/E2_idle.tka");	//待機アニメーションをロード。
+	animClip[esIdle].SetLoopFlag(true);
+	animClip[esTracking].Load(L"Assets/animData/E2_Walk.tka");//待機アニメーションをロード。
+	animClip[esTracking].SetLoopFlag(true);
+	animClip[esAttack].Load(L"Assets/animData/E2_ATK.tka");	//攻撃アニメーションをロード。
+	animClip[esAttack].SetLoopFlag(true);
+	animClip[esDeath].Load(L"Assets/animData/E2_Death.tka");	//死ぬアニメーションをロード。
+	animClip[esDeath].SetLoopFlag(false);
+	anim.Init(
+		Model,
+		animClip,
 		m_AnimClipNum
 	);
 	//アニメーションイベントを呼ぶ。
-	g_anim.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName)
+	anim.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName)
 	{
 		OnAnimationEvent(clipName, eventName);
 	});
 	//フラグをtrueへ
 	//パラメーター
 	prm.HP = 100;										//HP
+	m_MaxHP = prm.HP;									//MAXHP;
 	prm.ATK = 60;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 200;										//速さ。
@@ -51,51 +55,51 @@ void Golem::Damage(int Damage)
 //プレイヤーの見つける処理。
 void Golem::Search()
 {
-	float Track = 500.0f;
-	CVector3 diff = m_player->GetPosition() - m_position;
-	if (diff.Length() <= Track)
-	{
-		Move = m_player->GetPosition() - m_position;
-		e_state = esTracking;
-		if (diff.Length() <= 200.0f)
+	Enemys::ViewingAngle();
+	//体力MAX時
+	if (prm.HP == m_MaxHP) {
+		//範囲外かつ視野角外なら
+		if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
 		{
-			m_moveSpeed.x = ZERO;
-			m_moveSpeed.z = ZERO;
-			e_state = esAttack;
+			e_state = esIdle;
+			isTracking = false;
+		}
+		//範囲内かつ視野角内なら
+		else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
+		{
+			Move = m_player->GetPosition() - m_position;
+			isTracking = true;
+			e_state = esTracking;
 		}
 	}
-	else if (diff.Length() >= Track)
+	//体力がMAXじゃないとき。ひたすら追いかける。
+	else if (prm.HP < m_MaxHP)
 	{
-		e_state = esIdle;
-		Move = CVector3::Zero();
+		Move = m_player->GetPosition() - m_position;
+		isTracking = true;
+		e_state = esTracking;
 	}
+	//攻撃の範囲計算。
+	AttackRange();
 }
 //敵の更新内容。
 void Golem::Update()
 {
-	Draw();
+	Enemys::Draw();
+	Enemys::VectorAcquisition();
 	EnemyState();
 	Rotation();
 	m_moveSpeed.y -= gravity;
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
-	g_anim.Update(0.05f);
+	anim.Update(0.05f);
 	m_charaCon.SetPosition(m_position);
-	gModel.UpdateWorldMatrix(m_position, m_rotation, m_scale);
-}
-//敵の描画処理。
-void Golem::Draw()
-{
-	gModel.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix(),
-		1
-	);
+	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 }
 //倒されたときに呼ぶ処理。
 void Golem::Death()
 {
-	g_anim.Play(1);
-	if (g_anim.IsPlaying() == false)
+	anim.Play(esDeath);
+	if (anim.IsPlaying() == false)
 	{
 		this->SetActive(false);
 		m_charaCon.RemoveRigidBoby();
@@ -106,7 +110,14 @@ void Golem::Death()
 void Golem::EMove()
 {
 	Move.Normalize();
-	m_moveSpeed = Move * prm.SPD;
+	if (e_state == esIdle || e_state == esAttack) 
+	{
+		m_moveSpeed.x = 0.0f;
+		m_moveSpeed.z = 0.0f;
+	}
+	else if (e_state == esTracking) {
+		m_moveSpeed = Move * prm.SPD;
+	}
 }
 //エネミーのアニメーション状態で変えてるよ
 void Golem::EnemyState()
@@ -115,15 +126,17 @@ void Golem::EnemyState()
 	{
 	case Enemys::esIdle:
 		Search();
-		g_anim.Play(0);
+		anim.Play(esIdle);
 		break;
 	case Enemys::esTracking:
 		Search();
 		EMove();
-		g_anim.Play(0);
+		anim.Play(esTracking);
 		break;
 	case Enemys::esAttack:
-		g_anim.Play(2);
+		Search();
+		EMove();
+		anim.Play(esAttack);
 		break;
 	case Enemys::esDeath:
 		Death();
@@ -136,29 +149,36 @@ void Golem::Rotation()
 	float Rot = atan2(Move.x, Move.z);
 	CQuaternion qRot;
 	qRot.SetRotation(CVector3::AxisY(), Rot);
-	gModel.SetRotation(qRot);
+	Model.SetRotation(qRot);
 	//もし、動いていたら回転させる。
 	if (m_moveSpeed.x != None || m_moveSpeed.z != None)
 	{
 		m_rotation = qRot;
-		gModel.SetRotation(m_rotation);
+		Model.SetRotation(m_rotation);
 	}
 	if (m_moveSpeed.x == None && m_moveSpeed.z == None)
 	{
-		gModel.SetRotation(m_rotation);
+		Model.SetRotation(m_rotation);
 	}
-	gModel.SetRotation(m_rotation);
+	Model.SetRotation(m_rotation);
 }
 //アニメーションイベント
 void Golem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-	float Kyori = 500.0f;
 	if (m_player->GetIsDead() == false) {
-		CVector3 diff = m_position - m_player->GetPosition();
-		if (diff.Length() <= Kyori && eventName)
+		if (e_state == esAttack && eventName)
 		{
-			//MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
-			m_player->Damage(prm.ATK);
+			Attack();
+			m_se[0].Play(false);
 		}
+	}
+}
+//攻撃できるか
+void Golem::AttackRange()
+{
+	if (m_diff.Length() <= attackDistance && isTracking)
+	{
+		//距離内に近づいたら攻撃。
+		e_state = esAttack;
 	}
 }

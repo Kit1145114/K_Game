@@ -15,21 +15,15 @@ public:
 	void Damage(int Damage);				//DAMAGE
 	void Search();							//プレイヤーを見つける関数
 	void Update();							//敵の更新内容を記入
-	void Draw();							//エネミーをドロー処理だよ。
 	void Death();							//エネミーが死ぬ処理だよ。
 	void EnemyState();						//エネミーをステイトで行動する処理だよ。
 	void EMove();							//エネミーが動く処理だよ。
 	void Rotation();						//エネミーが動きに合わせて回転する処理だよ。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
-	void ViewingAngle();					//エネミーの視野角。
-	void VectorAcquisition();				//エネミーのベクトルを取得するための関数。
 	void HitMe();							//ダメージを受けるｚ....
 private:
 	BossAnimState boss_State;				//ボスのステート。
 	BossMode Mode;							//ボスの攻撃用のステート。
-	CVector3 diff = CVector3::Zero();		//プレイヤーと距離を測る用
-	float attackDistance = 300.0f;			//範囲内で攻撃するための変数
 	float track = 1500.0f;					//追いかけるための変数
-	float angle = 0.0f;
 };
 

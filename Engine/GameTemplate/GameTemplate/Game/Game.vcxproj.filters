@@ -358,6 +358,7 @@
     <None Include="Assets\animData\PlayerCombo.tka" />
     <None Include="Assets\animData\box_open.tka" />
     <None Include="Assets\animData\box_idle.tka" />
+    <None Include="Assets\animData\E2_Walk.tka" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

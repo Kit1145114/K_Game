@@ -259,6 +259,7 @@
     <None Include="Assets\animData\E2_ATK.tka" />
     <None Include="Assets\animData\E2_Death.tka" />
     <None Include="Assets\animData\E2_idle.tka" />
+    <None Include="Assets\animData\E2_Walk.tka" />
     <None Include="Assets\animData\E3_ATK.tka" />
     <None Include="Assets\animData\E3_idle.tka" />
     <None Include="Assets\animData\E3_walk.tka" />
