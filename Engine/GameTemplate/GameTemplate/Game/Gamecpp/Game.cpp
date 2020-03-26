@@ -193,6 +193,8 @@ bool Game::FirstStage()
 	for (auto enemy : m_enemysList) {
 		enemy->SetPlayer(player);
 	}
+	itemBox = g_goMgr.NewAGO<ITEMBox>();
+	player->SetBox(itemBox);
 	player->SetEnemysList(m_enemysList);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);

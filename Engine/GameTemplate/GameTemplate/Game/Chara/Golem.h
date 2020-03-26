@@ -13,7 +13,6 @@ public:
 	void Death();							//エネミーが死ぬ処理だよ。
 	void EnemyState();						//エネミーをステイトで行動する処理だよ。
 	void EMove();							//エネミーが動く処理だよ。
-	void Rotation();						//エネミーが動きに合わせて回転する処理だよ。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 	void AttackRange();						//攻撃できるかの処理。
 private:

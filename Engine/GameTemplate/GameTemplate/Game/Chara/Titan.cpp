@@ -4,6 +4,7 @@
 //敵が作られて最初に呼ぶ処理。
 Titan::Titan()
 {
+	m_se[0].Init(L"Assets/sound/BossAttack1.wav");				//音の初期化。
 	Model.Init(L"Assets/modelData/RobbotEnemy1.cmo");		//モデルの呼び出し。
 	//モデルのアニメーションのロード。
 	animClip[esIdle].Load(L"Assets/animData/RE1_idle.tka");	//待機をロード。
@@ -85,8 +86,8 @@ void Titan::Update()
 {
 	Enemys::Draw();
 	Enemys::VectorAcquisition();
+	Enemys::Rotation();
 	EnemyState();
-	Rotation();
 	m_moveSpeed.y -= gravity;
 	anim.Update(0.03f);
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
@@ -96,7 +97,7 @@ void Titan::Update()
 //倒されたときに呼ぶ処理。
 void Titan::Death()
 {
-	anim.Play(2);
+	anim.Play(esDeath);
 	if (anim.IsPlaying() == false)
 	{
 		this->SetActive(false);
@@ -109,22 +110,26 @@ void Titan::EnemyState()
 {
 	switch (e_state)
 	{
+		//待機中。
 	case Enemys::esIdle:
 		Search();
 		Rotation();
 		anim.Play(esIdle);
 		break;
+		//追いかけてる。
 	case Enemys::esTracking:
 		Search();
 		EMove();
 		Rotation();
 		anim.Play(esTracking);
 		break;
+		//攻撃。
 	case Enemys::esAttack:
 		Search();
 		Rotation();
 		anim.Play(esAttack);
 		break;
+		//死亡したとき。
 	case Enemys::esDeath:
 		Death();
 	}
@@ -141,26 +146,6 @@ void Titan::EMove()
 	else if (e_state == esTracking) {
 		m_moveSpeed = Move * prm.SPD;
 	}
-}
-//エネミーの回転処理。
-void Titan::Rotation()
-{
-	float None = 0.0f;		//マジックナンバーを防ぐ0を入れた数
-	float Rot = atan2(Move.x, Move.z);
-	CQuaternion qRot;
-	qRot.SetRotation(CVector3::AxisY(), Rot);
-	Model.SetRotation(qRot);
-	//もし、動いていたら回転させる。
-	if (m_moveSpeed.x != None || m_moveSpeed.z != None)
-	{
-		m_rotation = qRot;
-		Model.SetRotation(m_rotation);
-	}
-	if (m_moveSpeed.x == None && m_moveSpeed.z == None)
-	{
-		Model.SetRotation(m_rotation);
-	}
-	Model.SetRotation(m_rotation);
 }
 //アニメーションイベント
 void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)

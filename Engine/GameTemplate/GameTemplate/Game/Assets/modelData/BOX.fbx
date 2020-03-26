@@ -8,11 +8,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2020
 		Month: 3
-		Day: 5
-		Hour: 20
-		Minute: 18
-		Second: 21
-		Millisecond: 701
+		Day: 26
+		Hour: 10
+		Minute: 42
+		Second: 55
+		Millisecond: 146
 	}
 	Creator: "FBX SDK/FBX Plugins version 2018.1"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -34,15 +34,14 @@ FBXHeaderExtension:  {
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "3ds Max"
 			P: "Original|ApplicationVersion", "KString", "", "", "2018"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "05/03/2020 11:18:21.697"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "26/03/2020 01:42:55.118"
 			P: "Original|FileName", "KString", "", "", "C:\Users\GC1823\Desktop\Game\K_Game\Engine\GameTemplate\GameTemplate\Game\Assets\modelData\BOX.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "3ds Max"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "2018"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "05/03/2020 11:18:21.697"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "26/03/2020 01:42:55.118"
 			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\GC1823\Documents\3dsMax"
-			P: "Original|ApplicationNativeFile", "KString", "", "", "C:\Users\GC1823\Desktop\3d MAX　データ\box.max"
 		}
 	}
 }
@@ -65,7 +64,7 @@ GlobalSettings:  {
 		P: "TimeProtocol", "enum", "", "",2
 		P: "SnapOnFrameMode", "enum", "", "",0
 		P: "TimeSpanStart", "KTime", "Time", "",0
-		P: "TimeSpanStop", "KTime", "Time", "",76976930000
+		P: "TimeSpanStop", "KTime", "Time", "",153953860000
 		P: "CustomFrameRate", "double", "Number", "",-1
 		P: "TimeMarker", "Compound", "", ""
 		P: "CurrentTimeMarker", "int", "Integer", "",-1
@@ -77,7 +76,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 2636238554592, "", "Scene" {
+	Document: 1749590484768, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", ""
@@ -97,7 +96,7 @@ References:  {
 
 Definitions:  {
 	Version: 100
-	Count: 25
+	Count: 29
 	ObjectType: "GlobalSettings" {
 		Count: 1
 	}
@@ -273,7 +272,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "NodeAttribute" {
-		Count: 1
+		Count: 2
 		PropertyTemplate: "FbxNull" {
 			Properties70:  {
 				P: "Color", "ColorRGB", "Color", "",0.8,0.8,0.8
@@ -303,6 +302,12 @@ Definitions:  {
 				P: "d", "Compound", "", ""
 			}
 		}
+	}
+	ObjectType: "Deformer" {
+		Count: 2
+	}
+	ObjectType: "Pose" {
+		Count: 1
 	}
 	ObjectType: "Video" {
 		Count: 1
@@ -337,7 +342,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 2635878740656, "Geometry::", "Mesh" {
+	Geometry: 1749602436432, "Geometry::", "Mesh" {
 		Properties70:  {
 			P: "Color", "ColorRGB", "Color", "",0.0274509803921569,0.0274509803921569,0.0274509803921569
 		}
@@ -476,10 +481,10 @@ Objects:  {
 			}
 		}
 	}
-	NodeAttribute: 2635878249216, "NodeAttribute::", "Null" {
+	NodeAttribute: 1749525446128, "NodeAttribute::", "Null" {
 		TypeFlags: "Null"
 	}
-	Geometry: 2635878732496, "Geometry::", "Mesh" {
+	Geometry: 1749602427184, "Geometry::", "Mesh" {
 		Properties70:  {
 			P: "Color", "ColorRGB", "Color", "",0.0274509803921569,0.0274509803921569,0.0274509803921569
 		}
@@ -625,7 +630,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 2636329307760, "Model::box_body", "Mesh" {
+	NodeAttribute: 1749525455536, "NodeAttribute::", "LimbNode" {
+		Properties70:  {
+			P: "Size", "double", "Number", "",1.33514404296875e-05
+		}
+		TypeFlags: "Skeleton"
+	}
+	Model: 1749335482176, "Model::box_body", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "InheritType", "enum", "", "",1
@@ -633,39 +644,56 @@ Objects:  {
 			P: "DefaultAttributeIndex", "int", "Integer", "",0
 			P: "Lcl Translation", "Lcl Translation", "", "A",-2.76167297363281,-9.11707305908203,0
 			P: "UDP3DSMAX", "KString", "", "U", "MapChannel:1 = UVChannel_1&cr;&lf;"
-			P: "MaxHandle", "int", "Integer", "UH",2
+			P: "MaxHandle", "int", "Integer", "UH",1
 		}
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Model: 2636329285840, "Model::Bone_cap", "Null" {
+	Model: 1749335484368, "Model::Bone_cap", "LimbNode" {
 		Version: 232
 		Properties70:  {
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
 			P: "DefaultAttributeIndex", "int", "Integer", "",0
 			P: "Lcl Translation", "Lcl Translation", "", "A",21.6517219543457,-9.11707305908203,18.7530307769775
-			P: "Lcl Rotation", "Lcl Rotation", "", "A+",-90.0000043257111,5.00895613097532e-06,180
-			P: "MaxHandle", "int", "Integer", "UH",3
+			P: "Lcl Rotation", "Lcl Rotation", "", "A+",-89.9999974955219,5.00895613097532e-06,-180
+			P: "MaxHandle", "int", "Integer", "UH",2
 		}
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Model: 2636329288032, "Model::box_cap", "Mesh" {
+	Model: 1749335455872, "Model::box_cap", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
 			P: "DefaultAttributeIndex", "int", "Integer", "",0
 			P: "Lcl Translation", "Lcl Translation", "", "A",0,0,1.9073486328125e-06
-			P: "Lcl Rotation", "Lcl Rotation", "", "A+",-90.0000093346676,9.706282597239e-20,179.9999776882
+			P: "Lcl Rotation", "Lcl Rotation", "", "A+",-90.0000093346676,4.85314129861985e-20,-179.999994991044
 			P: "UDP3DSMAX", "KString", "", "U", "MapChannel:1 = UVChannel_1&cr;&lf;"
-			P: "MaxHandle", "int", "Integer", "UH",4
+			P: "MaxHandle", "int", "Integer", "UH",3
 		}
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 2636051204288, "Material::Material #25", "" {
+	Pose: 1749525445072, "Pose::BIND_POSES", "BindPose" {
+		Type: "BindPose"
+		Version: 100
+		NbPoseNodes: 2
+		PoseNode:  {
+			Node: 1749335455872
+			Matrix: *16 {
+				a: 1,3.82137135384588e-15,1.74845553146952e-07,0,3.2307330774398e-14,1,-2.06632080335112e-07,0,-1.74845553146952e-07,2.06632080335112e-07,1,0,21.6517219543457,-9.11707496643066,18.7530307769775,1
+			} 
+		}
+		PoseNode:  {
+			Node: 1749335484368
+			Matrix: *16 {
+				a: -1,-0,-8.74227765734759e-08,0,8.74227765734759e-08,-4.37113882867379e-08,-1,0,-3.82137093032941e-15,-1,4.37113882867379e-08,0,21.6517219543457,-9.11707305908203,18.7530307769775,1
+			} 
+		}
+	}
+	Material: 1749149276736, "Material::Material #25", "" {
 		Version: 102
 		ShadingModel: "phong"
 		MultiLayer: 0
@@ -688,7 +716,34 @@ Objects:  {
 			P: "Reflectivity", "double", "Number", "",0
 		}
 	}
-	Video: 2636051205248, "Video::マップ #1", "Clip" {
+	Deformer: 1749525456304, "Deformer::", "Skin" {
+		Version: 101
+		Link_DeformAcuracy: 50
+		SkinningType: "Blend"
+		Indexes: *82 {
+			a: 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81
+		} 
+		BlendWeights: *82 {
+			a: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		} 
+	}
+	Deformer: 1749540047840, "SubDeformer::", "Cluster" {
+		Version: 100
+		UserData: "", ""
+		Indexes: *82 {
+			a: 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81
+		} 
+		Weights: *82 {
+			a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+		} 
+		Transform: *16 {
+			a: -1.00000000000001,-8.74227765734752e-08,1.2246426332988e-16,0,-1.43654435181177e-14,1.62920691987143e-07,-1.00000000000001,0,8.7422776573476e-08,-1.00000000000001,-1.62920691987146e-07,0,0,8.17124146124115e-14,1.9073486328125e-06,1
+		} 
+		TransformLink: *16 {
+			a: -1,-1.22464679914735e-16,-8.74227765734759e-08,0,8.74227765734758e-08,-4.37113883479704e-08,-1,0,-3.69890625734629e-15,-1,4.37113883479701e-08,0,21.6517219543457,-9.11707305908203,18.7530307769775,1
+		} 
+	}
+	Video: 1749149276256, "Video::マップ #1", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:\Users\GC1823\Desktop\Game\K_Game\Engine\GameTemplate\GameTemplate\Game\Assets\modelData\box.jpg"
@@ -698,7 +753,7 @@ Objects:  {
 		Filename: "C:\Users\GC1823\Desktop\Game\K_Game\Engine\GameTemplate\GameTemplate\Game\Assets\modelData\box.jpg"
 		RelativeFilename: "box.jpg"
 	}
-	Texture: 2636051213408, "Texture::マップ #1", "" {
+	Texture: 1749149272416, "Texture::マップ #1", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::マップ #1"
@@ -714,13 +769,13 @@ Objects:  {
 		Texture_Alpha_Source: "Alpha_Black"
 		Cropping: 0,0,0,0
 	}
-	AnimationStack: 2636138191728, "AnimStack::Take 001", "" {
+	AnimationStack: 1749597885136, "AnimStack::Take 001", "" {
 		Properties70:  {
-			P: "LocalStop", "KTime", "Time", "",76976930000
-			P: "ReferenceStop", "KTime", "Time", "",76976930000
+			P: "LocalStop", "KTime", "Time", "",153953860000
+			P: "ReferenceStop", "KTime", "Time", "",153953860000
 		}
 	}
-	AnimationCurve: 2636138482592, "AnimCurve::", "" {
+	AnimationCurve: 1749597598352, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -741,7 +796,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2636138489152, "AnimCurve::", "" {
+	AnimationCurve: 1749597598992, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -762,7 +817,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2636138484832, "AnimCurve::", "" {
+	AnimationCurve: 1749597594352, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -783,7 +838,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2636138485792, "AnimCurve::", "" {
+	AnimationCurve: 1749597594512, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *3 {
@@ -804,7 +859,7 @@ Objects:  {
 			a: 1,1,1
 		} 
 	}
-	AnimationCurve: 2636138490432, "AnimCurve::", "" {
+	AnimationCurve: 1749597593392, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *3 {
@@ -825,7 +880,7 @@ Objects:  {
 			a: 1,1,1
 		} 
 	}
-	AnimationCurve: 2636138482272, "AnimCurve::", "" {
+	AnimationCurve: 1749597599152, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *3 {
@@ -846,7 +901,7 @@ Objects:  {
 			a: 1,1,1
 		} 
 	}
-	AnimationCurve: 2636138486592, "AnimCurve::", "" {
+	AnimationCurve: 1749597593552, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -867,7 +922,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2636138486752, "AnimCurve::", "" {
+	AnimationCurve: 1749597593872, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -888,7 +943,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2636138486912, "AnimCurve::", "" {
+	AnimationCurve: 1749597591792, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -909,32 +964,32 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurveNode: 2636138190272, "AnimCurveNode::R", "" {
+	AnimationCurveNode: 1749597885968, "AnimCurveNode::R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",0
 			P: "d|Y", "Number", "", "A",0
 			P: "d|Z", "Number", "", "A",0
 		}
 	}
-	AnimationCurveNode: 2636138190688, "AnimCurveNode::R", "" {
+	AnimationCurveNode: 1749597889088, "AnimCurveNode::R", "" {
 		Properties70:  {
-			P: "d|X", "Number", "", "A",-90.0000043257111
+			P: "d|X", "Number", "", "A",-89.9999974955219
 			P: "d|Y", "Number", "", "A",5.00895613097532e-06
-			P: "d|Z", "Number", "", "A",180
+			P: "d|Z", "Number", "", "A",-180
 		}
 	}
-	AnimationCurveNode: 2636138187360, "AnimCurveNode::R", "" {
+	AnimationCurveNode: 1749597888464, "AnimCurveNode::R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",-90.0000093346676
-			P: "d|Y", "Number", "", "A",9.706282597239e-20
-			P: "d|Z", "Number", "", "A",179.9999776882
+			P: "d|Y", "Number", "", "A",4.85314129861985e-20
+			P: "d|Z", "Number", "", "A",-179.999994991044
 		}
 	}
-	AnimationLayer: 2636048498240, "AnimLayer::BaseLayer", "" {
+	AnimationLayer: 1749540029632, "AnimLayer::BaseLayer", "" {
 	}
-	CollectionExclusive: 2635821897888, "DisplayLayer::box", "DisplayLayer" {
+	CollectionExclusive: 1749525455152, "DisplayLayer::box", "DisplayLayer" {
 		Properties70:  {
-			P: "Color", "ColorRGB", "Color", "",0.6,0.890196078431372,0.83921568627451
+			P: "Color", "ColorRGB", "Color", "",0.6,0.886274509803922,0.83921568627451
 		}
 	}
 }
@@ -945,91 +1000,100 @@ Objects:  {
 Connections:  {
 	
 	;Model::box_body, Model::RootNode
-	C: "OO",2636329307760,0
+	C: "OO",1749335482176,0
 	
 	;Model::Bone_cap, Model::RootNode
-	C: "OO",2636329285840,0
+	C: "OO",1749335484368,0
 	
 	;AnimLayer::BaseLayer, AnimStack::Take 001
-	C: "OO",2636048498240,2636138191728
+	C: "OO",1749540029632,1749597885136
 	
 	;AnimCurveNode::R, AnimLayer::BaseLayer
-	C: "OO",2636138190272,2636048498240
+	C: "OO",1749597885968,1749540029632
 	
 	;AnimCurveNode::R, AnimLayer::BaseLayer
-	C: "OO",2636138190688,2636048498240
+	C: "OO",1749597889088,1749540029632
 	
 	;AnimCurveNode::R, AnimLayer::BaseLayer
-	C: "OO",2636138187360,2636048498240
+	C: "OO",1749597888464,1749540029632
 	
 	;Geometry::, Model::box_body
-	C: "OO",2635878740656,2636329307760
+	C: "OO",1749602436432,1749335482176
 	
 	;Material::Material #25, Model::box_body
-	C: "OO",2636051204288,2636329307760
+	C: "OO",1749149276736,1749335482176
 	
 	;AnimCurveNode::R, Model::box_body
-	C: "OP",2636138190272,2636329307760, "Lcl Rotation"
+	C: "OP",1749597885968,1749335482176, "Lcl Rotation"
 	
 	;Model::box_cap, Model::Bone_cap
-	C: "OO",2636329288032,2636329285840
+	C: "OO",1749335455872,1749335484368
 	
 	;NodeAttribute::, Model::Bone_cap
-	C: "OO",2635878249216,2636329285840
+	C: "OO",1749525455536,1749335484368
 	
 	;AnimCurveNode::R, Model::Bone_cap
-	C: "OP",2636138190688,2636329285840, "Lcl Rotation"
+	C: "OP",1749597889088,1749335484368, "Lcl Rotation"
 	
 	;Geometry::, Model::box_cap
-	C: "OO",2635878732496,2636329288032
+	C: "OO",1749602427184,1749335455872
 	
 	;Material::Material #25, Model::box_cap
-	C: "OO",2636051204288,2636329288032
+	C: "OO",1749149276736,1749335455872
 	
 	;AnimCurveNode::R, Model::box_cap
-	C: "OP",2636138187360,2636329288032, "Lcl Rotation"
+	C: "OP",1749597888464,1749335455872, "Lcl Rotation"
 	
 	;Texture::マップ #1, Material::Material #25
-	C: "OP",2636051213408,2636051204288, "DiffuseColor"
+	C: "OP",1749149272416,1749149276736, "DiffuseColor"
 	
 	;Video::マップ #1, Texture::マップ #1
-	C: "OO",2636051205248,2636051213408
+	C: "OO",1749149276256,1749149272416
 	
-	;Model::box_cap, DisplayLayer::box
-	C: "OO",2636329288032,2635821897888
-	
-	;Model::Bone_cap, DisplayLayer::box
-	C: "OO",2636329285840,2635821897888
+	;Deformer::, Geometry::
+	C: "OO",1749525456304,1749602427184
 	
 	;Model::box_body, DisplayLayer::box
-	C: "OO",2636329307760,2635821897888
+	C: "OO",1749335482176,1749525455152
+	
+	;Model::Bone_cap, DisplayLayer::box
+	C: "OO",1749335484368,1749525455152
+	
+	;Model::box_cap, DisplayLayer::box
+	C: "OO",1749335455872,1749525455152
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2636138482592,2636138190272, "d|X"
+	C: "OP",1749597598352,1749597885968, "d|X"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2636138489152,2636138190272, "d|Y"
+	C: "OP",1749597598992,1749597885968, "d|Y"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2636138484832,2636138190272, "d|Z"
+	C: "OP",1749597594352,1749597885968, "d|Z"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2636138485792,2636138190688, "d|X"
+	C: "OP",1749597594512,1749597889088, "d|X"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2636138490432,2636138190688, "d|Y"
+	C: "OP",1749597593392,1749597889088, "d|Y"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2636138482272,2636138190688, "d|Z"
+	C: "OP",1749597599152,1749597889088, "d|Z"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2636138486592,2636138187360, "d|X"
+	C: "OP",1749597593552,1749597888464, "d|X"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2636138486752,2636138187360, "d|Y"
+	C: "OP",1749597593872,1749597888464, "d|Y"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2636138486912,2636138187360, "d|Z"
+	C: "OP",1749597591792,1749597888464, "d|Z"
+	
+	;SubDeformer::, Deformer::
+	C: "OO",1749540047840,1749525456304
+	
+	;Model::Bone_cap, SubDeformer::
+	C: "OO",1749335484368,1749540047840
 }
 ;Takes section
 ;----------------------------------------------------
@@ -1038,7 +1102,7 @@ Takes:  {
 	Current: ""
 	Take: "Take 001" {
 		FileName: "Take_001.tak"
-		LocalTime: 0,76976930000
-		ReferenceTime: 0,76976930000
+		LocalTime: 0,153953860000
+		ReferenceTime: 0,153953860000
 	}
 }

@@ -87,8 +87,8 @@ void Golem::Update()
 {
 	Enemys::Draw();
 	Enemys::VectorAcquisition();
+	Enemys::Rotation();
 	EnemyState();
-	Rotation();
 	m_moveSpeed.y -= gravity;
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
 	anim.Update(0.05f);
@@ -141,26 +141,6 @@ void Golem::EnemyState()
 	case Enemys::esDeath:
 		Death();
 	}
-}
-//エネミーの回転処理。
-void Golem::Rotation()
-{
-	float None = 0.0f;		//マジックナンバーを防ぐ0を入れた数
-	float Rot = atan2(Move.x, Move.z);
-	CQuaternion qRot;
-	qRot.SetRotation(CVector3::AxisY(), Rot);
-	Model.SetRotation(qRot);
-	//もし、動いていたら回転させる。
-	if (m_moveSpeed.x != None || m_moveSpeed.z != None)
-	{
-		m_rotation = qRot;
-		Model.SetRotation(m_rotation);
-	}
-	if (m_moveSpeed.x == None && m_moveSpeed.z == None)
-	{
-		Model.SetRotation(m_rotation);
-	}
-	Model.SetRotation(m_rotation);
 }
 //アニメーションイベント
 void Golem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)

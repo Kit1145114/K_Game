@@ -24,6 +24,8 @@ public:
 	void Draw();				//敵の描画処理。
 	void ViewingAngle();		//エネミーの視野角。
 	void VectorAcquisition();	//エネミーのベクトルを取得するための関数。
+	void Rotation();			//エネミーの回転処理。
+
 public:
 	//エネミーが死んだかどうかを返す。
 	bool GetisDeath()

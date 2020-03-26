@@ -46,3 +46,22 @@ void Enemys::VectorAcquisition()
 	m_forward.y = mRot.m[2][1];
 	m_forward.z = mRot.m[2][2];
 }
+//ã§í ÇÃâÒì]èàóùÅB
+void Enemys::Rotation()
+{
+	float Rot = atan2(Move.x, Move.z);
+	CQuaternion qRot;
+	qRot.SetRotation(CVector3::AxisY(), Rot);
+	Model.SetRotation(qRot);
+	//Ç‡ÇµÅAìÆÇ¢ÇƒÇ¢ÇΩÇÁâÒì]Ç≥ÇπÇÈÅB
+	if (m_moveSpeed.x != ZERO || m_moveSpeed.z != ZERO)
+	{
+		m_rotation = qRot;
+		Model.SetRotation(m_rotation);
+	}
+	if (m_moveSpeed.x == ZERO && m_moveSpeed.z == ZERO)
+	{
+		Model.SetRotation(m_rotation);
+	}
+	Model.SetRotation(m_rotation);
+}

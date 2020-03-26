@@ -254,14 +254,14 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		}
 	}
 	//” ‚Æ‚Ì”»’èB
-	//if (!ItemBox->GetIsOpen()) {
-	//	g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
-	//		if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
-	//			ItemBox->SetIsOpen(true);
-	//			m_se.Play(false);
-	//		}
-	//	});
-	//}
+	if (!ItemBox->GetIsOpen()) {
+		g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
+			if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
+				ItemBox->SetIsOpen(true);
+				m_se[1].Play(false);
+			}
+		});
+	}
 	//íœB
 	m_PhyGhostObj.Release();
 }
