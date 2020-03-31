@@ -102,6 +102,7 @@
     <ClCompile Include="AgoSample.cpp" />
     <ClCompile Include="AroundPlayer.cpp" />
     <ClCompile Include="Chara\Boss.cpp" />
+    <ClCompile Include="GameSystem\Fade.cpp" />
     <ClCompile Include="GameSystem\ChangeScreen.cpp" />
     <ClCompile Include="DebugWireframe.cpp" />
     <ClCompile Include="Door.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="AgoSample.h" />
     <ClInclude Include="AroundPlayer.h" />
     <ClInclude Include="Chara\Boss.h" />
+    <ClInclude Include="GameSystem\Fade.h" />
     <ClInclude Include="GameSystem\ChangeScreen.h" />
     <ClInclude Include="DebugWireframe.h" />
     <ClInclude Include="Door.h" />
@@ -313,6 +315,9 @@
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Change.png" />
     <ImageContentTask Include="Assets\sprite\GameClear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\fade.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

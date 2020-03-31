@@ -174,19 +174,19 @@ void Boss::EnemyState()
 	case Enemys::bsIdle:
 		Search();
 		EMove();
-		Rotation();
+		Enemys::Rotation();
 		anim.Play(bsIdle);
 		break;
 	case Enemys::bsWalkTracking:
 		Search();
 		EMove();
-		Rotation();
+		Enemys::Rotation();
 		anim.Play(bsWalkTracking);
 		break;
 	case Enemys::bsFlyTracking:
 		Search();
 		EMove();
-		Rotation();
+		Enemys::Rotation();
 		anim.Play(bsFlyTracking);
 	case Enemys::bsDeath:
 		Death();
@@ -194,39 +194,19 @@ void Boss::EnemyState()
 	case Enemys::bsSmallAttack:
 		Search();
 		EMove();
-		Rotation();
+		Enemys::Rotation();
 		anim.Play(bsSmallAttack);
 		break;
 	case Enemys::bsBigAttack:
 		Search();
 		EMove();
-		Rotation();
+		Enemys::Rotation();
 		anim.Play(bsBigAttack);
 		break;
 	case Enemys::bsHitMe:
 		anim.Play(bsHitMe);
 		break;
 	}
-}
-//エネミーの回転処理。
-void Boss::Rotation()
-{
-	float None = 0.0f;		//マジックナンバーを防ぐ0を入れた数
-	float Rot = atan2(Move.x, Move.z);
-	CQuaternion qRot;
-	qRot.SetRotation(CVector3::AxisY(), Rot);
-	Model.SetRotation(qRot);
-	//もし、動いていたら回転させる。
-	if (m_moveSpeed.x != None || m_moveSpeed.z != None)
-	{
-		m_rotation = qRot;
-		Model.SetRotation(m_rotation);
-	}
-	if (m_moveSpeed.x == None && m_moveSpeed.z == None)
-	{
-		Model.SetRotation(m_rotation);
-	}
-	Model.SetRotation(m_rotation);
 }
 //アニメーションイベント
 void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)

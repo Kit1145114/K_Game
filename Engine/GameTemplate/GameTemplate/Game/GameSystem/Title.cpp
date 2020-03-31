@@ -4,9 +4,16 @@
 
 Title::Title()
 {
+}
+Title::~Title()
+{
+	g_goMgr.QutavaleyaAGO(m_sprite);
+}
+bool Title::Start()
+{
 	m_sprite = g_goMgr.NewAGO<SpriteRender>();
 	m_sprite->Init(L"Assets/sprite/title1.dds", 1280, 720);
-	m_sprite->SetPivot(CVector2(0.5f,0.5f));
+	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
 	Stage = First;
 	//‰¹
 	m_soundEngine.Init();
@@ -16,16 +23,13 @@ Title::Title()
 	m_bgm[0].SetVolume(0.15f);
 	////Œø‰Ê‰¹
 	m_bgm[1].Init(L"Assets/sound/Button.wav");
-}
-
-Title::~Title()
-{
-	g_goMgr.QutavaleyaAGO(m_sprite);
+	return true;
 }
 //ƒ^ƒCƒgƒ‹
 void Title::Update()
 {
 	m_sprite->Update();
+
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
 		m_bgm[1].Play(true);

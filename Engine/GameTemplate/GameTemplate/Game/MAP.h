@@ -1,5 +1,4 @@
 #pragma once
-#include"GameObjectManajer.h"
 #include"physics/PhysicsStaticObject.h"
 #include"RenderTarget.h"
 #include"graphics/c3dmodel/C3DModelDraw.h"

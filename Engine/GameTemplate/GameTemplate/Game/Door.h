@@ -1,5 +1,4 @@
 #pragma once
-#include"GameObjectManajer.h"
 
 class Player;
 class Title;

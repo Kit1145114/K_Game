@@ -12,11 +12,16 @@ public:
 	enum boxstate
 	{
 		open,
-		close
+		close,
+		death
 	};
-	void Update();							//アップデート処理。
+	bool Start() override;					//
+	void Update() override;					//アップデート処理。
 	void Draw();							//ドロー関数。
 	void State();							//ステート
+	void Delete();							//消す。
+	void Open();							//開いてる時の処理
+	void Close();							//閉める。
 public:
 	//開けるかどうか
 	void SetIsOpen(bool is)
@@ -42,7 +47,6 @@ private:
 	CVector3 m_position		= CVector3::Zero();			//ポジション
 	CVector3 m_scale =		CVector3::Zero();			//スケール。
 	CQuaternion m_rotation = CQuaternion::Identity();	//ローテーション。
-
 	bool isOpen = false;						//箱のフラグ
 };
 

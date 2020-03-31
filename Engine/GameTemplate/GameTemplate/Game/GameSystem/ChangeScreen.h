@@ -1,6 +1,5 @@
 #pragma once
-#include"GameObjectManajer.h"
-#include"../Game/graphics/SpriteRender.h"
+#include"graphics/SpriteRender.h"
 
 class Game;
 class ChangeScreen : public GameObject
@@ -8,7 +7,7 @@ class ChangeScreen : public GameObject
 public:
 	ChangeScreen();
 	~ChangeScreen();
-	void Update();
+	void Update() override;
 	void Death();
 private:
 	//ステージ

@@ -1,5 +1,4 @@
 #pragma once
-#include"GameObjectManajer.h"
 #include"graphics/Sprite.h"
 #include"graphics/SpriteRender.h"
 

@@ -1,5 +1,4 @@
 #pragma once
-#include"GameObjectManajer.h"
 #include"Enemys.h"
 #include"ITEM/ITEMBox.h"
 #include"character/CharacterController.h"

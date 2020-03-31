@@ -1,5 +1,4 @@
 #pragma once
-#include"GameObjectManajer.h"
 
 class Player;
 class GameCamera : public GameObject
@@ -21,7 +20,7 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~GameCamera();
-	void Update();			//カメラの更新関数。
+	void Update() override;			//カメラの更新関数。
 	void State();			//カメラの状態。
 	/// <summary>
 	/// プレイヤーのざひょうもってくりゅ。

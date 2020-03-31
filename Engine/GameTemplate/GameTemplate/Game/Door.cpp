@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Door.h"
-#include"Player.h"
-#include"Title.h"
+#include"Chara/Player.h"
+#include"GameSystem/Title.h"
 
 Door::Door()
 {

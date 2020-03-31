@@ -165,6 +165,7 @@
       <Filter>ソース</Filter>
     </ClCompile>
     <ClCompile Include="GameSystem\Title.cpp" />
+    <ClCompile Include="GameSystem\Fade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -297,6 +298,7 @@
       <Filter>ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="GameSystem\Title.h" />
+    <ClInclude Include="GameSystem\Fade.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -367,6 +369,7 @@
     <ImageContentTask Include="Assets\sprite\AGO.JPG" />
     <ImageContentTask Include="Assets\sprite\Change.png" />
     <ImageContentTask Include="Assets\sprite\GameClear.png" />
+    <ImageContentTask Include="Assets\sprite\fade.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\sound\enemy_attack_00.wav" />

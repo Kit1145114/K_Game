@@ -1,6 +1,5 @@
 #pragma once
-#include"GameObjectManajer.h"
-#include"../Game/graphics/SpriteRender.h"
+#include"graphics/SpriteRender.h"
 #include"GameConst.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
@@ -18,10 +17,12 @@ public:
 	/// デストラクタ。
 	/// </summary>
 	~Title();
+	//スタート関数。
+	bool Start();
 	/// <summary>
 	/// 更新関数。
 	/// </summary>
-	void Update();
+	void Update() override;
 	/// <summary>
 	/// 終焉
 	/// </summary>

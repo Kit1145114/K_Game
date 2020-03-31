@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "EnergyText.h"
-#include "../Game/Chara/Player.h"
+#include "Chara/Player.h"
 
 EnergyText::EnergyText()
 {

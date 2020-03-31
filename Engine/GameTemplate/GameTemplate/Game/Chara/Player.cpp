@@ -248,7 +248,7 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
 						enemy->Damage(ATK);
 						enemy->SetHitMe(true);
-						m_se[1].Play(false);
+						m_se[0].Play(false);
 				}
 			});
 		}
@@ -258,7 +258,7 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
 			if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
 				ItemBox->SetIsOpen(true);
-				m_se[1].Play(false);
+				m_se[0].Play(false);
 			}
 		});
 	}
