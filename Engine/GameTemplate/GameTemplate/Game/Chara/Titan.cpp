@@ -28,7 +28,7 @@ Titan::Titan()
 	//パラメーター
 	prm.HP = 100;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
-	prm.ATK = 60;										//攻撃力
+	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
 	m_scale = { 30.0f,30.0f,30.0f };					//エネミーの大きさ
@@ -39,7 +39,7 @@ Titan::Titan()
 //敵の攻撃処理。
 void Titan::Attack()
 {
-	m_player->Damage(m_ATK);
+	m_player->Damage(prm.ATK);
 }
 //DAMAGE受ける処理
 void Titan::Damage(int Damage)

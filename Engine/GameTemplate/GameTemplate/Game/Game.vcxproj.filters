@@ -166,6 +166,7 @@
     </ClCompile>
     <ClCompile Include="GameSystem\Title.cpp" />
     <ClCompile Include="GameSystem\Fade.cpp" />
+    <ClCompile Include="GameSystem\GameOver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -299,6 +300,7 @@
     </ClInclude>
     <ClInclude Include="GameSystem\Title.h" />
     <ClInclude Include="GameSystem\Fade.h" />
+    <ClInclude Include="GameSystem\GameOver.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

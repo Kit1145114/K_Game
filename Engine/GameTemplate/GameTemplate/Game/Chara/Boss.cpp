@@ -35,7 +35,7 @@ Boss::Boss()
 	//パラメーター
 	prm.HP = 100;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
-	prm.ATK = 80;										//攻撃力
+	prm.ATK = 30;										//攻撃力
 	prm.DEF = 80;										//防御力
 	prm.SPD = 350;										//速さ。
 	m_scale = { 1.5f,1.5f,1.5f };						//エネミーの大きさ

@@ -68,10 +68,16 @@ Game::~Game()
 	if (energy_bar != nullptr) {
 		g_goMgr.QutavaleyaAGO(energy_bar);
 	}
+	//ドアが消えていないなら。
 	if (door != nullptr)
 	{
 		g_goMgr.QutavaleyaAGO(door);
 	}
+	////アイテムが消えていないなら。
+	//if (itemBox != nullptr)
+	//{
+	//	g_goMgr.QutavaleyaAGO(itemBox);
+	//}
 }
 
 Game* Game::GetInstance()
@@ -192,8 +198,8 @@ bool Game::FirstStage()
 	for (auto enemy : m_enemysList) {
 		enemy->SetPlayer(player);
 	}
-	itemBox = g_goMgr.NewAGO<ITEMBox>();
-	player->SetBox(itemBox);
+	//itemBox = g_goMgr.NewAGO<ITEMBox>();
+	//player->SetBox(itemBox);
 	player->SetEnemysList(m_enemysList);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);

@@ -68,7 +68,6 @@ void ITEMBox::State()
 //íœ
 void ITEMBox::Delete()
 {
-
 	g_goMgr.QutavaleyaAGO(this);
 }
 //ŠJ‚¯‚é‚©‚Ç‚¤‚©B

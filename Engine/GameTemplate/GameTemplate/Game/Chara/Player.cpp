@@ -37,7 +37,7 @@ Player::Player()
 	m_charaCon.Init(100.0f, 250.0f, m_position);			//キャラコンの設定（半径、高さ、初期位置。）
 	HP = 100.0f;		//プレイヤーの初期体力。
 	ATK = 100.0f;		//プレイヤーの攻撃力。
-	DEF = 500.0f;		//プレイヤーの防御力。
+	DEF = 10.0f;		//プレイヤーの防御力。
 	ENERGY = 300.0f;	//プレイヤーのブースト量。
 	playerState = pl_idle;
 	playerENE = ene_Full;
@@ -254,14 +254,14 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		}
 	}
 	//箱との判定。
-	if (!ItemBox->GetIsOpen()) {
-		g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
-			if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
-				ItemBox->SetIsOpen(true);
-				m_se[0].Play(false);
-			}
-		});
-	}
+	//if (!ItemBox->GetIsOpen()) {
+	//	g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
+	//		if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
+	//			ItemBox->SetIsOpen(true);
+	//			m_se[0].Play(false);
+	//		}
+	//	});
+	//}
 	//削除。
 	m_PhyGhostObj.Release();
 }

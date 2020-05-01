@@ -29,7 +29,7 @@ Golem::Golem()
 	//パラメーター
 	prm.HP = 100;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
-	prm.ATK = 60;										//攻撃力
+	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 200;										//速さ。
 	m_scale = { 5.0f,5.0f,5.0f };							//大きさ
@@ -145,11 +145,18 @@ void Golem::EnemyState()
 //アニメーションイベント
 void Golem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
+	//if (m_player->GetIsDead() == false) {
+	//	if (e_state == esAttack && eventName)
+	//	{
+	//		Attack();
+	//		m_se[0].Play(false);
+	//	}
+	//}
 	if (m_player->GetIsDead() == false) {
-		if (e_state == esAttack && eventName)
+		CVector3 diff = m_position - m_player->GetPosition();
+		if (diff.Length() <= m_Kyori && eventName)
 		{
 			Attack();
-			m_se[0].Play(false);
 		}
 	}
 }

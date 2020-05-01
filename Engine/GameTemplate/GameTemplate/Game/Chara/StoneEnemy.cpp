@@ -24,7 +24,7 @@ StoneEnemy::StoneEnemy()
 	//フラグをtrueへ
 	//パラメーター
 	prm.HP = 100;										//HP
-	prm.ATK = 60;										//攻撃力
+	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 400;										//速さ。
 	m_scale = { 3.0f,3.0f,3.0f };						//モデルの大きさ。
@@ -145,13 +145,11 @@ void StoneEnemy::Rotation()
 //アニメーションイベント
 void StoneEnemy::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-	float Kyori = 500.0f;
 	if (m_player->GetIsDead() == false) {
 		CVector3 diff = m_position - m_player->GetPosition();
-		if (diff.Length() <= Kyori && eventName)
+		if (diff.Length() <= m_Kyori && eventName)
 		{
-			//MessageBox(NULL, TEXT("Hit114514"), TEXT("めっせ"), MB_OK);
-			m_player->Damage(prm.ATK);
+			Attack();
 		}
 	}
 }

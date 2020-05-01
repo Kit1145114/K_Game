@@ -130,6 +130,7 @@ protected:
 	float m_angle = 0.0f;
 	float m_enemytrack = 600.0f;						//追いかける範囲。
 	float attackDistance = 300.0f;						//範囲内で攻撃するための変数
+	float m_Kyori = 500.0f;
 	bool isDeath = false;								//エネミーが死んだかどうか。
 	bool isHitMe = false;								//攻撃受けた。
 	bool isTracking = false;							//エネミーが追いかけるよ。
