@@ -12,7 +12,7 @@ PhysicsStaticObject::PhysicsStaticObject()
 }
 PhysicsStaticObject::~PhysicsStaticObject()
 {
-	g_physics.RemoveRigidBody(m_rigidBody);
+	g_physics.RemoveRigidBody(m_rigidBody);	
 }
 
 void PhysicsStaticObject::CreateMeshObject(SkinModel& skinModel, CVector3 pos, CQuaternion rot)

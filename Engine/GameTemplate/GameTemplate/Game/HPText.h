@@ -8,7 +8,7 @@ class HPText : public GameObject
 public:
 	HPText();
 	~HPText();
-	void Update();		//アップデート。
+	void Update() override;		//アップデート。
 	void HPUpdate();	//HP減ったり増えたり。	
 	void SetPlayerHP(float HP)
 	{

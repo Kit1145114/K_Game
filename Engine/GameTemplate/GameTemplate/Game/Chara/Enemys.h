@@ -70,6 +70,7 @@ public:
 	void SetPosition(CVector3 position)
 	{
 		m_position = position;
+		m_charaCon.SetPosition(m_position);
 	}
 	/// <summary>
 	/// キャラコンに送る。
@@ -84,6 +85,10 @@ public:
 	void SetRotation(CQuaternion rotation)
 	{
 		m_rotation = rotation;
+	}
+	void SetScale(CVector3 scale)
+	{
+		m_scale = scale;
 	}
 	//ポジションもらえます。
 	CVector3 GetPosition()	const
@@ -136,7 +141,7 @@ protected:
 	bool isTracking = false;							//エネミーが追いかけるよ。
 	CVector3 m_position= CVector3::Zero();				//エネミーのポジション用のメンバ変数
 	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動用のメンバ変数
-	CVector3 m_scale = CVector3::Zero();				//エネミーの大きさ用のメンバ変数。
+	CVector3 m_scale = CVector3::One();				//エネミーの大きさ用のメンバ変数。
 	CVector3 m_toPlayer = CVector3::Zero();				//プレイヤーに向かうベクトル用。
 	CVector3 m_forward = CVector3::AxisZ();				//<エネミーの前方方向。
 	CVector3 m_diff = CVector3::Zero();

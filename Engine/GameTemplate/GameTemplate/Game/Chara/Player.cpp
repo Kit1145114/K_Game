@@ -50,8 +50,7 @@ Player::~Player()
 void Player::Update()
 {
 	//プレイヤーの更新情報を下に記述。
-	Draw();	
-	//m_soundEngine.Update();//プレイヤーの描画を呼ぶ。
+	Draw();	//プレイヤーの描画を呼ぶ。
 	if (playerState != pl_Death) {
 		Energy();
 		Move();							//プレイヤーの移動を呼ぶ。
@@ -64,7 +63,7 @@ void Player::Update()
 	}
 	g_anim.Update(0.025f * NSpeed);	//アニメーションをフレーム単位で描画。
 			//ワールド行列の更新。
-	Gmodel.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
+	Gmodel.UpdateWorldMatrix(m_position, m_rotation, {0.5f,0.5f,0.5f});
 }
 //プレイヤーの描画処理。
 void Player::Draw()
@@ -254,14 +253,16 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		}
 	}
 	//箱との判定。
-	//if (!ItemBox->GetIsOpen()) {
-	//	g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
-	//		if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
-	//			ItemBox->SetIsOpen(true);
-	//			m_se[0].Play(false);
-	//		}
-	//	});
-	//}
+	if(ItemBox != nullptr){
+		if (!ItemBox->GetIsOpen()) {
+			g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
+				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
+					ItemBox->SetIsOpen(true);
+					m_se[0].Play(false);
+				}
+			});
+		}
+	}
 	//削除。
 	m_PhyGhostObj.Release();
 }

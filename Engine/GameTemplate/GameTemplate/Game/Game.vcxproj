@@ -26,7 +26,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -89,7 +89,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies);xinput.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;dxguid.lib;Effekseer.Release.lib;EffekseerRendererDX11.Debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies);xinput.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;dxguid.lib;Effekseer.Release.lib;EffekseerRendererDX11.Release.lib;XAudio2.lib;Winmm.lib</AdditionalDependencies>
     </Link>
     <ImageContentTask>
       <ContentOutput>$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
@@ -165,6 +165,7 @@
     <ClCompile Include="GameSystem\Title.cpp" />
     <ClCompile Include="sound\WaveFile.cpp" />
     <ClCompile Include="sound\WaveFileBank.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AgoSample.h" />
@@ -233,6 +234,7 @@
     <ClInclude Include="GameSystem\Title.h" />
     <ClInclude Include="sound\WaveFile.h" />
     <ClInclude Include="sound\WaveFileBank.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
@@ -243,6 +245,7 @@
     <MeshContentTask Include="Assets\modelData\Enemy2.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy3.fbx" />
     <MeshContentTask Include="Assets\modelData\enemy_00.FBX" />
+    <MeshContentTask Include="Assets\modelData\FirstMap.fbx" />
     <MeshContentTask Include="Assets\modelData\Gmodel.fbx" />
     <MeshContentTask Include="Assets\modelData\MAP.FBX" />
     <MeshContentTask Include="Assets\modelData\Player.fbx" />
@@ -287,8 +290,10 @@
     <None Include="Assets\animData\RE1_death.tka" />
     <None Include="Assets\animData\RE1_idle.tka" />
     <None Include="Assets\animData\RE1_walk.tka" />
+    <None Include="Assets\level\debugStage.tkl" />
     <None Include="Assets\level\FirstStage.tkl" />
     <None Include="Assets\level\Map01.tkl" />
+    <None Include="Assets\level\Stage1.tkl" />
     <None Include="Assets\modelData\enemy_00.tks" />
   </ItemGroup>
   <ItemGroup>

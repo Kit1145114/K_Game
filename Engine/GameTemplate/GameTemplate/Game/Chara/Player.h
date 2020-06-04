@@ -88,6 +88,10 @@ public:
 	{
 		m_rotation = rot;
 	}
+	void SetScale(CVector3 scale)
+	{
+		m_scale = scale;
+	}
 	//HPバー用の残HPを渡す関数。
 	int GetPlayerHP()
 	{
@@ -127,7 +131,7 @@ public:
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//アニメーション。
-	ITEMBox* ItemBox;									//アイテム用のもの
+	ITEMBox* ItemBox = nullptr;									//アイテム用のもの
 	Enemys* enemys;										//敵の情報を得るためのclass的なもの。
 	std::vector<Enemys*> m_enemysList;					//エネミーのVector配列
 	AnimationClip g_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
@@ -136,7 +140,7 @@ private:
 	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。	
 	CVector3 m_enemyPos = CVector3::Zero();				//エネミーのポジション取得用。
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
-	CVector3 m_scale = {3.0f,3.0f,3.0f};				//プレイヤーの大きさ用の変数
+	CVector3 m_scale = CVector3::One();				//プレイヤーの大きさ用の変数
 	CVector3 box_scale = { 50.0f,50.0f,50.0f };			//ボックス大きさ
 	CVector3 diff = { 0.0f,0.0f,0.0f };					//エネミーとプレイヤーの距離
 	CQuaternion m_rotation = CQuaternion::Identity();	//プレイヤーの軸回転用の変数

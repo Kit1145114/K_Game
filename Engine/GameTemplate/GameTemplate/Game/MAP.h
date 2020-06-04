@@ -17,11 +17,23 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~MAP();
-	void Update();
+	bool Start()override;
+	void Update()override;
 	void Draw();
+	//外部からポジションを設定。
 	void SetPosition(CVector3 pos)
 	{
-		position = pos;
+		m_position = pos;
+	}
+	//外部からスケールを設定。
+	void SetScale(CVector3 scale)
+	{
+		m_scale = scale;
+	}
+	//外部からステージを設定。
+	void SetStage(int num)
+	{
+		m_stage = num;
 	}
 private:
 	SkinModel	Map;						//マップのスキンモデル。
@@ -29,6 +41,8 @@ private:
 	std::vector<Enemys*> m_enemysList;		//エネミーオブジェクトのリスト
 	C3DModelDraw m_mapDraw;					//C3Dモデルドロー。
 	PhysicsStaticObject m_physicsStaticObj;	//静的オブジェクト
-	CVector3 position = CVector3::Zero();	//ポジション
+	CVector3 m_position = CVector3::Zero();	//ポジション
+	CVector3 m_scale = CVector3::One();		//大きさ
+	int m_stage = 0;
 };
 

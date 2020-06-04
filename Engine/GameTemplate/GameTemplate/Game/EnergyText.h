@@ -8,7 +8,7 @@ class EnergyText : public GameObject
 public:
 	EnergyText();
 	~EnergyText();
-	void Update();		//アップデート。
+	void Update()override;		//アップデート。
 	void EnergyUpdate();	//エナジー減ったり増えたり。	
 	void SetPlayerEnergy(float Energy)
 	{

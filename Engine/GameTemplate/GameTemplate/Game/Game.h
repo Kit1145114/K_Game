@@ -13,7 +13,8 @@ class Enemys;					//エネミー用のclassの型を生成。
 class HPText;					//HPバー用のclass
 class EnergyText;				//エナジーバー用のclass
 class ITEMBox;					//箱のclass
-class Door;
+class Door;						//ドアのclassノ型
+class Wall;						//壁の型
 class Game : public GameObject
 {
 
@@ -35,8 +36,10 @@ public:
 	bool Start();					//ゲームのスタート関数。
 	bool FirstStage();				//最初のステージ
 	bool NewBoss();					//ボスを呼ぶ関数
+	bool DebugStage();				//デバック用のステージ。
 	void Update();					//ゲームのアップデート関数。
-	//bool isLive = false;			//生きてるかどうか
+	void FirstStageUpdate();		//最初のステージで行うアップデート。
+	void BossStageUpdate();			//ボスのステージで行うアップでーろ。
 	//敵とぷえいやーの距離を測る
 public:
 	void SetStage(int n)
@@ -52,7 +55,8 @@ private:
 	HPText* hp_bar;					//HPバー。
 	ITEMBox* itemBox;				//箱
 	EnergyText* energy_bar;			//エナジーバー
-	Door*	door;					//ドア
+	Door* door;						//ドア
+	Wall* m_wall;					//壁
 	Level		mapLevel;			//マップのレベル。。。。。。
 	StageNum	stage;
 	bool StageChange = false;

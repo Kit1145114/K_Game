@@ -6,8 +6,7 @@
 Door::Door()
 {
 	Gate.Init(L"Assets/modelData/Door.cmo");						//モデルの呼び出し。
-	m_position = {0.0f,-300.0f,1000.0f};
-	m_scale = { 1.0f,1.0f,5.0f };
+	//m_position = {0.0f,-300.0f,1000.0f};							//デバック用のポジションだったもの
 }
 
 Door::~Door()

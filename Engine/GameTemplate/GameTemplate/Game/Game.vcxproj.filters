@@ -167,6 +167,7 @@
     <ClCompile Include="GameSystem\Title.cpp" />
     <ClCompile Include="GameSystem\Fade.cpp" />
     <ClCompile Include="GameSystem\GameOver.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -301,6 +302,7 @@
     <ClInclude Include="GameSystem\Title.h" />
     <ClInclude Include="GameSystem\Fade.h" />
     <ClInclude Include="GameSystem\GameOver.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -323,6 +325,7 @@
     <MeshContentTask Include="Assets\modelData\Door.fbx" />
     <MeshContentTask Include="Assets\modelData\RobbotBoss.fbx" />
     <MeshContentTask Include="Assets\modelData\BOX.fbx" />
+    <MeshContentTask Include="Assets\modelData\FirstMap.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">
@@ -363,6 +366,8 @@
     <None Include="Assets\animData\box_open.tka" />
     <None Include="Assets\animData\box_idle.tka" />
     <None Include="Assets\animData\E2_Walk.tka" />
+    <None Include="Assets\level\Stage1.tkl" />
+    <None Include="Assets\level\debugStage.tkl" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

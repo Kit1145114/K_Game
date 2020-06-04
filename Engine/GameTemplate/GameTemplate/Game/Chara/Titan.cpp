@@ -31,9 +31,7 @@ Titan::Titan()
 	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
-	m_scale = { 30.0f,30.0f,30.0f };					//エネミーの大きさ
-	m_position = e_pos3;
-	m_charaCon.Init(150.0f, 500.0f, m_position);			//判定の大きさ
+	m_charaCon.Init(50.0f, 150.0f, m_position);		//判定の大きさ
 	e_state = esIdle;									//最初なので待機。
 }
 //敵の攻撃処理。
@@ -91,7 +89,7 @@ void Titan::Update()
 	m_moveSpeed.y -= gravity;
 	anim.Update(0.03f);
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
-	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
+	Model.UpdateWorldMatrix(m_position, m_rotation, {10.0f,10.0f,10.0f});
 	m_charaCon.SetPosition(m_position);
 }
 //倒されたときに呼ぶ処理。

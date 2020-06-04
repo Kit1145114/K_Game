@@ -28,20 +28,33 @@ public:
 	{
 		isOpen = is;
 	}
+	//開いてますか？
 	bool GetIsOpen()
 	{
 		return isOpen;
 	}
+	//キャラコンの取得。
 	CharacterController& GetCharaCon()
 	{
 		return m_charaCon;
+	}
+public:
+	//ポジションを渡す用。
+	void SetPosition(CVector3 pos)
+	{
+		m_position = pos;
+	}
+	//大きさを渡す用
+	void SetScale(CVector3 scale)
+	{
+		m_scale = scale;
 	}
 private:
 	SkinModel	Box;							//マップのスキンモデル。
 	Animation box_anim;							//アニメーション。
 	AnimationClip box_animClip[m_AnimClipNum];	//プレイヤーのアニメーションクリップ
 	boxstate state;								//状態。
-	PhysicsStaticObject m_physicsStaticObj;		//静的オブジェクト
+	//PhysicsStaticObject m_physicsStaticObj;		//静的オブジェクト
 	CharacterController m_charaCon;				//キャラクターコントローラー
 
 	CVector3 m_position		= CVector3::Zero();			//ポジション
