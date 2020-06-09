@@ -128,6 +128,8 @@ public:
 	void RookOnEnemys();
 	//プレイヤーがコンボ攻撃をする処理。
 	void ComboAttack();
+	//エフェクト
+	//void InitEffekseer();
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//アニメーション。
@@ -167,6 +169,10 @@ private:
 	bool m_isRookOn = false;							//敵をロックオンしているかどうか。
 	bool m_isCombo = false;								//コンボするか？
 	bool m_ComboNow = false;
+
+	//エフェクト
+	Effekseer::Effect* m_attackEffect = nullptr;
+	Effekseer::Handle m_playEffectHandle = -1;
 };
 /// <summary>
 /// プレイヤー、タグ。

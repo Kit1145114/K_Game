@@ -8,13 +8,17 @@
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	//ゲームの初期化。
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
-
+	//サウンドエンジンのインスタンス生成
 	g_soundEngine = new CSoundEngine();
 	g_soundEngine->Init();
+	//エフェクトのインスタンス生成。
+	g_effektEngine = new CEffektEngine();
+	g_effektEngine->InitEffekseer();
 	//タイトルのNewGOで生成。
 	Title* title = g_goMgr.NewAGO<Title>();
 	
@@ -28,19 +32,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			pad.Update();
 		}
 		g_soundEngine->Update();
+		//Effekseerカメラ行列を設定。
+		g_effektEngine->CameraEffekseer();
+		//Effekseerを更新。
+		g_effektEngine->Update();
 		//物理エンジンの更新。
 		g_physics.Update();
 		g_goMgr.Update();
 		g_goMgr.PostRender();
 		g_goMgr.FontRender();
 		//g_physics.DebugDraw();
-		
-		//ゲームの更新。
-		//game->Update();
-		//タイトルの表示
-		//title->Update();
-		//レベルの描画
-		//level.Draw();
+		g_effektEngine->Draw();
 		//描画終了。
 		g_graphicsEngine->EndRender();
 	}

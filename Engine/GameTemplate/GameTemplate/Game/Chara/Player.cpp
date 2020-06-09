@@ -41,6 +41,8 @@ Player::Player()
 	ENERGY = 300.0f;	//プレイヤーのブースト量。
 	playerState = pl_idle;
 	playerENE = ene_Full;
+
+	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/test.efk");
 }
 
 Player::~Player()
@@ -248,6 +250,9 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 						enemy->Damage(ATK);
 						enemy->SetHitMe(true);
 						m_se[0].Play(false);
+						m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
+						g_effektEngine->SetPosition(m_playEffectHandle,
+						enemy->GetPosition());
 				}
 			});
 		}
@@ -427,3 +432,28 @@ void Player::ComboAttack()
 		}
 	}
 }
+////エフェクト
+//void Player::InitEffekseer()
+//{
+//	//レンダラーを初期化。
+//	m_effekseerRenderer = EffekseerRendererDX11::Renderer::Create(
+//		g_graphicsEngine->GetD3DDevice(),			//D3Dデバイス。
+//		g_graphicsEngine->GetD3DDeviceContext(),	//D3Dデバイスコンテキスト。
+//		20000										//板ポリの最大数。
+//	);
+//	//エフェクトマネージャを初期化。
+//	m_effekseerManager = Effekseer::Manager::Create(10000);
+//
+//	// 描画用インスタンスから描画機能を設定
+//	m_effekseerManager->SetSpriteRenderer(m_effekseerRenderer->CreateSpriteRenderer());
+//	m_effekseerManager->SetRibbonRenderer(m_effekseerRenderer->CreateRibbonRenderer());
+//	m_effekseerManager->SetRingRenderer(m_effekseerRenderer->CreateRingRenderer());
+//	m_effekseerManager->SetTrackRenderer(m_effekseerRenderer->CreateTrackRenderer());
+//	m_effekseerManager->SetModelRenderer(m_effekseerRenderer->CreateModelRenderer());
+//
+//	// 描画用インスタンスからテクスチャの読込機能を設定
+//	// 独自拡張可能、現在はファイルから読み込んでいる。
+//	m_effekseerManager->SetTextureLoader(m_effekseerRenderer->CreateTextureLoader());
+//	m_effekseerManager->SetModelLoader(m_effekseerRenderer->CreateModelLoader());
+//
+//}

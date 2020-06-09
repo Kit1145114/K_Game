@@ -23,10 +23,16 @@
 #include "DirectXTK/Inc/SpriteFont.h"
 #include "DirectXTK/Inc/DDSTextureLoader.h"
 
+#include "math/Vector.h"
+//エフェクサーファイルのインクルード
+#include"EffekseerRuntime130/src/Effekseer/Effekseer.h"
+#include"EffekseerRuntime130/src/EffekseerRendererDX11/EffekseerRendererDX11.h"
+#include "CEffektEngine.h"
+
 #include "physics/Physics.h"
 #include "HID/Pad.h"
 
-#include "math/Vector.h"
+
 #include "math/Matrix.h"
 #include "graphics/GraphicsEngine.h"
 
@@ -40,7 +46,8 @@
 #include <xAudio2.h>
 #include <x3daudio.h>
 #include <xaudio2fx.h>
-
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 #include"GameObjectManajer.h"
 
 const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。

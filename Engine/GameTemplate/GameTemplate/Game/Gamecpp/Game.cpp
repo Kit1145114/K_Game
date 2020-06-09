@@ -16,7 +16,9 @@
 #include"GameSystem/GameCamera.h"
 #include"GameSystem/ChangeScreen.h"
 #include"GameSystem/GameClear.h"
-#include"Wall.h"
+#include"GameSystem/GameOver.h"
+#include"ITEM/Wall.h"
+#include"Chara/StoneGolem.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -79,10 +81,15 @@ Game::~Game()
 	{
 		g_goMgr.QutavaleyaAGO(itemBox);
 	}
-	//if (m_wall != nullptr)
-	//{
-	//	g_goMgr.QutavaleyaAGO(m_wall);
-	//}
+	if (m_wall != nullptr)
+	{
+		g_goMgr.QutavaleyaAGO(m_wall);
+	}
+	for (auto m_wall : m_wallList) {
+		if (m_wall != nullptr) {
+			g_goMgr.QutavaleyaAGO(m_wall);
+		}
+	}
 }
 
 Game* Game::GetInstance()
@@ -140,6 +147,36 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
+		if (objData.EqualObjectName(L"Enemy1") == true) {
+			//敵(一人目)のオブジェクト。
+		/*	Enemys* enemys = g_goMgr.NewAGO<StoneGolem>();
+			enemys->SetPosition(objData.position);
+			enemys->SetRotation(objData.rotation);
+			//後で削除するのでリストに積んで記憶しておく。
+			m_enemysList.push_back(enemys);*/
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		if (objData.EqualObjectName(L"Enemy2") == true) {
+			//敵(一人目)のオブジェクト。
+		/*	Enemys* enemys = g_goMgr.NewAGO<Golem>();
+			enemys->SetPosition(objData.position);
+			enemys->SetRotation(objData.rotation);
+			//後で削除するのでリストに積んで記憶しておく。
+			m_enemysList.push_back(enemys);*/
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		if (objData.EqualObjectName(L"Enemy3") == true) {
+			//敵(一人目)のオブジェクト。
+		/*	Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
+			enemys->SetPosition(objData.position);
+			enemys->SetRotation(objData.rotation);
+			//後で削除するのでリストに積んで記憶しておく。
+			m_enemysList.push_back(enemys);*/
+			//フックしたのでtrueを返す。
+			return true;
+		}
 		else if (objData.EqualObjectName(L"Player") == true) {
 			player = g_goMgr.NewAGO<Player>();
 			player->SetPosition(objData.position);
@@ -157,6 +194,14 @@ bool Game::FirstStage()
 		else if (objData.EqualObjectName(L"Box") == true) {
 			itemBox = g_goMgr.NewAGO<ITEMBox>();
 			itemBox->SetPosition(objData.position);
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Wall") == true) {
+			m_wall = g_goMgr.NewAGO<Wall>();
+			m_wall->SetPosition(objData.position);
+			m_wall->SetRotation(objData.rotation);
+			m_wallList.push_back(m_wall);
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -333,6 +378,11 @@ void Game::FirstStageUpdate()
 		ChangeScreen* changescreen = g_goMgr.NewAGO<ChangeScreen>();
 		g_goMgr.QutavaleyaAGO(this);
 	}
+	if (player->GetPlayerHP() == ZERO)
+	{
+		GameOver* gameover = g_goMgr.NewAGO<GameOver>();
+		g_goMgr.QutavaleyaAGO(this);
+	}
 }
 //ボスのステージで行うアップデート。
 void Game::BossStageUpdate()
@@ -367,5 +417,10 @@ void Game::BossStageUpdate()
 			GameClear* gameClear = g_goMgr.NewAGO<GameClear>();
 			g_goMgr.QutavaleyaAGO(this);
 		}
+	}
+	if (player->GetPlayerHP() == ZERO)
+	{
+		GameOver* gameover = g_goMgr.NewAGO<GameOver>();
+		g_goMgr.QutavaleyaAGO(this);
 	}
 }

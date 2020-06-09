@@ -67,6 +67,7 @@ private:
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。
 		//可変長配列
 	std::vector<Enemys*>m_enemysList;	//エネミーオブジェクトのリスト
+	std::vector<Wall*>m_wallList;		//壁のリスト
 	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
 	//BGM
 	CSoundSource m_bgm;

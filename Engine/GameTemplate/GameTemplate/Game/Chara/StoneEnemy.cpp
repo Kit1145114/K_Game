@@ -28,7 +28,7 @@ StoneEnemy::StoneEnemy()
 	prm.DEF = 30;										//防御力
 	prm.SPD = 400;										//速さ。
 	m_scale = { 3.0f,3.0f,3.0f };						//モデルの大きさ。
-	m_position = e_pos2;
+	//m_position = e_pos2;
 	m_charaCon.Init(150.0f, 500.0f, m_position);			//判定の大きさ
 	e_state = esIdle;									//最初なので待機。
 }

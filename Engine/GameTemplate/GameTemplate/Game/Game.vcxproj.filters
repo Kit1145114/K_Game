@@ -127,9 +127,6 @@
     <ClCompile Include="Gamecpp\MAP.cpp">
       <Filter>ソース</Filter>
     </ClCompile>
-    <ClCompile Include="Gamecpp\stdafx.cpp">
-      <Filter>ソース</Filter>
-    </ClCompile>
     <ClCompile Include="graphics\Sprite.cpp" />
     <ClCompile Include="HPText.cpp" />
     <ClCompile Include="Sample.cpp" />
@@ -167,7 +164,12 @@
     <ClCompile Include="GameSystem\Title.cpp" />
     <ClCompile Include="GameSystem\Fade.cpp" />
     <ClCompile Include="GameSystem\GameOver.cpp" />
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Chara\StoneGolem.cpp" />
+    <ClCompile Include="ITEM\Wall.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffektEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -302,7 +304,9 @@
     <ClInclude Include="GameSystem\Title.h" />
     <ClInclude Include="GameSystem\Fade.h" />
     <ClInclude Include="GameSystem\GameOver.h" />
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Chara\StoneGolem.h" />
+    <ClInclude Include="ITEM\Wall.h" />
+    <ClInclude Include="CEffektEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -326,6 +330,7 @@
     <MeshContentTask Include="Assets\modelData\RobbotBoss.fbx" />
     <MeshContentTask Include="Assets\modelData\BOX.fbx" />
     <MeshContentTask Include="Assets\modelData\FirstMap.fbx" />
+    <MeshContentTask Include="Assets\modelData\Wall.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">
@@ -368,6 +373,7 @@
     <None Include="Assets\animData\E2_Walk.tka" />
     <None Include="Assets\level\Stage1.tkl" />
     <None Include="Assets\level\debugStage.tkl" />
+    <None Include="Assets\effect\test.efk" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />
@@ -377,6 +383,26 @@
     <ImageContentTask Include="Assets\sprite\Change.png" />
     <ImageContentTask Include="Assets\sprite\GameClear.png" />
     <ImageContentTask Include="Assets\sprite\fade.png" />
+    <ImageContentTask Include="Assets\sprite\GameOver.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Burst01.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Cloud01.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Flame01.png" />
+    <ImageContentTask Include="Assets\effect\Texture\LaserMain01.png" />
+    <ImageContentTask Include="Assets\effect\Texture\LaserMain02.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Particle01.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Particle02.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Particle03.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashi_hard.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashi_soft.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashistrong_hard.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashistrong_soft.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_clear_soft.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_clear_hard.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Splash01.png" />
+    <ImageContentTask Include="Assets\effect\Texture\SwordLine01.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Thunder01.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Wind01.png" />
+    <ImageContentTask Include="Assets\effect\Texture\wind02.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\sound\enemy_attack_00.wav" />
@@ -388,5 +414,13 @@
     <Media Include="Assets\sound\BossAttack1.wav" />
     <Media Include="Assets\sound\Boost.wav" />
     <Media Include="Assets\sound\BossAttack2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\sprite\GameOver.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Assets\shader\dof.fx" />
+    <FxCompile Include="Assets\shader\GaussianBlur.fx" />
+    <FxCompile Include="Assets\shader\bloom.fx" />
   </ItemGroup>
 </Project>
