@@ -69,3 +69,4 @@ Effekseer::Handle CEffektEngine::Play(Effekseer::Effect * effect)
 	return m_effekseerManager->Play(effect, 0, 0, 0);
 }
 
+

@@ -24,6 +24,7 @@ void PhysicsGhostObject::SetPosition(const CVector3& pos)
 	btVector3 btPos;
 	pos.CopyTo(btPos);
 	btTrans.setOrigin(btPos);
+	m_position = pos;
 }
 
 void PhysicsGhostObject::CreateCommon(CVector3 pos, CQuaternion rot)

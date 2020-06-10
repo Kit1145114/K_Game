@@ -33,6 +33,7 @@ Titan::Titan()
 	prm.SPD = 300;										//‘¬‚³B
 	m_charaCon.Init(50.0f, 150.0f, m_position);		//”»’è‚Ì‘å‚«‚³
 	e_state = esIdle;									//Å‰‚È‚Ì‚Å‘Ò‹@B
+	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/RobbotEnemyAttack.efk");
 }
 //“G‚ÌUŒ‚ˆ—B
 void Titan::Attack()
@@ -153,6 +154,8 @@ void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		{
 			Attack();
 			m_se[0].Play(false);
+			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
+			g_effektEngine->SetPosition(m_playEffectHandle,m_player->GetPosition());
 		}
 	}
 }

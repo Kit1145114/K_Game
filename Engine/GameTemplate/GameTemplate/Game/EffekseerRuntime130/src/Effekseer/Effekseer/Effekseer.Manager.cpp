@@ -886,7 +886,7 @@ void ManagerImplemented::SetLocation( Handle handle, const Vector3D& location )
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void ManagerImplemented::AddLocation( Handle handle, const Vector3D& location )
+void ManagerImplemented::AddLocation( Handle handle,const Vector3D& location)
 {
 	if( m_DrawSets.count( handle ) > 0 )
 	{
@@ -904,6 +904,11 @@ void ManagerImplemented::AddLocation( Handle handle, const Vector3D& location )
 		drawSet.IsParameterChanged = true;
 	}
 }
+
+//void ManagerImplemented::AddLocation(Handle handle,float x, float y, float z)
+//{
+//	AddLocation(handle, location.X, location.Y, location.Z);
+//}
 
 //----------------------------------------------------------------------------------
 //

@@ -41,8 +41,9 @@ Player::Player()
 	ENERGY = 300.0f;	//プレイヤーのブースト量。
 	playerState = pl_idle;
 	playerENE = ene_Full;
-
-	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/test.efk");
+	m_attackEffect[0] = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/test.efk");
+	m_attackEffect[1] = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/PlayerAttack.efk");
+	m_attackEffect[2] = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Boost.efk");
 }
 
 Player::~Player()
@@ -118,12 +119,15 @@ void Player::Move()
 			//走る
 			m_moveSpeed += cameraForward * lStick_y * Speed * SPeed2;	//奥方向への移動速度を加算。
 			m_moveSpeed += cameraRight * lStick_x * Speed * SPeed2;		//右方向への移動速度を加算。
+			m_playEffectHandle = g_effektEngine->Play(m_attackEffect[2]);
+			g_effektEngine->SetPosition(m_playEffectHandle,m_position);
 		}
 		else if (!g_pad[0].IsPress(enButtonX) || playerENE == ene_Charge)
 		{
 			//歩き。
 			m_moveSpeed += cameraForward * lStick_y * Speed * NSpeed;	//奥方向への移動速度を加算。
 			m_moveSpeed += cameraRight * lStick_x * Speed * NSpeed;		//右方向への移動速度を加算。
+			g_effektEngine->Stop(m_playEffectHandle);
 		}
 	}
 	//キャラクターコントローラーに１フレームの経過秒数、時間ベースの移動速度を渡している。
@@ -250,9 +254,8 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 						enemy->Damage(ATK);
 						enemy->SetHitMe(true);
 						m_se[0].Play(false);
-						m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
-						g_effektEngine->SetPosition(m_playEffectHandle,
-						enemy->GetPosition());
+						m_playEffectHandle = g_effektEngine->Play(m_attackEffect[1]);
+						g_effektEngine->SetPosition(m_playEffectHandle,/*m_PhyGhostObj.GetPosition()*/enemy->GetPosition());
 				}
 			});
 		}

@@ -154,5 +154,7 @@ protected:
 	AnimationClip animClip[m_AnimClipNum];				//アニメクリップ
 	//音
 	CSoundSource m_se[3];
+	//エフェクト
+	Effekseer::Effect* m_attackEffect = nullptr;
 };
 

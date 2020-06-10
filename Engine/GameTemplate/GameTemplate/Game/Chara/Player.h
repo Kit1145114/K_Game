@@ -171,7 +171,7 @@ private:
 	bool m_ComboNow = false;
 
 	//エフェクト
-	Effekseer::Effect* m_attackEffect = nullptr;
+	Effekseer::Effect* m_attackEffect[3] = { nullptr };
 	Effekseer::Handle m_playEffectHandle = -1;
 };
 /// <summary>

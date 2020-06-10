@@ -30,6 +30,11 @@ public:
 	*/
 	//void SetRotation(const CQuaternion& rot);
 	void CreateBox(CVector3 pos, CQuaternion rot, CVector3 size);
+
+	CVector3 GetPosition()
+	{
+		return m_position;
+	}
 private:
 	/*!
 	* @brief	ゴースト作成処理の共通処理。
@@ -39,5 +44,6 @@ private:
 	bool						m_isRegistPhysicsWorld = false;	//!<物理ワールドに登録しているかどうかのフラグ。
 	btGhostObject				m_ghostObject;	//!<ゴースト
 	std::unique_ptr<ICollider> m_collider;	//!<コライダー。
+	CVector3 m_position = CVector3::Zero();
 };
 

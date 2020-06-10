@@ -16,5 +16,6 @@ public:
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 	void AttackRange();						//攻撃できるかの処理。
 private:
+	Effekseer::Handle m_playEffectHandle = 1;
 };
 

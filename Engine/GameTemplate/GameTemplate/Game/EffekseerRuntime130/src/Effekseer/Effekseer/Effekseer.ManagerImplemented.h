@@ -447,8 +447,8 @@ public:
 	Vector3D GetLocation( Handle handle );
 	void SetLocation( Handle handle, float x, float y, float z );
 	void SetLocation( Handle handle, const Vector3D& location );
-	void AddLocation( Handle handle, const Vector3D& location );
-
+	void AddLocation(Handle handle, const Vector3D& location);
+	//void AddLocation( Handle handle,float x, float y, float z);
 	/**
 		@brief	エフェクトのインスタンスの回転角度を指定する。(ラジアン)
 	*/
