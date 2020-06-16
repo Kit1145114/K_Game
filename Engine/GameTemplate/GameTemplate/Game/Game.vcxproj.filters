@@ -307,6 +307,8 @@
     <ClInclude Include="Chara\StoneGolem.h" />
     <ClInclude Include="ITEM\Wall.h" />
     <ClInclude Include="CEffektEngine.h" />
+    <ClInclude Include="system\GameTime.h" />
+    <ClInclude Include="system\Stopwatch.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -331,6 +333,7 @@
     <MeshContentTask Include="Assets\modelData\BOX.fbx" />
     <MeshContentTask Include="Assets\modelData\FirstMap.fbx" />
     <MeshContentTask Include="Assets\modelData\Wall.fbx" />
+    <MeshContentTask Include="Assets\modelData\RobbotEnemy2.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">
@@ -377,6 +380,13 @@
     <None Include="Assets\effect\RobbotEnemyAttack.efk" />
     <None Include="Assets\effect\PlayerAttack.efk" />
     <None Include="Assets\effect\Boost.efk" />
+    <None Include="Assets\animData\RE2_L_Attack.tka" />
+    <None Include="Assets\animData\RE2_Move.tka" />
+    <None Include="Assets\animData\RE2_R_Attack.tka" />
+    <None Include="Assets\animData\RE2_Death.tka" />
+    <None Include="Assets\animData\RE2_Idle.tka" />
+    <None Include="Assets\animData\E2_Standby.tka" />
+    <None Include="Assets\animData\E2_Fall.tka" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

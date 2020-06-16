@@ -16,6 +16,8 @@
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision\CollisionDispatch\btGhostObject.h"
 
+#include "system/Stopwatch.h"
+#include "system/GameTime.h"
 //DirectXTKのインクルードファイル。
 #include "DirectXTK/Inc/Model.h"
 #include "DirectXTK/Inc/Effects.h"	

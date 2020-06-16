@@ -44,11 +44,13 @@ public:
 	/// </summary>
 	enum EnemyAnimState
 	{
-		esIdle,		//待機。
-		esTracking,	//追いかける。
-		esAttack,	//攻撃。
-		esDeath,	//You Are Dead。
-		esAttackMe	//攻撃受けた。
+		esIdle,			//待機。
+		esTracking,		//追いかける。
+		esAttack,		//攻撃。
+		esDeath,		//You Are Dead。
+		esAttackMe,		//攻撃受けた。
+		esAttackGap,	//攻撃の隙
+		esStandbyAttack	//攻撃に入るまで
 	};
 	/// <summary>
 	/// ボス用の状態。
@@ -134,11 +136,13 @@ protected:
 	float flyDistance = 500.0f;							//飛行距離内
 	float m_angle = 0.0f;
 	float m_enemytrack = 600.0f;						//追いかける範囲。
-	float attackDistance = 150.0f;						//範囲内で攻撃するための変数
+	float attackDistance = 110.0f;						//範囲内で攻撃するための変数
 	float m_Kyori = 500.0f;
+	float m_timer = 0.0f;								//タイマー。
 	bool isDeath = false;								//エネミーが死んだかどうか。
 	bool isHitMe = false;								//攻撃受けた。
 	bool isTracking = false;							//エネミーが追いかけるよ。
+	bool isDestinationflag = true;						//一回だけ目的地を決めたいので。
 	CVector3 m_position= CVector3::Zero();				//エネミーのポジション用のメンバ変数
 	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動用のメンバ変数
 	CVector3 m_scale = CVector3::One();				//エネミーの大きさ用のメンバ変数。
@@ -146,6 +150,7 @@ protected:
 	CVector3 m_forward = CVector3::AxisZ();				//<エネミーの前方方向。
 	CVector3 m_diff = CVector3::Zero();
 	CVector3 Move = CVector3::Zero();					//敵が動くよ。（敵機の子）
+	CVector3 Destination = CVector3::Zero();			//動く場所まで。
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転用のメンバ変数。
 	CharacterController m_charaCon;						//キャラコン。
 	EnemyAnimState	e_state;							//エネミーの状態			

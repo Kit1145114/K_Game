@@ -137,7 +137,7 @@ bool Game::FirstStage()
 	mapLevel.Init(L"Assets/level/FirstStage.tkl",
 		[&](LevelObjectData& objData)
 	{
-		if (objData.EqualObjectName(L"RobbotEnemy") == true) {
+		if (objData.EqualObjectName(L"RobbotEnemy1") == true) {
 			//敵(一人目)のオブジェクト。
 			Enemys* enemys = g_goMgr.NewAGO<Titan>();
 			enemys->SetPosition(objData.position);
@@ -147,33 +147,33 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		if (objData.EqualObjectName(L"Enemy1") == true) {
+		if (objData.EqualObjectName(L"RobbotEnemy2") == true) {
 			//敵(一人目)のオブジェクト。
-		/*	Enemys* enemys = g_goMgr.NewAGO<StoneGolem>();
+			Enemys* enemys = g_goMgr.NewAGO<StoneGolem>();
 			enemys->SetPosition(objData.position);
 			enemys->SetRotation(objData.rotation);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);*/
+			m_enemysList.push_back(enemys);
 			//フックしたのでtrueを返す。
 			return true;
 		}
 		if (objData.EqualObjectName(L"Enemy2") == true) {
 			//敵(一人目)のオブジェクト。
-		/*	Enemys* enemys = g_goMgr.NewAGO<Golem>();
+			Enemys* enemys = g_goMgr.NewAGO<Golem>();
 			enemys->SetPosition(objData.position);
 			enemys->SetRotation(objData.rotation);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);*/
+			m_enemysList.push_back(enemys);
 			//フックしたのでtrueを返す。
 			return true;
 		}
 		if (objData.EqualObjectName(L"Enemy3") == true) {
 			//敵(一人目)のオブジェクト。
-		/*	Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
+			Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
 			enemys->SetPosition(objData.position);
 			enemys->SetRotation(objData.rotation);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);*/
+			m_enemysList.push_back(enemys);
 			//フックしたのでtrueを返す。
 			return true;
 		}

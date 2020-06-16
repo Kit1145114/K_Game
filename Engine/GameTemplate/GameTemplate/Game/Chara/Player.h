@@ -122,6 +122,10 @@ public:
 	{
 		m_se[SoundNum].Stop();
 	}
+	CVector3 GetForwad()
+	{
+		return m_forward;
+	}
 	//プレイヤーの前ベクトルを取得。
 	void Forward();
 	//敵をロックオンするときの処理。

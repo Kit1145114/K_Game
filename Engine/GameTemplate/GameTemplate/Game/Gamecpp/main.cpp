@@ -22,9 +22,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//タイトルのNewGOで生成。
 	Title* title = g_goMgr.NewAGO<Title>();
 	
+	CStopwatch sw;
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
 	{
+		//1フレームの時間計測を開始。
+		sw.Start();
 		//描画開始
 		g_graphicsEngine->BegineRender();
 		//ゲームパッドの更新。	
@@ -39,11 +42,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理エンジンの更新。
 		g_physics.Update();
 		g_goMgr.Update();
+		g_effektEngine->Draw();
 		g_goMgr.PostRender();
 		g_goMgr.FontRender();
 		//g_physics.DebugDraw();
-		g_effektEngine->Draw();
+		
 		//描画終了。
 		g_graphicsEngine->EndRender();
+		//1フレームの時間計測を終了。
+		sw.Stop();
+		//1フレームにかかった時間を記憶。
+		GameTime().PushFrameDeltaTime(sw.GetElapsed());
 	}
 }

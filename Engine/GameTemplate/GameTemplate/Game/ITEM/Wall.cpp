@@ -10,10 +10,11 @@ Wall::~Wall()
 {
 	m_charaCon.RemoveRigidBoby();
 }
+
 bool Wall::Start()
 {
 	m_wall.Init(L"Assets/modelData/Wall.cmo");						//ƒ‚ƒfƒ‹‚ÌŒÄ‚Ño‚µB
-	m_physicsStaticObj.CreateMeshObject(m_wall, m_position, CQuaternion::Identity());
+	m_physicsStaticObj.CreateMeshObject(m_wall, m_position, m_rotation);
 	//m_charaCon.Init(50.0f, 150.0f, m_position);		//”»’è‚Ì‘å‚«‚³
 	return true;
 }

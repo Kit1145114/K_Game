@@ -4,14 +4,27 @@
 
 StoneGolem::StoneGolem()
 {
-	Model.Init(L"Assets/modelData/Enemy1.cmo");		//モデルの呼び出し。
+	Model.Init(L"Assets/modelData/RobbotEnemy2.cmo");		//モデルの呼び出し。
 	//パラメーター
+	animClip[esIdle].Load(L"Assets/animData/RE2_Idle.tka");	//待機アニメーションをロード。
+	animClip[esIdle].SetLoopFlag(true);
+	animClip[esTracking].Load(L"Assets/animData/RE2_Move.tka");//待機アニメーションをロード。
+	animClip[esTracking].SetLoopFlag(true);
+	animClip[esAttack].Load(L"Assets/animData/RE2_L_Attack.tka");	//攻撃アニメーションをロード。
+	animClip[esAttack].SetLoopFlag(true);
+	animClip[esDeath].Load(L"Assets/animData/RE2_Death.tka");	//死ぬアニメーションをロード。
+	animClip[esDeath].SetLoopFlag(false);
+	anim.Init(
+		Model,
+		animClip,
+		m_AnimClipNum
+	);
 	prm.HP = 100;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
 	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
-	m_charaCon.Init(50.0f, 150.0f, m_position);		//判定の大きさ
+	m_charaCon.Init(25.0f, 75.0f, m_position);		//判定の大きさ
 	e_state = esIdle;
 }
 
@@ -24,7 +37,7 @@ void StoneGolem::Update()
 	m_moveSpeed.y -= gravity;
 	anim.Update(0.03f);
 	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
-	Model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
+	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	m_charaCon.SetPosition(m_position);
 }
 
@@ -74,9 +87,13 @@ void StoneGolem::Search()
 
 void StoneGolem::Death()
 {
-	this->SetActive(false);
-	m_charaCon.RemoveRigidBoby();
-	isDeath = true;
+	anim.Play(esDeath);
+	if (anim.IsPlaying() == false)
+	{
+		this->SetActive(false);
+		m_charaCon.RemoveRigidBoby();
+		isDeath = true;
+	}
 }
 
 void StoneGolem::EnemyState()
@@ -86,21 +103,18 @@ void StoneGolem::EnemyState()
 		//待機中。
 	case Enemys::esIdle:
 		Search();
-		Rotation();
-		//anim.Play(esIdle);
+		anim.Play(esIdle);
 		break;
 		//追いかけてる。
 	case Enemys::esTracking:
 		Search();
 		EMove();
-		Rotation();
-		//anim.Play(esTracking);
+		anim.Play(esTracking);
 		break;
 		//攻撃。
 	case Enemys::esAttack:
 		Search();
-		Rotation();
-		//anim.Play(esAttack);
+		anim.Play(esAttack);
 		break;
 		//死亡したとき。
 	case Enemys::esDeath:

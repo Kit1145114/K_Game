@@ -4,17 +4,20 @@
 //敵が作られて最初に呼ぶ処理。
 Golem::Golem()
 {
-	m_se[0].Init(L"Assets/sound/BossAttack1.wav");				//音の初期化。
-	Model.Init(L"Assets/modelData/Enemy2.cmo");				//モデルの初期化。
+	m_se[0].Init(L"Assets/sound/BossAttack1.wav");						//音の初期化。
+	Model.Init(L"Assets/modelData/Enemy2.cmo");							//モデルの初期化。
 //モデルのアニメーションのロード。
-	animClip[esIdle].Load(L"Assets/animData/E2_idle.tka");	//待機アニメーションをロード。
-	animClip[esIdle].SetLoopFlag(true);
-	animClip[esTracking].Load(L"Assets/animData/E2_Walk.tka");//待機アニメーションをロード。
-	animClip[esTracking].SetLoopFlag(true);
-	animClip[esAttack].Load(L"Assets/animData/E2_ATK.tka");	//攻撃アニメーションをロード。
-	animClip[esAttack].SetLoopFlag(true);
-	animClip[esDeath].Load(L"Assets/animData/E2_Death.tka");	//死ぬアニメーションをロード。
-	animClip[esDeath].SetLoopFlag(false);
+	animClip[esIdle].Load(L"Assets/animData/E2_idle.tka");				//待機アニメーションをロード。
+	animClip[esIdle].SetLoopFlag(true);									//ループするのでtrue
+	animClip[esTracking].Load(L"Assets/animData/E2_Walk.tka");			//待機アニメーションをロード。
+	animClip[esTracking].SetLoopFlag(true);								//ループするのでtrue
+	animClip[esAttack].Load(L"Assets/animData/E2_ATK.tka");				//攻撃アニメーションをロード。
+	animClip[esAttack].SetLoopFlag(true);								//ループするのでtrue
+	animClip[esDeath].Load(L"Assets/animData/E2_Death.tka");			//死ぬアニメーションをロード。
+	animClip[esAttackGap].Load(L"Assets/animData/E2_Fall.tka");			//攻撃できる隙のアニメーションをロード
+	animClip[esAttackGap].SetLoopFlag(false);							//ループしないのでfalse
+	animClip[esStandbyAttack].Load(L"Assets/animData/E2_Standby.tka");	//攻撃のための部分をロード。
+	animClip[esStandbyAttack].SetLoopFlag(false);						//ループしないのでfalse
 	anim.Init(
 		Model,
 		animClip,
@@ -32,9 +35,8 @@ Golem::Golem()
 	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 200;										//速さ。
-	m_scale = { 5.0f,5.0f,5.0f };							//大きさ
-	m_position = e_pos1;
-	m_charaCon.Init(150.0f, 500.0f, m_position);			//判定の大きさ。
+	m_scale = { 3.0f,3.0f,3.0f };						//大きさ
+	m_charaCon.Init(50.0f, 200.0f, m_position);		//判定の大きさ。
 	e_state = esIdle;									//最初に待機状態。
 }
 //敵の攻撃処理。
@@ -90,7 +92,7 @@ void Golem::Update()
 	Enemys::Rotation();
 	EnemyState();
 	m_moveSpeed.y -= gravity;
-	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
+	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 	anim.Update(0.05f);
 	m_charaCon.SetPosition(m_position);
 	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
@@ -134,12 +136,18 @@ void Golem::EnemyState()
 		anim.Play(esTracking);
 		break;
 	case Enemys::esAttack:
-		Search();
-		EMove();
-		anim.Play(esAttack);
+		AttackStanby();
 		break;
 	case Enemys::esDeath:
 		Death();
+		break;
+	case Enemys::esAttackGap:
+		anim.Play(esAttackGap);
+		AttackGap();
+		break;
+	case Enemys::esStandbyAttack:
+		AttackStanby();
+		break;
 	}
 }
 //アニメーションイベント
@@ -163,9 +171,54 @@ void Golem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 //攻撃できるか
 void Golem::AttackRange()
 {
+	attackDistance = 300.0f;
 	if (m_diff.Length() <= attackDistance && isTracking)
 	{
 		//距離内に近づいたら攻撃。
+		m_moveSpeed = CVector3::Zero();
+		e_state = esStandbyAttack;
+	}
+}
+//攻撃までの
+void Golem::AttackStanby()
+{
+	float m_goAttack = 1.5f;
+	float LimitTime = 5.0f;
+	//タイマーを回します。子のタイマーは敵が攻撃するまでの時間
+	m_timer += GameTime().GetFrameDeltaTime();
+	//一度だけプレイヤーまでの距離を把握したいため、フラグを立てます。
+	if (isDestinationflag) {
+		Destination.x = m_player->GetPosition().x - m_position.x;
+		Destination.z = m_player->GetPosition().z - m_position.z;
+		isDestinationflag = false;
+	}
+	//時間になったら攻撃に代わる。
+	if (m_timer >= m_goAttack)
+	{
+		m_moveSpeed = Destination;
+		AttackTime += GameTime().GetFrameDeltaTime();
 		e_state = esAttack;
+		anim.Play(esAttack);
+		if (AttackTime >= LimitTime)
+		{
+			e_state = esAttackGap;
+			m_timer = ZERO;
+		}
+	}
+	else {
+		anim.Play(esStandbyAttack);
+	}
+}
+//攻撃できる隙
+void Golem::AttackGap()
+{
+	float StopLimit = 5.0f;
+	m_timer += GameTime().GetFrameDeltaTime();
+	m_moveSpeed = CVector3::Zero();
+	if (m_timer >= StopLimit)
+	{
+		//e_state = esIdle;
+		isDestinationflag = true;
+		m_timer = ZERO;
 	}
 }

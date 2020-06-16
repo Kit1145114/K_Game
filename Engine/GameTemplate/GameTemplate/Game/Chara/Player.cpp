@@ -34,10 +34,10 @@ Player::Player()
 		OnAnimationEvent(clipName, eventName);
 	});
 
-	m_charaCon.Init(100.0f, 250.0f, m_position);			//キャラコンの設定（半径、高さ、初期位置。）
+	m_charaCon.Init(60.0f, 120.0f, m_position);			//キャラコンの設定（半径、高さ、初期位置。）
 	HP = 100.0f;		//プレイヤーの初期体力。
 	ATK = 100.0f;		//プレイヤーの攻撃力。
-	DEF = 10.0f;		//プレイヤーの防御力。
+	DEF = 100000.0f;		//プレイヤーの防御力。
 	ENERGY = 300.0f;	//プレイヤーのブースト量。
 	playerState = pl_idle;
 	playerENE = ene_Full;
@@ -64,7 +64,7 @@ void Player::Update()
 		Forward();						//プレイヤーの前ベクトル取得。
 		RookOnEnemys();					//エネミーをターゲティングする用。
 	}
-	g_anim.Update(0.025f * NSpeed);	//アニメーションをフレーム単位で描画。
+	g_anim.Update(GameTime().GetFrameDeltaTime() * NSpeed);	//アニメーションをフレーム単位で描画。
 			//ワールド行列の更新。
 	Gmodel.UpdateWorldMatrix(m_position, m_rotation, {0.5f,0.5f,0.5f});
 }
@@ -77,7 +77,6 @@ void Player::Draw()
 		1
 	);
 }
-
 //プレイヤーのレンダー
 void Player::Render()
 {
@@ -94,7 +93,6 @@ void Player::FontRender()
 	m_font.DrawScreenPos(text, CVector2(400, 40),
 		CVector4(0.0f, 1.0f, 0.0f, 1.0f));
 }
-
 //プレイヤーの移動処理
 void Player::Move()
 {
@@ -119,8 +117,6 @@ void Player::Move()
 			//走る
 			m_moveSpeed += cameraForward * lStick_y * Speed * SPeed2;	//奥方向への移動速度を加算。
 			m_moveSpeed += cameraRight * lStick_x * Speed * SPeed2;		//右方向への移動速度を加算。
-			m_playEffectHandle = g_effektEngine->Play(m_attackEffect[2]);
-			g_effektEngine->SetPosition(m_playEffectHandle,m_position);
 		}
 		else if (!g_pad[0].IsPress(enButtonX) || playerENE == ene_Charge)
 		{
@@ -132,7 +128,8 @@ void Player::Move()
 	}
 	//キャラクターコントローラーに１フレームの経過秒数、時間ベースの移動速度を渡している。
 	m_charaCon.SetPosition(m_position);		//キャラコンに座標を渡す。
-	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
+	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
+	//g_effektEngine->SetPosition(m_playEffectHandle, m_position);
 }
 //プレイヤーの回転処理
 void Player::Rotation()
@@ -244,6 +241,7 @@ void Player::MoveOperation()
 void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
 	CVector3 A = m_position + (m_forward * UpPhyGhostObjPosition);
+	CVector3 e_diff;
 	A.y += UpPhyGhostObjPosition;
 	m_PhyGhostObj.CreateBox(A, m_rotation, box_scale);
 	//敵との判定
@@ -251,11 +249,12 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		if (!enemy->GetIsDead()) {
 			g_physics.ContactTest(enemy->GetCharaCon(), [&](const btCollisionObject& contactObject) {
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
+					e_diff = (m_position + enemy->GetPosition()) / 2;
 						enemy->Damage(ATK);
 						enemy->SetHitMe(true);
 						m_se[0].Play(false);
 						m_playEffectHandle = g_effektEngine->Play(m_attackEffect[1]);
-						g_effektEngine->SetPosition(m_playEffectHandle,/*m_PhyGhostObj.GetPosition()*/enemy->GetPosition());
+						g_effektEngine->SetPosition(m_playEffectHandle,e_diff/*m_PhyGhostObj.GetPosition()enemy->GetPosition()*/);
 				}
 			});
 		}
@@ -435,28 +434,3 @@ void Player::ComboAttack()
 		}
 	}
 }
-////エフェクト
-//void Player::InitEffekseer()
-//{
-//	//レンダラーを初期化。
-//	m_effekseerRenderer = EffekseerRendererDX11::Renderer::Create(
-//		g_graphicsEngine->GetD3DDevice(),			//D3Dデバイス。
-//		g_graphicsEngine->GetD3DDeviceContext(),	//D3Dデバイスコンテキスト。
-//		20000										//板ポリの最大数。
-//	);
-//	//エフェクトマネージャを初期化。
-//	m_effekseerManager = Effekseer::Manager::Create(10000);
-//
-//	// 描画用インスタンスから描画機能を設定
-//	m_effekseerManager->SetSpriteRenderer(m_effekseerRenderer->CreateSpriteRenderer());
-//	m_effekseerManager->SetRibbonRenderer(m_effekseerRenderer->CreateRibbonRenderer());
-//	m_effekseerManager->SetRingRenderer(m_effekseerRenderer->CreateRingRenderer());
-//	m_effekseerManager->SetTrackRenderer(m_effekseerRenderer->CreateTrackRenderer());
-//	m_effekseerManager->SetModelRenderer(m_effekseerRenderer->CreateModelRenderer());
-//
-//	// 描画用インスタンスからテクスチャの読込機能を設定
-//	// 独自拡張可能、現在はファイルから読み込んでいる。
-//	m_effekseerManager->SetTextureLoader(m_effekseerRenderer->CreateTextureLoader());
-//	m_effekseerManager->SetModelLoader(m_effekseerRenderer->CreateModelLoader());
-//
-//}

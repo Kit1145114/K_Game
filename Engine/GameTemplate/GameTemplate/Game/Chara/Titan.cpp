@@ -31,7 +31,7 @@ Titan::Titan()
 	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
-	m_charaCon.Init(50.0f, 150.0f, m_position);		//判定の大きさ
+	m_charaCon.Init(50.0f, 100.0f, m_position);		//判定の大きさ
 	e_state = esIdle;									//最初なので待機。
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/RobbotEnemyAttack.efk");
 }
@@ -88,8 +88,8 @@ void Titan::Update()
 	Enemys::Rotation();
 	EnemyState();
 	m_moveSpeed.y -= gravity;
-	anim.Update(0.03f);
-	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
+	anim.Update(GameTime().GetFrameDeltaTime());
+	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 	Model.UpdateWorldMatrix(m_position, m_rotation, {10.0f,10.0f,10.0f});
 	m_charaCon.SetPosition(m_position);
 }
@@ -149,13 +149,20 @@ void Titan::EMove()
 //アニメーションイベント
 void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
+	CVector3 dis;
+	CVector3 diff;
 	if (m_player->GetIsDead() == false) {
 		if (e_state == esAttack && eventName)
 		{
 			Attack();
 			m_se[0].Play(false);
+			dis = (m_player->GetPosition() + m_position) * 0.5f;
+			diff = m_player->GetPosition() - m_position;
+			dis.y += 30.0f;
+			//{ m_forward.x, 50.0f,m_forward.z };
 			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
-			g_effektEngine->SetPosition(m_playEffectHandle,m_player->GetPosition());
+			g_effektEngine->SetPosition(m_playEffectHandle,/*m_player->GetPosition()*/dis);
+			g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2( diff.x, diff.z), 0.0f);
 		}
 	}
 }

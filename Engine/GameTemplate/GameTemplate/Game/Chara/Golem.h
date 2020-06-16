@@ -15,6 +15,9 @@ public:
 	void EMove();							//エネミーが動く処理だよ。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 	void AttackRange();						//攻撃できるかの処理。
+	void AttackStanby();					//攻撃待機から攻撃まで。
+	void AttackGap();						//攻撃後の隙の部分。
 private:
+	float AttackTime = 0.0f;
 };
 

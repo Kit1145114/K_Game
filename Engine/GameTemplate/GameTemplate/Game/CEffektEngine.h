@@ -29,9 +29,9 @@ public:
 		m_effekseerManager->SetScale(effect, scale.x, scale.y, scale.z);
 	}
 
-	void SetRotation(Effekseer::Handle effect, CQuaternion Rot)
+	void SetRotation(Effekseer::Handle effect, float rotX, float rotY, float rotZ)
 	{
-		m_effekseerManager->SetRotation(effect, Rot.x, Rot.y, Rot.z);
+		m_effekseerManager->SetRotation(effect, rotX, rotY, rotZ);
 	}
 	void Stop(Effekseer::Handle handle)
 	{
