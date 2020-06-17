@@ -4,16 +4,18 @@
 
 StoneGolem::StoneGolem()
 {
-	Model.Init(L"Assets/modelData/RobbotEnemy2.cmo");		//モデルの呼び出し。
+	Model.Init(L"Assets/modelData/RobbotEnemy2.cmo");					//モデルの呼び出し。
 	//パラメーター
-	animClip[esIdle].Load(L"Assets/animData/RE2_Idle.tka");	//待機アニメーションをロード。
-	animClip[esIdle].SetLoopFlag(true);
-	animClip[esTracking].Load(L"Assets/animData/RE2_Move.tka");//待機アニメーションをロード。
-	animClip[esTracking].SetLoopFlag(true);
-	animClip[esAttack].Load(L"Assets/animData/RE2_L_Attack.tka");	//攻撃アニメーションをロード。
-	animClip[esAttack].SetLoopFlag(true);
-	animClip[esDeath].Load(L"Assets/animData/RE2_Death.tka");	//死ぬアニメーションをロード。
-	animClip[esDeath].SetLoopFlag(false);
+	animClip[esIdle].Load(L"Assets/animData/RE2_Idle.tka");				//待機アニメーションをロード。
+	animClip[esIdle].SetLoopFlag(true);									//再生し続けるのでtrue
+	animClip[esTracking].Load(L"Assets/animData/RE2_Move.tka");			//待機アニメーションをロード。
+	animClip[esTracking].SetLoopFlag(true);								//再生し続けるのでtrue
+	animClip[esAttack].Load(L"Assets/animData/RE2_Attack.tka");			//攻撃アニメーションをロード。
+	animClip[esAttack].SetLoopFlag(false);								//再生し続けるのでtrue
+	animClip[esDeath].Load(L"Assets/animData/RE2_Death.tka");			//死ぬアニメーションをロード。
+	animClip[esDeath].SetLoopFlag(false);								//一回でいいのでfalse
+	animClip[esAttackGap].Load(L"Assets/animData/RE2_AfterAttack.tka");	//攻撃終わった後アニメーション
+	animClip[esAttackGap].SetLoopFlag(false);							//一回でいいのでfalse
 	anim.Init(
 		Model,
 		animClip,
@@ -24,8 +26,9 @@ StoneGolem::StoneGolem()
 	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
-	m_charaCon.Init(25.0f, 75.0f, m_position);		//判定の大きさ
+	m_charaCon.Init(50.0f, 100.0f, m_position);		//判定の大きさ
 	e_state = esIdle;
+	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Boost.efk");
 }
 
 void StoneGolem::Update()
@@ -43,12 +46,40 @@ void StoneGolem::Update()
 
 void StoneGolem::Attack()
 {
-	m_player->Damage(prm.ATK);
+	anim.Play(esAttack);
+	m_timer += GameTime().GetFrameDeltaTime();
+	if (m_timer >= 0.5f)
+	{
+		if (loop) {
+			//diff = m_player->GetPosition() - m_position;
+			diff.x = m_forward.x;
+			diff.z = m_forward.z;
+			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
+			g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2(diff.x, diff.z), 0.0f);
+			loop = false;
+	}
+		m_efePos = m_position;
+		m_efePos.y += 150.0f;
+		//攻撃のエフェクト
+		g_effektEngine->SetPosition(m_playEffectHandle, m_efePos);
+		//エフェクト分の当たり判定生成。
+		m_attackTime += GameTime().GetFrameDeltaTime();
+		if (m_attackTime >= 3.5f)
+		{
+			g_effektEngine->Stop(m_playEffectHandle);
+			e_state = esAttackGap;
+			m_timer = ZERO;
+			m_attackTime = ZERO;
+			loop = true;
+		}
+	}
+	//m_player->Damage(prm.ATK);
 }
 
 void StoneGolem::AttackRange()
 {
-	if (m_diff.Length() <= attackDistance && isTracking)
+	attackDistance = 300.0f;
+	if (m_diff.Length() <= attackDistance && isTracking && fabsf(m_angle) < CMath::PI * 0.20f)
 	{
 		//距離内に近づいたら攻撃。
 		e_state = esAttack;
@@ -59,6 +90,7 @@ void StoneGolem::Search()
 {
 	Enemys::ViewingAngle();
 	//体力MAX時
+	m_enemytrack = 1000.0f;
 	if (prm.HP == m_MaxHP) {
 		//範囲外かつ視野角外なら
 		if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
@@ -90,6 +122,7 @@ void StoneGolem::Death()
 	anim.Play(esDeath);
 	if (anim.IsPlaying() == false)
 	{
+		g_effektEngine->Stop(m_playEffectHandle);
 		this->SetActive(false);
 		m_charaCon.RemoveRigidBoby();
 		isDeath = true;
@@ -113,12 +146,14 @@ void StoneGolem::EnemyState()
 		break;
 		//攻撃。
 	case Enemys::esAttack:
-		Search();
-		anim.Play(esAttack);
+		Attack();
 		break;
 		//死亡したとき。
 	case Enemys::esDeath:
 		Death();
+		break;
+	case Enemys::esAttackGap:
+		AttackAfter();
 	}
 }
 
@@ -152,5 +187,15 @@ void StoneGolem::Damage(int Damage)
 	if (prm.HP <= 0.0f)
 	{
 		e_state = esDeath;
+	}
+}
+
+void StoneGolem::AttackAfter()
+{
+	anim.Play(esAttackGap);
+	//終わったら最初の状態へ。
+	if (!anim.IsPlaying())
+	{
+		e_state = esIdle;
 	}
 }

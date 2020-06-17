@@ -387,6 +387,7 @@
     <None Include="Assets\animData\RE2_Idle.tka" />
     <None Include="Assets\animData\E2_Standby.tka" />
     <None Include="Assets\animData\E2_Fall.tka" />
+    <None Include="Assets\effect\Wind.efk" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

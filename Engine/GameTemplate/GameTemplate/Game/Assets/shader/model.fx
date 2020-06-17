@@ -170,7 +170,9 @@ float4 PSMain( PSInput In ) : SV_Target0
 		}
 	}
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
-	lig += ambientLight;
+	//ambientLight = float3(1.0f,1.0f,1.0f);
+	//‚±‚±‚Å’l‚ğ’¼Ú“ü‚ê‚Ä‚Ü‚·B
+	lig += float3(0.6f, 0.6f, 0.6f);
 	finalColor.xyz = albedoColor.xyz * lig;
 	return finalColor;
 }

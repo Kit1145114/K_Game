@@ -19,5 +19,8 @@ public:
 	void AttackGap();						//UŒ‚Œã‚ÌŒ„‚Ì•”•ªB
 private:
 	float AttackTime = 0.0f;
+	float m_Falltimer = 0.0f;
+	Effekseer::Handle m_playEffectHandle = 1;
+	bool loop = true;
 };
 

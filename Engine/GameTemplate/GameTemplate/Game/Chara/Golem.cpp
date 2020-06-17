@@ -36,8 +36,9 @@ Golem::Golem()
 	prm.DEF = 30;										//防御力
 	prm.SPD = 200;										//速さ。
 	m_scale = { 3.0f,3.0f,3.0f };						//大きさ
-	m_charaCon.Init(50.0f, 200.0f, m_position);		//判定の大きさ。
+	m_charaCon.Init(50.0f, 200.0f, m_position);			//判定の大きさ。
 	e_state = esIdle;									//最初に待機状態。
+	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Wind.efk");
 }
 //敵の攻撃処理。
 void Golem::Attack()
@@ -171,8 +172,8 @@ void Golem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 //攻撃できるか
 void Golem::AttackRange()
 {
-	attackDistance = 300.0f;
-	if (m_diff.Length() <= attackDistance && isTracking)
+	attackDistance = 400.0f;
+	if (m_diff.Length() <= attackDistance && isTracking && fabsf(m_angle) < CMath::PI * 0.20f)
 	{
 		//距離内に近づいたら攻撃。
 		m_moveSpeed = CVector3::Zero();
@@ -182,10 +183,9 @@ void Golem::AttackRange()
 //攻撃までの
 void Golem::AttackStanby()
 {
-	float m_goAttack = 1.5f;
-	float LimitTime = 5.0f;
-	//タイマーを回します。子のタイマーは敵が攻撃するまでの時間
-	m_timer += GameTime().GetFrameDeltaTime();
+	float m_goAttack = 1.0f;
+	float LimitTime = 3.0f;
+	CVector3 pos = m_position;
 	//一度だけプレイヤーまでの距離を把握したいため、フラグを立てます。
 	if (isDestinationflag) {
 		Destination.x = m_player->GetPosition().x - m_position.x;
@@ -195,30 +195,42 @@ void Golem::AttackStanby()
 	//時間になったら攻撃に代わる。
 	if (m_timer >= m_goAttack)
 	{
-		m_moveSpeed = Destination;
+		if (loop) {
+			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
+			loop = false;
+		}
+		m_moveSpeed = Destination * 2.0f;
 		AttackTime += GameTime().GetFrameDeltaTime();
 		e_state = esAttack;
 		anim.Play(esAttack);
+		g_effektEngine->SetPosition(m_playEffectHandle, pos);
 		if (AttackTime >= LimitTime)
 		{
 			e_state = esAttackGap;
 			m_timer = ZERO;
+			AttackTime = ZERO;
+			loop = true;
 		}
 	}
 	else {
+		//タイマーを回します。子のタイマーは敵が攻撃するまでの時間
+		m_timer += GameTime().GetFrameDeltaTime();
 		anim.Play(esStandbyAttack);
 	}
 }
 //攻撃できる隙
 void Golem::AttackGap()
 {
-	float StopLimit = 5.0f;
-	m_timer += GameTime().GetFrameDeltaTime();
+	//時間まで倒れてます
+	g_effektEngine->Stop(m_playEffectHandle);
+	float StopLimit = 2.0f;
+	m_Falltimer += GameTime().GetFrameDeltaTime();
 	m_moveSpeed = CVector3::Zero();
-	if (m_timer >= StopLimit)
+	if (m_Falltimer >= StopLimit)
 	{
-		//e_state = esIdle;
+		e_state = esIdle;
+		//ここでフラグも戻します。
 		isDestinationflag = true;
-		m_timer = ZERO;
+		m_Falltimer = ZERO;
 	}
 }

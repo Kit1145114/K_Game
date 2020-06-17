@@ -15,8 +15,12 @@ public:
 	void EMove();							//エネミーが動く処理だよ。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 	void HitMe();							//未実装です。
-		
+	void AttackAfter();						//攻撃後。
 private:
-
+	float m_attackTime = 0.0f;
+	Effekseer::Handle m_playEffectHandle = 2;
+	CVector3 m_efePos = CVector3::Zero();
+	CVector3 diff = CVector3::Zero();
+	bool loop = true;
 };
 

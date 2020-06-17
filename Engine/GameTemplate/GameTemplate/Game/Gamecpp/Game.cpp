@@ -137,16 +137,18 @@ bool Game::FirstStage()
 	mapLevel.Init(L"Assets/level/FirstStage.tkl",
 		[&](LevelObjectData& objData)
 	{
-		if (objData.EqualObjectName(L"RobbotEnemy1") == true) {
-			//敵(一人目)のオブジェクト。
-			Enemys* enemys = g_goMgr.NewAGO<Titan>();
-			enemys->SetPosition(objData.position);
-			enemys->SetRotation(objData.rotation);
-			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
-			//フックしたのでtrueを返す。
-			return true;
-		}
+		////ロボット型の敵。蹴りを入れてくる。
+		//if (objData.EqualObjectName(L"RobbotEnemy1") == true) {
+		//	//敵(一人目)のオブジェクト。
+		//	Enemys* enemys = g_goMgr.NewAGO<Titan>();
+		//	enemys->SetPosition(objData.position);
+		//	enemys->SetRotation(objData.rotation);
+		//	//後で削除するのでリストに積んで記憶しておく。
+		//	m_enemysList.push_back(enemys);
+		//	//フックしたのでtrueを返す。
+		//	return true;
+		//}
+		//ロボット型の敵。目からビーム。
 		if (objData.EqualObjectName(L"RobbotEnemy2") == true) {
 			//敵(一人目)のオブジェクト。
 			Enemys* enemys = g_goMgr.NewAGO<StoneGolem>();
@@ -157,6 +159,7 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
+		//茶色のゴーレム。回転攻撃。
 		if (objData.EqualObjectName(L"Enemy2") == true) {
 			//敵(一人目)のオブジェクト。
 			Enemys* enemys = g_goMgr.NewAGO<Golem>();
@@ -167,16 +170,17 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		if (objData.EqualObjectName(L"Enemy3") == true) {
-			//敵(一人目)のオブジェクト。
-			Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
-			enemys->SetPosition(objData.position);
-			enemys->SetRotation(objData.rotation);
-			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
-			//フックしたのでtrueを返す。
-			return true;
-		}
+		////存在しているだけの敵
+		//if (objData.EqualObjectName(L"Enemy3") == true) {
+		//	//敵(一人目)のオブジェクト。
+		//	Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
+		//	enemys->SetPosition(objData.position);
+		//	enemys->SetRotation(objData.rotation);
+		//	//後で削除するのでリストに積んで記憶しておく。
+		//	m_enemysList.push_back(enemys);
+		//	//フックしたのでtrueを返す。
+		//	return true;
+		//}
 		else if (objData.EqualObjectName(L"Player") == true) {
 			player = g_goMgr.NewAGO<Player>();
 			player->SetPosition(objData.position);

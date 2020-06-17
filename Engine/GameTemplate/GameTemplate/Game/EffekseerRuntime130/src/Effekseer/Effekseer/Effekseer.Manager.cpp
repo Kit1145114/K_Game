@@ -905,6 +905,24 @@ void ManagerImplemented::AddLocation( Handle handle,const Vector3D& location)
 	}
 }
 
+void ManagerImplemented::IAddLocation(Handle handle, float x, float y, float z)
+{
+	if (m_DrawSets.count(handle) > 0)
+	{
+		DrawSet& drawSet = m_DrawSets[handle];
+
+		InstanceContainer* pContainer = drawSet.InstanceContainerPointer;
+
+		Instance* pInstance = pContainer->GetFirstGroup()->GetFirst();
+
+		pInstance->m_GlobalMatrix43.Value[3][0] += x;
+		pInstance->m_GlobalMatrix43.Value[3][1] += y;
+		pInstance->m_GlobalMatrix43.Value[3][2] += z;
+
+		drawSet.GlobalMatrix = pInstance->m_GlobalMatrix43;
+		drawSet.IsParameterChanged = true;
+	}
+}
 //void ManagerImplemented::AddLocation(Handle handle,float x, float y, float z)
 //{
 //	AddLocation(handle, location.X, location.Y, location.Z);

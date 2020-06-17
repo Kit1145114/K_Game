@@ -153,13 +153,13 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix,int Spec)
 void SkinModel::InitDirectionLight()
 {
 	
-	m_sLight.m_dirLight.direction[0] = { 1.0f,0.0f,0.0f,0.0f };
-	m_sLight.m_dirLight.color[0] = { 1.0f,1.0f,1.0f,1.0f };
-	m_sLight.m_dirLight.direction[1] = { -1.0f,0.0f,1.0f,0.0f };
-	m_sLight.m_dirLight.color[1] = { 1.0f,1.0f,1.0f,1.0f };
-	m_sLight.m_dirLight.direction[2] = { 0.0f,0.0f,1.0f,0.0f };
-	m_sLight.m_dirLight.color[2] = { 1.0f,1.0f,1.0f,1.0f };
-	m_sLight.m_dirLight.direction[3] = {0.0f,0.0f,-1.0f,0.0f };
-	m_sLight.m_dirLight.color[3] = { 1.0f,1.0f,1.0f,1.0f };
-	m_sLight.ambientLight = { 0.4f,0.4f,0.4f };
+	m_sLight.m_dirLight.direction[0] = { -0.577f, -0.577f, -0.577f, 0.0f };
+	m_sLight.m_dirLight.color[0] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	m_sLight.m_dirLight.direction[1] = { -0.707f, -0.707f, 0.0f, 0.0f };
+	m_sLight.m_dirLight.color[1] = { 0.3f, 0.3f, 0.3f, 1.0f };
+	m_sLight.m_dirLight.direction[2] = { 0.0f, -0.707f, 0.707f, 0.0f };
+	m_sLight.m_dirLight.color[2] = { 0.3f, 0.3f, 0.3f, 1.0f };
+	m_sLight.m_dirLight.direction[3] = { 1.0f, 0.0f, -1.0f, 0.0f };
+	m_sLight.m_dirLight.color[3] = { 0.3f, 0.3f, 0.3f, 1.0f };
+	m_sLight.ambientLight = { 10.0f,10.0f,10.0f };
 }

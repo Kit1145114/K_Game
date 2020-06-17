@@ -37,10 +37,7 @@ public:
 	{
 		m_effekseerManager->StopEffect(handle);
 	}
-	//void AddPosition(Effekseer::Handle handle, const CVector3& location)
-	//{
-	//	m_effekseerManager->AddLocation(handle,location.x , location.y, location.z);
-	//}
+
 	Effekseer::Effect* CreateEffekseerEffect(const wchar_t* filePath);
 	Effekseer::Handle Play(Effekseer::Effect* effect);
 

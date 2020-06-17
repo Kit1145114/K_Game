@@ -309,6 +309,7 @@
     <None Include="Assets\effect\PlayerAttack.efk" />
     <None Include="Assets\effect\RobbotEnemyAttack.efk" />
     <None Include="Assets\effect\test.efk" />
+    <None Include="Assets\effect\Wind.efk" />
     <None Include="Assets\level\debugStage.tkl" />
     <None Include="Assets\level\FirstStage.tkl" />
     <None Include="Assets\level\Map01.tkl" />

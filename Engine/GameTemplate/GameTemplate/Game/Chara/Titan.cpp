@@ -31,7 +31,7 @@ Titan::Titan()
 	prm.ATK = 20;										//UŒ‚—Í
 	prm.DEF = 30;										//–hŒä—Í
 	prm.SPD = 300;										//‘¬‚³B
-	m_charaCon.Init(50.0f, 100.0f, m_position);		//”»’è‚Ì‘å‚«‚³
+	m_charaCon.Init(50.0f, 100.0f, m_position);			//”»’è‚Ì‘å‚«‚³
 	e_state = esIdle;									//Å‰‚È‚Ì‚Å‘Ò‹@B
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/RobbotEnemyAttack.efk");
 }
@@ -112,20 +112,20 @@ void Titan::EnemyState()
 		//‘Ò‹@’†B
 	case Enemys::esIdle:
 		Search();
-		Rotation();
+		//Rotation();
 		anim.Play(esIdle);
 		break;
 		//’Ç‚¢‚©‚¯‚Ä‚éB
 	case Enemys::esTracking:
 		Search();
 		EMove();
-		Rotation();
+		//Rotation();
 		anim.Play(esTracking);
 		break;
 		//UŒ‚B
 	case Enemys::esAttack:
 		Search();
-		Rotation();
+		Enemys::Rotation();
 		anim.Play(esAttack);
 		break;
 		//€–S‚µ‚½‚Æ‚«B
@@ -169,7 +169,7 @@ void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 //UŒ‚‚Å‚«‚é‚©
 void Titan::AttackRange()
 {
-	if (m_diff.Length() <= attackDistance && isTracking)
+	if (m_diff.Length() <= attackDistance && isTracking && fabsf(m_angle) < CMath::PI * 0.20f)
 	{
 		//‹——£“à‚É‹ß‚Ã‚¢‚½‚çUŒ‚B
 		e_state = esAttack;

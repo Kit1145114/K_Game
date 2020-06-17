@@ -146,8 +146,8 @@ private:
 	CVector3 m_position = CVector3::Zero();				//プレイヤーのポジション。	
 	CVector3 m_enemyPos = CVector3::Zero();				//エネミーのポジション取得用。
 	CVector3 m_moveSpeed = CVector3::Zero();			//プレイヤーの移動用の変数
-	CVector3 m_scale = CVector3::One();				//プレイヤーの大きさ用の変数
-	CVector3 box_scale = { 50.0f,50.0f,50.0f };			//ボックス大きさ
+	CVector3 m_scale = CVector3::One();					//プレイヤーの大きさ用の変数
+	CVector3 box_scale = { 100.0f,100.0f,100.0f };		//ボックス大きさ
 	CVector3 diff = { 0.0f,0.0f,0.0f };					//エネミーとプレイヤーの距離
 	CQuaternion m_rotation = CQuaternion::Identity();	//プレイヤーの軸回転用の変数
 	PlayerStateClip playerState;						//プレイヤーのステート
@@ -157,7 +157,7 @@ private:
 	CVector3 m_forward = CVector3::AxisZ();				//プレイヤーの前方方向。
 	CMatrix Rot = CMatrix::Identity();					//プレイヤーの
 	CVector3 toPlayer = CVector3::Zero();				//前方向を図るようのもの。
-	Font m_font;									//名前。
+	Font m_font;										//名前。
 	int HP = 0;											//プレイヤーのHP
 	int ATK = 0;										//プレイヤーの攻撃力
 	int DEF = 0;										//プレイヤーの防御力
