@@ -23,7 +23,7 @@ Sample::Sample()
 	prm.SPD = 10;										//ë¨Ç≥ÅB
 	m_position = e4_pos;
 	s_state = SSIdle;
-	m_charaCon.Init(150.0f, 10.0f, m_position);
+	m_charaCon.Init(150.0f, 10.0f, m_position, enCollisionAttr_Enemy);
 }
 void Sample::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {

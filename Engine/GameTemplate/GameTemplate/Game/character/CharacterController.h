@@ -25,8 +25,9 @@ public:
 		*@param[in]	radius		カプセルコライダーの半径。
 		*@param[in]	height		カプセルコライダーの高さ。
 		*@param[in]	position	初期位置。
+		//@pram[in] attr		コリジョンの属性追加。
 		*/
-	void Init(float radius, float height, const CVector3& position);
+	void Init(float radius, float height, const CVector3& position ,EnCollisionAttr attr);
 	/*!
 		* @brief	実行。
 		*@param[in]	deltaTime		経過時間。単位は秒。

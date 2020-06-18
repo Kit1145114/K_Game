@@ -388,6 +388,7 @@
     <None Include="Assets\animData\E2_Standby.tka" />
     <None Include="Assets\animData\E2_Fall.tka" />
     <None Include="Assets\effect\Wind.efk" />
+    <None Include="Assets\effect\Laser.efk" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

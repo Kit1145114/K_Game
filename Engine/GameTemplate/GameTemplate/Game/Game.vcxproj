@@ -306,6 +306,7 @@
     <None Include="Assets\animData\RE2_Move.tka" />
     <None Include="Assets\animData\RE2_R_Attack.tka" />
     <None Include="Assets\effect\Boost.efk" />
+    <None Include="Assets\effect\Laser.efk" />
     <None Include="Assets\effect\PlayerAttack.efk" />
     <None Include="Assets\effect\RobbotEnemyAttack.efk" />
     <None Include="Assets\effect\test.efk" />

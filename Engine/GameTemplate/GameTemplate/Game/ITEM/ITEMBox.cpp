@@ -27,7 +27,7 @@ bool ITEMBox::Start()
 	//m_scale = { 3.0f,3.0f,3.0f };
 	box_anim.Play(close);
 	state = close;
-	m_charaCon.Init(100.0f, 50.0f, m_position);	//キャラコンの設定（半径、高さ、初期位置。）
+	m_charaCon.Init(100.0f, 50.0f, m_position, enCollisionAttr_Enemy);	//キャラコンの設定（半径、高さ、初期位置。）
 	return true;
 }
 //アップデート処理。

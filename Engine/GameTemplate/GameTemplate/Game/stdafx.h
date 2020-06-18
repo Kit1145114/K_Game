@@ -18,6 +18,8 @@
 
 #include "system/Stopwatch.h"
 #include "system/GameTime.h"
+//コリジョン入れる
+#include "Physics/CollisionAttr.h"
 //DirectXTKのインクルードファイル。
 #include "DirectXTK/Inc/Model.h"
 #include "DirectXTK/Inc/Effects.h"	
@@ -58,4 +60,5 @@ const float FRAME_BUFFER_H = 720.0f;				//フレームバッファの高さ。
 static const int MAX_BONE = 512;	//!<ボーンの最大数。
 class Sound;
 extern Sound* g_sound;
+extern EnCollisionAttr collisionAttr;
 

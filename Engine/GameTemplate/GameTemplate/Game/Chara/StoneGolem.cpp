@@ -26,9 +26,9 @@ StoneGolem::StoneGolem()
 	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
-	m_charaCon.Init(50.0f, 100.0f, m_position);		//判定の大きさ
+	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);		//判定の大きさ
 	e_state = esIdle;
-	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Boost.efk");
+	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Laser.efk");
 }
 
 void StoneGolem::Update()
@@ -38,8 +38,8 @@ void StoneGolem::Update()
 	Enemys::Rotation();
 	EnemyState();
 	m_moveSpeed.y -= gravity;
-	anim.Update(0.03f);
-	m_position = m_charaCon.Execute(1.0f / 60.0f, m_moveSpeed);
+	anim.Update(GameTime().GetFrameDeltaTime());
+	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	m_charaCon.SetPosition(m_position);
 }
@@ -91,12 +91,11 @@ void StoneGolem::Search()
 	Enemys::ViewingAngle();
 	//体力MAX時
 	m_enemytrack = 1000.0f;
-	if (prm.HP == m_MaxHP) {
-		//範囲外かつ視野角外なら
+	if (prm.HP == m_MaxHP && !isTrackflag) {
+		//範囲外かつ視野角外ならかつ、一度でも見つけてないとき。
 		if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
 		{
 			e_state = esIdle;
-			isTracking = false;
 		}
 		//範囲内かつ視野角内なら
 		else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
@@ -104,13 +103,15 @@ void StoneGolem::Search()
 			Move = m_player->GetPosition() - m_position;
 			isTracking = true;
 			e_state = esTracking;
+			isTrackflag = true;
 		}
 	}
 	//体力がMAXじゃないとき。ひたすら追いかける。
-	else if (prm.HP < m_MaxHP)
+	else if (prm.HP < m_MaxHP || isTrackflag)
 	{
 		Move = m_player->GetPosition() - m_position;
 		isTracking = true;
+		isTrackflag = true;
 		e_state = esTracking;
 	}
 	//攻撃の範囲計算。

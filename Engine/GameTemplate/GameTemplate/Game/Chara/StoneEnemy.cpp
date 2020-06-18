@@ -29,7 +29,7 @@ StoneEnemy::StoneEnemy()
 	prm.SPD = 400;										//速さ。
 	m_scale = { 3.0f,3.0f,3.0f };						//モデルの大きさ。
 	//m_position = e_pos2;
-	m_charaCon.Init(150.0f, 400.0f, m_position);			//判定の大きさ
+	m_charaCon.Init(150.0f, 400.0f, m_position, enCollisionAttr_Enemy);			//判定の大きさ
 	e_state = esIdle;									//最初なので待機。
 }
 //敵の攻撃処理。

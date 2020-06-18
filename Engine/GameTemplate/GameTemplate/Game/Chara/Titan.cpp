@@ -31,7 +31,7 @@ Titan::Titan()
 	prm.ATK = 20;										//UŒ‚—Í
 	prm.DEF = 30;										//–hŒä—Í
 	prm.SPD = 300;										//‘¬‚³B
-	m_charaCon.Init(50.0f, 100.0f, m_position);			//”»’è‚Ì‘å‚«‚³
+	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);			//”»’è‚Ì‘å‚«‚³
 	e_state = esIdle;									//Å‰‚È‚Ì‚Å‘Ò‹@B
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/RobbotEnemyAttack.efk");
 }

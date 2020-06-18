@@ -14,7 +14,7 @@ namespace {
 	{
 		bool isHit = false;									//衝突フラグ。
 		CVector3 hitPos = CVector3(0.0f, -FLT_MAX, 0.0f);	//衝突点。
-		CVector3 startPos = CVector3::Zero();					//レイの始点。
+		CVector3 startPos = CVector3::Zero();				//レイの始点。
 		CVector3 hitNormal = CVector3::Zero();				//衝突点の法線。
 		btCollisionObject* me = nullptr;					//自分自身。自分自身との衝突を除外するためのメンバ。
 		float dist = FLT_MAX;								//衝突点までの距離。一番近い衝突点を求めるため。FLT_MAXは単精度の浮動小数点が取りうる最大の値。
@@ -22,8 +22,10 @@ namespace {
 															//衝突したときに呼ばれるコールバック関数。
 		virtual	btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
 		{
+			//自分も敵、相手も敵の時はすり抜ける。
 			if (convexResult.m_hitCollisionObject == me
 				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character
+				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Enemy
 				|| convexResult.m_hitCollisionObject->getInternalType() == btCollisionObject::CO_GHOST_OBJECT
 				) {
 				//自分に衝突した。or キャラクタ属性のコリジョンと衝突した。
@@ -54,19 +56,22 @@ namespace {
 			return 0.0f;
 		}
 	};
+
 	//衝突したときに呼ばれる関数オブジェクト(壁用)
 	struct SweepResultWall : public btCollisionWorld::ConvexResultCallback
 	{
 		bool isHit = false;						//衝突フラグ。
 		CVector3 hitPos = CVector3::Zero();		//衝突点。
-		CVector3 startPos = CVector3::Zero();		//レイの始点。
+		CVector3 startPos = CVector3::Zero();	//レイの始点。
 		float dist = FLT_MAX;					//衝突点までの距離。一番近い衝突点を求めるため。FLT_MAXは単精度の浮動小数点が取りうる最大の値。
 		CVector3 hitNormal = CVector3::Zero();	//衝突点の法線。
 		btCollisionObject* me = nullptr;		//自分自身。自分自身との衝突を除外するためのメンバ。
 												//衝突したときに呼ばれるコールバック関数。
 		virtual	btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
 		{
-			if (convexResult.m_hitCollisionObject == me) {
+			if (convexResult.m_hitCollisionObject == me
+				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Enemy
+				&& me->getUserIndex() == enCollisionAttr_Enemy) {
 				//自分に衝突した。or 地面に衝突した。
 				return 0.0f;
 			}
@@ -100,7 +105,7 @@ namespace {
 }
 
 
-void CharacterController::Init(float radius, float height, const CVector3& position)
+void CharacterController::Init(float radius, float height, const CVector3& position, EnCollisionAttr attr)
 {
 	m_position = position;
 	//コリジョン作成。
@@ -117,7 +122,7 @@ void CharacterController::Init(float radius, float height, const CVector3& posit
 	//剛体の位置を更新。
 	trans.setOrigin(btVector3(position.x, position.y, position.z));
 	//@todo 未対応。trans.setRotation(btQuaternion(rotation.x, rotation.y, rotation.z));
-	m_rigidBody.GetBody()->setUserIndex(enCollisionAttr_Character);
+	m_rigidBody.GetBody()->setUserIndex(attr/*enCollisionAttr_Character*/);
 	m_rigidBody.GetBody()->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
 	g_physics.AddRigidBody(m_rigidBody);
 

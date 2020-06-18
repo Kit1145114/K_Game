@@ -15,7 +15,7 @@ CEffektEngine::~CEffektEngine()
 //エフェクトの初期化。
 void CEffektEngine::InitEffekseer()
 {
-	m_effekseerManager = Effekseer::Manager::Create(100);
+	m_effekseerManager = Effekseer::Manager::Create(10000);
 	m_effekseerRenderer = EffekseerRendererDX11::Renderer::Create(
 		g_graphicsEngine->GetD3DDevice(),			//D3Dデバイス。
 		g_graphicsEngine->GetD3DDeviceContext(),	//D3Dデバイスコンテキスト。

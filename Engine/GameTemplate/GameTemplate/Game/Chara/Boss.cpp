@@ -39,7 +39,7 @@ Boss::Boss()
 	prm.DEF = 80;										//防御力
 	prm.SPD = 350;										//速さ。
 	m_scale = { 1.5f,1.5f,1.5f };						//エネミーの大きさ
-	m_charaCon.Init(100.0f, 600.0f,m_position);			//判定の大きさ
+	m_charaCon.Init(100.0f, 600.0f,m_position, enCollisionAttr_Enemy);			//判定の大きさ
 	boss_State = bsIdle;								//最初なので待機。
 	Mode = SmallATK;									//何攻撃をするか。
 }

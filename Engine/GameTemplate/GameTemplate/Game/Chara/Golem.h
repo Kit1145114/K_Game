@@ -18,8 +18,10 @@ public:
 	void AttackStanby();					//UŒ‚‘Ò‹@‚©‚çUŒ‚‚Ü‚ÅB
 	void AttackGap();						//UŒ‚Œã‚ÌŒ„‚Ì•”•ªB
 private:
-	float AttackTime = 0.0f;
+	float m_AttackTime = 0.0f;
 	float m_Falltimer = 0.0f;
+	float m_attack = 125.0f;
+	CVector3 m_Attackdis = CVector3::Zero();
 	Effekseer::Handle m_playEffectHandle = 1;
 	bool loop = true;
 };

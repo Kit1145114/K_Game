@@ -48,15 +48,15 @@ public:
 	}
 
 private:
-	Player* player;					//プレイヤーのインスタンス。
-	MAP* map;						//マップのインスタンス。
-	GameCamera* g_Camera;			//カメラのインスタンス。
-	Enemys* enemys;					//エネミーのインスタンス。
-	HPText* hp_bar;					//HPバー。
-	ITEMBox* itemBox;				//箱
-	EnergyText* energy_bar;			//エナジーバー
-	Door* door;						//ドア
-	Wall* m_wall;					//壁
+	Player* player = nullptr;					//プレイヤーのインスタンス。
+	MAP* map = nullptr;						//マップのインスタンス。
+	GameCamera* g_Camera = nullptr;			//カメラのインスタンス。
+	Enemys* enemys = nullptr;					//エネミーのインスタンス。
+	HPText* hp_bar = nullptr;					//HPバー。
+	ITEMBox* itemBox = nullptr;				//箱
+	EnergyText* energy_bar = nullptr;			//エナジーバー
+	Door* door = nullptr;						//ドア
+	Wall* m_wall = nullptr;					//壁
 	Level		mapLevel;			//マップのレベル。。。。。。
 	StageNum	stage;
 	bool StageChange = false;

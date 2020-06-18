@@ -6,7 +6,7 @@ Golem::Golem()
 {
 	m_se[0].Init(L"Assets/sound/BossAttack1.wav");						//音の初期化。
 	Model.Init(L"Assets/modelData/Enemy2.cmo");							//モデルの初期化。
-//モデルのアニメーションのロード。
+	//モデルのアニメーションのロード。
 	animClip[esIdle].Load(L"Assets/animData/E2_idle.tka");				//待機アニメーションをロード。
 	animClip[esIdle].SetLoopFlag(true);									//ループするのでtrue
 	animClip[esTracking].Load(L"Assets/animData/E2_Walk.tka");			//待機アニメーションをロード。
@@ -36,7 +36,7 @@ Golem::Golem()
 	prm.DEF = 30;										//防御力
 	prm.SPD = 200;										//速さ。
 	m_scale = { 3.0f,3.0f,3.0f };						//大きさ
-	m_charaCon.Init(50.0f, 200.0f, m_position);			//判定の大きさ。
+	m_charaCon.Init(50.0f, 200.0f, m_position, enCollisionAttr_Enemy);			//判定の大きさ。
 	e_state = esIdle;									//最初に待機状態。
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Wind.efk");
 }
@@ -60,12 +60,11 @@ void Golem::Search()
 {
 	Enemys::ViewingAngle();
 	//体力MAX時
-	if (prm.HP == m_MaxHP) {
-		//範囲外かつ視野角外なら
+	if (prm.HP == m_MaxHP && !isTrackflag) {
+		//範囲外かつ視野角外ならかつ、一度でも見つけてないとき。
 		if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
 		{
 			e_state = esIdle;
-			isTracking = false;
 		}
 		//範囲内かつ視野角内なら
 		else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
@@ -73,13 +72,15 @@ void Golem::Search()
 			Move = m_player->GetPosition() - m_position;
 			isTracking = true;
 			e_state = esTracking;
+			isTrackflag = true;
 		}
 	}
 	//体力がMAXじゃないとき。ひたすら追いかける。
-	else if (prm.HP < m_MaxHP)
+	else if (prm.HP < m_MaxHP || isTrackflag)
 	{
 		Move = m_player->GetPosition() - m_position;
 		isTracking = true;
+		isTrackflag = true;
 		e_state = esTracking;
 	}
 	//攻撃の範囲計算。
@@ -94,7 +95,7 @@ void Golem::Update()
 	EnemyState();
 	m_moveSpeed.y -= gravity;
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
-	anim.Update(0.05f);
+	anim.Update(GameTime().GetFrameDeltaTime());
 	m_charaCon.SetPosition(m_position);
 	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 }
@@ -200,15 +201,20 @@ void Golem::AttackStanby()
 			loop = false;
 		}
 		m_moveSpeed = Destination * 2.0f;
-		AttackTime += GameTime().GetFrameDeltaTime();
+		m_AttackTime += GameTime().GetFrameDeltaTime();
 		e_state = esAttack;
 		anim.Play(esAttack);
 		g_effektEngine->SetPosition(m_playEffectHandle, pos);
-		if (AttackTime >= LimitTime)
+		m_Attackdis = m_position - m_player->GetPosition();
+		if (m_Attackdis.Length() <= m_attack)
+		{
+			m_player->Damage(51);
+		}
+		if (m_AttackTime >= LimitTime)
 		{
 			e_state = esAttackGap;
 			m_timer = ZERO;
-			AttackTime = ZERO;
+			m_AttackTime = ZERO;
 			loop = true;
 		}
 	}
