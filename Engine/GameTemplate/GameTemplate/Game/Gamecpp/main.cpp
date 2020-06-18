@@ -45,7 +45,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_effektEngine->Draw();
 		g_goMgr.PostRender();
 		g_goMgr.FontRender();
-		//g_physics.DebugDraw();
+		g_physics.DebugDraw();
 		
 		//•`‰æI—¹B
 		g_graphicsEngine->EndRender();

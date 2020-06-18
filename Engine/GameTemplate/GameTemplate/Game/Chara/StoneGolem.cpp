@@ -23,7 +23,7 @@ StoneGolem::StoneGolem()
 	);
 	prm.HP = 100;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
-	prm.ATK = 20;										//攻撃力
+	prm.ATK = 51;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
 	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);		//判定の大きさ
@@ -55,17 +55,24 @@ void StoneGolem::Attack()
 			diff.x = m_forward.x;
 			diff.z = m_forward.z;
 			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
-			g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2(diff.x, diff.z), 0.0f);
+			g_effektEngine->SetRotation(m_playEffectHandle, ZERO, atan2(diff.x, diff.z), ZERO);
+			//エフェクト分の当たり判定生成。
+			CVector3 A = m_position + (m_forward * UpPhyGhostObjPosition * m_objPosAdd);
+			A.y += UpPhyGhostObjPosition;
+			m_PhyGhostObj.CreateBox(A, m_rotation, box_scale);
 			loop = false;
 	}
 		m_efePos = m_position;
 		m_efePos.y += 150.0f;
 		//攻撃のエフェクト
 		g_effektEngine->SetPosition(m_playEffectHandle, m_efePos);
-		//エフェクト分の当たり判定生成。
+		//攻撃したときのゴーストがプレイヤーと当たっているか。
+		//HitPlayerObj();
+		//終わるまでの時間を回す。
 		m_attackTime += GameTime().GetFrameDeltaTime();
 		if (m_attackTime >= 3.5f)
 		{
+			m_PhyGhostObj.Release();
 			g_effektEngine->Stop(m_playEffectHandle);
 			e_state = esAttackGap;
 			m_timer = ZERO;
@@ -121,9 +128,9 @@ void StoneGolem::Search()
 void StoneGolem::Death()
 {
 	anim.Play(esDeath);
+	g_effektEngine->Stop(m_playEffectHandle);
 	if (anim.IsPlaying() == false)
 	{
-		g_effektEngine->Stop(m_playEffectHandle);
 		this->SetActive(false);
 		m_charaCon.RemoveRigidBoby();
 		isDeath = true;
@@ -157,14 +164,14 @@ void StoneGolem::EnemyState()
 		AttackAfter();
 	}
 }
-
+//キャラの移動処理。
 void StoneGolem::EMove()
 {
 	Move.Normalize();
 	if (e_state == esIdle || e_state == esAttack)
 	{
-		m_moveSpeed.x = 0.0f;
-		m_moveSpeed.z = 0.0f;
+		m_moveSpeed.x = ZERO;
+		m_moveSpeed.z = ZERO;
 	}
 	else if (e_state == esTracking) {
 		m_moveSpeed = Move * prm.SPD;
@@ -199,4 +206,16 @@ void StoneGolem::AttackAfter()
 	{
 		e_state = esIdle;
 	}
+}
+
+void StoneGolem::HitPlayerObj()
+{
+	//攻撃の判定とってます。
+	g_physics.ContactTest(m_player->GetCharaCon(), [&](const btCollisionObject& contactObject)
+	{
+		if (m_PhyGhostObj.IsSelf(contactObject))
+		{
+			m_player->Damage(prm.ATK);
+		}
+	});
 }

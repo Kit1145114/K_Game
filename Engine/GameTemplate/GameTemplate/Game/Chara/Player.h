@@ -126,6 +126,10 @@ public:
 	{
 		return m_forward;
 	}
+	CharacterController GetCharaCon()
+	{
+		return m_charaCon;
+	}
 	//プレイヤーの前ベクトルを取得。
 	void Forward();
 	//敵をロックオンするときの処理。

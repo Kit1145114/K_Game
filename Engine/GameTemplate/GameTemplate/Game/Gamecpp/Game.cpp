@@ -159,17 +159,17 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		//茶色のゴーレム。回転攻撃。
-		if (objData.EqualObjectName(L"Enemy2") == true) {
-			//敵(一人目)のオブジェクト。
-			Enemys* enemys = g_goMgr.NewAGO<Golem>();
-			enemys->SetPosition(objData.position);
-			enemys->SetRotation(objData.rotation);
-			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
-			//フックしたのでtrueを返す。
-			return true;
-		}
+		////茶色のゴーレム。回転攻撃。
+		//if (objData.EqualObjectName(L"Enemy2") == true) {
+		//	//敵(一人目)のオブジェクト。
+		//	Enemys* enemys = g_goMgr.NewAGO<Golem>();
+		//	enemys->SetPosition(objData.position);
+		//	enemys->SetRotation(objData.rotation);
+		//	//後で削除するのでリストに積んで記憶しておく。
+		//	m_enemysList.push_back(enemys);
+		//	//フックしたのでtrueを返す。
+		//	return true;
+		//}
 		////存在しているだけの敵
 		//if (objData.EqualObjectName(L"Enemy3") == true) {
 		//	//敵(一人目)のオブジェクト。
@@ -195,20 +195,20 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		else if (objData.EqualObjectName(L"Box") == true) {
-			itemBox = g_goMgr.NewAGO<ITEMBox>();
-			itemBox->SetPosition(objData.position);
-			//フックしたのでtrueを返す。
-			return true;
-		}
-		else if (objData.EqualObjectName(L"Wall") == true) {
-			m_wall = g_goMgr.NewAGO<Wall>();
-			m_wall->SetPosition(objData.position);
-			m_wall->SetRotation(objData.rotation);
-			m_wallList.push_back(m_wall);
-			//フックしたのでtrueを返す。
-			return true;
-		}
+		//else if (objData.EqualObjectName(L"Box") == true) {
+		//	itemBox = g_goMgr.NewAGO<ITEMBox>();
+		//	itemBox->SetPosition(objData.position);
+		//	//フックしたのでtrueを返す。
+		//	return true;
+		//}
+		//else if (objData.EqualObjectName(L"Wall") == true) {
+		//	m_wall = g_goMgr.NewAGO<Wall>();
+		//	m_wall->SetPosition(objData.position);
+		//	m_wall->SetRotation(objData.rotation);
+		//	m_wallList.push_back(m_wall);
+		//	//フックしたのでtrueを返す。
+		//	return true;
+		//}
 		else if (objData.EqualObjectName(L"Door") == true) {
 			door = g_goMgr.NewAGO<Door>();
 			door->SetPosition(objData.position);
