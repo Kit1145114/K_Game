@@ -78,6 +78,11 @@ public:
 	{
 		return &m_rigidBody;
 	}
+	float GetRadius()
+	{
+		return m_radius;
+	}
+
 	/*!
 	* @brief	剛体を物理エンジンから削除。。
 	*/

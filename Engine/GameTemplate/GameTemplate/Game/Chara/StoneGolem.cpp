@@ -51,28 +51,22 @@ void StoneGolem::Attack()
 	if (m_timer >= 0.5f)
 	{
 		if (loop) {
-			//diff = m_player->GetPosition() - m_position;
 			diff.x = m_forward.x;
 			diff.z = m_forward.z;
 			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
 			g_effektEngine->SetRotation(m_playEffectHandle, ZERO, atan2(diff.x, diff.z), ZERO);
-			//エフェクト分の当たり判定生成。
-			CVector3 A = m_position + (m_forward * UpPhyGhostObjPosition * m_objPosAdd);
-			A.y += UpPhyGhostObjPosition;
-			m_PhyGhostObj.CreateBox(A, m_rotation, box_scale);
 			loop = false;
-	}
+		}
 		m_efePos = m_position;
 		m_efePos.y += 150.0f;
 		//攻撃のエフェクト
 		g_effektEngine->SetPosition(m_playEffectHandle, m_efePos);
 		//攻撃したときのゴーストがプレイヤーと当たっているか。
-		//HitPlayerObj();
+		HitPlayerObj();
 		//終わるまでの時間を回す。
 		m_attackTime += GameTime().GetFrameDeltaTime();
 		if (m_attackTime >= 3.5f)
 		{
-			m_PhyGhostObj.Release();
 			g_effektEngine->Stop(m_playEffectHandle);
 			e_state = esAttackGap;
 			m_timer = ZERO;
@@ -129,6 +123,7 @@ void StoneGolem::Death()
 {
 	anim.Play(esDeath);
 	g_effektEngine->Stop(m_playEffectHandle);
+	m_PhyGhostObj.Release();
 	if (anim.IsPlaying() == false)
 	{
 		this->SetActive(false);
@@ -211,11 +206,19 @@ void StoneGolem::AttackAfter()
 void StoneGolem::HitPlayerObj()
 {
 	//攻撃の判定とってます。
-	g_physics.ContactTest(m_player->GetCharaCon(), [&](const btCollisionObject& contactObject)
-	{
-		if (m_PhyGhostObj.IsSelf(contactObject))
-		{
+	//Aベクトル(単位ベクトル)、モルガンの正面のベクトル
+	CVector3 front = m_forward;
+	CVector3 pos = m_player->GetPosition() - m_position;
+	//AベクトルとBベクトルの内積を求める
+	//これにより「BベクトルからAベクトルに垂直ベクトル」と「Aベクトル」の交わる座標からAベクトルの始点までの長さが求まる
+	float ip = front.Dot(pos);
+	if (ip > 0 && ip < m_length) {
+		//Aベクトルに求めた内積をかけて、「BベクトルからAベクトルに垂直ベクトル」と「Aベクトル」の交わる座標のCベクトルを求める
+		CVector3 c = front * ip;
+		//CベクトルとBベクトルの距離の距離の2乗が一定以下(敵のコリジョンの半径＋モルガンのえんちうの半径の2乗)ならプレイヤーにダメージを与える
+		CVector3 pos2 = pos - c;
+		if (pos2.LengthSq() <= std::pow((m_player->GetRadius() + m_r), 2.0f)) {
 			m_player->Damage(prm.ATK);
 		}
-	});
+	}
 }

@@ -106,6 +106,10 @@ public:
 	{
 		return m_isRookOn;
 	}
+	float GetRadius()
+	{
+		return m_charaCon.GetRadius();//500.0f;
+	}
 	//コンボ関連をリセット
 	void ComboReset()
 	{

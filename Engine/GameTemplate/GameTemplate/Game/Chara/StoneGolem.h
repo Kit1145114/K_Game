@@ -27,6 +27,8 @@ private:
 	CVector3 diff = CVector3::Zero();
 	bool loop = true;
 	PhysicsGhostObject m_PhyGhostObj;					//ゴースト
-	CVector3 box_scale = { 10.0f,10.0f,700.0f };		//ボックス大きさ
+	CVector3 box_scale = { 10.0f,10.0f,650.0f };		//ボックス大きさ
+	const float m_r = 5.0f;								//えんちうの半径
+	const float m_length = 1200.0f;						//ここをいじると距離を変えれるよ。
 };
 
