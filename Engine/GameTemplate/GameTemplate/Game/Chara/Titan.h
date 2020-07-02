@@ -15,6 +15,7 @@ public:
 	void EMove();							//エネミーが動く処理だよ。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 	void AttackRange();						//攻撃できるかの処理。
+	void AttackCoolTime();					//攻撃した後の隙の時間
 private:
 	Effekseer::Handle m_playEffectHandle = 1;
 };

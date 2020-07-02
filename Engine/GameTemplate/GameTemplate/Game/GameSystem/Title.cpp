@@ -29,7 +29,6 @@ bool Title::Start()
 void Title::Update()
 {
 	m_sprite->Update();
-
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
 		m_bgm[1].Play(true);

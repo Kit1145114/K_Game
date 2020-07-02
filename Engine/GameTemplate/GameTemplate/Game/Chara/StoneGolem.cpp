@@ -28,7 +28,10 @@ StoneGolem::StoneGolem()
 	prm.SPD = 300;										//速さ。
 	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);		//判定の大きさ
 	e_state = esIdle;
-	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Laser.efk");
+	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Laser2.efk");
+	m_se[0].Init(L"Assets/sound/fire4.wav");			//攻撃
+	m_se[1].Init(L"Assets/sound/laserDamage.wav");		//ダメージ音
+	m_se[2].Init(L"Assets/sound/RE2_Walk.wav");			//歩く。
 }
 
 void StoneGolem::Update()
@@ -48,6 +51,7 @@ void StoneGolem::Attack()
 {
 	anim.Play(esAttack);
 	m_timer += GameTime().GetFrameDeltaTime();
+	m_se[2].Stop();
 	if (m_timer >= 0.5f)
 	{
 		if (loop) {
@@ -57,8 +61,10 @@ void StoneGolem::Attack()
 			g_effektEngine->SetRotation(m_playEffectHandle, ZERO, atan2(diff.x, diff.z), ZERO);
 			loop = false;
 		}
+		m_se[0].Play(false);
+		m_se[0].SetVolume(0.3f);
 		m_efePos = m_position;
-		m_efePos.y += 150.0f;
+		m_efePos.y += 142.0f;
 		//攻撃のエフェクト
 		g_effektEngine->SetPosition(m_playEffectHandle, m_efePos);
 		//攻撃したときのゴーストがプレイヤーと当たっているか。
@@ -71,6 +77,7 @@ void StoneGolem::Attack()
 			e_state = esAttackGap;
 			m_timer = ZERO;
 			m_attackTime = ZERO;
+			m_se[0].Stop();
 			loop = true;
 		}
 	}
@@ -124,6 +131,11 @@ void StoneGolem::Death()
 	anim.Play(esDeath);
 	g_effektEngine->Stop(m_playEffectHandle);
 	m_PhyGhostObj.Release();
+	if (m_se[0].IsPlaying())
+	{
+		m_se[0].Stop();
+		m_attackEffect->Release();
+	}
 	if (anim.IsPlaying() == false)
 	{
 		this->SetActive(false);
@@ -170,12 +182,9 @@ void StoneGolem::EMove()
 	}
 	else if (e_state == esTracking) {
 		m_moveSpeed = Move * prm.SPD;
+		m_se[2].SetFrequencyRatio(8.0f);
+		m_se[2].Play(true);
 	}
-}
-
-void StoneGolem::HitMe()
-{
-
 }
 
 void StoneGolem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
@@ -219,6 +228,18 @@ void StoneGolem::HitPlayerObj()
 		CVector3 pos2 = pos - c;
 		if (pos2.LengthSq() <= std::pow((m_player->GetRadius() + m_r), 2.0f)) {
 			m_player->Damage(prm.ATK);
+			if (SoundMakeFlag)
+			{
+				m_se[1].Play(false);
+				m_se[1].SetVolume(0.3f);
+				SoundMakeFlag = false;
+			}
 		}
+		else if(m_se[1].IsPlaying() &&  e_state != esAttack
+			|| pos2.LengthSq() >= std::pow((m_player->GetRadius() + m_r), 2.0f))
+		{
+			m_se[1].Stop();
+			SoundMakeFlag = true;
+		};
 	}
 }

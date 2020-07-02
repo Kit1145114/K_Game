@@ -58,6 +58,7 @@ const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。
 const float FRAME_BUFFER_H = 720.0f;				//フレームバッファの高さ。
 
 static const int MAX_BONE = 512;	//!<ボーンの最大数。
+static const int m_enemyNum = 5;		//敵。
 class Sound;
 extern Sound* g_sound;
 extern EnCollisionAttr collisionAttr;

@@ -3,8 +3,7 @@
 
 //敵が作られて最初に呼ぶ処理。
 Golem::Golem()
-{
-	m_se[0].Init(L"Assets/sound/BossAttack1.wav");						//音の初期化。
+{					//音の初期化。
 	Model.Init(L"Assets/modelData/Enemy2.cmo");							//モデルの初期化。
 	//モデルのアニメーションのロード。
 	animClip[esIdle].Load(L"Assets/animData/E2_idle.tka");				//待機アニメーションをロード。
@@ -39,6 +38,12 @@ Golem::Golem()
 	m_charaCon.Init(50.0f, 200.0f, m_position, enCollisionAttr_Enemy);			//判定の大きさ。
 	e_state = esIdle;									//最初に待機状態。
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Wind.efk");
+	m_se[0].Init(L"Assets/sound/wind.wav");				//攻撃
+	m_se[1].Init(L"Assets/sound/Enemy2_walk.wav");			//歩く。
+}
+Golem::~Golem()
+{
+	g_effektEngine->Stop(m_playEffectHandle);
 }
 //敵の攻撃処理。
 void Golem::Attack()
@@ -103,6 +108,10 @@ void Golem::Update()
 void Golem::Death()
 {
 	anim.Play(esDeath);
+	if (m_se[0].IsPlaying())
+	{
+		m_se[0].Stop();
+	}
 	if (anim.IsPlaying() == false)
 	{
 		this->SetActive(false);
@@ -121,6 +130,7 @@ void Golem::EMove()
 	}
 	else if (e_state == esTracking) {
 		m_moveSpeed = Move * prm.SPD;
+		m_se[1].Play(true);
 	}
 }
 //エネミーのアニメーション状態で変えてるよ
@@ -191,6 +201,7 @@ void Golem::AttackStanby()
 	if (isDestinationflag) {
 		Destination.x = m_player->GetPosition().x - m_position.x;
 		Destination.z = m_player->GetPosition().z - m_position.z;
+		m_se[1].Stop();
 		isDestinationflag = false;
 	}
 	//時間になったら攻撃に代わる。
@@ -198,6 +209,7 @@ void Golem::AttackStanby()
 	{
 		if (loop) {
 			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
+			m_se[0].Play(false);
 			loop = false;
 		}
 		m_moveSpeed = Destination * 2.0f;

@@ -334,6 +334,7 @@
     <MeshContentTask Include="Assets\modelData\FirstMap.fbx" />
     <MeshContentTask Include="Assets\modelData\Wall.fbx" />
     <MeshContentTask Include="Assets\modelData\RobbotEnemy2.fbx" />
+    <MeshContentTask Include="Assets\modelData\healitem.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">
@@ -389,6 +390,8 @@
     <None Include="Assets\animData\E2_Fall.tka" />
     <None Include="Assets\effect\Wind.efk" />
     <None Include="Assets\effect\Laser.efk" />
+    <None Include="Assets\animData\heal_rot.tka" />
+    <None Include="Assets\effect\laser2.efkproj" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />
@@ -418,6 +421,7 @@
     <ImageContentTask Include="Assets\effect\Texture\Thunder01.png" />
     <ImageContentTask Include="Assets\effect\Texture\Wind01.png" />
     <ImageContentTask Include="Assets\effect\Texture\wind02.png" />
+    <ImageContentTask Include="Assets\sprite\Energy.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Assets\sound\enemy_attack_00.wav" />
@@ -429,9 +433,17 @@
     <Media Include="Assets\sound\BossAttack1.wav" />
     <Media Include="Assets\sound\Boost.wav" />
     <Media Include="Assets\sound\BossAttack2.wav" />
+    <Media Include="Assets\sound\fire4.wav" />
+    <Media Include="Assets\sound\wind.wav" />
+    <Media Include="Assets\sound\laserDamage.wav" />
+    <Media Include="Assets\sound\RE_walk.wav" />
+    <Media Include="Assets\sound\RE2_walk.wav" />
+    <Media Include="Assets\sound\Enemy2_walk.wav" />
+    <Media Include="Assets\sound\RE_Attack.wav" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\sprite\GameOver.dds" />
+    <Image Include="Assets\modelData\Robot_Color.tga" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\shader\dof.fx" />

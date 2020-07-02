@@ -23,8 +23,6 @@ bool ITEMBox::Start()
 		box_animClip,		//アニメーションクリップ
 		m_AnimClipNum		//アニメーションの数
 	);
-	//m_position = { 500.0f,-300.0f,500.0f };
-	//m_scale = { 3.0f,3.0f,3.0f };
 	box_anim.Play(close);
 	state = close;
 	m_charaCon.Init(100.0f, 50.0f, m_position, enCollisionAttr_Enemy);	//キャラコンの設定（半径、高さ、初期位置。）
@@ -35,7 +33,7 @@ void ITEMBox::Update()
 {
 	Draw();
 	State();
-	box_anim.Update(0.25f);
+	box_anim.Update(GameTime().GetFrameDeltaTime());
 	Box.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
 }
 //ドロー関数。
@@ -75,9 +73,13 @@ void ITEMBox::Open()
 {
 	if (!box_anim.IsPlaying())
 	{
-		state = death;
-		//this->SetActive(false);
-		//m_charaCon.RemoveRigidBoby();
+		//卍
+		RItem = g_goMgr.NewAGO<RecoveryITEM>();
+		RItem->SetPositon(m_position);
+		m_timer += GameTime().GetFrameDeltaTime();
+		if (m_timer > m_deathTime) {
+			state = death;
+		}
 	}
 }
 

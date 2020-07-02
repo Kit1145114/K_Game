@@ -4,7 +4,8 @@
 //敵が作られて最初に呼ぶ処理。
 Titan::Titan()
 {
-	m_se[0].Init(L"Assets/sound/BossAttack1.wav");				//音の初期化。
+	m_se[0].Init(L"Assets/sound/RE_Attack.wav");			//攻撃。
+	m_se[1].Init(L"Assets/sound/RE_walk.wav");			//歩く。
 	Model.Init(L"Assets/modelData/RobbotEnemy1.cmo");		//モデルの呼び出し。
 	//モデルのアニメーションのロード。
 	animClip[esIdle].Load(L"Assets/animData/RE1_idle.tka");	//待機をロード。
@@ -34,6 +35,7 @@ Titan::Titan()
 	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);			//判定の大きさ
 	e_state = esIdle;									//最初なので待機。
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/RobbotEnemyAttack.efk");
+
 }
 //敵の攻撃処理。
 void Titan::Attack()
@@ -101,7 +103,9 @@ void Titan::Death()
 	{
 		this->SetActive(false);
 		m_charaCon.RemoveRigidBoby();
+		m_attackEffect->Release();
 		isDeath = true;
+		m_se[1].Stop();
 	}
 }
 //エネミーのアニメーション状態で変えてるよ
@@ -131,6 +135,9 @@ void Titan::EnemyState()
 		//死亡したとき。
 	case Enemys::esDeath:
 		Death();
+		break;
+	case Enemys::esAttackGap:
+		AttackCoolTime();
 	}
 }
 //エネミーが進む処理。
@@ -144,6 +151,7 @@ void Titan::EMove()
 	}
 	else if (e_state == esTracking) {
 		m_moveSpeed = Move * prm.SPD;
+		m_se[1].Play(true);
 	}
 }
 //アニメーションイベント
@@ -155,6 +163,7 @@ void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		if (e_state == esAttack && eventName)
 		{
 			Attack();
+			m_se[1].Stop();
 			m_se[0].Play(false);
 			dis = (m_player->GetPosition() + m_position) * 0.5f;
 			diff = m_player->GetPosition() - m_position;
@@ -163,6 +172,7 @@ void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
 			g_effektEngine->SetPosition(m_playEffectHandle,/*m_player->GetPosition()*/dis);
 			g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2( diff.x, diff.z), 0.0f);
+			e_state = esAttackGap;
 		}
 	}
 }
@@ -173,5 +183,22 @@ void Titan::AttackRange()
 	{
 		//距離内に近づいたら攻撃。
 		e_state = esAttack;
+	}
+}
+//攻撃待機
+void Titan::AttackCoolTime()
+{
+	//攻撃後、少しの間動かない系男子。
+	float Limit = 0.5f;
+	if (e_state == esAttackGap)
+	{
+		anim.Play(esIdle);
+		m_timer += GameTime().GetFrameDeltaTime();
+	}
+	//時間で戻る。
+	if (m_timer > Limit)
+	{
+		e_state = esIdle;
+		m_timer = ZERO;
 	}
 }

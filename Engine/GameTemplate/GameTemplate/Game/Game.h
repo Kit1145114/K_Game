@@ -1,4 +1,5 @@
 #pragma once
+#include<unordered_map>
 #include"graphics/c3dmodel/C3DModelDraw.h"
 #include"RenderTarget.h"
 #include"level/Level.h"
@@ -23,6 +24,14 @@ class Game : public GameObject
 		enRenderMode_Silhouette,	//シルエットをレンダリング。
 		enRenderMode_Num,			//レンダリングモードの数。
 	};
+
+	enum EnemyType {
+		RobbotoEnemy1,
+		RobbotoEnemy2,
+		treeGolem,
+		Jon,
+		BossEnemy
+	};
 public:
 	/// <summary>
 	/// コンストラクタ
@@ -40,35 +49,44 @@ public:
 	void Update();					//ゲームのアップデート関数。
 	void FirstStageUpdate();		//最初のステージで行うアップデート。
 	void BossStageUpdate();			//ボスのステージで行うアップでーろ。
+	void Walldelete();			//壁の処理
 	//敵とぷえいやーの距離を測る
 public:
 	void SetStage(int n)
 	{
 		m_stage = n;
 	}
-
 private:
-	Player* player = nullptr;					//プレイヤーのインスタンス。
+	Player* player = nullptr;				//プレイヤーのインスタンス。
 	MAP* map = nullptr;						//マップのインスタンス。
 	GameCamera* g_Camera = nullptr;			//カメラのインスタンス。
-	Enemys* enemys = nullptr;					//エネミーのインスタンス。
-	HPText* hp_bar = nullptr;					//HPバー。
+	Enemys* enemys = nullptr;				//エネミーのインスタンス。
+	HPText* hp_bar = nullptr;				//HPバー。
 	ITEMBox* itemBox = nullptr;				//箱
-	EnergyText* energy_bar = nullptr;			//エナジーバー
-	Door* door = nullptr;						//ドア
+	EnergyText* energy_bar = nullptr;		//エナジーバー
+	Door* door = nullptr;					//ドア
 	Wall* m_wall = nullptr;					//壁
-	Level		mapLevel;			//マップのレベル。。。。。。
+	Level		mapLevel;					//マップのレベル。。。。。。
 	StageNum	stage;
 	bool StageChange = false;
-	int	m_stage = 0;
-	int m_stagenum = 0;
+	bool wallDeath_flag = false;			//壁削除のフラグ。
+	bool deathEnemys1_Flag = false;			//グループ１全員死んだか
+	bool deathEnemys2_Flag = false;			//グループ２全員死んだか
+	bool deathEnemys3_Flag = false;			//グループ３全員死んだか
+	bool deathEnemys4_Flag = false;			//グループ４全員死んだか
+	bool isWallDelete_Flag[4] = {false,false,false,false};
+	int	m_stage = 0;						//進むステージ
+	int m_stagenum = 0;						//セットするステージの番号
+	int m_maxEnemys[4] = { 0 };				//グループの最大人数
 	//bool		isLive = false;
 	static Game* m_instance;		//ゲームのインスタンス。
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。
 		//可変長配列
-	std::vector<Enemys*>m_enemysList;	//エネミーオブジェクトのリスト
-	std::vector<Wall*>m_wallList;		//壁のリスト
+	std::vector<Enemys*>m_enemysToPlayerList;	//壁用のエネミーオブジェクトのリスト
+	std::unordered_map<int,Wall*>m_wallList;				//壁のリスト
 	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
 	//BGM
 	CSoundSource m_bgm;
+	//
+	EnemyType e_type;
 };

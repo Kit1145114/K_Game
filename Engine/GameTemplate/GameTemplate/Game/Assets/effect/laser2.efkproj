@@ -97,7 +97,7 @@
           </Easing>
         </ScalingValues>
         <RendererCommonValues>
-          <ColorTexture>../../../../../../../../エフェクト/Effekseer132/Sample/00_Basic/Texture/LaserMain01.png</ColorTexture>
+          <ColorTexture>Texture/LaserMain01.png</ColorTexture>
           <AlphaBlend>2</AlphaBlend>
         </RendererCommonValues>
         <DrawingValues>
@@ -284,7 +284,7 @@
           </Gravity>
         </LocationAbsValues>
         <RendererCommonValues>
-          <ColorTexture>../../../../../../../../エフェクト/Effekseer132/Sample/00_Basic/Texture/Particle01.png</ColorTexture>
+          <ColorTexture>Texture/Particle01.png</ColorTexture>
           <AlphaBlend>2</AlphaBlend>
         </RendererCommonValues>
         <DrawingValues>
@@ -405,7 +405,7 @@
           </Easing>
         </ScalingValues>
         <RendererCommonValues>
-          <ColorTexture>../../../../../../../../エフェクト/Effekseer132/Sample/00_Basic/Texture/Particle02.png</ColorTexture>
+          <ColorTexture>Texture/Particle02.png</ColorTexture>
           <AlphaBlend>2</AlphaBlend>
         </RendererCommonValues>
         <DrawingValues>
@@ -497,7 +497,7 @@
           </Easing>
         </ScalingValues>
         <RendererCommonValues>
-          <ColorTexture>../../../../../../../../エフェクト/Effekseer132/Sample/00_Basic/Texture/Particle02.png</ColorTexture>
+          <ColorTexture>Texture/Particle02.png</ColorTexture>
           <AlphaBlend>2</AlphaBlend>
         </RendererCommonValues>
         <DrawingValues>
@@ -644,7 +644,7 @@
           </Sphere>
         </GenerationLocationValues>
         <RendererCommonValues>
-          <ColorTexture>../../../../../../../../エフェクト/Effekseer132/Sample/00_Basic/Texture/Particle02.png</ColorTexture>
+          <ColorTexture>Texture/Particle02.png</ColorTexture>
           <AlphaBlend>2</AlphaBlend>
         </RendererCommonValues>
         <DrawingValues>

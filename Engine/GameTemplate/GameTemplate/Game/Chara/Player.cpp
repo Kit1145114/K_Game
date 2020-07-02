@@ -35,7 +35,8 @@ Player::Player()
 	});
 
 	m_charaCon.Init(60.0f, 120.0f, m_position, enCollisionAttr_Character);			//キャラコンの設定（半径、高さ、初期位置。）
-	HP = 10000.0f;		//プレイヤーの初期体力。
+	HP = 1000.0f;		//プレイヤーの初期体力。
+	MaxHp = HP;			//最大値の更新。
 	ATK = 100.0f;		//プレイヤーの攻撃力。
 	DEF = 50.0f;		//プレイヤーの防御力。
 	ENERGY = 300.0f;	//プレイヤーのブースト量。
@@ -432,5 +433,14 @@ void Player::ComboAttack()
 		{
 			ComboReset();
 		}
+	}
+}
+//回復するときの記述
+void Player::PlayerHeal(int healPoint)
+{
+	HP += healPoint;
+	if (HP > MaxHp)
+	{
+		HP = MaxHp;
 	}
 }

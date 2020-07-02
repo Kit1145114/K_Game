@@ -140,8 +140,8 @@ public:
 	void RookOnEnemys();
 	//プレイヤーがコンボ攻撃をする処理。
 	void ComboAttack();
-	//エフェクト
-	//void InitEffekseer();
+	//プレイヤーのHP。
+	void PlayerHeal(int healPoint);
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//アニメーション。
@@ -167,6 +167,7 @@ private:
 	CVector3 toPlayer = CVector3::Zero();				//前方向を図るようのもの。
 	Font m_font;										//名前。
 	int HP = 0;											//プレイヤーのHP
+	int MaxHp = 0;										//プレイヤーの最大HP
 	int ATK = 0;										//プレイヤーの攻撃力
 	int DEF = 0;										//プレイヤーの防御力
 	int ENERGY = 0;										//プレイヤーのブースト容量。

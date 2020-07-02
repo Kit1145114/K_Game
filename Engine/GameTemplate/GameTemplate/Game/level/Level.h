@@ -19,6 +19,16 @@ struct LevelObjectData {
 	{
 		return wcscmp(objName, name) == 0;
 	}
+	bool ForwardMatchName(const wchar_t* n)
+	{
+		auto len = wcslen(n);
+		auto namelen = wcslen(name);
+		if (len > namelen) {
+			//名前が長い。不一致。
+			return false;
+		}
+		return wcsncmp(n, name, len) == 0;
+	}
 };
 /*!
  * @brief	レベル

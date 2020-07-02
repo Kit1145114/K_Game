@@ -1,12 +1,9 @@
 #include "stdafx.h"
 #include "GameOver.h"
-
+#include"Game.h"
 
 GameOver::GameOver()
 {
-	m_sprite = g_goMgr.NewAGO<SpriteRender>();
-	m_sprite->Init(L"Assets/sprite/GameOver.dds", 1280, 720);
-	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
 }
 
 
@@ -17,21 +14,28 @@ GameOver::~GameOver()
 
 bool GameOver::Start()
 {
-	//m_sprite = g_goMgr.NewAGO<SpriteRender>();
-	//m_sprite->Init(L"Assets/sprite/GameOver.dds", 1280, 720);
-	//m_sprite->SetPivot(CVector2(0.5f, 0.5f));
+	m_sprite = g_goMgr.NewAGO<SpriteRender>();
+	m_sprite->Init(L"Assets/sprite/GameOver.dds", 1280, 720);
+	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
 	return true;
 }
 
 void GameOver::Update()
 {
-	Flag();
 	m_sprite->Update();
+	//if (g_pad[0].IsTrigger(enButtonA))
+	//{
+	//	Death();
+	//	this->SetUpdateFlag(false);
+	//}
 }
 
 void GameOver::Death()
 {
-
+	//ゲーム生成。タイトル削除。
+	Game* game = g_goMgr.NewAGO<Game>();
+	game->SetStage(0);
+	g_goMgr.QutavaleyaAGO(this);
 }
 
 void GameOver::Flag()

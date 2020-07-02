@@ -253,6 +253,7 @@
     <MeshContentTask Include="Assets\modelData\enemy_00.FBX" />
     <MeshContentTask Include="Assets\modelData\FirstMap.fbx" />
     <MeshContentTask Include="Assets\modelData\Gmodel.fbx" />
+    <MeshContentTask Include="Assets\modelData\healitem.fbx" />
     <MeshContentTask Include="Assets\modelData\MAP.FBX" />
     <MeshContentTask Include="Assets\modelData\Player.fbx" />
     <MeshContentTask Include="Assets\modelData\RobbotBoss.fbx" />
@@ -283,6 +284,7 @@
     <None Include="Assets\animData\G_ATK.tka" />
     <None Include="Assets\animData\G_idle.tka" />
     <None Include="Assets\animData\G_walk.tka" />
+    <None Include="Assets\animData\heal_rot.tka" />
     <None Include="Assets\animData\idle.tka" />
     <None Include="Assets\animData\PlayerCombo.tka" />
     <None Include="Assets\animData\P_ATK.tka" />
@@ -307,6 +309,7 @@
     <None Include="Assets\animData\RE2_R_Attack.tka" />
     <None Include="Assets\effect\Boost.efk" />
     <None Include="Assets\effect\Laser.efk" />
+    <None Include="Assets\effect\laser2.efkproj" />
     <None Include="Assets\effect\PlayerAttack.efk" />
     <None Include="Assets\effect\RobbotEnemyAttack.efk" />
     <None Include="Assets\effect\test.efk" />
@@ -326,10 +329,17 @@
     <Media Include="Assets\sound\BossAttack2.wav" />
     <Media Include="Assets\sound\BossBGM.wav" />
     <Media Include="Assets\sound\Button.wav" />
+    <Media Include="Assets\sound\Enemy2_walk.wav" />
     <Media Include="Assets\sound\enemy_attack_00.wav" />
     <Media Include="Assets\sound\enemy_voice_00.wav" />
+    <Media Include="Assets\sound\fire4.wav" />
     <Media Include="Assets\sound\FirstBGM.wav" />
+    <Media Include="Assets\sound\laserDamage.wav" />
+    <Media Include="Assets\sound\RE2_walk.wav" />
     <Media Include="Assets\sound\Result.wav" />
+    <Media Include="Assets\sound\RE_Attack.wav" />
+    <Media Include="Assets\sound\RE_walk.wav" />
+    <Media Include="Assets\sound\wind.wav" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Midori.jpg" />
@@ -370,6 +380,8 @@
     <ImageContentTask Include="Assets\effect\Texture\Thunder01.png" />
     <ImageContentTask Include="Assets\effect\Texture\Wind01.png" />
     <ImageContentTask Include="Assets\effect\Texture\wind02.png" />
+    <Image Include="Assets\modelData\Robot_Color.tga" />
+    <ImageContentTask Include="Assets\sprite\Energy.jpg" />
     <Image Include="Assets\sprite\GameOver.dds" />
   </ItemGroup>
   <ItemGroup>

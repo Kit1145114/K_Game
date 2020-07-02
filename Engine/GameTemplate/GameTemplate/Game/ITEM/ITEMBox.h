@@ -3,7 +3,11 @@
 #include"physics/PhysicsStaticObject.h"
 #include"../GameSystem/GameConst.h"
 #include "character/CharacterController.h"
+#include"RecoveryITEM.h"
+#include"Chara/Player.h"
 
+class RecoveryITEM;
+class Player;
 class ITEMBox : public GameObject
 {
 public:
@@ -49,7 +53,14 @@ public:
 	{
 		m_scale = scale;
 	}
+	//プレイヤーの情報を渡す。
+	void SetPlayer(Player* player)
+	{
+		m_player = player;
+	}
 private:
+	RecoveryITEM* RItem;
+	Player* m_player;
 	SkinModel	Box;							//マップのスキンモデル。
 	Animation box_anim;							//アニメーション。
 	AnimationClip box_animClip[m_AnimClipNum];	//プレイヤーのアニメーションクリップ
@@ -61,5 +72,7 @@ private:
 	CVector3 m_scale =		CVector3::Zero();			//スケール。
 	CQuaternion m_rotation = CQuaternion::Identity();	//ローテーション。
 	bool isOpen = false;						//箱のフラグ
+	float m_timer = 0.0f;						//時間
+	float m_deathTime = 2.0f;					//箱が開封されてから消えるまでの時間。
 };
 

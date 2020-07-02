@@ -45,7 +45,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_effektEngine->Draw();
 		g_goMgr.PostRender();
 		g_goMgr.FontRender();
-		g_physics.DebugDraw();
+		//物理判定を見ないときはコメントアウト
+		//g_physics.DebugDraw();
 		
 		//描画終了。
 		g_graphicsEngine->EndRender();

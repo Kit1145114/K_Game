@@ -19,6 +19,14 @@ public:
 	{
 		m_rotation = rot;
 	}
+	void SetObjNum(int num)
+	{
+		m_objNum = num;
+	}
+	int GetObjData()
+	{
+		return m_objNum;
+	}
 private:
 	SkinModel  m_wall;
 	CharacterController m_charaCon;						//キャラコン。
@@ -26,5 +34,6 @@ private:
 	CVector3 m_scale = CVector3::One();				//スケール。
 	CQuaternion m_rotation = CQuaternion::Identity();	//ローテーション。
 	PhysicsStaticObject m_physicsStaticObj;	//静的オブジェクト
+	int m_objNum = 0;
 };
 

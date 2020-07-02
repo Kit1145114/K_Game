@@ -52,12 +52,6 @@ Game::~Game()
 		//マップを削除。
 		g_goMgr.QutavaleyaAGO(map);
 	}
-	//もしエネミーが消えてなかったら。
-	for (auto enemy : m_enemysList) {
-		if (enemy != nullptr) {
-			g_goMgr.QutavaleyaAGO(enemy);
-		}
-	}
 	//カメラ削除
 	if (g_Camera != nullptr)
 	{
@@ -85,9 +79,14 @@ Game::~Game()
 	{
 		g_goMgr.QutavaleyaAGO(m_wall);
 	}
-	for (auto m_wall : m_wallList) {
-		if (m_wall != nullptr) {
-			g_goMgr.QutavaleyaAGO(m_wall);
+	for (auto wall : m_wallList) {
+		if (wall.second != nullptr) {
+			g_goMgr.QutavaleyaAGO(wall.second);
+		}
+	}
+	for (auto enemy : m_enemysToPlayerList) {
+		if (enemy != nullptr) {
+			g_goMgr.QutavaleyaAGO(enemy);
 		}
 	}
 }
@@ -133,54 +132,62 @@ bool Game::FirstStage()
 	//BGM
 	m_bgm.Init(L"Assets/sound/FirstBGM.wav");
 	m_bgm.Play(true);
-	m_bgm.SetVolume(0.15f);
+	m_bgm.SetVolume(0.00f);
 	mapLevel.Init(L"Assets/level/FirstStage.tkl",
 		[&](LevelObjectData& objData)
 	{
-		////ロボット型の敵。蹴りを入れてくる。
-		//if (objData.EqualObjectName(L"RobbotEnemy1") == true) {
-		//	//敵(一人目)のオブジェクト。
-		//	Enemys* enemys = g_goMgr.NewAGO<Titan>();
-		//	enemys->SetPosition(objData.position);
-		//	enemys->SetRotation(objData.rotation);
-		//	//後で削除するのでリストに積んで記憶しておく。
-		//	m_enemysList.push_back(enemys);
-		//	//フックしたのでtrueを返す。
-		//	return true;
-		//}
-		//ロボット型の敵。目からビーム。
-		if (objData.EqualObjectName(L"RobbotEnemy2") == true) {
+		//ロボット型の敵。蹴りを入れてくる。
+		if (objData.ForwardMatchName(L"Robbot") == true) {
 			//敵(一人目)のオブジェクト。
-			Enemys* enemys = g_goMgr.NewAGO<StoneGolem>();
+			Enemys* enemys = g_goMgr.NewAGO<Titan>();
+			int num = _wtoi(&objData.name[6]);
+			enemys->SetObjNum(num);
 			enemys->SetPosition(objData.position);
 			enemys->SetRotation(objData.rotation);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
+			m_enemysToPlayerList.push_back(enemys);
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		////茶色のゴーレム。回転攻撃。
-		//if (objData.EqualObjectName(L"Enemy2") == true) {
-		//	//敵(一人目)のオブジェクト。
-		//	Enemys* enemys = g_goMgr.NewAGO<Golem>();
-		//	enemys->SetPosition(objData.position);
-		//	enemys->SetRotation(objData.rotation);
-		//	//後で削除するのでリストに積んで記憶しておく。
-		//	m_enemysList.push_back(enemys);
-		//	//フックしたのでtrueを返す。
-		//	return true;
-		//}
-		////存在しているだけの敵
-		//if (objData.EqualObjectName(L"Enemy3") == true) {
-		//	//敵(一人目)のオブジェクト。
-		//	Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
-		//	enemys->SetPosition(objData.position);
-		//	enemys->SetRotation(objData.rotation);
-		//	//後で削除するのでリストに積んで記憶しておく。
-		//	m_enemysList.push_back(enemys);
-		//	//フックしたのでtrueを返す。
-		//	return true;
-		//}
+		//ロボット型の敵。目からビーム。
+		if (objData.ForwardMatchName(L"humanRobbot") == true) {
+			//敵(一人目)のオブジェクト。
+			Enemys* enemys = g_goMgr.NewAGO<StoneGolem>();
+			int num = _wtoi(&objData.name[11]);
+			enemys->SetObjNum(num);
+			enemys->SetPosition(objData.position);
+			enemys->SetRotation(objData.rotation);
+			//後で削除するのでリストに積んで記憶しておく。
+			m_enemysToPlayerList.push_back(enemys);
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		//茶色のゴーレム。回転攻撃。
+		if (objData.ForwardMatchName(L"Golem") == true) {
+			//敵(一人目)のオブジェクト。
+			Enemys* enemys = g_goMgr.NewAGO<Golem>();
+			int num = _wtoi(&objData.name[5]);
+			enemys->SetObjNum(num);
+			enemys->SetPosition(objData.position);
+			enemys->SetRotation(objData.rotation);
+			//後で削除するのでリストに積んで記憶しておく。
+			m_enemysToPlayerList.push_back(enemys);
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		//存在しているだけの敵
+		if (objData.ForwardMatchName(L"Jon") == true) {
+			//敵(一人目)のオブジェクト。
+			Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
+			int num = _wtoi(&objData.name[3]);
+			enemys->SetObjNum(num);
+			enemys->SetPosition(objData.position);
+			enemys->SetRotation(objData.rotation);
+			//後で削除するのでリストに積んで記憶しておく。
+			m_enemysToPlayerList.push_back(enemys);
+			//フックしたのでtrueを返す。
+			return true;
+		}
 		else if (objData.EqualObjectName(L"Player") == true) {
 			player = g_goMgr.NewAGO<Player>();
 			player->SetPosition(objData.position);
@@ -195,20 +202,22 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		//else if (objData.EqualObjectName(L"Box") == true) {
-		//	itemBox = g_goMgr.NewAGO<ITEMBox>();
-		//	itemBox->SetPosition(objData.position);
-		//	//フックしたのでtrueを返す。
-		//	return true;
-		//}
-		//else if (objData.EqualObjectName(L"Wall") == true) {
-		//	m_wall = g_goMgr.NewAGO<Wall>();
-		//	m_wall->SetPosition(objData.position);
-		//	m_wall->SetRotation(objData.rotation);
-		//	m_wallList.push_back(m_wall);
-		//	//フックしたのでtrueを返す。
-		//	return true;
-		//}
+		else if (objData.EqualObjectName(L"Box") == true) {
+			itemBox = g_goMgr.NewAGO<ITEMBox>();
+			itemBox->SetPosition(objData.position);
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		else if (objData.ForwardMatchName(L"Wall") == true) {
+			m_wall = g_goMgr.NewAGO<Wall>();
+			int num = _wtoi(&objData.name[4]);
+			m_wall->SetObjNum(num);
+			m_wall->SetPosition(objData.position);
+			m_wall->SetRotation(objData.rotation);
+			m_wallList[num] = m_wall;
+			//フックしたのでtrueを返す。
+			return true;
+		}
 		else if (objData.EqualObjectName(L"Door") == true) {
 			door = g_goMgr.NewAGO<Door>();
 			door->SetPosition(objData.position);
@@ -219,17 +228,19 @@ bool Game::FirstStage()
 		}
 		return true;
 	});
-	for (auto enemy : m_enemysList) {
+	for (auto enemy : m_enemysToPlayerList) {
 		enemy->SetPlayer(player);
 	}
 	player->SetBox(itemBox);
-	player->SetEnemysList(m_enemysList);
+	player->SetEnemysList(m_enemysToPlayerList);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar = g_goMgr.NewAGO<EnergyText>();
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
+
+
 	return true;
 }
 //ボス出現用
@@ -248,7 +259,7 @@ bool Game::NewBoss()
 			enemys->SetPosition(objData.position);
 			enemys->SetRotation(objData.rotation);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
+			m_enemysToPlayerList.push_back(enemys);
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -270,10 +281,10 @@ bool Game::NewBoss()
 		return true;
 	});
 	//itemBox = g_goMgr.NewAGO<ITEMBox>();
-	for (auto enemy : m_enemysList) {
+	for (auto enemy : m_enemysToPlayerList) {
 		enemy->SetPlayer(player);
 	}
-	player->SetEnemysList(m_enemysList);
+	player->SetEnemysList(m_enemysToPlayerList);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
@@ -299,7 +310,8 @@ bool Game::DebugStage()
 			enemys->SetRotation(objData.rotation);
 			//enemys->SetScale(objData.scale);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
+			m_enemysToPlayerList.push_back(enemys);
+
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -321,7 +333,7 @@ bool Game::DebugStage()
 			enemys->SetRotation(objData.rotation);
 			//enemys->SetScale(objData.scale);
 			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysList.push_back(enemys);
+			m_enemysToPlayerList.push_back(enemys);
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -342,13 +354,13 @@ bool Game::DebugStage()
 		}
 		return true;
 	});
-	for (auto enemy : m_enemysList) {
+	for (auto enemy : m_enemysToPlayerList) {
 		enemy->SetPlayer(player);
 	}
 	itemBox = g_goMgr.NewAGO<ITEMBox>();
 	m_wall = g_goMgr.NewAGO<Wall>();
 	player->SetBox(itemBox);
-	player->SetEnemysList(m_enemysList);
+	player->SetEnemysList(m_enemysToPlayerList);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
@@ -360,33 +372,22 @@ bool Game::DebugStage()
 //最初のステージで行うアップデート。
 void Game::FirstStageUpdate()
 {
+	//HPとエナジー
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
-	bool		isLive = false;
-	for (auto enemy : m_enemysList) {
-		if (!enemy->GetIsDead())
-		{
-			isLive = true;
-		}
-		else if (enemy->GetIsDead())
-		{
-			m_enemysList.pop_back();
-		}
-	}
-	//if (!isLive && !StageChange)
-	//{
-	//	g_goMgr.QutavaleyaAGO(m_wall);
-	//}
+	//壁を消す処理。
+	Walldelete();
 	if (door->GetChangeSta() && m_stage == First)
 	{
 		ChangeScreen* changescreen = g_goMgr.NewAGO<ChangeScreen>();
 		g_goMgr.QutavaleyaAGO(this);
 	}
-	if (player->GetPlayerHP() == ZERO)
+	if (player->GetIsDead())
 	{
 		GameOver* gameover = g_goMgr.NewAGO<GameOver>();
 		g_goMgr.QutavaleyaAGO(this);
 	}
+
 }
 //ボスのステージで行うアップデート。
 void Game::BossStageUpdate()
@@ -394,14 +395,14 @@ void Game::BossStageUpdate()
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 	bool		isLive = false;
-	for (auto enemy : m_enemysList) {
+	for (auto enemy : m_enemysToPlayerList) {
 		if (!enemy->GetIsDead())
 		{
 			isLive = true;
 		}
 		else if (enemy->GetIsDead())
 		{
-			m_enemysList.pop_back();
+			m_enemysToPlayerList.pop_back();
 		}
 	}
 	if (!isLive && !StageChange)
@@ -426,5 +427,26 @@ void Game::BossStageUpdate()
 	{
 		GameOver* gameover = g_goMgr.NewAGO<GameOver>();
 		g_goMgr.QutavaleyaAGO(this);
+	}
+}
+//壁の処理。
+void Game::Walldelete()
+{
+	int m_enemysNum[4] = { 0,0,0,0 };				//グループの人数
+	for (auto enemy : m_enemysToPlayerList)
+	{
+		if (!enemy->GetIsDead())
+		{
+			m_enemysNum[enemy->GetObjData() - 1]++;
+		}
+	}
+	//for文うける
+	for (int i = 0; i < 4; i++) {
+		if (m_enemysNum[i] == 0) {
+			if (m_wallList[i+1] != nullptr) {
+				g_goMgr.QutavaleyaAGO(m_wallList[i+1]);
+				m_wallList[i+1] = nullptr;
+			}
+		}
 	}
 }

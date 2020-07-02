@@ -5,7 +5,7 @@
 EnergyText::EnergyText()
 {
 	m_sprite = g_goMgr.NewAGO<SpriteRender>();
-	m_sprite->Init(L"Assets/sprite/glass.dds", 3.35, 45);
+	m_sprite->Init(L"Assets/sprite/Energy.dds", 1.666, 30);
 	m_sprite->SetPosition(m_position);
 	m_sprite->SetPivot(PIVOT);
 }

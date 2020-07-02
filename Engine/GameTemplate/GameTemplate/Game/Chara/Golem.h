@@ -5,7 +5,7 @@ class Golem : public Enemys
 {
 public:
 	Golem();
-	~Golem() {};
+	~Golem();
 	void Attack();					//攻撃(今は未実装)
 	void Damage(int Damage) override;		//DAMAGE（今は未実装）
 	void Search();							//プレイヤーを見つける関数

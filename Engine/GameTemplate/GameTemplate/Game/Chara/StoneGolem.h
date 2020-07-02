@@ -16,9 +16,13 @@ public:
 	void EnemyState();						//エネミーをステイトで行動する処理だよ。
 	void EMove();							//エネミーが動く処理だよ。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
-	void HitMe();							//未実装です。
 	void AttackAfter();						//攻撃後。
 	void HitPlayerObj();
+	//void Sounds(int Num, float Vol, bool Loop)
+	//{
+	//	m_se[Num].Play(Loop);
+	//	m_se[Num].SetVolume[Vol];
+	//}//音。
 private:
 	float m_attackTime = 0.0f;
 	float m_objPosAdd = 2.5f;
@@ -26,6 +30,7 @@ private:
 	CVector3 m_efePos = CVector3::Zero();
 	CVector3 diff = CVector3::Zero();
 	bool loop = true;
+	bool SoundMakeFlag = true;
 	PhysicsGhostObject m_PhyGhostObj;					//ゴースト
 	CVector3 box_scale = { 10.0f,10.0f,650.0f };		//ボックス大きさ
 	const float m_r = 5.0f;								//えんちうの半径

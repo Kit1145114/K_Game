@@ -180,16 +180,6 @@ void Sprite::LoadTexture(const wchar_t* textureFIlePath)
 		&m_texture);
 }
 
-//void Sprite::UpdateWorldMatrix(CVector3 pos, CQuaternion rot, CVector3 scale, float a)
-//{
-//	//ワールド行列を計算する
-//	CMatrix mTrans, mRot, mScale;
-//	mTrans.MakeTranslation(pos);
-//	mRot.MakeRotationFromQuaternion(rot);
-//	mScale.MakeScaling(scale);
-//	m_world.Mul(mScale, mRot);
-//	m_world.Mul(m_world, mTrans);
-//}
 void Sprite::Draw(CMatrix mView, CMatrix mProj)
 {
 	//デバイスコンテキストを引っ張ってくる。
@@ -258,4 +248,77 @@ void Sprite::Update(const CVector3& trans, const CQuaternion& rot, const CVector
 	m_world.Mul(mPivotTrans,mScale);
 	m_world.Mul(m_world, mRot);
 	m_world.Mul(m_world, mTrans);
+}
+
+void Sprite::InitDepthStencil()
+{
+	D3D11_DEPTH_STENCIL_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+}
+
+void Sprite::AlphaBlendState::Init(GraphicsEngine& ge)
+{
+
+	D3D11_BLEND_DESC blendDesc;
+	ZeroMemory(&blendDesc, sizeof(blendDesc));
+	ID3D11Device* pd3d = ge.GetD3DDevice();
+
+	blendDesc.RenderTarget[0].BlendEnable = true;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_RED | D3D11_COLOR_WRITE_ENABLE_BLUE | D3D11_COLOR_WRITE_ENABLE_GREEN;
+	pd3d->CreateBlendState(&blendDesc, &add);
+
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	pd3d->CreateBlendState(&blendDesc, &trans);
+
+	blendDesc.RenderTarget[0].BlendEnable = false;
+	pd3d->CreateBlendState(&blendDesc, &disable);
+}
+void Sprite::DepthStencilState::Init(GraphicsEngine& ge)
+{
+	D3D11_DEPTH_STENCIL_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+	ID3D11Device* pd3d = ge.GetD3DDevice();
+	desc.DepthEnable = true;
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	desc.StencilEnable = false;
+	desc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+	desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	desc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	desc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	desc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+	desc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	desc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	pd3d->CreateDepthStencilState(&desc, &SceneRender);
+
+	desc.DepthEnable = false;
+	pd3d->CreateDepthStencilState(&desc, &defferedRender);
+
+	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	pd3d->CreateDepthStencilState(&desc, &disable);
+	pd3d->CreateDepthStencilState(&desc, &spriteRender);
+}
+
+void Sprite::RasterizerState::Init(GraphicsEngine& ge)
+{
+	D3D11_RASTERIZER_DESC desc = {};
+	ID3D11Device* pd3d = ge.GetD3DDevice();
+	desc.CullMode = D3D11_CULL_FRONT;
+	desc.FillMode = D3D11_FILL_SOLID;
+	desc.DepthClipEnable = true;
+	desc.MultisampleEnable = true;
+
+	pd3d->CreateRasterizerState(&desc, &sceneRender);
+	pd3d->CreateRasterizerState(&desc, &spriteRender);
+
 }

@@ -16,7 +16,6 @@ public:
 private:
 	//2D
 	SpriteRender* m_sprite = nullptr;
-	//CSoundSource m_bgm[2];
 	Font m_font;									//フォント。
 	bool m_continueFlag = false;					//続けるかのフラグ。
 };

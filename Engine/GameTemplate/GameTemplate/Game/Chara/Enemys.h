@@ -115,6 +115,14 @@ public:
 	{
 		isHitMe = isHit;
 	}
+	void SetObjNum(int num)
+	{
+		m_objNum = num;
+	}
+	int GetObjData()
+	{
+		return m_objNum;
+	}
 	/// <summary>
 	/// エネミーを創るときにパラメーターを入力させる。
 	/// </summary>
@@ -131,7 +139,9 @@ protected:
 	int m_MaxHP = 0;									//エネミーの最大HP
 	int m_ATK = 0;										//エネミーの攻撃力
 	int m_DEF = 0;										//エネミーの防御力
-	int m_SPD = 0;										//エネミーのスピード
+	int m_SPD = 0;
+	int m_objNum = 0;
+	//エネミーのスピード
 	float walkingDistance = 450.0f;						//歩行距離内。
 	float flyDistance = 500.0f;							//飛行距離内
 	float m_angle = 0.0f;
@@ -159,7 +169,7 @@ protected:
 	Animation anim;										//アニメ
 	AnimationClip animClip[m_AnimClipNum];				//アニメクリップ
 	//音
-	CSoundSource m_se[3];
+	CSoundSource m_se[10];
 	//エフェクト
 	Effekseer::Effect* m_attackEffect = nullptr;
 };
