@@ -308,6 +308,8 @@
     <None Include="Assets\animData\RE2_Move.tka" />
     <None Include="Assets\animData\RE2_R_Attack.tka" />
     <None Include="Assets\effect\Boost.efk" />
+    <None Include="Assets\effect\drop.efk" />
+    <None Include="Assets\effect\heal.efk" />
     <None Include="Assets\effect\Laser.efk" />
     <None Include="Assets\effect\laser2.efkproj" />
     <None Include="Assets\effect\PlayerAttack.efk" />
@@ -339,6 +341,7 @@
     <Media Include="Assets\sound\Result.wav" />
     <Media Include="Assets\sound\RE_Attack.wav" />
     <Media Include="Assets\sound\RE_walk.wav" />
+    <Media Include="Assets\sound\swing.wav" />
     <Media Include="Assets\sound\wind.wav" />
   </ItemGroup>
   <ItemGroup>

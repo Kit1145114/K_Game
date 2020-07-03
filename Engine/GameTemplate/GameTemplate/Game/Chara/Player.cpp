@@ -10,6 +10,7 @@ Player::Player()
 	//効果音
 	m_se[0].Init(L"Assets/sound/enemy_attack_00.wav");
 	m_se[1].Init(L"Assets/sound/Boost.wav");
+	m_se[2].Init(L"Assets/sound/swing.wav");
 	//cmoファイルの読み込み。
 	Gmodel.Init(L"Assets/modelData/Player.cmo");		//プレイヤーの描画
 	g_animClip[pl_idle].Load(L"Assets/animData/P_idle.tka");	//待機のロード
@@ -35,7 +36,7 @@ Player::Player()
 	});
 
 	m_charaCon.Init(60.0f, 120.0f, m_position, enCollisionAttr_Character);			//キャラコンの設定（半径、高さ、初期位置。）
-	HP = 1000.0f;		//プレイヤーの初期体力。
+	HP = 100.0f;		//プレイヤーの初期体力。
 	MaxHp = HP;			//最大値の更新。
 	ATK = 100.0f;		//プレイヤーの攻撃力。
 	DEF = 50.0f;		//プレイヤーの防御力。
@@ -256,6 +257,10 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 						m_se[0].Play(false);
 						m_playEffectHandle = g_effektEngine->Play(m_attackEffect[1]);
 						g_effektEngine->SetPosition(m_playEffectHandle,e_diff/*m_PhyGhostObj.GetPosition()enemy->GetPosition()*/);
+				}
+				else if (m_PhyGhostObj.IsSelf(contactObject) == false && eventName)
+				{
+					m_se[2].Play(false);
 				}
 			});
 		}

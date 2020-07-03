@@ -5,7 +5,7 @@ class Titan : public Enemys
 {
 public:
 	Titan();
-	~Titan() {};
+	~Titan();
 	void Attack();							//攻撃(今は未実装)
 	void Damage(int Damage) override;		//DAMAGE（今は未実装）
 	void Search();							//プレイヤーを見つける関数

@@ -26,6 +26,7 @@ bool ITEMBox::Start()
 	box_anim.Play(close);
 	state = close;
 	m_charaCon.Init(100.0f, 50.0f, m_position, enCollisionAttr_Enemy);	//キャラコンの設定（半径、高さ、初期位置。）
+	m_effect[0] = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/drop.efk");
 	return true;
 }
 //アップデート処理。
@@ -71,11 +72,17 @@ void ITEMBox::Delete()
 //開けるかどうか。
 void ITEMBox::Open()
 {
+
 	if (!box_anim.IsPlaying())
 	{
 		//卍
-		RItem = g_goMgr.NewAGO<RecoveryITEM>();
-		RItem->SetPositon(m_position);
+		if (!itemDrop_flag)
+		{
+			RItem = g_goMgr.NewAGO<RecoveryITEM>();
+			RItem->SetPositon(m_position);
+			RItem->SetPlayer(m_player);
+			itemDrop_flag = true;
+		}
 		m_timer += GameTime().GetFrameDeltaTime();
 		if (m_timer > m_deathTime) {
 			state = death;
@@ -88,5 +95,7 @@ void ITEMBox::Close()
 	if (isOpen)
 	{
 		state = open;
+		m_playEffectHandle = g_effektEngine->Play(m_effect[0]);
+		g_effektEngine->SetPosition(m_playEffectHandle, m_position);
 	}
 }

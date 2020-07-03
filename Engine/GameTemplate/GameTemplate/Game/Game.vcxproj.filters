@@ -368,7 +368,6 @@
     <None Include="Assets\animData\RB_idle.tka" />
     <None Include="Assets\animData\RB_shortATK.tka" />
     <None Include="Assets\animData\RB_BigATK.tka" />
-    <None Include="Assets\animData\P_FlyMove.tka" />
     <None Include="Assets\animData\RB_FlyMove.tka" />
     <None Include="Assets\animData\RB_HitDamage.tka" />
     <None Include="Assets\animData\PlayerCombo.tka" />
@@ -392,6 +391,9 @@
     <None Include="Assets\effect\Laser.efk" />
     <None Include="Assets\animData\heal_rot.tka" />
     <None Include="Assets\effect\laser2.efkproj" />
+    <None Include="Assets\effect\drop.efk" />
+    <None Include="Assets\effect\heal.efk" />
+    <None Include="Assets\animData\P_FlyMove.tka" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />
@@ -440,6 +442,7 @@
     <Media Include="Assets\sound\RE2_walk.wav" />
     <Media Include="Assets\sound\Enemy2_walk.wav" />
     <Media Include="Assets\sound\RE_Attack.wav" />
+    <Media Include="Assets\sound\swing.wav" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\sprite\GameOver.dds" />

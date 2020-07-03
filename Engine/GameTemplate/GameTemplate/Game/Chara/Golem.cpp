@@ -29,7 +29,7 @@ Golem::Golem()
 	});
 	//フラグをtrueへ
 	//パラメーター
-	prm.HP = 100;										//HP
+	prm.HP = 150;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
 	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
@@ -111,6 +111,7 @@ void Golem::Death()
 	if (m_se[0].IsPlaying())
 	{
 		m_se[0].Stop();
+		g_effektEngine->Stop(m_playEffectHandle);
 	}
 	if (anim.IsPlaying() == false)
 	{

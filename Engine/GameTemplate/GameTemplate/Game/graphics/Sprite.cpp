@@ -57,6 +57,12 @@ void Sprite::Init(const wchar_t*textureFilePath, float w, float h)
 	CreateSamplerState();
 	//テクスチャをロード。
 	LoadTexture(textureFilePath);
+	//深度ステンシル生成
+	InitDepthStencil();
+	//αブレンドステート生成
+	InitAphaBlendState();
+	//ラスタライザステート生成
+	InitRasterizerState();
 }
 
 void Sprite::LoadShader()
@@ -184,7 +190,9 @@ void Sprite::Draw(CMatrix mView, CMatrix mProj)
 {
 	//デバイスコンテキストを引っ張ってくる。
 	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
-
+	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
+	ID3D11BlendState* blendState = state.AlphaBlend();
+	ID3D11DepthStencilState* depthStencilState = state.DepthDefault();
 	//定数バッファを更新。
 	SSpriteCB cb;
 	//ワールド×ビュー×プロジェクション行列を計算。
@@ -215,6 +223,10 @@ void Sprite::Draw(CMatrix mView, CMatrix mProj)
 	deviceContext->PSSetShader((ID3D11PixelShader *)m_ps.GetBody(), nullptr, 0);
 	//プリミティブのトポロジーを設定。
 	deviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	deviceContext->OMSetBlendState(m_alphablend, nullptr, 0xFFFFFFFF);
+	deviceContext->OMSetDepthStencilState(m_depthstencil, 0);
+	deviceContext->RSSetState(m_rasterizer);
+	
 	//ここまで設定した内容でドロー
 	deviceContext->DrawIndexed(4, 0, 0);
 }
@@ -254,37 +266,7 @@ void Sprite::InitDepthStencil()
 {
 	D3D11_DEPTH_STENCIL_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
-}
-
-void Sprite::AlphaBlendState::Init(GraphicsEngine& ge)
-{
-
-	D3D11_BLEND_DESC blendDesc;
-	ZeroMemory(&blendDesc, sizeof(blendDesc));
-	ID3D11Device* pd3d = ge.GetD3DDevice();
-
-	blendDesc.RenderTarget[0].BlendEnable = true;
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_RED | D3D11_COLOR_WRITE_ENABLE_BLUE | D3D11_COLOR_WRITE_ENABLE_GREEN;
-	pd3d->CreateBlendState(&blendDesc, &add);
-
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	pd3d->CreateBlendState(&blendDesc, &trans);
-
-	blendDesc.RenderTarget[0].BlendEnable = false;
-	pd3d->CreateBlendState(&blendDesc, &disable);
-}
-void Sprite::DepthStencilState::Init(GraphicsEngine& ge)
-{
-	D3D11_DEPTH_STENCIL_DESC desc;
-	ZeroMemory(&desc, sizeof(desc));
-	ID3D11Device* pd3d = ge.GetD3DDevice();
+	auto* pd3d = g_graphicsEngine->GetD3DDevice();
 	desc.DepthEnable = true;
 	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
@@ -299,26 +281,35 @@ void Sprite::DepthStencilState::Init(GraphicsEngine& ge)
 	desc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 	desc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
-	pd3d->CreateDepthStencilState(&desc, &SceneRender);
+	pd3d->CreateDepthStencilState(&desc, &m_depthstencil);
 
-	desc.DepthEnable = false;
-	pd3d->CreateDepthStencilState(&desc, &defferedRender);
-
-	desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-	pd3d->CreateDepthStencilState(&desc, &disable);
-	pd3d->CreateDepthStencilState(&desc, &spriteRender);
 }
 
-void Sprite::RasterizerState::Init(GraphicsEngine& ge)
+void Sprite::InitAphaBlendState()
+{
+	D3D11_BLEND_DESC blendDesc;
+	ZeroMemory(&blendDesc, sizeof(blendDesc));
+	ID3D11Device* pd3d = g_graphicsEngine->GetD3DDevice();
+
+	blendDesc.RenderTarget[0].BlendEnable = true;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	/*blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_RED;*/
+	pd3d->CreateBlendState(&blendDesc, &m_alphablend);
+}
+
+void Sprite::InitRasterizerState()
 {
 	D3D11_RASTERIZER_DESC desc = {};
-	ID3D11Device* pd3d = ge.GetD3DDevice();
+	ID3D11Device* pd3d = g_graphicsEngine->GetD3DDevice();
 	desc.CullMode = D3D11_CULL_FRONT;
 	desc.FillMode = D3D11_FILL_SOLID;
 	desc.DepthClipEnable = true;
 	desc.MultisampleEnable = true;
 
-	pd3d->CreateRasterizerState(&desc, &sceneRender);
-	pd3d->CreateRasterizerState(&desc, &spriteRender);
-
+	pd3d->CreateRasterizerState(&desc, &m_rasterizer);
 }

@@ -72,7 +72,12 @@ private:
 	CVector3 m_scale =		CVector3::Zero();			//スケール。
 	CQuaternion m_rotation = CQuaternion::Identity();	//ローテーション。
 	bool isOpen = false;						//箱のフラグ
+	bool itemDrop_flag = false;					//アイテムが出たか。
 	float m_timer = 0.0f;						//時間
-	float m_deathTime = 2.0f;					//箱が開封されてから消えるまでの時間。
+	float m_deathTime = 1.0f;					//箱が開封されてから消えるまでの時間。
+
+		//エフェクト
+	Effekseer::Effect* m_effect[3] = { nullptr };
+	Effekseer::Handle m_playEffectHandle = 10;
 };
 

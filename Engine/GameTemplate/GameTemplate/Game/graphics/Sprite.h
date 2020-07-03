@@ -36,33 +36,10 @@ public:
 		Active = flag;
 	}
 
-	//αブレンドステート。
-	struct AlphaBlendState {
-		ID3D11BlendState*	disable;	//!<アルファブレンディングが無効。
-		ID3D11BlendState*	trans;		//!<半透明合成。
-		ID3D11BlendState*	add;		//!<加算合成。
-		void Init(GraphicsEngine& ge);
-	};
-
-	//深度ステンシルステート。
-	struct DepthStencilState
-	{
-		ID3D11DepthStencilState* disable;			//!<すべて無効。
-		ID3D11DepthStencilState* SceneRender;		//!<3Dモデルを描画する時の基本的な深度ステンシルステート。
-															//!<深度テスト、深度書き込みともに有効なステートです。
-		ID3D11DepthStencilState* spriteRender;		//!<2D描画する時の基本的な深度ステンシルステート。
-															//!<深度テスト、深度書き込みともに無効なステートです。
-		ID3D11DepthStencilState* defferedRender;		//!<ディファードレンダリングを行うときの深度ステンシルステート。
-		void Init(GraphicsEngine& ge);												//!<深度テスト無効、深度書き込み有効なステートです。
-	};
-	//ラスタライザステート。
-	struct RasterizerState
-	{
-		ID3D11RasterizerState*	sceneRender;		//!<3Dモデルを描画する時の基本的なラスタライザステート。
-		ID3D11RasterizerState*	spriteRender;		//!<2D描画する時の基本的なラスタライザステート。
-		void Init(GraphicsEngine& ge);
-	};
+	
 	void InitDepthStencil();
+	void InitAphaBlendState();
+	void InitRasterizerState();
 public:
 	void Update(const CVector3& trans, const CQuaternion& rot, const CVector3& scale, const CVector2& pivot, float a = 0.5f);
 private:
@@ -108,8 +85,6 @@ private:
 	ID3D11DepthStencilState* m_depthstencil = nullptr;
 
 	ID3D11Device* ps2d = nullptr;
-	
-
 
 };
 

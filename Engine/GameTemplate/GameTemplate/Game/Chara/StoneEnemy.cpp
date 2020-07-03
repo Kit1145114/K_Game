@@ -23,7 +23,7 @@ StoneEnemy::StoneEnemy()
 	});
 	//フラグをtrueへ
 	//パラメーター
-	prm.HP = 100;										//HP
+	prm.HP = 50;										//HP
 	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 400;										//速さ。

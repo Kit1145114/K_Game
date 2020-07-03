@@ -31,5 +31,6 @@ void ChangeScreen::Death()
 	//ゲーム生成。タイトル削除。
 	game = g_goMgr.NewAGO<Game>();
 	game->SetStage(1);
+	game->SetPlayerHp(m_playerHp);
 	g_goMgr.QutavaleyaAGO(this);
 }

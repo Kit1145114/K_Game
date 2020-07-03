@@ -27,7 +27,7 @@ Titan::Titan()
 	});
 	//フラグをtrueへ
 	//パラメーター
-	prm.HP = 100;										//HP
+	prm.HP = 120;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
 	prm.ATK = 20;										//攻撃力
 	prm.DEF = 30;										//防御力
@@ -36,6 +36,11 @@ Titan::Titan()
 	e_state = esIdle;									//最初なので待機。
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/RobbotEnemyAttack.efk");
 
+}
+//敵を消すときに消す。
+Titan::~Titan()
+{
+	g_effektEngine->Stop(m_playEffectHandle);
 }
 //敵の攻撃処理。
 void Titan::Attack()
@@ -57,12 +62,11 @@ void Titan::Search()
 {
 	Enemys::ViewingAngle();
 	//体力MAX時
-	if (prm.HP == m_MaxHP) {
-		//範囲外かつ視野角外なら
+	if (prm.HP == m_MaxHP && !isTrackflag) {
+		//範囲外かつ視野角外ならかつ、一度でも見つけてないとき。
 		if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
 		{
 			e_state = esIdle;
-			isTracking = false;
 		}
 		//範囲内かつ視野角内なら
 		else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
@@ -70,13 +74,15 @@ void Titan::Search()
 			Move = m_player->GetPosition() - m_position;
 			isTracking = true;
 			e_state = esTracking;
+			isTrackflag = true;
 		}
 	}
 	//体力がMAXじゃないとき。ひたすら追いかける。
-	else if (prm.HP < m_MaxHP)
+	else if (prm.HP < m_MaxHP || isTrackflag)
 	{
 		Move = m_player->GetPosition() - m_position;
 		isTracking = true;
+		isTrackflag = true;
 		e_state = esTracking;
 	}
 	//攻撃の範囲計算。
@@ -90,7 +96,6 @@ void Titan::Update()
 	Enemys::Rotation();
 	EnemyState();
 	m_moveSpeed.y -= gravity;
-	anim.Update(GameTime().GetFrameDeltaTime());
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 	Model.UpdateWorldMatrix(m_position, m_rotation, {10.0f,10.0f,10.0f});
 	m_charaCon.SetPosition(m_position);
@@ -116,13 +121,16 @@ void Titan::EnemyState()
 		//待機中。
 	case Enemys::esIdle:
 		Search();
+		anim.Update(GameTime().GetFrameDeltaTime());
 		//Rotation();
 		anim.Play(esIdle);
+		anim.Update(GameTime().GetFrameDeltaTime());
 		break;
 		//追いかけてる。
 	case Enemys::esTracking:
 		Search();
 		EMove();
+		anim.Update(GameTime().GetFrameDeltaTime()*1.5f);
 		//Rotation();
 		anim.Play(esTracking);
 		break;
@@ -130,11 +138,13 @@ void Titan::EnemyState()
 	case Enemys::esAttack:
 		Search();
 		Enemys::Rotation();
+		anim.Update(GameTime().GetFrameDeltaTime());
 		anim.Play(esAttack);
 		break;
 		//死亡したとき。
 	case Enemys::esDeath:
 		Death();
+		anim.Update(GameTime().GetFrameDeltaTime());
 		break;
 	case Enemys::esAttackGap:
 		AttackCoolTime();
@@ -148,6 +158,10 @@ void Titan::EMove()
 	{
 		m_moveSpeed.x = 0.0f;
 		m_moveSpeed.z = 0.0f;
+		if (m_se[1].IsPlaying())
+		{
+			m_se[1].Stop();
+		}
 	}
 	else if (e_state == esTracking) {
 		m_moveSpeed = Move * prm.SPD;

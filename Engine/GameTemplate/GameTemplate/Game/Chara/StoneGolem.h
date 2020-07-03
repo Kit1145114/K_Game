@@ -6,7 +6,7 @@ class StoneGolem : public Enemys
 {
 public:
 	StoneGolem();
-	~StoneGolem() {};
+	~StoneGolem();
 	void Attack();							//攻撃
 	void AttackRange();						//攻撃できるかの処理。
 	void Damage(int Damage)override;		//ダメージ	

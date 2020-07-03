@@ -233,13 +233,13 @@ bool Game::FirstStage()
 	}
 	player->SetBox(itemBox);
 	player->SetEnemysList(m_enemysToPlayerList);
+	itemBox->SetPlayer(player);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar = g_goMgr.NewAGO<EnergyText>();
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
-
 
 	return true;
 }
@@ -285,6 +285,7 @@ bool Game::NewBoss()
 		enemy->SetPlayer(player);
 	}
 	player->SetEnemysList(m_enemysToPlayerList);
+	player->SetHP(m_playerHP);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
@@ -380,6 +381,7 @@ void Game::FirstStageUpdate()
 	if (door->GetChangeSta() && m_stage == First)
 	{
 		ChangeScreen* changescreen = g_goMgr.NewAGO<ChangeScreen>();
+		changescreen->SetPlayerHP(player->GetPlayerHP());
 		g_goMgr.QutavaleyaAGO(this);
 	}
 	if (player->GetIsDead())

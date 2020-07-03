@@ -24,7 +24,7 @@ StoneGolem::StoneGolem()
 	prm.HP = 100;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
 	prm.ATK = 51;										//UŒ‚—Í
-	prm.DEF = 30;										//–hŒä—Í
+	prm.DEF = 70;										//–hŒä—Í
 	prm.SPD = 300;										//‘¬‚³B
 	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);		//”»’è‚Ì‘å‚«‚³
 	e_state = esIdle;
@@ -32,6 +32,11 @@ StoneGolem::StoneGolem()
 	m_se[0].Init(L"Assets/sound/fire4.wav");			//UŒ‚
 	m_se[1].Init(L"Assets/sound/laserDamage.wav");		//ƒ_ƒ[ƒW‰¹
 	m_se[2].Init(L"Assets/sound/RE2_Walk.wav");			//•à‚­B
+}
+
+StoneGolem::~StoneGolem()
+{
+	g_effektEngine->Stop(m_playEffectHandle);
 }
 
 void StoneGolem::Update()
@@ -78,6 +83,10 @@ void StoneGolem::Attack()
 			m_timer = ZERO;
 			m_attackTime = ZERO;
 			m_se[0].Stop();
+			if (m_se[1].IsPlaying())
+			{
+				m_se[1].Stop();
+			}
 			loop = true;
 		}
 	}
