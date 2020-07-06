@@ -4,6 +4,7 @@
 #include"Game.h"
 #define _USE_MATH_DEFINES //M_PI 円周率呼び出し
 #include <math.h> 
+#include "graphics/shadow/ShadowMap.h"
 
 Player::Player()
 {
@@ -55,7 +56,7 @@ Player::~Player()
 void Player::Update()
 {
 	//プレイヤーの更新情報を下に記述。
-	Draw();	//プレイヤーの描画を呼ぶ。
+	//Draw();	//プレイヤーの描画を呼ぶ。
 	if (playerState != pl_Death) {
 		Energy();
 		Move();							//プレイヤーの移動を呼ぶ。
@@ -69,6 +70,8 @@ void Player::Update()
 	g_anim.Update(GameTime().GetFrameDeltaTime() * NSpeed);	//アニメーションをフレーム単位で描画。
 			//ワールド行列の更新。
 	Gmodel.UpdateWorldMatrix(m_position, m_rotation, {0.5f,0.5f,0.5f});
+
+	g_graphicsEngine->GetShadowMap()->UpdateFromLightTarget(CVector3(m_position.x + 1000.0f, m_position.y + 1000.0f, m_position.z + 1000.0f),m_position);
 }
 //プレイヤーの描画処理。
 void Player::Draw()

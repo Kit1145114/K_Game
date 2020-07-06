@@ -11,6 +11,15 @@ void Camera::Update()
 		m_target,
 		m_up
 	);
+
+	CVector3 dir = m_position - m_target;
+	CVector3 nDir = dir;
+	nDir.Normalize();
+	m_viewMatrix2.MakeLookAt(
+		m_position + nDir * 300.0f,
+		m_position,
+		m_up
+	);
 	//ビュー行列の逆行列を計算
 	//これでカメラ行列になる。
 	m_viewMatrixInv.Inverse(m_viewMatrix);

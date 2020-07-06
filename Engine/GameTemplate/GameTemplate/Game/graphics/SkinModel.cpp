@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "SkinModel.h"
 #include "SkinModelDataManager.h"
+#include "shadow\ShadowMap.h"
+#include "shadow\CascadeShadowMap.h"
+#include "graphics/SkinModelEffect.h"
 
 SkinModel::~SkinModel()
 {
@@ -113,18 +116,55 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 
 	//スケルトンの更新。
 	m_skeleton.Update(m_worldMatrix);
+
+	if (m_isShadowCaster) {
+		//g_graphicsEngine->GetShadowMap()->RegistShadowCaster(this);
+		g_graphicsEngine->GetCascadeShadowMap()->RegistShadowCaster(this);
+	}
 	
 }
-void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix,int Spec)
+void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix,int Spec, EnRenderMode enRenderMode)
 {
 	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
-
+	auto shadowMap = g_graphicsEngine->GetShadowMap();
+	auto cascadeMap = g_graphicsEngine->GetCascadeShadowMap();
 	//定数バッファの内容を更新。
 	SVSConstantBuffer vsCb;
 	vsCb.mWorld = m_worldMatrix;
-	vsCb.mProj = projMatrix;
-	vsCb.mView = viewMatrix;
+	
+	if (enRenderMode == enRenderMode_CreateCascadeShadowMap) {
+		vsCb.shadowMapNumber = cascadeMap->GetShadowMapNumber();
+	}
+	else if (enRenderMode == enRenderMode_CreateShadowMap) {
+		vsCb.mView = shadowMap->GetLightViewMatrix();
+		vsCb.mProj = shadowMap->GetLightProjMatrix();
+	}
+	else if (enRenderMode == enRenderMode_Normal) {
+		vsCb.mView = viewMatrix;
+		vsCb.mProj = projMatrix;
+	}
+	vsCb.mLightView = shadowMap->GetLightViewMatrix();
+	vsCb.mLightProj = shadowMap->GetLightProjMatrix();
+
+	if (m_isShadowReciver) {
+		vsCb.isShadowReciever = 1;
+	}
+	else {
+		vsCb.isShadowReciever = 0;
+	}
+	for (int i = 0; i < CascadeShadowMap::SHADOWMAP_NUM; i++) {
+		ID3D11ShaderResourceView* srvArray[]{
+			cascadeMap->GetRenderTarget(i)->GetRenderTargetSRV()
+		};
+		//引数がポインタのポインタ、t2なので引数を2、1にしてる
+		d3dDeviceContext->PSSetShaderResources(3 + i, 1, srvArray);
+		vsCb.mLightViewProj[i] = cascadeMap->GetLightViewProjMatrix(i);
+	}
+	vsCb.mFar.x = cascadeMap->GetFar(0);
+	vsCb.mFar.y = cascadeMap->GetFar(1);
+	vsCb.mFar.z = cascadeMap->GetFar(2);
+	vsCb.mFar.w = cascadeMap->GetFar(3);
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	//定数バッファをGPUに転送。
 	d3dDeviceContext->VSSetConstantBuffers(0, 1, &m_cb);
@@ -134,11 +174,22 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix,int Spec)
 	m_sLight.specPow = 7.0f;
 	m_sLight.hasSpec = Spec;
 	d3dDeviceContext->UpdateSubresource(m_lightCb, 0, nullptr, &m_sLight, 0, 0);
-	d3dDeviceContext->PSSetConstantBuffers(0, 1, &m_lightCb);
+	d3dDeviceContext->PSSetConstantBuffers(1, 1, &m_lightCb);
 	//サンプラステートを設定。
 	d3dDeviceContext->PSSetSamplers(0, 1, &m_samplerState);
 	//ボーン行列をGPUに転送。
 	m_skeleton.SendBoneMatrixArrayToGPU();
+
+	ID3D11ShaderResourceView* srvArray[]{
+	shadowMap->GetShadowMapSRV()
+	};
+	//引数がポインタのポインタ、t2なので引数を2、1にしてる
+	d3dDeviceContext->PSSetShaderResources(2, 1, srvArray);
+
+	m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+		auto modelMaterial = reinterpret_cast<ModelEffect*>(material);
+		modelMaterial->SetRenderMode(enRenderMode);
+	});
 
 	//描画。
 	m_modelDx->Draw(

@@ -21,7 +21,7 @@ bool Wall::Start()
 
 void Wall::Update()
 {
-	Draw();
+	//Draw();
 	m_wall.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	//m_charaCon.SetPosition(m_position);
 }

@@ -12,6 +12,8 @@ public:
 	/// </summary>
 	virtual void Render();
 
+	virtual void Draw() {}
+
 	virtual void FontRender() {}
 
 	virtual bool Start();
@@ -20,6 +22,13 @@ public:
 	{
 		if (isUpdate&&isActive&&isStart) {
 			Update();
+		}
+	}
+
+	void AgoDraw()
+	{
+		if (isUpdate && isActive && isStart) {
+			Draw();
 		}
 	}
 	//ポストレンダー

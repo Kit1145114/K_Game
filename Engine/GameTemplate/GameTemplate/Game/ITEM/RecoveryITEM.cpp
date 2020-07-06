@@ -28,7 +28,7 @@ bool RecoveryITEM::Start()
 //XVî•ñ
 void RecoveryITEM::Update()
 {
-	Draw();
+	//Draw();
 	Rotation();
 	HealAcquisition();
 	m_anim.Update(GameTime().GetFrameDeltaTime());

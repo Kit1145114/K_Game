@@ -9,7 +9,7 @@ public:
 	void Damage(int Damage) override;		//DAMAGE（今は未実装）
 	void Search();							//プレイヤーを見つける関数
 	void Update()override;					//敵の更新内容を記入
-	void Draw();							//エネミーをドロー処理だよ。
+	//void Draw();							//エネミーをドロー処理だよ。
 	void Death();							//エネミーが死ぬ処理だよ。
 	void EnemyState();						//エネミーをステイトで行動する処理だよ。
 	void EMove();							//エネミーが動く処理だよ。

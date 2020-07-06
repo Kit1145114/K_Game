@@ -106,8 +106,8 @@ void GameCamera::Hutu()
 	m_toPos *= m_r;
 	m_position = m_target + m_toPos * 2.0f;
 
-	m_toPos *= 4;
-	m_target -= m_toPos;
+	//m_toPos *= 4;
+	//m_target -= m_toPos;
 	m_toPos *= 1.5f;
 }
 

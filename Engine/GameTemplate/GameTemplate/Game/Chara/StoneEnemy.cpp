@@ -72,7 +72,7 @@ void StoneEnemy::Search()
 //“G‚ÌXV“à—eB
 void StoneEnemy::Update()
 {
-	Draw();
+	//Draw();
 	EnemyState();
 	Rotation();
 	anim.Play(0);
@@ -82,7 +82,7 @@ void StoneEnemy::Update()
 	anim.Update(0.05f);
 	m_charaCon.SetPosition(m_position);
 }
-//“G‚Ì•`‰æˆ—B
+/*//“G‚Ì•`‰æˆ—B
 void StoneEnemy::Draw()
 {
 	Model.Draw(
@@ -90,7 +90,7 @@ void StoneEnemy::Draw()
 		g_camera3D.GetProjectionMatrix(),
 		1
 	);
-}
+}*/
 //“|‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Ôˆ—B
 void StoneEnemy::Death()
 {

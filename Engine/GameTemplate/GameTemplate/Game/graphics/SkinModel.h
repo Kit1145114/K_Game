@@ -7,6 +7,8 @@
 #include"animation/AnimationClip.h"
 #include"GameObjectManajer.h"
 #include"c3dmodel/C3DModelEffect.h"
+#include "shadow\CascadeShadowMap.h"
+
 
 /*!
 *@brief	FBXの上方向。
@@ -86,7 +88,7 @@ public:
 	*@param[in]	projMatrix		プロジェクション行列。
 	*  カメラ座標系の3Dモデルをスクリーン座標系に変換する行列です。
 	*/
-	void Draw( CMatrix viewMatrix, CMatrix projMatrix,int Spec);
+	void Draw( CMatrix viewMatrix, CMatrix projMatrix,int Spec, EnRenderMode enRenderMode = enRenderMode_Normal);
 	/*!
 	*@brief	スケルトンの取得。
 	*/
@@ -124,6 +126,22 @@ public:
 	{
 		m_animation.AddAnimationEventListener(eventListener);
 	}
+	/// <summary>
+	/// シャドウレシーバーを設定
+	/// </summary>
+	/// <param name="flag"></param>
+	void SetShadowReciver(bool flag)
+	{
+		m_isShadowReciver = flag;
+	}
+	/// <summary>
+	/// シャドウキャスターを設定
+	/// </summary>
+	/// <param name="flag"></param>
+	void SetShadowCaster(bool flag)
+	{
+		m_isShadowCaster = flag;
+	}
 private:
 	/*!
 	*@brief	サンプラステートの初期化。
@@ -146,6 +164,12 @@ private:
 		CMatrix mWorld;
 		CMatrix mView;
 		CMatrix mProj;
+		CMatrix mLightView;		//todo ライトビュー行列。
+		CMatrix mLightProj;		//todo ライトプロジェクション行列。
+		CMatrix mLightViewProj[CascadeShadowMap::SHADOWMAP_NUM];	//ライトビュープロジェクション行列
+		CVector4 mFar;
+		int isShadowReciever;	//todo シャドウレシーバーのフラグ。
+		int shadowMapNumber = 0;	//何番目のシャドウマップにレンダリングするか
 	};
 	Animation			m_animation;					//アニメーション。
 	AnimationClip		m_animclip;					//アニメーションクリップ。
@@ -160,5 +184,7 @@ private:
 	//DirectionLight		m_dirLight;							//!<ディレクションライト。
 	SLight				m_sLight;							//!<ライトの構造体。
 	CQuaternion			m_rotation = CQuaternion::Identity();//回転
+	bool m_isShadowReciver = true;		//シャドウレシーバー
+	bool m_isShadowCaster = true;		//シャドウキャスター
 };
 

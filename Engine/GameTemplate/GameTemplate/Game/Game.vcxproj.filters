@@ -170,6 +170,8 @@
       <Filter>ソース</Filter>
     </ClCompile>
     <ClCompile Include="CEffektEngine.cpp" />
+    <ClCompile Include="graphics\shadow\ShadowMap.cpp" />
+    <ClCompile Include="graphics\shadow\CascadeShadowMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -309,11 +311,10 @@
     <ClInclude Include="CEffektEngine.h" />
     <ClInclude Include="system\GameTime.h" />
     <ClInclude Include="system\Stopwatch.h" />
+    <ClInclude Include="graphics\shadow\ShadowMap.h" />
+    <ClInclude Include="graphics\shadow\CascadeShadowMap.h" />
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Assets\modelData\unityChan.fbx">
-      <Filter>Assets\modelData</Filter>
-    </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\Gmodel.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
@@ -394,6 +395,9 @@
     <None Include="Assets\effect\drop.efk" />
     <None Include="Assets\effect\heal.efk" />
     <None Include="Assets\animData\P_FlyMove.tka" />
+    <None Include="Assets\modelData\unityChan.fbx">
+      <Filter>Assets\modelData</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

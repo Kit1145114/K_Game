@@ -19,8 +19,9 @@ public:
 	}
 	//ステートの純粋仮想関数
 	virtual void EnemyState() = 0;
+	virtual void Draw() override final; 				//敵の描画処理。
 	//ここから先は敵の共通する処理を記載。呼び出しはEnemys::〇〇;
-	void Draw();				//敵の描画処理。
+
 	void ViewingAngle();		//エネミーの視野角。
 	void VectorAcquisition();	//エネミーのベクトルを取得するための関数。
 	void Rotation();			//エネミーの回転処理。

@@ -116,6 +116,31 @@ public:
 	{
 		Angle = angle;
 	}
+	float GetNear()
+	{
+		return m_near;
+	}
+	float GetFar()
+	{
+		return m_far;
+	}
+	/// <summary>
+	/// 画角を取得。
+	/// </summary>
+	/// <returns>画角。単位ラジアン</returns>
+	float GetViewAngle() const
+	{
+		return m_viewAngle;
+	}
+	/// <summary>
+	/// アスペクト比を取得。
+	/// </summary>
+	float GetAspect() const
+	{
+		return 1280.0f / 720.0f;
+	}
+	CMatrix	m_viewMatrix2 = CMatrix::Identity();		//ビュー行列。
+	CMatrix m_projMatrix2 = CMatrix::Identity();		//プロジェクション行列。
 private:
 	CMatrix	m_viewMatrix = CMatrix::Identity();		//ビュー行列。
 	CMatrix m_projMatrix = CMatrix::Identity();		//プロジェクション行列。

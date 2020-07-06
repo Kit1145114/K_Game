@@ -91,7 +91,7 @@ void Titan::Search()
 //敵の更新内容。
 void Titan::Update()
 {
-	Enemys::Draw();
+	//Enemys::Draw();
 	Enemys::VectorAcquisition();
 	Enemys::Rotation();
 	EnemyState();

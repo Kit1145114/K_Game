@@ -19,7 +19,7 @@ void AgoSample::Update()
 	//マップのアップデートを下に記述。
 	Ago.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
 	//Draw関数の呼び出し
-	Draw();
+	//Draw();
 }
 void AgoSample::Draw()
 {

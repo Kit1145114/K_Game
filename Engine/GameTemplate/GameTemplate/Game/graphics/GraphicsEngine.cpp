@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GraphicsEngine.h"
 #include "RenderTarget.h"
+#include "shadow/ShadowMap.h"
+#include "shadow\CascadeShadowMap.h"
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -25,6 +27,9 @@ void GraphicsEngine::EndRender()
 {
 	//バックバッファとフロントバッファを入れ替える。
 	m_pSwapChain->Present(2, 0);
+
+	m_backBuffer->Release();
+	m_depthStencilView->Release();
 }
 void GraphicsEngine::Release()
 {
@@ -142,17 +147,19 @@ void GraphicsEngine::Init(HWND hWnd)
 	//ラスタライザとビューポートを初期化。
 	m_pd3dDevice->CreateRasterizerState(&desc, &m_rasterizerState);
 
-	D3D11_VIEWPORT viewport;
-	viewport.Width = FRAME_BUFFER_W;
-	viewport.Height = FRAME_BUFFER_H;
-	viewport.TopLeftX = 0;
-	viewport.TopLeftY = 0;
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-	m_pd3dDeviceContext->RSSetViewports(1, &viewport);
+	m_viewPort.Width = FRAME_BUFFER_W;
+	m_viewPort.Height = FRAME_BUFFER_H;
+	m_viewPort.TopLeftX = 0;
+	m_viewPort.TopLeftY = 0;
+	m_viewPort.MinDepth = 0.0f;
+	m_viewPort.MaxDepth = 1.0f;
+	m_pd3dDeviceContext->RSSetViewports(1, &m_viewPort);
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(m_pd3dDeviceContext);
 	m_spriteFont = std::make_unique<DirectX::SpriteFont>(m_pd3dDevice, L"Assets/font/myfile.spritefont");
+
+	m_shadowMap = new ShadowMap();
+	m_cascadeShadowMap = new CascadeShadowMap();
 
 }
 void GraphicsEngine::ChangeRenderTarget(RenderTarget* renderTarget, D3D11_VIEWPORT* viewport)
@@ -174,4 +181,20 @@ void GraphicsEngine::ChangeRenderTarget(ID3D11RenderTargetView* renderTarget, ID
 		//ビューポートが指定されていたら、ビューポートも変更する。
 		m_pd3dDeviceContext->RSSetViewports(1, viewport);
 	}
+}
+
+void GraphicsEngine::RenderToShadowMap()
+{
+	//m_shadowMap->RenderToShadowMap();
+	m_cascadeShadowMap->Update();
+	m_cascadeShadowMap->RenderToShadowMap();
+
+
+	float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; //red,green,blue,alpha
+												  //描き込み先をバックバッファにする。
+	m_pd3dDeviceContext->OMSetRenderTargets(1, &m_backBuffer, m_depthStencilView);
+	m_pd3dDeviceContext->RSSetViewports(1, &m_viewPort);
+	//バックバッファを灰色で塗りつぶす。
+	m_pd3dDeviceContext->ClearRenderTargetView(m_backBuffer, ClearColor);
+	m_pd3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }

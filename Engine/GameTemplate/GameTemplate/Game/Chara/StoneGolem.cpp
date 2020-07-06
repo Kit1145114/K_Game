@@ -41,7 +41,7 @@ StoneGolem::~StoneGolem()
 
 void StoneGolem::Update()
 {
-	Enemys::Draw();
+	//Enemys::Draw();
 	Enemys::VectorAcquisition();
 	Enemys::Rotation();
 	EnemyState();
