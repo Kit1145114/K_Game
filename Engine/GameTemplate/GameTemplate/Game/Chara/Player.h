@@ -181,7 +181,7 @@ private:
 	float None = 0.0f;									//0を代入したいときに使います。
 	float NSpeed = 1.0f;								//通常のスピード。
 	float SPeed2 = 3.5f;								//２倍のスピード。
-	float JumpPower = 40.0f;							//ジャンプしたときの値
+	float JumpPower = 5.0f;							//ジャンプしたときの値
 	bool m_isdeath = false;								//死亡判定。
 	bool m_isRookOn = false;							//敵をロックオンしているかどうか。
 	bool m_isCombo = false;								//コンボするか？

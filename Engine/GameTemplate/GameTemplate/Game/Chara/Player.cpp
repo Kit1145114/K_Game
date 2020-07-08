@@ -99,7 +99,7 @@ void Player::FontRender()
 void Player::Move()
 {
 	//進む速さの値決め。
-	float Speed = 750.0f;
+	float Speed = 450.0f;
 	//左スティック受け取りマシーン
 	float lStick_x = (g_pad[0].GetLStickXF());
 	float lStick_y = (g_pad[0].GetLStickYF());
