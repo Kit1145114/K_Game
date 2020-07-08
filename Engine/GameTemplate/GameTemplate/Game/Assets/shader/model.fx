@@ -343,6 +343,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 				else {
 					break;
 				}
+				break;
 			}
 		}
 	}
