@@ -46,7 +46,7 @@ Boss::Boss()
 //敵の更新内容。
 void Boss::Update()
 {
-	Enemys::Draw();
+	//Enemys::Draw();
 	Enemys::VectorAcquisition();
 	HitMe();
 	EnemyState();

@@ -94,3 +94,10 @@ void Level::Draw()
 		mapChip->Draw();
 	}
 }
+
+void Level::Update()
+{
+	for (auto& mapChip : m_mapChipArray) {
+		mapChip->Update();
+	}
+}

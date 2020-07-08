@@ -94,7 +94,7 @@ void Golem::Search()
 //敵の更新内容。
 void Golem::Update()
 {
-	Enemys::Draw();
+	//Enemys::Draw();
 	Enemys::VectorAcquisition();
 	Enemys::Rotation();
 	EnemyState();

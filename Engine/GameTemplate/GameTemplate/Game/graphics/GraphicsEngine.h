@@ -8,12 +8,15 @@
  /// </summary>
 enum EnRenderMode {
 	enRenderMode_Invalid,			//不正なレンダリングモード。
+	enRenderMode_CreateCascadeShadowMap,    //カスケードシャドウマップ生成
 	enRenderMode_CreateShadowMap,	//シャドウマップ生成。
 	enRenderMode_Normal,			//通常レンダリング。
 	enRenderMode_Num,				//レンダリングモードの数。
 };
 
 class RenderTarget;
+class ShadowMap;
+class CascadeShadowMap;
 
 class GraphicsEngine
 {
@@ -59,8 +62,28 @@ public:
 	{
 		return m_spriteFont.get();
 	}
+	/// <summary>
+	/// シャドウマップを取得
+	/// </summary>
+	/// <returns></returns>
+	ShadowMap* GetShadowMap()
+	{
+		return m_shadowMap;
+	}
+	/// <summary>
+	/// カスケードシャドウマップを取得
+	/// </summary>
+	/// <returns></returns>
+	CascadeShadowMap* GetCascadeShadowMap()
+	{
+		return m_cascadeShadowMap;
+	}
 	void ChangeRenderTarget(RenderTarget* renderTarget, D3D11_VIEWPORT* viewport);
 	void ChangeRenderTarget(ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* depthStensil, D3D11_VIEWPORT* viewport);
+	/// <summary>
+	/// シャドウマップを生成
+	/// </summary>
+	void RenderToShadowMap();
 private:
 	D3D_FEATURE_LEVEL		m_featureLevel;				//Direct3D デバイスのターゲットとなる機能セット。
 	ID3D11Device*			m_pd3dDevice = NULL;		//D3D11デバイス。
@@ -74,6 +97,11 @@ private:
 	//定義。
 	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;     //これが肝
 	std::unique_ptr<DirectX::SpriteFont> m_spriteFont;		//これも肝
+
+	ShadowMap* m_shadowMap = nullptr;
+	CascadeShadowMap* m_cascadeShadowMap = nullptr;
+
+	CD3D11_VIEWPORT m_viewPort;
 
 };
 

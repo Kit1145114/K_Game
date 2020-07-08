@@ -11,7 +11,6 @@ RenderTarget::~RenderTarget()
 {
 	Release();
 }
-
 void RenderTarget::Release()
 {
 	if (m_depthStencilView != nullptr) {
@@ -37,6 +36,10 @@ void RenderTarget::Release()
 }
 void RenderTarget::Create(unsigned int w, unsigned int h, DXGI_FORMAT texFormat)
 {
+	m_width = (float)w;
+	m_height = (float)h;
+	m_format = texFormat;
+
 	//D3Dデバイスを取得。
 	auto d3dDevice = g_graphicsEngine->GetD3DDevice();
 	//1.レンダリングターゲットとなるテクスチャを作成。
@@ -139,7 +142,18 @@ void RenderTarget::Create(unsigned int w, unsigned int h, DXGI_FORMAT texFormat)
 		//デプスステンシルビューを作成。
 		d3dDevice->CreateDepthStencilView(m_depthStencilTex, &depthStencilViewDesc, &m_depthStencilView);
 	}
+	//6.todo ビューポート。
+	{
+		m_viewport.TopLeftX = 0;
+		m_viewport.TopLeftY = 0;
+		m_viewport.Width = w;
+		m_viewport.Height = h;
+		m_viewport.MinDepth = 0.0f;
+		m_viewport.MaxDepth = 1.0f;
+	}
 }
+
+
 void RenderTarget::ClearRenderTarget(float* clearColor)
 {
 	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
@@ -147,3 +161,4 @@ void RenderTarget::ClearRenderTarget(float* clearColor)
 	d3dDeviceContext->ClearRenderTargetView(m_renderTargetView, clearColor);
 	d3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
+

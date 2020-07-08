@@ -42,7 +42,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理エンジンの更新。
 		g_physics.Update();
 		g_goMgr.Update();
+
+		g_graphicsEngine->RenderToShadowMap();
+
+		g_goMgr.Draw();
+
 		g_effektEngine->Draw();
+
 		g_goMgr.PostRender();
 		g_goMgr.FontRender();
 		//物理判定を見ないときはコメントアウト

@@ -17,7 +17,7 @@ Door::~Door()
 
 void Door::Update()
 {
-	Draw();
+	//Draw();
 	PlayerDistance();
 	Gate.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 }

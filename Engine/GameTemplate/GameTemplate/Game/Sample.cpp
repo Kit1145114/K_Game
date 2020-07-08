@@ -35,7 +35,7 @@ void Sample::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 }
 void Sample::Update()
 {
-	Draw();
+	//Draw();
 	State();
 	Track();
 	s_anim.Update(1.0f / 30.0f);
@@ -43,14 +43,14 @@ void Sample::Update()
 	SModel.UpdateWorldMatrix(m_position, CQuaternion::Identity(), m_scale);
 }
 
-void Sample::Draw()
+/*void Sample::Draw()
 {
 	SModel.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix(),
 		1
 	);
-}
+}*/
 
 void Sample::Damage(float Damage)
 {

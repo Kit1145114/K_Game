@@ -29,7 +29,7 @@ public:
 		m_sprite.SetActiveFlag(flag);
 	}
 	void Update();
-	void Draw();
+	//void Draw();
 	void Render() override;
 private:
 	bool m_isDraw3D = false;

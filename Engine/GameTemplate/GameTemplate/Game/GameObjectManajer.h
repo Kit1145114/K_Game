@@ -47,6 +47,8 @@ public:
 			return ;
 		}
 	}
+	void Draw();
+
 	//レンダー類
 		/// レンダァァァァァァァァイヤァァァァァァ
 	/// </summary>

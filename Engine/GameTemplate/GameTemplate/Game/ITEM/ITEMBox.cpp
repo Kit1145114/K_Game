@@ -32,7 +32,7 @@ bool ITEMBox::Start()
 //アップデート処理。
 void ITEMBox::Update()
 {
-	Draw();
+	//Draw();
 	State();
 	box_anim.Update(GameTime().GetFrameDeltaTime());
 	Box.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());

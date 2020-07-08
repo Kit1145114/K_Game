@@ -37,6 +37,13 @@ void GameObjectManajer::Update()
 	}
 }
 
+void GameObjectManajer::Draw()
+{
+	for (auto go : m_goList) {
+		go->AgoDraw();
+	}
+}
+
 //GameObjectManajer* GameObjectManajer::GetInstance()
 //{
 //	//‚Ç‚±‚©‚ç‚Å‚àƒQ[ƒ€‚ªŒÄ‚Ño‚¹‚é‚æ‚¤‚É

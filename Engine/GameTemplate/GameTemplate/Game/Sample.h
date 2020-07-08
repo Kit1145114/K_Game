@@ -13,7 +13,7 @@ public:
 	Sample();
 	~Sample() {};
 	void Update();
-	void Draw();
+	//void Draw();
 	void Attack() {};					//çUåÇ
 	void Damage(float Damage);			//DAMAGE
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);
