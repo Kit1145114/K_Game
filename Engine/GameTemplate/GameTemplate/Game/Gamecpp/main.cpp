@@ -54,6 +54,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理判定を見ないときはコメントアウト
 		//g_physics.DebugDraw();
 		
+		g_goMgr.Delete();
+
 		//描画終了。
 		g_graphicsEngine->EndRender();
 		//1フレームの時間計測を終了。

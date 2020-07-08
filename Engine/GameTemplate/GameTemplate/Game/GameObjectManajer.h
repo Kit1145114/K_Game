@@ -47,8 +47,14 @@ public:
 			return ;
 		}
 	}
+	/// <summary>
+	/// 3Dモデルを描画
+	/// </summary>
 	void Draw();
-
+	/// <summary>
+	/// ゲームオブジェクトをデリート
+	/// </summary>
+	void Delete();
 	//レンダー類
 		/// レンダァァァァァァァァイヤァァァァァァ
 	/// </summary>
