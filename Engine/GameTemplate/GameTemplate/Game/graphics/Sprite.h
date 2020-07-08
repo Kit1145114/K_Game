@@ -19,6 +19,7 @@ public:
 	/// </summary>
 	/// <param name="textureFilePath">テクスチャのファイルパス</param>
 	void Init(const wchar_t* textureFilePath, float w, float h);
+	void Init(ID3D11ShaderResourceView* srv);
 	/// <summary>
 	/// ワールド行列の更新
 	/// </summary>

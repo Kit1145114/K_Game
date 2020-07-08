@@ -45,6 +45,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		g_graphicsEngine->RenderToShadowMap();
 
+		g_graphicsEngine->ChangeMainRenderTarget();
+
 		g_goMgr.Draw();
 
 		g_effektEngine->Draw();
@@ -56,6 +58,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		
 		g_goMgr.Delete();
 
+
+		g_graphicsEngine->PostRender();
 		//描画終了。
 		g_graphicsEngine->EndRender();
 		//1フレームの時間計測を終了。

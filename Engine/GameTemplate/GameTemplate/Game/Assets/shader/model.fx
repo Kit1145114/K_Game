@@ -195,7 +195,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 	float4 albedoColor = g_albedoTexture.Sample(g_sampler, In.TexCoord);
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
-	lig += float3(1.0f, 1.0f, 1.0f);
+	lig += float3(3.0f, 3.0f, 3.0f);
 	for (int i = 0; i < 4; i++) {
 		//lig += max(0.0f, dot(In.Normal * -1.0f, dligDirection[i])) * dligColor[i];
 		//鏡面反射の光の量を計算する。
