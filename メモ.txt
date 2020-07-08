@@ -1,3 +1,4 @@
+
 普通のデプスシャドウとカスケードシャドウを実装した
 今はカスケードシャドウを適用中
 カスケードシャドウはまだ未完成
@@ -5,3 +6,6 @@ GameObjectとGameObjectManagerにDraw関数を追加、この関数の中でSkin
 SkinModelのUpdateWorldMatrixでシャドウキャスターを登録してるからSkinModelは絶対にこの関数を呼んでね
 バージョンが2019に変わってるけど多分問題無いと思う
 fbxとかjpgとかpngとかビルドしない設定にしてるよ
+
+↑
+ｱｲｼｬ

@@ -16,9 +16,5 @@ public:
 	void Rotation();						//エネミーが動きに合わせて回転する処理だよ。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 private:
-	/*Enemys* enemys;
-	SkinModel seModel;						//model説明不要ッ！！！！！
-	Animation s_anim;						//アニメ
-	AnimationClip s_animClip[m_AnimClipNum];//アニメクリップ*/
 };
 
