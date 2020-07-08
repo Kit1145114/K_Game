@@ -6,11 +6,21 @@ class PhysicsStaticObject;
 class Wall : public GameObject
 {
 public:
+
+	enum WallState
+	{
+		w_idle,
+		w_move,
+		m_death
+	};
+
 	Wall();
 	~Wall();
 	bool Start() override;
 	void Update() override;
 	void Draw();
+	void State();
+	void Death();
 	void SetPosition(CVector3 pos)
 	{
 		m_position = pos;
@@ -34,6 +44,8 @@ private:
 	CVector3 m_scale = CVector3::One();				//スケール。
 	CQuaternion m_rotation = CQuaternion::Identity();	//ローテーション。
 	PhysicsStaticObject m_physicsStaticObj;	//静的オブジェクト
+	WallState wallState;
 	int m_objNum = 0;
+	bool m_deathFlag = false;
 };
 
