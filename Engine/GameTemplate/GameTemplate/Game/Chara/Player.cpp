@@ -363,8 +363,8 @@ void Player::RookOnEnemys()
 	//計算して出た暫定的に一番小さい角度を記憶する変数。
 	float degreemum = M_PI * 2;
 	//範囲外。
-	float unRange = 1500.0;
-	float distance = 750.0f;
+	float unRange = 2250.0;
+	float distance = 1500.0f;
 	for (Enemys* enemys : m_enemysList)
 	{
 		if (enemys->GetisDeath())
