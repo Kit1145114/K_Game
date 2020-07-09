@@ -30,8 +30,8 @@ void GraphicsEngine::EndRender()
 	//バックバッファとフロントバッファを入れ替える。
 	m_pSwapChain->Present(2, 0);
 
-	m_backBuffer->Release();
-	m_depthStencilView->Release();
+	//m_backBuffer->Release();
+	//m_depthStencilView->Release();
 }
 void GraphicsEngine::Release()
 {
@@ -240,6 +240,8 @@ void GraphicsEngine::PostRender()
 		m_depthStencilView,
 		&m_viewPort
 	);
+
+	//m_pd3dDeviceContext->OMSetRenderTargets(1, &m_backBuffer, m_depthStencilView);
 	CMatrix mView;
 	CMatrix mProj;
 	mView.MakeLookAt(

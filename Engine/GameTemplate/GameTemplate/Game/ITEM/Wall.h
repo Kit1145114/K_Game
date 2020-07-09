@@ -33,6 +33,10 @@ public:
 	{
 		m_objNum = num;
 	}
+	void SetMoveflag(bool flag)
+	{
+		m_moveFlag = flag;
+	}
 	int GetObjData()
 	{
 		return m_objNum;
@@ -46,6 +50,7 @@ private:
 	PhysicsStaticObject m_physicsStaticObj;	//静的オブジェクト
 	WallState wallState;
 	int m_objNum = 0;
+	bool m_moveFlag = false;
 	bool m_deathFlag = false;
 };
 
