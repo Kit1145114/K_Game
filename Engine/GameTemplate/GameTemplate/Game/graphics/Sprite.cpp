@@ -65,6 +65,29 @@ void Sprite::Init(const wchar_t*textureFilePath, float w, float h)
 	InitRasterizerState();
 }
 
+void Sprite::Init(ID3D11ShaderResourceView* srv)
+{
+	m_size.x = 1280.0f;
+	m_size.y = 720.0f;
+	m_texture = srv;
+	//シェーダーをロード。
+	LoadShader();
+	//頂点バッファを作成。
+	CreateVertexBuffer(m_size.x, m_size.y);
+	//インデックスバッファを作成。
+	CreateIndexBuffer();
+	//定数バッファを作成。
+	CreateConstantBuffer();
+	//サンプラステートを作成。
+	CreateSamplerState();
+	//深度ステンシル生成
+	InitDepthStencil();
+	//αブレンドステート生成
+	InitAphaBlendState();
+	//ラスタライザステート生成
+	InitRasterizerState();
+}
+
 void Sprite::LoadShader()
 {
 	//シェーダーをロードする。

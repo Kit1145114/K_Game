@@ -3,6 +3,8 @@
 #include "RenderTarget.h"
 #include "shadow/ShadowMap.h"
 #include "shadow\CascadeShadowMap.h"
+#include "Sprite.h"
+#include "graphics/postEffect/PostEffect.h"
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -161,6 +163,19 @@ void GraphicsEngine::Init(HWND hWnd)
 	m_shadowMap = new ShadowMap();
 	m_cascadeShadowMap = new CascadeShadowMap();
 
+	m_mainRenderTarget = new RenderTarget();
+	//メインとなるレンダリングターゲットを作成する。
+	m_mainRenderTarget->Create(
+		FRAME_BUFFER_W,
+		FRAME_BUFFER_H,
+		DXGI_FORMAT_R16G16B16A16_FLOAT
+	);
+	m_copyMainRtToFrameBufferSprite = new Sprite();
+	m_copyMainRtToFrameBufferSprite->Init(m_mainRenderTarget->GetRenderTargetSRV());
+
+	m_postEffect = new PostEffect();
+	m_postEffect->InitFullScreenQuadPrimitive();
+
 }
 void GraphicsEngine::ChangeRenderTarget(RenderTarget* renderTarget, D3D11_VIEWPORT* viewport)
 {
@@ -183,6 +198,21 @@ void GraphicsEngine::ChangeRenderTarget(ID3D11RenderTargetView* renderTarget, ID
 	}
 }
 
+void GraphicsEngine::ChangeMainRenderTarget()
+{
+	//ChangeRenderTarget(&m_mainRenderTarget, &m_frameBufferViewports);
+
+	ID3D11RenderTargetView* rt[] = {
+		m_mainRenderTarget->GetRenderTargetView()
+	};
+	m_pd3dDeviceContext->OMSetRenderTargets(1, rt, m_mainRenderTarget->GetDepthStensilView());
+	//m_pd3dDeviceContext->RSSetViewports(1, m_mainRenderTarget.GetViewport());
+	m_pd3dDeviceContext->RSSetViewports(1, &m_viewPort);
+	//メインレンダリングターゲットをクリアする。
+	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	m_mainRenderTarget->ClearRenderTarget(clearColor);
+}
+
 void GraphicsEngine::RenderToShadowMap()
 {
 	//m_shadowMap->RenderToShadowMap();
@@ -197,4 +227,27 @@ void GraphicsEngine::RenderToShadowMap()
 	//バックバッファを灰色で塗りつぶす。
 	m_pd3dDeviceContext->ClearRenderTargetView(m_backBuffer, ClearColor);
 	m_pd3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+}
+
+void GraphicsEngine::PostRender()
+{
+	//ポストエフェクトの描画。
+	m_postEffect->Draw();
+
+	//レンダリングターゲットをフレームバッファに戻す。
+	ChangeRenderTarget(
+		m_backBuffer,
+		m_depthStencilView,
+		&m_viewPort
+	);
+	CMatrix mView;
+	CMatrix mProj;
+	mView.MakeLookAt(
+		{ 0, 0, 1 },
+		{ 0, 0, 0 },
+		{ 0,1,0 }
+	);
+	mProj.MakeOrthoProjectionMatrix(1280.0f, 720.0f, 0.10f, 100.0f);
+	m_copyMainRtToFrameBufferSprite->Update(CVector3(0.0f, 0.0f, 0.0f), { 0.0f,1.0f,0.0f,0.0f }, CVector3(1.0f,1.0f,1.0f), CVector2(0.5f,0.5f));
+	m_copyMainRtToFrameBufferSprite->Draw(mView, mProj);
 }

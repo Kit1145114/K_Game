@@ -17,7 +17,8 @@ enum EnRenderMode {
 class RenderTarget;
 class ShadowMap;
 class CascadeShadowMap;
-
+class Sprite;
+class PostEffect;
 class GraphicsEngine
 {
 public:
@@ -84,6 +85,22 @@ public:
 	/// シャドウマップを生成
 	/// </summary>
 	void RenderToShadowMap();
+	/// <summary>
+	/// レンダリングターゲットをメインに設定
+	/// </summary>
+	void ChangeMainRenderTarget();
+	/// <summary>
+	/// ポストエフェクト
+	/// </summary>
+	void PostRender();
+	/// <summary>
+	/// メインレンダリングターゲットを取得。
+	/// </summary>
+	/// <returns></returns>
+	RenderTarget* GetMainRenderTarget()
+	{
+		return m_mainRenderTarget;
+	}
 private:
 	D3D_FEATURE_LEVEL		m_featureLevel;				//Direct3D デバイスのターゲットとなる機能セット。
 	ID3D11Device*			m_pd3dDevice = NULL;		//D3D11デバイス。
@@ -102,7 +119,9 @@ private:
 	CascadeShadowMap* m_cascadeShadowMap = nullptr;
 
 	CD3D11_VIEWPORT m_viewPort;
-
+	RenderTarget*			m_mainRenderTarget;			//!<メインレンダリングターゲット。
+	Sprite* m_copyMainRtToFrameBufferSprite;
+	PostEffect* m_postEffect;
 };
 
 extern GraphicsEngine* g_graphicsEngine;			//グラフィックスエンジン

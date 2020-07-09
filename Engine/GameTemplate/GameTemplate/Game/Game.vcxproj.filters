@@ -172,6 +172,9 @@
     <ClCompile Include="CEffektEngine.cpp" />
     <ClCompile Include="graphics\shadow\ShadowMap.cpp" />
     <ClCompile Include="graphics\shadow\CascadeShadowMap.cpp" />
+    <ClCompile Include="graphics\postEffect\Bloom.cpp" />
+    <ClCompile Include="graphics\postEffect\GaussianBlur.cpp" />
+    <ClCompile Include="graphics\postEffect\PostEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -313,6 +316,9 @@
     <ClInclude Include="system\Stopwatch.h" />
     <ClInclude Include="graphics\shadow\ShadowMap.h" />
     <ClInclude Include="graphics\shadow\CascadeShadowMap.h" />
+    <ClInclude Include="graphics\postEffect\Bloom.h" />
+    <ClInclude Include="graphics\postEffect\GaussianBlur.h" />
+    <ClInclude Include="graphics\postEffect\PostEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Gmodel.fbx">

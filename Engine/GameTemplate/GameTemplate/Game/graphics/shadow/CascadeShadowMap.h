@@ -106,9 +106,23 @@ public:
 	{
 		return m_lightDir;
 	}
+	/// <summary>
+	/// 各シャドウマップの深度値を取得
+	/// </summary>
+	/// <param name="number"></param>
+	/// <returns></returns>
 	float GetFar(const int number)
 	{
 		return m_farList[number];
+	}
+	/// <summary>
+	/// 各シャドウマップのライトビューの逆行列を取得
+	/// </summary>
+	/// <param name="number"></param>
+	/// <returns></returns>
+	CMatrix& GetLightViewInv(const int number)
+	{
+		return m_lightViewMatrixInv[number];
 	}
 	static const int SHADOWMAP_NUM = 4;
 private:
@@ -119,10 +133,11 @@ private:
 	RenderTarget m_shadowMapRT[SHADOWMAP_NUM];			//シャドウマップのレンダリングターゲット
 	CMatrix m_lightVieProjMatrix[SHADOWMAP_NUM];			//各シャドウマップのビュープロジェクション行列
 	std::vector<SkinModel*> m_shadowCaters;		//シャドウキャスターのリスト
-	CVector3 m_lightDir = CVector3(-0.6396f,-0.6396f,-0.4264f);
+	CVector3 m_lightDir = CVector3(0.6396f,-0.6396f,0.4264f);
 	float m_lightHeight = 2000.0f;
 	int m_shadowMapNumber = 0;
 	float m_farList[SHADOWMAP_NUM] = {1.0f,1.0f,1.0f,1.0f};
+	CMatrix m_lightViewMatrixInv[SHADOWMAP_NUM];
 };
 
 
