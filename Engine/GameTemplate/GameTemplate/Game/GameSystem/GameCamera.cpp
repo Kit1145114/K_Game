@@ -67,8 +67,8 @@ void GameCamera::CameraRotate()
 	if (m_degreey >= 70.0f) {
 		m_degreey = 70.0f;
 	}
-	if (m_degreey <= -15.0f) {
-		m_degreey = -15.0f;
+	if (m_degreey <= 5.0f) {
+		m_degreey = 5.0f;
 	}
 	//角度をラジアン単位に直す
 	m_radianx = M_PI / 180 * m_degreexz;
@@ -104,7 +104,7 @@ void GameCamera::Hutu()
 	qRot.SetRotation(rotAxis, m_radiany);
 	qRot.Multiply(m_toPos);
 	m_toPos *= m_r;
-	m_position = m_target + m_toPos * 2.0f;
+	m_position = m_target + m_toPos;
 
 	//m_toPos *= 4;
 	//m_target -= m_toPos;

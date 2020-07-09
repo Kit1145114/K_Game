@@ -160,11 +160,10 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix,int Spec, EnRenderMo
 		//引数がポインタのポインタ、t2なので引数を2、1にしてる
 		d3dDeviceContext->PSSetShaderResources(3 + i, 1, srvArray);
 		vsCb.mLightViewProj[i] = cascadeMap->GetLightViewProjMatrix(i);
+		vsCb.mFar[i] = CVector4(cascadeMap->GetFar(i),0.0f,0.0f,0.0f);
+		vsCb.mLightViewInv[i] = cascadeMap->GetLightViewInv(i);
 	}
-	vsCb.mFar.x = cascadeMap->GetFar(0);
-	vsCb.mFar.y = cascadeMap->GetFar(1);
-	vsCb.mFar.z = cascadeMap->GetFar(2);
-	vsCb.mFar.w = cascadeMap->GetFar(3);
+	
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	//定数バッファをGPUに転送。
 	d3dDeviceContext->VSSetConstantBuffers(0, 1, &m_cb);

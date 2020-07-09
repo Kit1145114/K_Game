@@ -38,7 +38,8 @@ cbuffer VSPSCb : register(b0){
 	float4x4 mLightView;	//ライトビュー行列。
 	float4x4 mLightProj;	//ライトプロジェクション行列。
 	float4x4 mLightViewProj[NUM_CASCADES];
-	float4 mFar;
+	float4x4 mLightViewInv[NUM_CASCADES];		//ライトビューの逆行列
+	float4 mFar[NUM_CASCADES];
 	int isShadowReciever;	//シャドウレシーバーフラグ。
 	int shadowMapNumber = 0;
 };
@@ -88,7 +89,8 @@ struct PSInput{
 	float3 Tangent		: TANGENT;
 	float2 TexCoord 	: TEXCOORD0;
 	float3 worldPos		: TEXCOORD1;
-	float4 posInLVP[NUM_CASCADES]		: TEXCOORD2;	//ライトビュープロジェクション空間での座標
+	float4 posInLVP[NUM_CASCADES]	: TEXCOORD2;	//ライトビュープロジェクション空間での座標
+	float4 posInLV[NUM_CASCADES]	: TEXCOORD6;	//ライトビュー空間での座標
 };
 
 /// <summary>
@@ -127,6 +129,7 @@ PSInput VSMain( VSInputNmTxVcTangent In )
 		//ライトビュープロジェクション座標に変換
 		for (int i = 0; i < NUM_CASCADES; i++) {
 			psInput.posInLVP[i] = mul(mLightViewProj[i], pos);
+			psInput.posInLV[i] = mul(mLightViewInv[i], pos);
 		}
 	}
 	pos = mul(mView, pos);
@@ -175,6 +178,7 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 		//ライトビュープロジェクション座標に変換
 		for (int i = 0; i < NUM_CASCADES; i++) {
 			psInput.posInLVP[i] = mul(mLightViewProj[i], pos);
+			psInput.posInLV[i] = mul(mLightViewInv[i], pos);
 		}
 	}
 	psInput.Normal = normalize( mul(skinning, In.Normal) );
@@ -195,7 +199,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 	float4 albedoColor = g_albedoTexture.Sample(g_sampler, In.TexCoord);
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
-	lig += float3(3.0f, 3.0f, 3.0f);
+	lig += float3(1.5f, 1.5f, 1.5f);
 	for (int i = 0; i < 4; i++) {
 		//lig += max(0.0f, dot(In.Normal * -1.0f, dligDirection[i])) * dligColor[i];
 		//鏡面反射の光の量を計算する。
@@ -207,7 +211,6 @@ float4 PSMain( PSInput In ) : SV_Target0
 			//lig += t * dligColor[i] * specPow;
 		}
 	}
-	int count = 0;
 
 	if (isShadowReciever == 1) {
 		/*float dist = In.Position.w;
@@ -300,50 +303,45 @@ float4 PSMain( PSInput In ) : SV_Target0
 			}
 		}*/
 		for (int i = 0; i < NUM_CASCADES; i++) {
-		
-			//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
-			//プロジェクション行列をシャドウマップのUV座標に変換している
-			float2 shadowMapUV = In.posInLVP[i].xy / In.posInLVP[i].w;
-			shadowMapUV *= float2(0.5f, -0.5f);
-			shadowMapUV += 0.5f;
-			//spsOut.shadow = shadowMapUV.x;
-			//シャドウマップのUV座標範囲内かどうかを判定する。
-			if (shadowMapUV.x < 1.0f
-				&& shadowMapUV.x > 0.0f
-				&& shadowMapUV.y < 1.0f
-				&& shadowMapUV.y > 0.0f
-				) {
-				///LVP空間での深度値を計算。
-				float zInLVP = In.posInLVP[i].z / In.posInLVP[i].w;
-				float zInShadowMap;
-				//シャドウマップに書き込まれている深度値を取得。
-				if (i == 0) {
-					zInShadowMap = g_cascadeShadowMap1.Sample(g_sampler, shadowMapUV);
-				}
-				else if (i == 1) {
-					zInShadowMap = g_cascadeShadowMap2.Sample(g_sampler, shadowMapUV);
-				}
-				else if (i == 2) {
-					zInShadowMap = g_cascadeShadowMap3.Sample(g_sampler, shadowMapUV);
-				}
-				else if (i == 3) {
-					zInShadowMap = g_cascadeShadowMap4.Sample(g_sampler, shadowMapUV);
-				}
-				if (zInLVP > zInShadowMap + 0.0002f) {
-					//影が落ちているので、光を弱くする
-					lig *= 0.5f;
-					//	spsOut.shadow = zInShadowMap;
-						//spsOut.shadow = zInLVP;
-						//spsOut.shadow = psIn.pos.z / psIn.pos.w;
+			if (mFar[i].x  > In.Position.w) {
+				//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
+				//プロジェクション行列をシャドウマップのUV座標に変換している
+				float2 shadowMapUV = In.posInLVP[i].xy / In.posInLVP[i].w;
+				shadowMapUV *= float2(0.5f, -0.5f);
+				shadowMapUV += 0.5f;
+				//spsOut.shadow = shadowMapUV.x;
+				//シャドウマップのUV座標範囲内かどうかを判定する。
+				if (shadowMapUV.x < 1.0f
+					&& shadowMapUV.x > 0.0f
+					&& shadowMapUV.y < 1.0f
+					&& shadowMapUV.y > 0.0f
+					) {
+					///LVP空間での深度値を計算。
+					float zInLVP = In.posInLVP[i].z / In.posInLVP[i].w;
+					float zInShadowMap;
+					//シャドウマップに書き込まれている深度値を取得。
+					if (i == 0) {
+						zInShadowMap = g_cascadeShadowMap1.Sample(g_sampler, shadowMapUV);
+					}
+					else if (i == 1) {
+						zInShadowMap = g_cascadeShadowMap2.Sample(g_sampler, shadowMapUV);
+					}
+					else if (i == 2) {
+						zInShadowMap = g_cascadeShadowMap3.Sample(g_sampler, shadowMapUV);
+					}
+					else if (i == 3) {
+						zInShadowMap = g_cascadeShadowMap4.Sample(g_sampler, shadowMapUV);
+					}
+					if (zInLVP > zInShadowMap + 0.0001f) {
+						//影が落ちているので、光を弱くする
+						lig *= 0.5f;
+						//	spsOut.shadow = zInShadowMap;
+							//spsOut.shadow = zInLVP;
+							//spsOut.shadow = psIn.pos.z / psIn.pos.w;
+					
+					}
 					break;
 				}
-				else if (count == 0) {
-					count++;
-				}
-				else {
-					break;
-				}
-				break;
 			}
 		}
 	}

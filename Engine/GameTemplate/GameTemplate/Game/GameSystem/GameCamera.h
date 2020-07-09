@@ -56,7 +56,7 @@ private:
 	float m_sdegreexz = 0.0f;
 	float m_sdegreey = 0.0f;
 	//半径
-	const float m_r = 170.0f;
+	const float m_r = 250.0f;
 	//角度をラジアン単位(π)に直したやつ
 	double m_radianx;
 	double m_radiany;

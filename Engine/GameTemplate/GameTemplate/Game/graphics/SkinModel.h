@@ -37,6 +37,12 @@ struct SLight
 	int			hasSpec;		//スペキュラライトを当て
 };
 
+struct TectureData {
+	ID3D11ShaderResourceView* m_normalMap;
+	ID3D11ShaderResourceView* m_specMap;
+	ID3D11ShaderResourceView* m_emissionMap;
+};
+
 /*!
 *@brief	スキンモデルクラス。
 */
@@ -167,7 +173,8 @@ private:
 		CMatrix mLightView;		//todo ライトビュー行列。
 		CMatrix mLightProj;		//todo ライトプロジェクション行列。
 		CMatrix mLightViewProj[CascadeShadowMap::SHADOWMAP_NUM];	//ライトビュープロジェクション行列
-		CVector4 mFar;
+		CMatrix mLightViewInv[CascadeShadowMap::SHADOWMAP_NUM];		//ライトビューの逆行列
+	    CVector4 mFar[CascadeShadowMap::SHADOWMAP_NUM];
 		int isShadowReciever;	//todo シャドウレシーバーのフラグ。
 		int shadowMapNumber = 0;	//何番目のシャドウマップにレンダリングするか
 	};

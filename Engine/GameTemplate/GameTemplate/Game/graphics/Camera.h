@@ -139,8 +139,11 @@ public:
 	{
 		return 1280.0f / 720.0f;
 	}
-	CMatrix	m_viewMatrix2 = CMatrix::Identity();		//ビュー行列。
-	CMatrix m_projMatrix2 = CMatrix::Identity();		//プロジェクション行列。
+	CMatrix& GetViewMatrix2()
+	{
+		return m_viewMatrix2;
+	}
+	
 private:
 	CMatrix	m_viewMatrix = CMatrix::Identity();		//ビュー行列。
 	CMatrix m_projMatrix = CMatrix::Identity();		//プロジェクション行列。
@@ -156,6 +159,8 @@ private:
 	float m_viewAngle = CMath::DegToRad(60.0f);		//画角。
 	float m_far = 10000.0f;							//遠い平面までの距離。
 	float m_near = 1.0f;							//近平面までの距離。
+	CMatrix	m_viewMatrix2 = CMatrix::Identity();		//ビュー行列。
+	CMatrix m_projMatrix2 = CMatrix::Identity();		//プロジェクション行列。
 };
 
 extern Camera g_camera3D;		//!<3Dカメラ。

@@ -134,9 +134,9 @@ void CascadeShadowMap::Update()
 		m_lightDir,
 		lightCameraUpAxis
 	);*/
-
-	//CMatrix inverseViewMatrix = g_camera3D.GetViewMatrix();
-	CMatrix inverseViewMatrix = g_camera3D.m_viewMatrix2;
+	
+	//CMatrix	inverseViewMatrix = g_camera3D.GetViewMatrix();
+	CMatrix inverseViewMatrix = g_camera3D.GetViewMatrix2();
 	inverseViewMatrix.Inverse(inverseViewMatrix);
 	float nearClip = g_camera3D.GetNear();
 	float farClip = g_camera3D.GetFar();
@@ -147,12 +147,12 @@ void CascadeShadowMap::Update()
 		farClip * 12 * 0.9f,
 		0.0f
 	};*/
-	farClip = m_lightHeight * 2.5f;
+	farClip = m_lightHeight * 1.0f;
 	float shadowAreaTbl[] = {
-		m_lightHeight * 2.5f,
+		m_lightHeight * 1.0f,
+		m_lightHeight * 2.0f,
 		m_lightHeight * 4.0f,
 		m_lightHeight * 8.0f,
-		m_lightHeight * 12.0f,
 		m_lightHeight * 16.0f
 	};
 	float FOVX = g_camera3D.GetViewAngle();
@@ -234,6 +234,18 @@ void CascadeShadowMap::Update()
 			else if (pos[i].z <= -3000.0f) {
 				pos[i].z = -3000.0f;
 			}*/
+			/*if (pos[i].y >= 3000.0f) {
+				pos[i].y = 3000.0f;
+			}
+			else if (pos[i].y <= -3000.0f) {
+				pos[i].y = -3000.0f;
+			}
+			if (pos[i].x >= 3000.0f) {
+				pos[i].x = 3000.0f;
+			}
+			else if (pos[i].x <= -3000.0f) {
+				pos[i].x = -3000.0f;
+			}*/
 			//Å‘åÅ¬‚ð‹‚ß‚Ä‚¢‚­
 			vectorMin.x = min(vectorMin.x, pos[i].x);
 			vectorMax.x = max(vectorMax.x, pos[i].x);
@@ -260,7 +272,9 @@ void CascadeShadowMap::Update()
 
 		m_farList[i] = farClip * 0.8f;
 
-		nearClip = farClip * 0.5f;
+		m_lightViewMatrixInv[i].Inverse(lightViewMatrix);
+
+		nearClip = farClip * 1.0f;
 		//nearClip = farClip;
 		//farClip = shadowArea[i];
 		farClip = shadowAreaTbl[i + 1];
