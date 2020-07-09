@@ -19,6 +19,10 @@ Texture2D<float4> g_cascadeShadowMap2 : register(t4);		//todo シャドウマップ。
 Texture2D<float4> g_cascadeShadowMap3 : register(t5);		//todo シャドウマップ。
 Texture2D<float4> g_cascadeShadowMap4 : register(t6);		//todo シャドウマップ。
 
+Texture2D<float4> g_normalMap : register(t7);
+Texture2D<float4> g_specMap : register(t8);
+Texture2D<float4> g_emissionMap : register(t9);
+
 /////////////////////////////////////////////////////////////
 // SamplerState
 /////////////////////////////////////////////////////////////
@@ -43,16 +47,19 @@ cbuffer VSPSCb : register(b0){
 	int isShadowReciever;	//シャドウレシーバーフラグ。
 	int shadowMapNumber = 0;
 };
+static const int NUM_LIGHTS = 4;
 /// <summary>
 /// ライト用の定数バッファ
 /// </summary>
 cbuffer LightCb : register(b1) {
-	float3 dligDirection[4];
-	float4 dligColor[4];
-	float3 eyePos;
-	float specPow;
-	float3 ambientLight;
-	int hasSpec;
+	float4		dligDirection[NUM_LIGHTS];	//ライトの方向。
+	float4		dligColor[NUM_LIGHTS];		//ライトのカラー。
+	float3	    eyePos;			//視点の座標。
+	float		specPow;		//鏡面反射の絞り
+	float3		ambientLight;	//アンビエントライト。
+	int			isSpec;		//スペキュラライトを当て
+	int			isNormal;
+	int			isEmission;
 };
 /////////////////////////////////////////////////////////////
 //各種構造体
@@ -199,8 +206,63 @@ float4 PSMain( PSInput In ) : SV_Target0
 	float4 albedoColor = g_albedoTexture.Sample(g_sampler, In.TexCoord);
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
-	lig += float3(1.5f, 1.5f, 1.5f);
-	for (int i = 0; i < 4; i++) {
+	lig += float3(0.7f, 0.7f, 0.7f);
+
+	
+
+
+	float3 normal = 0;
+	if (isNormal == 1) {
+		//法線マップがある。
+		//法線と接ベクトルの外積を計算して、従ベクトルを計算する。
+		float3 biNormal = cross(In.Normal, In.Tangent);
+		normal = g_normalMap.Sample(g_sampler, In.TexCoord);
+		//0.0～1.0の範囲になっているタンジェントスペース法線を
+		//-1.0～1.0の範囲に変換する。
+		normal = (normal * 2.0f) - 1.0f;
+		//法線をタンジェントスペースから、ワールドスペースに変換する。
+		normal = In.Tangent * normal.x + biNormal * normal.y + In.Normal * normal.z;
+	}
+	else {
+		normal = In.Normal;
+	}
+
+	for (int i = 0; i < NUM_LIGHTS; i++) {
+		//実習　鏡面反射を計算しなさい。
+				//①　反射ベクトルRを求める。
+		float3 R = dligDirection[i].xyz
+			+ 2 * dot(In.Normal, -dligDirection[i].xyz)
+			* In.Normal;
+		//②　視点からライトを当てる物体に伸びるベクトルEを求める。
+		float3 E = normalize(In.worldPos - eyePos);
+		//①と②で求まったベクトルの内積を計算する。
+		//スペキュラ反射の強さを求める。
+		float specPower = max(0, dot(R, -E));
+		float spec;
+		if (isSpec == 1) {
+			//スペキュラマップがある。
+			spec = g_specMap.Sample(g_sampler, In.TexCoord).r;
+
+			float3 specLig = pow(specPower, 2.0f) * dligColor[i].xyz * spec * 10.0f;
+			//⑤ スペキュラ反射が求まったら、ligに加算する。
+			//鏡面反射を反射光に加算する。
+			lig += specLig;
+		}
+		else {
+			specPower = pow(specPower, specPow);
+			//lig += dligColor[i].xyz * specPower;
+		}
+
+		//拡散反射
+		lig += max(0.0f, dot(In.Normal * -1.0f, dligDirection[i].xyz)) * dligColor[i].xyz;
+	}
+	//エミッション
+	if (isEmission == 1) {
+		float emission = g_emissionMap.Sample(g_sampler, In.TexCoord);
+		lig += float3(1.0f, 1.0f, 1.0f) * emission;
+	}
+	
+	/*for (int i = 0; i < 4; i++) {
 		//lig += max(0.0f, dot(In.Normal * -1.0f, dligDirection[i])) * dligColor[i];
 		//鏡面反射の光の量を計算する。
 		if (hasSpec == 1) {
@@ -210,7 +272,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 			t = pow(t, 4.0f);
 			//lig += t * dligColor[i] * specPow;
 		}
-	}
+	}*/
 
 	if (isShadowReciever == 1) {
 		/*float dist = In.Position.w;
@@ -332,7 +394,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 					else if (i == 3) {
 						zInShadowMap = g_cascadeShadowMap4.Sample(g_sampler, shadowMapUV);
 					}
-					if (zInLVP > zInShadowMap + 0.0001f) {
+					if (zInLVP > zInShadowMap + 0.0001f * (4 - i)) {
 						//影が落ちているので、光を弱くする
 						lig *= 0.5f;
 						//	spsOut.shadow = zInShadowMap;

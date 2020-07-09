@@ -133,7 +133,7 @@ private:
 	RenderTarget m_shadowMapRT[SHADOWMAP_NUM];			//シャドウマップのレンダリングターゲット
 	CMatrix m_lightVieProjMatrix[SHADOWMAP_NUM];			//各シャドウマップのビュープロジェクション行列
 	std::vector<SkinModel*> m_shadowCaters;		//シャドウキャスターのリスト
-	CVector3 m_lightDir = CVector3(-0.6396f,-0.6396f,-0.4264f);
+	CVector3 m_lightDir = CVector3(0.6396f,-0.6396f,0.4264f);
 	float m_lightHeight = 2000.0f;
 	int m_shadowMapNumber = 0;
 	float m_farList[SHADOWMAP_NUM] = {1.0f,1.0f,1.0f,1.0f};

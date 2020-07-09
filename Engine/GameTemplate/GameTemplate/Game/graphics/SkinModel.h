@@ -20,27 +20,22 @@ enum EnFbxUpAxis {
 
 const int NUM_DIRECTION_LIG = 4;	//ディレクションライト(値変更不可)
 
-/// <summary>
-/// ディレクションライト。
-/// </summary>
-struct DirectionLight
-{
-	CVector4 direction[NUM_DIRECTION_LIG];	//ライトの方向。
-	CVector4 color[NUM_DIRECTION_LIG];		//ライトのカラー。
-};
 struct SLight
 {
-	DirectionLight m_dirLight;
+	CVector4	direction[4];	//ライトの方向。
+	CVector4	color[4];		//ライトのカラー。
 	CVector3	eyePos;			//視点の座標。
 	float		specPow;		//鏡面反射の絞り
 	CVector3	ambientLight;	//アンビエントライト。
-	int			hasSpec;		//スペキュラライトを当て
+	int			isSpec;		//スペキュラライトを当て
+	int			isNormal;
+	int			isEmission;
 };
 
-struct TectureData {
-	ID3D11ShaderResourceView* m_normalMap;
-	ID3D11ShaderResourceView* m_specMap;
-	ID3D11ShaderResourceView* m_emissionMap;
+struct TextureData {
+	const wchar_t* normalFilePath = nullptr;
+	const wchar_t* specFilePath = nullptr;
+	const wchar_t* emissionFilePath = nullptr;
 };
 
 /*!
@@ -62,6 +57,12 @@ public:
 	*@param[in] enFbxUpAxis		fbxの上軸。デフォルトはenFbxUpAxisZ。
 	*/
 	void Init(const wchar_t* filePath, EnFbxUpAxis enFbxUpAxis = enFbxUpAxisZ);
+
+	/// <summary>
+	/// 色んなテクスチャーの初期化
+	/// </summary>
+	/// <param name="textureData"></param>
+	void InitTexture(TextureData* textureData);
 	/*!
 	*@brief	モデルをワールド座標系に変換するためのワールド行列を更新する。
 	*@param[in]	position	モデルの座標。
@@ -126,6 +127,9 @@ public:
 	enum EnSkinModelSRVReg {
 		enSkinModelSRVReg_DiffuseTexture = 0,		//!<ディフューズテクスチャ。
 		enSkinModelSRVReg_BoneMatrix,				//!<ボーン行列。
+		enSkinModelSRVReg_NormalTexture = 7,
+		enSkinModelSRVReg_SpecTexture = 8,
+		enSkinModelSRVReg_EmissionTexture = 9,
 	};
 	//アニメーションイベント
 	void AddAnimationEventListener(std::function<void(const wchar_t* clipName, const wchar_t* eventName)> eventListener)
@@ -164,6 +168,7 @@ private:
 	void InitSkeleton(const wchar_t* filePath);
 	//ディレクションライトの初期化。
 	void InitDirectionLight();
+	void SetTexture();
 private:
 	//定数バッファ。
 	struct SVSConstantBuffer {
@@ -193,5 +198,8 @@ private:
 	CQuaternion			m_rotation = CQuaternion::Identity();//回転
 	bool m_isShadowReciver = true;		//シャドウレシーバー
 	bool m_isShadowCaster = true;		//シャドウキャスター
+	ID3D11ShaderResourceView* m_normalMap = nullptr;
+	ID3D11ShaderResourceView* m_specMap = nullptr;
+	ID3D11ShaderResourceView* m_emissionMap = nullptr;
 };
 

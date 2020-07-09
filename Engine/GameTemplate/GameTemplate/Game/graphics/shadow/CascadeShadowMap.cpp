@@ -270,7 +270,7 @@ void CascadeShadowMap::Update()
 		//ライトビュープロジェクション行列を求めていくぅ～
 		m_lightVieProjMatrix[i].Mul(lightViewMatrix ,projMatrix);
 
-		m_farList[i] = farClip * 0.8f;
+		m_farList[i] = farClip * 0.7f;
 
 		m_lightViewMatrixInv[i].Inverse(lightViewMatrix);
 
