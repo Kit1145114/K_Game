@@ -5,12 +5,16 @@
 
 CascadeShadowMap::CascadeShadowMap()
 {
-	int w = 4096;
-	int h = 4096;
+	static float resTbl[SHADOWMAP_NUM][2] = {
+		{4096, 4096},
+		{2048, 2048},
+		{1024, 1024},
+		{512, 512},
+	};
 	for (int i = 0; i < SHADOWMAP_NUM; i++) {
 		m_shadowMapRT[i].Create(
-			w,
-			h,
+			resTbl[i][0],
+			resTbl[i][1],
 			DXGI_FORMAT_R32_FLOAT
 		);
 	}
@@ -73,8 +77,10 @@ void CascadeShadowMap::UpdateFromLightTaraget(const CVector3& lightCameraPos,con
 
 void CascadeShadowMap::Update()
 {
+	
 	//ライトの方向によって、ライトカメラの上方向を決める
 	CVector3 lightCameraUpAxis;
+
 	if (fabsf(m_lightDir.y) > 0.999998f) {
 		//ほぼ真上or真下を向いているので、1,0,0を上方向とする
 		lightCameraUpAxis = CVector3::AxisX();
@@ -135,8 +141,8 @@ void CascadeShadowMap::Update()
 		lightCameraUpAxis
 	);*/
 	
-	//CMatrix	inverseViewMatrix = g_camera3D.GetViewMatrix();
-	CMatrix inverseViewMatrix = g_camera3D.GetViewMatrix2();
+	CMatrix	inverseViewMatrix = g_camera3D.GetViewMatrix();
+	//CMatrix inverseViewMatrix = g_camera3D.GetViewMatrix2();
 	inverseViewMatrix.Inverse(inverseViewMatrix);
 	float nearClip = g_camera3D.GetNear();
 	float farClip = g_camera3D.GetFar();
@@ -151,15 +157,16 @@ void CascadeShadowMap::Update()
 	float shadowAreaTbl[] = {
 		m_lightHeight * 1.0f,
 		m_lightHeight * 2.0f,
+		m_lightHeight * 3.0f,
 		m_lightHeight * 4.0f,
-		m_lightHeight * 8.0f,
-		m_lightHeight * 16.0f
+		m_lightHeight * 5.0f
 	};
-	float FOVX = g_camera3D.GetViewAngle();
-	float FOVY = FOVX / g_camera3D.GetAspect();
+	float FOVY = g_camera3D.GetViewAngle(); 
+	float FOVX = FOVY * g_camera3D.GetAspect();;
+	
 
 	//float lightHeight = g_camera3D.GetTarget().y + m_lightHeight;
-
+	CVector3 centerPosTmp = { 0.0f, 0.0f, ( nearClip + farClip) * 0.5f };
 	for (int i = 0; i < SHADOWMAP_NUM; i++) {
 		//視錘台の8つの頂点を求める
 		//xとy成分の最大最小を求める
@@ -172,7 +179,7 @@ void CascadeShadowMap::Update()
 		CVector3 pos[8];
 		pos[0] = CVector3(x1, y1, nearClip);
 		pos[1] = CVector3(-x1, y1, nearClip);
-		pos[2] = CVector3(x1, -y1, nearClip);
+		pos[2] = CVector3(x1,  -y1, nearClip);
 		pos[3] = CVector3(-x1, -y1, nearClip);
 
 		//遠平面の4つの頂点を求める
@@ -181,17 +188,25 @@ void CascadeShadowMap::Update()
 		pos[6] = CVector3(x2, -y2, farClip);
 		pos[7] = CVector3(-x2, -y2, farClip);
 
+		
+
 		CVector3 posSum = CVector3::Zero();
 		for (int i = 0; i < 8; i++) {
 			//カメラの逆ビュー行列をかけて、カメラビュー座標をワールド座標に変換する
 			inverseViewMatrix.Mul(pos[i]);
 			posSum.Add(pos[i]);
-			/*if (pos[i].y <= -2000.0f) {
-				pos[i].y = -2000.0f;
+			/*if (pos[i].y <= g_camera3D.GetTarget().y - 2000.0f) {
+				pos[i].y = g_camera3D.GetTarget().y - 2000.0f;
  			}
-			else if (pos[i].y >= 2000.0f) {
-				pos[i].y = 2000.0f;
- 			}*/
+			else if (pos[i].y >= g_camera3D.GetTarget().y + 2000.0f) {
+				pos[i].y = g_camera3D.GetTarget().y + 2000.0f;
+ 			}
+			if (pos[i].x <= g_camera3D.GetTarget().x - 2000.0f) {
+				pos[i].x = g_camera3D.GetTarget().x - 2000.0f;
+			}
+			else if (pos[i].x >= g_camera3D.GetTarget().x + 2000.0f) {
+				pos[i].x = g_camera3D.GetTarget().x + 2000.0f;
+			}*/
 			/*if (pos[i].y >= 5000.0f) {
 				pos[i].y = 5000.0f;
 			}
@@ -206,13 +221,18 @@ void CascadeShadowMap::Update()
 			}*/
 		}
 
+		inverseViewMatrix.Mul(centerPosTmp);
 		//中央の座標を求めていく
 		CVector3 centerPos = posSum / 8;
 
 		//視推台の中央の座標とライトの高さを元にライトの座標を決めていく
-		float scaler = (m_lightHeight - centerPos.y) / m_lightDir.y;
-		CVector3 lightPos = centerPos + m_lightDir * scaler;
-
+		//ライトのY座標は4000.0にする。
+		CVector3 topPos = centerPos;
+		topPos.x = 0.0f;
+		topPos.y = 8000.0f - centerPos.y;
+		topPos.z = 0.0f;
+		float s = m_lightDir.Dot(topPos);
+		CVector3 lightPos = centerPos + m_lightDir * s;
 		CMatrix lightViewMatrix = lightViewRot;
 		//ライトの座標を代入して、ライトビュー行列完成
 		lightViewMatrix.m[3][0] = lightPos.x;
@@ -227,25 +247,6 @@ void CascadeShadowMap::Update()
 		for (int i = 0; i < 8; i++) {
 			//ライトビュー行列をかけて、ワールド座標をライトカメラビュー座標に変換する
 			lightViewMatrix.Mul(pos[i]);
-		
-			/*if (pos[i].z >= 3000.0f) {
-				pos[i].z = 3000.0f;
-			}
-			else if (pos[i].z <= -3000.0f) {
-				pos[i].z = -3000.0f;
-			}*/
-			/*if (pos[i].y >= 3000.0f) {
-				pos[i].y = 3000.0f;
-			}
-			else if (pos[i].y <= -3000.0f) {
-				pos[i].y = -3000.0f;
-			}
-			if (pos[i].x >= 3000.0f) {
-				pos[i].x = 3000.0f;
-			}
-			else if (pos[i].x <= -3000.0f) {
-				pos[i].x = -3000.0f;
-			}*/
 			//最大最小を求めていく
 			vectorMin.x = min(vectorMin.x, pos[i].x);
 			vectorMax.x = max(vectorMax.x, pos[i].x);
@@ -263,18 +264,18 @@ void CascadeShadowMap::Update()
 		projMatrix.MakeOrthoProjectionMatrix(
 			w,
 			h,
-			vectorMax.z / 1000.0f,
+			0.1f,
 			vectorMax.z
 		);
 
 		//ライトビュープロジェクション行列を求めていくぅ～
 		m_lightVieProjMatrix[i].Mul(lightViewMatrix ,projMatrix);
 
-		m_farList[i] = farClip * 0.7f;
+		m_farList[i] = farClip;
 
 		m_lightViewMatrixInv[i].Inverse(lightViewMatrix);
 
-		nearClip = farClip * 1.0f;
+		nearClip = farClip;
 		//nearClip = farClip;
 		//farClip = shadowArea[i];
 		farClip = shadowAreaTbl[i + 1];

@@ -184,9 +184,10 @@ void ModelMesh::PrepareForRendering(
     // Set the rasterizer state.
     if (wireframe)
         deviceContext->RSSetState(states.Wireframe());
-    else
-        deviceContext->RSSetState(ccw ? states.CullCounterClockwise() : states.CullClockwise());
-		
+    else {
+        deviceContext->RSSetState(states.CullNone());
+     //   deviceContext->RSSetState(ccw ? states.CullCounterClockwise() : states.CullClockwise());
+    }
     // Set sampler state.
     ID3D11SamplerState* samplers[] =
     {
