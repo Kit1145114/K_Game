@@ -41,8 +41,8 @@ void ShadowMap::UpdateFromLightDirection(const CVector3& lightCameraPos,const CV
 	//ライトプロジェクション行列を作成する。
 	//太陽光からの影を落としたいなら、平行投影行列を作成する。
 	m_lightProjMatrix.MakeOrthoProjectionMatrix(
-		3000,
-		3000,
+		10000,
+		10000,
 		10.0f,
 		10000.0f
 	);

@@ -172,7 +172,7 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 	m_skeleton.Update(m_worldMatrix);
 
 	if (m_isShadowCaster) {
-		//g_graphicsEngine->GetShadowMap()->RegistShadowCaster(this);
+		g_graphicsEngine->GetShadowMap()->RegistShadowCaster(this);
 		g_graphicsEngine->GetCascadeShadowMap()->RegistShadowCaster(this);
 	}
 	
@@ -180,6 +180,7 @@ void SkinModel::UpdateWorldMatrix(CVector3 position, CQuaternion rotation, CVect
 void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix,int Spec, EnRenderMode enRenderMode)
 {
 	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
+	
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 	auto shadowMap = g_graphicsEngine->GetShadowMap();
 	auto cascadeMap = g_graphicsEngine->GetCascadeShadowMap();
