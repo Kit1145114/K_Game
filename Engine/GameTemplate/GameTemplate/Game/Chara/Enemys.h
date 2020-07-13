@@ -64,7 +64,7 @@ public:
 		bsDeath,		//You Are Dead。
 		bsSmallAttack,	//弱攻撃。
 		bsBigAttack,	//強攻撃。
-		bsHitMe		//攻撃を受けた
+		bsHitMe,		//攻撃を受けた
 	};
 	/// <summary>
 	/// エネミーに場所を渡す。
@@ -143,11 +143,11 @@ protected:
 	int m_SPD = 0;
 	int m_objNum = 0;
 	//エネミーのスピード
-	float walkingDistance = 450.0f;						//歩行距離内。
+	float walkingDistance = 300.0f;						//歩行距離内。
 	float flyDistance = 500.0f;							//飛行距離内
 	float m_angle = 0.0f;
-	float m_enemytrack = 1000.0f;						//追いかける範囲。
-	float attackDistance = 110.0f;						//範囲内で攻撃するための変数
+	float m_enemytrack = 1250.0f;						//追いかける範囲。
+	float attackDistance = 200.0f;						//範囲内で攻撃するための変数
 	float m_Kyori = 500.0f;
 	float m_timer = 0.0f;								//タイマー。
 	bool isDeath = false;								//エネミーが死んだかどうか。

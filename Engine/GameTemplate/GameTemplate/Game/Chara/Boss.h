@@ -10,6 +10,11 @@ public:
 		SmallATK,							//弱攻撃。
 		BigATK								//強攻撃。
 	};
+	enum BossFear
+	{
+		NO,								//よろける。
+		YES								//よろけない。
+	};
 	void Attack();							//攻撃
 	void AttackRange();						//攻撃できるかの処理。
 	void Damage(int Damage);				//DAMAGE
@@ -20,9 +25,15 @@ public:
 	void EMove();							//エネミーが動く処理だよ。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 	void HitMe();							//ダメージを受けるｚ....
+	void Fear();							//よろけるかよろけないか。
 private:
 	BossAnimState boss_State;				//ボスのステート。
 	BossMode Mode;							//ボスの攻撃用のステート。
-	float track = 1500.0f;					//追いかけるための変数
+	BossFear bossFear;						//ボスがひるむかのステート
+	int m_hitAttack = 0;					//攻撃を受けた回数。
+	int m_maxHitAttack = 0;					//怯む時に使用。
+	float track = 4500.0f;					//追いかけるための変数
+	float m_waitTime = 0.0f;				//攻撃後の待機時間
+	bool fearAdd_flag = true;				//フラグ
 };
 

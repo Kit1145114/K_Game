@@ -49,7 +49,9 @@ public:
 	void Update();					//ゲームのアップデート関数。
 	void FirstStageUpdate();		//最初のステージで行うアップデート。
 	void BossStageUpdate();			//ボスのステージで行うアップでーろ。
-	void Walldelete();			//壁の処理
+	void Walldelete();				//壁の処理
+	void GameScene();				//ゲームオーバー等の処理。
+	void PlayerBarUpdate();			//プレイヤーの体力、ブーストのアプデ。
 	//敵とぷえいやーの距離を測る
 public:
 	void SetStage(int n)

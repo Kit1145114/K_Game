@@ -29,7 +29,9 @@ public:
 		*/
 	void CreateMeshObject(SkinModel& skinModel, CVector3 pos, CQuaternion rot);
 	
+	void RemoveRigidBoby();
 private:
 	MeshCollider m_meshCollider;		//!<メッシュコライダー。
 	RigidBody m_rigidBody;				//!<剛体。
+	bool m_isRemoveRigidBody = false;
 };

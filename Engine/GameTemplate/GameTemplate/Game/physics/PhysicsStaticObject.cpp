@@ -29,3 +29,11 @@ void PhysicsStaticObject::CreateMeshObject(SkinModel& skinModel, CVector3 pos, C
 	//„‘Ì‚ğ•¨—ƒ[ƒ‹ƒh‚É’Ç‰Á‚·‚éB
 	g_physics.AddRigidBody(m_rigidBody);
 }
+
+void PhysicsStaticObject::RemoveRigidBoby()
+{
+	if (m_isRemoveRigidBody == false) {
+		g_physics.RemoveRigidBody(m_rigidBody);
+		m_isRemoveRigidBody = true;
+	}
+}

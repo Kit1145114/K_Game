@@ -33,20 +33,21 @@ Boss::Boss()
 	});
 	//フラグをtrueへ
 	//パラメーター
-	prm.HP = 100;										//HP
+	prm.HP = 150;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
-	prm.ATK = 30;										//攻撃力
+	prm.ATK = 60;										//攻撃力
 	prm.DEF = 80;										//防御力
-	prm.SPD = 350;										//速さ。
+	prm.SPD = 700;										//速さ。
 	m_scale = { 1.5f,1.5f,1.5f };						//エネミーの大きさ
 	m_charaCon.Init(100.0f, 600.0f,m_position, enCollisionAttr_Enemy);			//判定の大きさ
 	boss_State = bsIdle;								//最初なので待機。
 	Mode = SmallATK;									//何攻撃をするか。
+	bossFear = NO;
+	m_maxHitAttack = 1;									//ひるむ回数。
 }
 //敵の更新内容。
 void Boss::Update()
 {
-	//Enemys::Draw();
 	Enemys::VectorAcquisition();
 	HitMe();
 	EnemyState();
@@ -102,6 +103,11 @@ void Boss::EMove()
 void Boss::Damage(int Dam)
 {
 	prm.HP -= (Dam - prm.DEF);
+	//もし、HPが0以下なら死亡処理。
+	if (prm.HP <= 0)
+	{
+		boss_State = bsDeath;
+	}
 }
 //プレイヤーの見つける処理。
 void Boss::Search()
@@ -110,7 +116,7 @@ void Boss::Search()
 	//体力MAX時
 	if (prm.HP == m_MaxHP) {
 		//範囲外かつ視野角外なら
-		if (m_diff.Length() >= track || fabsf(m_angle) > CMath::PI * 0.40f)
+		if (m_diff.Length() >= track || fabsf(m_angle) > CMath::PI * 0.60f)
 		{
 			boss_State = bsIdle;
 			isTracking = false;	
@@ -204,7 +210,7 @@ void Boss::EnemyState()
 		anim.Play(bsBigAttack);
 		break;
 	case Enemys::bsHitMe:
-		anim.Play(bsHitMe);
+		Fear();
 		break;
 	}
 }
@@ -222,7 +228,7 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 		else if (boss_State == bsBigAttack 
 			&& eventName)
 		{
-			prm.ATK * 2;
+			prm.ATK * 1.2f;
 			Attack();
 			Mode = SmallATK;
 			m_se[1].Play(false);
@@ -232,18 +238,39 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 //DAMAGE受けたときの...
 void Boss::HitMe()
 {
-	if (isHitMe)
+	//攻撃受けたかつひるまないとき。
+	if (isHitMe && bossFear == NO)
 	{
-		boss_State = bsHitMe;
-		//もし、HPが0以下なら死亡処理。
-		if (prm.HP <= 0.0f)
+		//怯みの回数に達したとき。
+		if (m_hitAttack == m_maxHitAttack)
 		{
-			boss_State = bsDeath;
+			bossFear = YES;
+			boss_State = bsHitMe;
 		}
-		else if (!anim.IsPlaying() && prm.HP >= 0.0f)
+		//達さなかった時、ひるんでるときに回数を増やしたくないのでフラグ縦。
+		else if (m_hitAttack < m_maxHitAttack && fearAdd_flag)
 		{
+			m_hitAttack++;
 			isHitMe = false;
-			boss_State = bsIdle;
 		}
+	}
+}
+//ひるんだ時の処理
+void Boss::Fear()
+{
+	anim.Play(bsHitMe);
+	//一度だけ処理する。
+	if (anim.IsPlaying() && fearAdd_flag)
+	{
+		m_maxHitAttack++;
+		fearAdd_flag = false;
+	}
+	else if (!anim.IsPlaying())
+	{
+		boss_State = bsIdle;
+		bossFear = NO;
+		fearAdd_flag = true;
+		m_hitAttack = ZERO;
+		isHitMe = false;
 	}
 }

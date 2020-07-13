@@ -18,5 +18,6 @@ public:
 	void AttackCoolTime();					//UŒ‚‚µ‚½Œã‚ÌŒ„‚ÌŠÔ
 private:
 	Effekseer::Handle m_playEffectHandle = 1;
+	float m_TattackDistance = 175.0f;						//”ÍˆÍ“à‚ÅUŒ‚‚·‚é‚½‚ß‚Ì•Ï”
 };
 

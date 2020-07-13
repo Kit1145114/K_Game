@@ -20,7 +20,7 @@ bool MAP::Start()
 	switch (m_stage)
 	{
 		case 0:
-		Map.Init(L"Assets/modelData/FirstMap.cmo");
+		Map.Init(L"Assets/modelData/FirstStage.cmo");
 		break;
 		case 1:
 		Map.Init(L"Assets/modelData/MAP.cmo");	//ƒ}ƒbƒv‚Ì•`‰æ

@@ -175,19 +175,19 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		//存在しているだけの敵
-		if (objData.ForwardMatchName(L"Jon") == true) {
-			//敵(一人目)のオブジェクト。
-			Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
-			int num = _wtoi(&objData.name[3]);
-			enemys->SetObjNum(num);
-			enemys->SetPosition(objData.position);
-			enemys->SetRotation(objData.rotation);
-			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysToPlayerList.push_back(enemys);
-			//フックしたのでtrueを返す。
-			return true;
-		}
+		////存在しているだけの敵
+		//if (objData.ForwardMatchName(L"Jon") == true) {
+		//	//敵(一人目)のオブジェクト。
+		//	Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
+		//	int num = _wtoi(&objData.name[3]);
+		//	enemys->SetObjNum(num);
+		//	enemys->SetPosition(objData.position);
+		//	enemys->SetRotation(objData.rotation);
+		//	//後で削除するのでリストに積んで記憶しておく。
+		//	m_enemysToPlayerList.push_back(enemys);
+		//	//フックしたのでtrueを返す。
+		//	return true;
+		//}
 		else if (objData.EqualObjectName(L"Player") == true) {
 			player = g_goMgr.NewAGO<Player>();
 			player->SetPosition(objData.position);
@@ -221,13 +221,14 @@ bool Game::FirstStage()
 		else if (objData.EqualObjectName(L"Door") == true) {
 			door = g_goMgr.NewAGO<Door>();
 			door->SetPosition(objData.position);
-			door->SetPlayer(player);
+			//door->SetPlayer(player);
 			StageChange = true;
 			//フックしたのでtrueを返す。
 			return true;
 		}
 		return true;
 	});
+	door->SetPlayer(player);
 	for (auto enemy : m_enemysToPlayerList) {
 		enemy->SetPlayer(player);
 	}
@@ -373,29 +374,18 @@ bool Game::DebugStage()
 //最初のステージで行うアップデート。
 void Game::FirstStageUpdate()
 {
-	//HPとエナジー
-	hp_bar->SetPlayerHP(player->GetPlayerHP());
-	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
+	//HPとエナジー処理
+	PlayerBarUpdate();
 	//壁を消す処理。
 	Walldelete();
-	if (door->GetChangeSta() && m_stage == First)
-	{
-		ChangeScreen* changescreen = g_goMgr.NewAGO<ChangeScreen>();
-		changescreen->SetPlayerHP(player->GetPlayerHP());
-		g_goMgr.QutavaleyaAGO(this);
-	}
-	if (player->GetIsDead())
-	{
-		GameOver* gameover = g_goMgr.NewAGO<GameOver>();
-		g_goMgr.QutavaleyaAGO(this);
-	}
-
+	//ステージ移動とオーバーの処理
+	GameScene();
 }
 //ボスのステージで行うアップデート。
 void Game::BossStageUpdate()
 {
-	hp_bar->SetPlayerHP(player->GetPlayerHP());
-	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
+	//HPとエナジー処理
+	PlayerBarUpdate();
 	bool		isLive = false;
 	for (auto enemy : m_enemysToPlayerList) {
 		if (!enemy->GetIsDead())
@@ -446,9 +436,32 @@ void Game::Walldelete()
 	for (int i = 0; i < 4; i++) {
 		if (m_enemysNum[i] == 0) {
 			if (m_wallList[i+1] != nullptr) {
-				g_goMgr.QutavaleyaAGO(m_wallList[i+1]);
+				//g_goMgr.QutavaleyaAGO(m_wallList[i+1]);
+				m_wallList[i + 1]->SetMoveflag(true);
 				m_wallList[i+1] = nullptr;
 			}
 		}
 	}
+}
+//ゲームオーバー等の処理
+void Game::GameScene()
+{
+	if (door->GetChangeSta() && m_stage == First)
+	{
+		ChangeScreen* changescreen = g_goMgr.NewAGO<ChangeScreen>();
+		changescreen->SetPlayerHP(player->GetPlayerHP());
+		g_goMgr.QutavaleyaAGO(this);
+	}
+	if (player->GetIsDead())
+	{
+		GameOver* gameover = g_goMgr.NewAGO<GameOver>();
+		g_goMgr.QutavaleyaAGO(this);
+	}
+}
+//プレイヤーの処理
+void Game::PlayerBarUpdate()
+{
+	//HPとエナジー
+	hp_bar->SetPlayerHP(player->GetPlayerHP());
+	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
 }

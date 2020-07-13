@@ -342,6 +342,7 @@
     <MeshContentTask Include="Assets\modelData\Wall.fbx" />
     <MeshContentTask Include="Assets\modelData\RobbotEnemy2.fbx" />
     <MeshContentTask Include="Assets\modelData\healitem.fbx" />
+    <MeshContentTask Include="Assets\modelData\FirstStage.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">
@@ -404,6 +405,8 @@
     <None Include="Assets\modelData\unityChan.fbx">
       <Filter>Assets\modelData</Filter>
     </None>
+    <None Include="Assets\animData\Wall_idle.tka" />
+    <None Include="Assets\animData\Wall_Move.tka" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\title1.png" />

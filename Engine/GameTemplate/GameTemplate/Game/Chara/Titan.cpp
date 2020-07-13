@@ -29,7 +29,7 @@ Titan::Titan()
 	//パラメーター
 	prm.HP = 120;										//HP
 	m_MaxHP = prm.HP;									//MAXHP;
-	prm.ATK = 20;										//攻撃力
+	prm.ATK = 55;										//攻撃力
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
 	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);			//判定の大きさ
@@ -174,7 +174,7 @@ void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 	CVector3 dis;
 	CVector3 diff;
 	if (m_player->GetIsDead() == false) {
-		if (e_state == esAttack && eventName)
+		if (e_state == esAttack && eventName && m_diff.Length() <= m_TattackDistance)
 		{
 			Attack();
 			m_se[1].Stop();
@@ -186,6 +186,10 @@ void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
 			g_effektEngine->SetPosition(m_playEffectHandle,/*m_player->GetPosition()*/dis);
 			g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2( diff.x, diff.z), 0.0f);
+			e_state = esAttackGap;
+		}
+		else if (e_state == esAttack && eventName && m_diff.Length() >= m_TattackDistance)
+		{
 			e_state = esAttackGap;
 		}
 	}
@@ -203,7 +207,7 @@ void Titan::AttackRange()
 void Titan::AttackCoolTime()
 {
 	//攻撃後、少しの間動かない系男子。
-	float Limit = 0.5f;
+	float Limit = 0.75f;
 	if (e_state == esAttackGap)
 	{
 		anim.Play(esIdle);
