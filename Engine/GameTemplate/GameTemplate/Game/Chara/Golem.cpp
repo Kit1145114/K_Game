@@ -166,13 +166,6 @@ void Golem::EnemyState()
 //アニメーションイベント
 void Golem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-	//if (m_player->GetIsDead() == false) {
-	//	if (e_state == esAttack && eventName)
-	//	{
-	//		Attack();
-	//		m_se[0].Play(false);
-	//	}
-	//}
 	if (m_player->GetIsDead() == false) {
 		CVector3 diff = m_position - m_player->GetPosition();
 		if (diff.Length() <= m_Kyori && eventName)

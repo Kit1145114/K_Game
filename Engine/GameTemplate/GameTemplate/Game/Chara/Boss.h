@@ -26,6 +26,7 @@ public:
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
 	void HitMe();							//ダメージを受けるｚ....
 	void Fear();							//よろけるかよろけないか。
+	void EnemyEffect() override;			//攻撃のエフェクト。
 private:
 	BossAnimState boss_State;				//ボスのステート。
 	BossMode Mode;							//ボスの攻撃用のステート。
@@ -35,5 +36,7 @@ private:
 	float track = 4500.0f;					//追いかけるための変数
 	float m_waitTime = 0.0f;				//攻撃後の待機時間
 	bool fearAdd_flag = true;				//フラグ
+
+	Effekseer::Handle m_playEffectHandle = 10;
 };
 

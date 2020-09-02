@@ -226,6 +226,7 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			Attack();
 			Mode = BigATK;
 			m_se[0].Play(false);
+			EnemyEffect();
 		}
 		else if (boss_State == bsBigAttack 
 			&& eventName)
@@ -234,6 +235,7 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			Attack();
 			Mode = SmallATK;
 			m_se[1].Play(false);
+			EnemyEffect();
 		}
 	}
 }
@@ -275,4 +277,17 @@ void Boss::Fear()
 		m_hitAttack = ZERO;
 		isHitMe = false;
 	}
+}
+//敵のエフェクト。
+void Boss::EnemyEffect()
+{
+	CVector3 dis;
+	CVector3 diff;
+	//エフェクトの位置を調整。
+	dis = (m_player->GetPosition() + m_position) * 0.5f;
+	diff = m_player->GetPosition() - m_position;
+	dis.y += 30.0f;
+	m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
+	g_effektEngine->SetPosition(m_playEffectHandle,/*m_player->GetPosition()*/dis);
+	g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2(diff.x, diff.z), 0.0f);
 }

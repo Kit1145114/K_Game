@@ -514,9 +514,4 @@ void Player::Angle()
 	toNearEnemyPos.Normalize();
 	m_angle = acosf(toNearEnemyPos.Dot(m_forward));
 }
-
-void Player::AttackMove()
-{
-	//m_moveSpeed += cameraForward * 10.0f;
-	//m_moveSpeed += cameraRight * 10.0f;
-}
+//プレイヤーのエフェクト処理。

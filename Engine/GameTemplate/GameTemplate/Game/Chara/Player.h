@@ -52,6 +52,7 @@ public:
 	void Track();			//エネミー探索。
 	void Energy();			//エネルギー用の関数。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
+
 	/// <summary>
 	/// プレイヤーに与えるダメージの設定。
 	/// </summary>
@@ -156,8 +157,6 @@ public:
 	void toEnemyInduction();
 	//計算しましゅ。
 	void Angle();
-	//簡易的な攻撃しながらの移動処理
-	void AttackMove();
 private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//アニメーション。
