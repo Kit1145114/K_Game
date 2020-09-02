@@ -4,7 +4,7 @@
 //グローバル定数
 
 const float gravity = 20.0f;						//重力。
-const float UpPhyGhostObjPosition = 150.0f;			//ゴーストオブジェクトの生成位置を決める。
+const float UpPhyGhostObjPosition = 200.0f;			//ゴーストオブジェクトの生成位置を決める。
 const int m_AnimClipNum = 10;						//アニメーションクリップの数指定。
 const int ENAMY_NUM = 3;							//敵を生成する数をここで決める。
 const int ZERO = 0;

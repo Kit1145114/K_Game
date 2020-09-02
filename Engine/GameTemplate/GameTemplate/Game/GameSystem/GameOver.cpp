@@ -23,11 +23,12 @@ bool GameOver::Start()
 void GameOver::Update()
 {
 	m_sprite->Update();
-	//if (g_pad[0].IsTrigger(enButtonA))
-	//{
-	//	Death();
-	//	this->SetUpdateFlag(false);
-	//}
+	Flag();
+	if (g_pad[0].IsTrigger(enButtonA))
+	{
+		Death();
+		this->SetUpdateFlag(false);
+	}
 }
 
 void GameOver::Death()
@@ -52,18 +53,16 @@ void GameOver::Flag()
 
 void GameOver::FontRender()
 {
-	//場所と色の指定。
-	if (m_continueFlag) {
-		m_font.DrawScreenPos(L"Retry", CVector2(250, -150),
-			CVector4(0.0f, 0.0f, 0.0f, 1.0f));
-	}
-	else if (!m_continueFlag)
-	{
-		m_font.DrawScreenPos(L"Exit", CVector2(-250, -150),
-			CVector4(0.0f, 0.0f, 0.0f, 1.0f)); 
-	}
-		//wchar_t text[10];
-		//swprintf_s(text, L"%d", HP);
-		//m_font.DrawScreenPos(text, CVector2(400, 40),
-		//	CVector4(0.0f, 1.0f, 0.0f, 1.0f));
+	////場所と色の指定。
+	//if (m_continueFlag) {
+	//	m_font.DrawScreenPos(L"Retry", CVector2(0, 0),
+	//		CVector4(0.0f, 0.0f, 0.0f, 1.0f));
+	//}
+	//else if (!m_continueFlag)
+	//{
+	//	m_font.DrawScreenPos(L"Exit", CVector2(0, 0),
+	//		CVector4(0.0f, 0.0f, 0.0f, 1.0f)); 
+	//}
+	m_font.DrawScreenPos(L"Retry", CVector2(0, 0),
+	CVector4(0.0f, 0.0f, 0.0f, 1.0f));
 }

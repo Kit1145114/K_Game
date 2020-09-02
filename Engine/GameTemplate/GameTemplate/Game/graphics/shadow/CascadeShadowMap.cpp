@@ -6,7 +6,6 @@
 CascadeShadowMap::CascadeShadowMap()
 {
 	static float resTbl[SHADOWMAP_NUM][2] = {
-		{4096, 4096},
 		{2048, 2048},
 		{1024, 1024},
 		{512, 512},
@@ -153,14 +152,15 @@ void CascadeShadowMap::Update()
 		farClip * 12 * 0.9f,
 		0.0f
 	};*/
-	farClip = m_lightHeight * 1.0f;
+	
 	float shadowAreaTbl[] = {
-		m_lightHeight * 1.0f,
-		m_lightHeight * 2.0f,
+		m_lightHeight * 0.5f,
+		m_lightHeight * 1.5f,
 		m_lightHeight * 3.0f,
 		m_lightHeight * 4.0f,
 		m_lightHeight * 5.0f
 	};
+	farClip = shadowAreaTbl[0];
 	float FOVY = g_camera3D.GetViewAngle(); 
 	float FOVX = FOVY * g_camera3D.GetAspect();;
 	

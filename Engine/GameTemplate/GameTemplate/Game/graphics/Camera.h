@@ -124,6 +124,10 @@ public:
 	{
 		return m_far;
 	}
+	CVector3& GetRight()
+	{
+		return m_right;
+	}
 	/// <summary>
 	/// ‰æŠp‚ğæ“¾B
 	/// </summary>

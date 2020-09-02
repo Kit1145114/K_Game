@@ -27,9 +27,9 @@ struct SLight
 	CVector3	eyePos;			//視点の座標。
 	float		specPow;		//鏡面反射の絞り
 	CVector3	ambientLight;	//アンビエントライト。
-	int			isSpec;		//スペキュラライトを当て
-	int			isNormal;
-	int			isEmission;
+	int			isSpec = 0;		//スペキュラライトを当て
+	int			isNormal = 0;
+	int			isEmission = 0;
 };
 
 struct TextureData {

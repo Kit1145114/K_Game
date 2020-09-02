@@ -28,22 +28,6 @@ void GameCamera::Update()
 		c_State = toPlayer;
 	}
 	State();
-	//CVector3 targetPos = m_player->GetPosition();	//プレイヤーのポジションを取得。
-	//targetPos.y += 100.0f;							//上から見たいので100.0f代入。
-	//CVector3 position = targetPos;					//ポジションにプレイヤーのポジションを入れる。
-	//position.z -= 400.0f;
-	////パッドの入力量でカメラを回す。
-	//float x = g_pad[0].GetRStickXF();	//X方向への移動処理。
-	//float z = g_pad[0].GetRStickYF();	//Y方向への移動処理。
-	//	//Y軸周りの回転
-	////CQuaternion qRot;
-	//m_rotate.SetRotationDeg(CVector3::AxisY(), 200.0f * x);
-	//m_rotate.SetRotationDeg(CVector3::AxisY(), 200.0f * z);
-	////後ろから見たので400.0fを代入
-	//g_camera3D.SetTarget(targetPos);				//プレイヤーのポジションをターゲットに。
-	//g_camera3D.SetPosition(position);				//カメラのポジションにpositionを
-	//g_camera3D.SetRotation(m_rotate);
-	//g_camera3D.Update();							//アップデート。
 }
 
 void GameCamera::CameraRotate()
@@ -84,10 +68,13 @@ void GameCamera::CameraRotate()
 
 void GameCamera::Hutu()
 {
-	m_target = { 0.0f,0.0f,0.0f };
-	m_target.y += 140.0f;
-
-	m_target += m_player->GetPosition();
+	//if (damage_flag) {
+		//return;
+	//}
+	if (!damage_flag) {
+		m_target = m_player->GetPosition();
+		m_target.y += 140.0f;
+	}
 	//注視点を計算する。
 	//target.y += 200.0f;
 	//Y軸周りに回転させる。
@@ -104,10 +91,9 @@ void GameCamera::Hutu()
 	qRot.SetRotation(rotAxis, m_radiany);
 	qRot.Multiply(m_toPos);
 	m_toPos *= m_r;
-	m_position = m_target + m_toPos;
-
-	//m_toPos *= 4;
-	//m_target -= m_toPos;
+	if (!damage_flag) {
+		m_position = m_target + m_toPos;
+	}
 	m_toPos *= 1.5f;
 }
 
@@ -142,9 +128,47 @@ void GameCamera::State()
 	{
 	case GameCamera::toPlayer:
 		CameraRotate();
+		PlayerDamageRot();
 		break;
 	case GameCamera::toEnemys:
 		CameraLookEnemys();
 		break;
+	}
+}
+
+void GameCamera::PlayerDamageRot()
+{
+	if (damage_flag) {
+		if (timer == 0.0f) {
+			m_right = g_camera3D.GetRight();
+		}
+		timer += GameTime().GetFrameDeltaTime();
+		//時間でざっつに変えてます。
+		if (timer < 0.05f)
+		{
+			m_target += (m_right * 10.0f);
+			m_position += (m_right * 10.0f);
+		}
+		else if (timer >=0.05f && timer <=0.10f)
+		{
+			m_target -= (m_right * 10.0f);
+			m_position -= (m_right * 10.0f);
+		}
+		else if (timer >= 0.10f && timer <= 0.15f)
+		{
+			m_target +=(m_right * 10.0f);
+			m_position += (m_right * 10.0f);
+		}
+		else if (timer >= 0.15f && timer <= 0.20f)
+		{
+			m_target -= (m_right * 10.0f);
+			m_position -= (m_right * 10.0f);
+		}
+		else if (timer > 0.20f)
+		{
+			//ここで動かなかったところに戻るので
+			timer = 0.0f;
+			damage_flag = false;
+		}
 	}
 }

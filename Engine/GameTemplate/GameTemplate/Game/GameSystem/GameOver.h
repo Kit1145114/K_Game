@@ -12,7 +12,7 @@ public:
 	void Update() override;
 	void Flag();				//フラグ関係の処理
 	void Death();				//死ぬか生きるか。
-	void FontRender();			//２Ⅾのフォント出してます。
+	void FontRender() override;	//２Ⅾのフォント出してます。
 private:
 	//2D
 	SpriteRender* m_sprite = nullptr;

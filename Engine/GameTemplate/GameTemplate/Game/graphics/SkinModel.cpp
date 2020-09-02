@@ -265,13 +265,22 @@ void SkinModel::SetTexture()
 		d3dDeviceContext->PSSetShaderResources(enSkinModelSRVReg_NormalTexture, 1, &m_normalMap);
 		m_sLight.isNormal = 1;
 	}
+	else {
+		m_sLight.isNormal = 0;
+	}
 	if (m_specMap != nullptr) {
 		d3dDeviceContext->PSSetShaderResources(enSkinModelSRVReg_SpecTexture, 1, &m_specMap);
 		m_sLight.isSpec = 1;
 	}
+	else {
+		m_sLight.isSpec = 0;
+	}
 	if (m_emissionMap != nullptr) {
 		d3dDeviceContext->PSSetShaderResources(enSkinModelSRVReg_EmissionTexture, 1, &m_emissionMap);
 		m_sLight.isEmission = 1;
+	}
+	else {
+		m_sLight.isEmission = 0;
 	}
 }
 

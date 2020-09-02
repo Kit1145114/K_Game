@@ -6,7 +6,7 @@
 ChangeScreen::ChangeScreen()
 {
 	m_sprite = g_goMgr.NewAGO<SpriteRender>();
-	m_sprite->Init(L"Assets/sprite/Change.dds", 1280, 720);
+	m_sprite->Init(L"Assets/sprite/nowroading.dds", 1280, 720);
 	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
 }
 
@@ -19,7 +19,8 @@ ChangeScreen::~ChangeScreen()
 void ChangeScreen::Update()
 {
 	m_sprite->Update();
-	if (g_pad[0].IsTrigger(enButtonA))
+	m_time += GameTime().GetFrameDeltaTime();
+	if (m_time >= m_changeTime)
 	{
 		Death();
 		this->SetUpdateFlag(false);
@@ -32,5 +33,6 @@ void ChangeScreen::Death()
 	game = g_goMgr.NewAGO<Game>();
 	game->SetStage(1);
 	game->SetPlayerHp(m_playerHp);
+	m_time = ZERO;
 	g_goMgr.QutavaleyaAGO(this);
 }

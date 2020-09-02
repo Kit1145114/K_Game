@@ -12,7 +12,7 @@ Title::~Title()
 bool Title::Start()
 {
 	m_sprite = g_goMgr.NewAGO<SpriteRender>();
-	m_sprite->Init(L"Assets/sprite/title1.dds", 1280, 720);
+	m_sprite->Init(L"Resource/sprite/title.dds", 1280, 720);
 	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
 	Stage = First;
 	//音
@@ -20,7 +20,7 @@ bool Title::Start()
 	//BGM
 	m_bgm[0].InitStreaming(L"Assets/sound/Result.wav");
 	m_bgm[0].Play(true);
-	m_bgm[0].SetVolume(0.15f);
+	m_bgm[0].SetVolume(0.30f);
 	////効果音
 	m_bgm[1].Init(L"Assets/sound/Button.wav");
 	return true;
@@ -28,6 +28,7 @@ bool Title::Start()
 //タイトル
 void Title::Update()
 {
+
 	m_sprite->Update();
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
@@ -42,6 +43,6 @@ void Title::Death()
 	//ゲーム生成。タイトル削除。
 	//ゲームだよ！！
 	Game* game = g_goMgr.NewAGO<Game>();
-	game->SetStage(0);
+	game->SetStage(m_stageNum);
 	g_goMgr.QutavaleyaAGO(this);
 }

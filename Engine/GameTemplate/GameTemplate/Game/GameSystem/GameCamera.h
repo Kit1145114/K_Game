@@ -29,6 +29,8 @@ public:
 	{
 		m_player = player;
 	}
+	//カメライェア
+	void PlayerDamageRot();
 	/// <summary>
 	/// カメラの角度変更
 	/// </summary>
@@ -37,6 +39,11 @@ public:
 	/// カメラを敵にロックする。
 	/// </summary>
 	void CameraLookEnemys();
+
+	void SetDamegeFlag(bool flag)
+	{
+		damage_flag = flag;
+	}
 private:
 	Player* m_player = nullptr;							//プレイヤークラスの初期化。
 	CVector3 m_position = CVector3::Zero();				//カメラの座標
@@ -45,7 +52,7 @@ private:
 	CVector3 m_target = CVector3::Zero();				//カメラの注視点
 	CQuaternion m_rotate = CQuaternion::Identity();		//カメラの回転。
 	CameraState c_State;								//カメラのステート。
-
+	CVector3 m_moveCamera = { 5.0f,0.0f,0.0f };
 	//カメラの座標および注視点の計算用。
 	void Hutu();
 	CVector3 m_toPos = { 0.0f, 0.0f, 0.0f };
@@ -55,9 +62,16 @@ private:
 	//回転速度
 	float m_sdegreexz = 0.0f;
 	float m_sdegreey = 0.0f;
+	//保存角度
+	float m_memorydegreexz = 0.0f;
+	float m_moveNum = 4.0f;
+	bool damage_flag = false;
+	float timer = 0.0f;
 	//半径
 	const float m_r = 250.0f;
 	//角度をラジアン単位(π)に直したやつ
 	double m_radianx;
 	double m_radiany;
+	//
+	CVector3 m_right = CVector3::Zero();
 };
