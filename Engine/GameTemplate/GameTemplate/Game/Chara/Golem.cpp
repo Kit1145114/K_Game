@@ -184,7 +184,7 @@ void Golem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 //UŒ‚‚Å‚«‚é‚©
 void Golem::AttackRange()
 {
-	attackDistance = 400.0f;
+	attackDistance = 6000.0f;
 	if (m_diff.Length() <= attackDistance && isTracking && fabsf(m_angle) < CMath::PI * 0.20f)
 	{
 		//‹——£“à‚É‹ß‚Ã‚¢‚½‚çUŒ‚B

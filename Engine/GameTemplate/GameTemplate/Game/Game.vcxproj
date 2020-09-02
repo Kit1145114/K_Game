@@ -254,69 +254,91 @@
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
-    <MeshContentTask Include="Assets\modelData\Ago.fbx">
+    <None Include="Assets\animData\PlayerCombo.tka" />
+    <None Include="Assets\animData\P_ATK.tka" />
+    <None Include="Assets\animData\RE1_accumulate.tka" />
+    <None Include="Assets\animData\RE1_beforeATK.tka" />
+    <None Include="Assets\effect\Attack.efk" />
+    <None Include="Assets\effect\hit.efk" />
+    <None Include="Assets\modelData\Ago.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\BOX.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\BOX.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Door.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\Door.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Enemy1.FBX">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\Enemy1.FBX">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Enemy2.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\Enemy2.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Enemy3.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\Enemy3.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\enemy_00.FBX">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\enemy_00.FBX">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\FirstMap.fbx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\FirstStage.fbx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Gmodel.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\FirstMap.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\healitem.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\FirstStage.fbx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\Gmodel.fbx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\healitem.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\MAP.FBX">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\MAP.FBX">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Player.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\Player.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\RobbotBoss.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\RobbotBoss.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\RobbotEnemy1.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\RobbotEnemy1.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\RobbotEnemy2.fbx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Assets\modelData\RobbotEnemy2.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
+      <FileType>Document</FileType>
+    </None>
     <None Include="Assets\animData\Wall_idle.tka" />
     <None Include="Assets\animData\Wall_Move.tka" />
     <None Include="Assets\modelData\unityChan.fbx">
@@ -326,10 +348,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
-    <MeshContentTask Include="Assets\modelData\Wall.fbx">
+    <None Include="Assets\modelData\Wall.fbx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </MeshContentTask>
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\Thethief_H.tks" />
@@ -338,22 +361,8 @@
     <None Include="Assets\animData\box_open.tka" />
     <None Include="Assets\animData\damage.tka" />
     <None Include="Assets\animData\death.tka" />
-    <None Include="Assets\animData\E2_ATK.tka" />
-    <None Include="Assets\animData\E2_Death.tka" />
-    <None Include="Assets\animData\E2_Fall.tka" />
-    <None Include="Assets\animData\E2_idle.tka" />
-    <None Include="Assets\animData\E2_Standby.tka" />
-    <None Include="Assets\animData\E2_Walk.tka" />
-    <None Include="Assets\animData\E3_ATK.tka" />
-    <None Include="Assets\animData\E3_idle.tka" />
-    <None Include="Assets\animData\E3_walk.tka" />
-    <None Include="Assets\animData\G_ATK.tka" />
-    <None Include="Assets\animData\G_idle.tka" />
-    <None Include="Assets\animData\G_walk.tka" />
     <None Include="Assets\animData\heal_rot.tka" />
     <None Include="Assets\animData\idle.tka" />
-    <None Include="Assets\animData\PlayerCombo.tka" />
-    <None Include="Assets\animData\P_ATK.tka" />
     <None Include="Assets\animData\P_FlyMove.tka" />
     <None Include="Assets\animData\P_idle.tka" />
     <None Include="Assets\animData\P_walk.tka" />
@@ -374,11 +383,7 @@
     <None Include="Assets\animData\RE2_Move.tka" />
     <None Include="Assets\animData\RE2_R_Attack.tka" />
     <None Include="Assets\effect\Boost.efk" />
-    <None Include="Assets\effect\drop.efk" />
     <None Include="Assets\effect\heal.efk" />
-    <None Include="Assets\effect\Laser.efk" />
-    <None Include="Assets\effect\laser2.efkproj" />
-    <None Include="Assets\effect\PlayerAttack.efk" />
     <None Include="Assets\effect\RobbotEnemyAttack.efk" />
     <None Include="Assets\effect\test.efk" />
     <None Include="Assets\effect\Wind.efk" />
@@ -389,87 +394,117 @@
     <None Include="Assets\modelData\enemy_00.tks" />
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\title1.png">
+    <None Include="Assets\sprite\title1.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ImageContentTask>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Assets\sound\Boost.wav" />
-    <Media Include="Assets\sound\BossAttack1.wav" />
-    <Media Include="Assets\sound\BossAttack2.wav" />
-    <Media Include="Assets\sound\BossBGM.wav" />
-    <Media Include="Assets\sound\Button.wav" />
-    <Media Include="Assets\sound\Enemy2_walk.wav" />
-    <Media Include="Assets\sound\enemy_attack_00.wav" />
-    <Media Include="Assets\sound\enemy_voice_00.wav" />
-    <Media Include="Assets\sound\fire4.wav" />
-    <Media Include="Assets\sound\FirstBGM.wav" />
-    <Media Include="Assets\sound\laserDamage.wav" />
-    <Media Include="Assets\sound\RE2_walk.wav" />
-    <Media Include="Assets\sound\Result.wav" />
-    <Media Include="Assets\sound\RE_Attack.wav" />
-    <Media Include="Assets\sound\RE_walk.wav" />
-    <Media Include="Assets\sound\swing.wav" />
-    <Media Include="Assets\sound\wind.wav" />
+    <None Include="Assets\sprite\Midori.jpg">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\Midori.jpg">
+    <None Include="Assets\sprite\glass.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ImageContentTask>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\glass.jpg">
+    <None Include="Assets\sprite\AGO.JPG">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ImageContentTask>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\AGO.JPG">
+    <None Include="Assets\sprite\Change.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ImageContentTask>
+    </None>
+    <None Include="Assets\sprite\GameClear.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\Change.png">
+    <None Include="Assets\sprite\fade.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ImageContentTask>
-    <ImageContentTask Include="Assets\sprite\GameClear.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ImageContentTask>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\fade.png">
+    <None Include="Assets\sprite\GameOver.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ImageContentTask>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\GameOver.png">
+    <ImageContentTask Include="Assets\sprite\nowroading.png" />
+    <ImageContentTask Include="Assets\sprite\title.png" />
+    <ImageContentTask Include="Assets\effect\Texture\Burst01.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ImageContentTask>
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\effect\Texture\Burst01.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Cloud01.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Flame01.png" />
-    <ImageContentTask Include="Assets\effect\Texture\LaserMain01.png" />
-    <ImageContentTask Include="Assets\effect\Texture\LaserMain02.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Particle01.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Particle02.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Particle03.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashistrong_hard.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashistrong_soft.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashi_hard.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashi_soft.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Particle04_clear_hard.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Particle04_clear_soft.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Splash01.png" />
-    <ImageContentTask Include="Assets\effect\Texture\SwordLine01.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Thunder01.png" />
-    <ImageContentTask Include="Assets\effect\Texture\Wind01.png" />
-    <ImageContentTask Include="Assets\effect\Texture\wind02.png" />
-    <Image Include="Assets\modelData\Robot_Color.tga">
+    <ImageContentTask Include="Assets\effect\Texture\Cloud01.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Flame01.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\LaserMain01.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\LaserMain02.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Particle01.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Particle02.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Particle03.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashistrong_hard.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashistrong_soft.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashi_hard.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_bokashi_soft.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_clear_hard.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Particle04_clear_soft.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Splash01.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\SwordLine01.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Thunder01.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\Wind01.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\wind02.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\emission.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <None Include="Assets\modelData\Robot_Color.tga">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </Image>
-    <ImageContentTask Include="Assets\sprite\Energy.jpg">
+    </None>
+    <None Include="Assets\sprite\Energy.jpg">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <ImageContentTask Include="Assets\effect\Texture\burst02_red.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\effect\Texture\clockHand.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ImageContentTask>
     <Image Include="Assets\sprite\GameOver.dds" />

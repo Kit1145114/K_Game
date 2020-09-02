@@ -75,7 +75,7 @@ void ITEMBox::Open()
 
 	if (!box_anim.IsPlaying())
 	{
-		//卍
+		//アニメーションが終わったらアイテム生成。
 		if (!itemDrop_flag)
 		{
 			RItem = g_goMgr.NewAGO<RecoveryITEM>();
@@ -84,6 +84,7 @@ void ITEMBox::Open()
 			itemDrop_flag = true;
 		}
 		m_timer += GameTime().GetFrameDeltaTime();
+		//時間で削除。
 		if (m_timer > m_deathTime) {
 			state = death;
 		}

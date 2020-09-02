@@ -16,6 +16,10 @@ Titan::Titan()
 	animClip[esAttack].SetLoopFlag(true);
 	animClip[esDeath].Load(L"Assets/animData/RE1_death.tka");	//死亡をロード。
 	animClip[esDeath].SetLoopFlag(false);
+	animClip[esAttackGap].Load(L"Assets/animData/RE1_accumulate.tka");	//隙の部分をロード。
+	animClip[esAttackGap].SetLoopFlag(true);
+	animClip[esStandbyAttack].Load(L"Assets/animData/RE1_beforeATK.tka");	//攻撃前のモーションをロード。
+	animClip[esStandbyAttack].SetLoopFlag(false);
 	anim.Init(
 		Model,
 		animClip,
@@ -35,7 +39,6 @@ Titan::Titan()
 	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);			//判定の大きさ
 	e_state = esIdle;									//最初なので待機。
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/RobbotEnemyAttack.efk");
-
 }
 //敵を消すときに消す。
 Titan::~Titan()
@@ -60,33 +63,35 @@ void Titan::Damage(int Damage)
 //プレイヤーの見つける処理。
 void Titan::Search()
 {
-	Enemys::ViewingAngle();
-	//体力MAX時
-	if (prm.HP == m_MaxHP && !isTrackflag) {
-		//範囲外かつ視野角外ならかつ、一度でも見つけてないとき。
-		if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
-		{
-			e_state = esIdle;
+	if (e_state != esAttack) {
+		Enemys::ViewingAngle();
+		//体力MAX時
+		if (prm.HP == m_MaxHP && !isTrackflag) {
+			//範囲外かつ視野角外ならかつ、一度でも見つけてないとき。
+			if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
+			{
+				e_state = esIdle;
+			}
+			//範囲内かつ視野角内なら
+			else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
+			{
+				Move = m_player->GetPosition() - m_position;
+				isTracking = true;
+				e_state = esTracking;
+				isTrackflag = true;
+			}
 		}
-		//範囲内かつ視野角内なら
-		else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
+		//体力がMAXじゃないとき。ひたすら追いかける。
+		else if (prm.HP < m_MaxHP || isTrackflag)
 		{
 			Move = m_player->GetPosition() - m_position;
 			isTracking = true;
-			e_state = esTracking;
 			isTrackflag = true;
+			e_state = esTracking;
 		}
+		//攻撃の範囲計算。
+		AttackRange();
 	}
-	//体力がMAXじゃないとき。ひたすら追いかける。
-	else if (prm.HP < m_MaxHP || isTrackflag)
-	{
-		Move = m_player->GetPosition() - m_position;
-		isTracking = true;
-		isTrackflag = true;
-		e_state = esTracking;
-	}
-	//攻撃の範囲計算。
-	AttackRange();
 }
 //敵の更新内容。
 void Titan::Update()
@@ -133,10 +138,10 @@ void Titan::EnemyState()
 		anim.Update(GameTime().GetFrameDeltaTime()*1.5f);
 		//Rotation();
 		anim.Play(esTracking);
+		anim.Update(GameTime().GetFrameDeltaTime());
 		break;
 		//攻撃。
 	case Enemys::esAttack:
-		Search();
 		Enemys::Rotation();
 		anim.Update(GameTime().GetFrameDeltaTime());
 		anim.Play(esAttack);
@@ -148,13 +153,24 @@ void Titan::EnemyState()
 		break;
 	case Enemys::esAttackGap:
 		AttackCoolTime();
+		anim.Update(GameTime().GetFrameDeltaTime());
+		break;
+	case Enemys::esStandbyAttack:
+		Search();
+		StandbyAttack();
+		anim.Update(GameTime().GetFrameDeltaTime());
+		break;
 	}
 }
 //エネミーが進む処理。
 void Titan::EMove()
 {
 	Move.Normalize();
-	if (e_state == esIdle || e_state == esAttack)
+	if (e_state == esTracking) {
+		m_moveSpeed = Move * prm.SPD;
+		m_se[1].Play(true);
+	}
+	else 
 	{
 		m_moveSpeed.x = 0.0f;
 		m_moveSpeed.z = 0.0f;
@@ -163,60 +179,84 @@ void Titan::EMove()
 			m_se[1].Stop();
 		}
 	}
-	else if (e_state == esTracking) {
-		m_moveSpeed = Move * prm.SPD;
-		m_se[1].Play(true);
-	}
 }
 //アニメーションイベント
 void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-	CVector3 dis;
-	CVector3 diff;
 	if (m_player->GetIsDead() == false) {
 		if (e_state == esAttack && eventName && m_diff.Length() <= m_TattackDistance)
 		{
 			Attack();
 			m_se[1].Stop();
 			m_se[0].Play(false);
-			dis = (m_player->GetPosition() + m_position) * 0.5f;
-			diff = m_player->GetPosition() - m_position;
-			dis.y += 30.0f;
-			//{ m_forward.x, 50.0f,m_forward.z };
-			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
-			g_effektEngine->SetPosition(m_playEffectHandle,/*m_player->GetPosition()*/dis);
-			g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2( diff.x, diff.z), 0.0f);
-			e_state = esAttackGap;
+			EnemyEffect();
+			e_state = esIdle;
 		}
-		else if (e_state == esAttack && eventName && m_diff.Length() >= m_TattackDistance)
+		else if (m_diff.Length() >= m_TattackDistance)
 		{
-			e_state = esAttackGap;
+			e_state = esIdle;
 		}
 	}
 }
 //攻撃できるか
 void Titan::AttackRange()
 {
-	if (m_diff.Length() <= attackDistance && isTracking && fabsf(m_angle) < CMath::PI * 0.20f)
+	if (m_diff.Length() <= m_TattackDistance && isTracking 
+		&& fabsf(m_angle) < CMath::PI * 0.20f)
 	{
 		//距離内に近づいたら攻撃。
-		e_state = esAttack;
+		e_state = esStandbyAttack;
+		//e_state = esAttackGap;
 	}
 }
 //攻撃待機
 void Titan::AttackCoolTime()
 {
-	//攻撃後、少しの間動かない系男子。
-	float Limit = 0.75f;
-	if (e_state == esAttackGap)
-	{
-		anim.Play(esIdle);
-		m_timer += GameTime().GetFrameDeltaTime();
-	}
-	//時間で戻る。
-	if (m_timer > Limit)
+	Enemys::ViewingAngle();
+	//アニメーションの再生。
+	anim.Play(esAttackGap);
+	//攻撃前、少しの間動かない系男子。
+	float m_Limit = 0.75f;
+	m_timer += GameTime().GetFrameDeltaTime();
+	//時間になったら。
+	if (anim.IsPlaying() && m_diff.Length() >= m_TattackDistance)
 	{
 		e_state = esIdle;
 		m_timer = ZERO;
 	}
+
+	if (m_timer >= m_Limit)
+	{
+		//攻撃
+		e_state = esAttack;
+		m_timer = ZERO;
+	}
+}
+//攻撃が発生する前の処理
+void Titan::StandbyAttack()
+{
+	anim.Play(esStandbyAttack);
+	//アニメーションの再生が終わったら切り替え。
+	if (!anim.IsPlaying())
+	{
+		e_state = esAttackGap;
+	}
+	if (m_diff.Length() >= m_Distance)
+	{
+	e_state = esIdle;
+	m_timer = ZERO;
+	}
+}
+//攻撃のエフェクト処理
+void Titan::EnemyEffect()
+{
+	CVector3 dis;
+	CVector3 diff;
+	//エフェクトの位置を調整。
+	dis = (m_player->GetPosition() + m_position) * 0.5f;
+	diff = m_player->GetPosition() - m_position;
+	dis.y += 30.0f;
+	m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
+	g_effektEngine->SetPosition(m_playEffectHandle,/*m_player->GetPosition()*/dis);
+	g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2(diff.x, diff.z), 0.0f);
 }

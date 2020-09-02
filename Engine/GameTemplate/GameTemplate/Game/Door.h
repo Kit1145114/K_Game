@@ -37,7 +37,7 @@ private:
 	CVector3 m_scale = CVector3::One();			//スケール。
 	CQuaternion m_rotation = CQuaternion::Identity();	//ローテーション。
 	CVector3 m_distance = CVector3::Zero();
-	float m_warpDistance = 300.0f;
+	float m_warpDistance = 125.0f;
 	bool ChangeStage = false;
 };
 

@@ -7,6 +7,7 @@ Boss::Boss()
 	m_se[0].Init(L"Assets/sound/BossAttack1.wav");
 	m_se[1].Init(L"Assets/sound/BossAttack2.wav");
 	Model.Init(L"Assets/modelData/RobbotBoss.cmo");		//モデルの呼び出し。
+	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Attack.efk");
 	//モデルのアニメーションのロード。
 	animClip[bsIdle].Load(L"Assets/animData/RB_idle.tka");	//待機をロード。
 	animClip[bsIdle].SetLoopFlag(true);
@@ -31,6 +32,7 @@ Boss::Boss()
 	{
 		OnAnimationEvent(clipName, eventName);
 	});
+	
 	//フラグをtrueへ
 	//パラメーター
 	prm.HP = 150;										//HP
@@ -38,12 +40,12 @@ Boss::Boss()
 	prm.ATK = 60;										//攻撃力
 	prm.DEF = 80;										//防御力
 	prm.SPD = 700;										//速さ。
-	m_scale = { 1.5f,1.5f,1.5f };						//エネミーの大きさ
-	m_charaCon.Init(100.0f, 600.0f,m_position, enCollisionAttr_Enemy);			//判定の大きさ
+	m_scale = { 0.7f,0.7f,0.7f };						//エネミーの大きさ
+	m_charaCon.Init(50.0f, 250.0f,m_position, enCollisionAttr_Enemy);			//判定の大きさ
 	boss_State = bsIdle;								//最初なので待機。
 	Mode = SmallATK;									//何攻撃をするか。
 	bossFear = NO;
-	m_maxHitAttack = 1;									//ひるむ回数。
+	m_maxHitAttack = 0;									//ひるむ回数。
 }
 //敵の更新内容。
 void Boss::Update()

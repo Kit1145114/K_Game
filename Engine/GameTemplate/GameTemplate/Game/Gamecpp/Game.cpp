@@ -132,7 +132,7 @@ bool Game::FirstStage()
 	//BGM
 	m_bgm.Init(L"Assets/sound/FirstBGM.wav");
 	m_bgm.Play(true);
-	m_bgm.SetVolume(0.00f);
+	m_bgm.SetVolume(0.3f);
 	mapLevel.Init(L"Assets/level/FirstStage.tkl",
 		[&](LevelObjectData& objData)
 	{
@@ -175,20 +175,20 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		////存在しているだけの敵
-		//if (objData.ForwardMatchName(L"Jon") == true) {
-		//	//敵(一人目)のオブジェクト。
-		//	Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
-		//	int num = _wtoi(&objData.name[3]);
-		//	enemys->SetObjNum(num);
-		//	enemys->SetPosition(objData.position);
-		//	enemys->SetRotation(objData.rotation);
-		//	//後で削除するのでリストに積んで記憶しておく。
-		//	m_enemysToPlayerList.push_back(enemys);
-		//	//フックしたのでtrueを返す。
-		//	return true;
-		//}
-		else if (objData.EqualObjectName(L"Player") == true) {
+		//存在しているだけの敵
+		if (objData.ForwardMatchName(L"Jon") == true) {
+			//敵(一人目)のオブジェクト。
+			Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
+			int num = _wtoi(&objData.name[3]);
+			enemys->SetObjNum(num);
+			enemys->SetPosition(objData.position);
+			enemys->SetRotation(objData.rotation);
+			//後で削除するのでリストに積んで記憶しておく。
+			m_enemysToPlayerList.push_back(enemys);
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		if (objData.EqualObjectName(L"Player") == true) {
 			player = g_goMgr.NewAGO<Player>();
 			player->SetPosition(objData.position);
 			player->SetRotation(objData.rotation);
@@ -232,11 +232,13 @@ bool Game::FirstStage()
 	for (auto enemy : m_enemysToPlayerList) {
 		enemy->SetPlayer(player);
 	}
-	player->SetBox(itemBox);
-	player->SetEnemysList(m_enemysToPlayerList);
-	itemBox->SetPlayer(player);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
+	player->SetBox(itemBox);
+	player->SetEnemysList(m_enemysToPlayerList);
+	player->SetCamera(g_Camera);
+	player->SetHP(m_playerHP);
+	itemBox->SetPlayer(player);
 	hp_bar = g_goMgr.NewAGO<HPText>();
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar = g_goMgr.NewAGO<EnergyText>();
@@ -268,7 +270,7 @@ bool Game::NewBoss()
 			player = g_goMgr.NewAGO<Player>();
 			player->SetPosition(objData.position);
 			player->SetRotation(objData.rotation);
-			//player->SetEnemysList(m_enemysList);
+			player->SetHP(m_playerHP);
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -285,10 +287,11 @@ bool Game::NewBoss()
 	for (auto enemy : m_enemysToPlayerList) {
 		enemy->SetPlayer(player);
 	}
-	player->SetEnemysList(m_enemysToPlayerList);
-	player->SetHP(m_playerHP);
 	g_Camera = g_goMgr.NewAGO<GameCamera>();
 	g_Camera->SetPlayer(player);
+	player->SetBox(itemBox);
+	player->SetEnemysList(m_enemysToPlayerList);
+	player->SetCamera(g_Camera);
 	hp_bar = g_goMgr.NewAGO<HPText>();
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar = g_goMgr.NewAGO<EnergyText>();
@@ -415,7 +418,7 @@ void Game::BossStageUpdate()
 			g_goMgr.QutavaleyaAGO(this);
 		}
 	}
-	if (player->GetPlayerHP() == ZERO)
+	if (player->GetPlayerHP() <= ZERO)
 	{
 		GameOver* gameover = g_goMgr.NewAGO<GameOver>();
 		g_goMgr.QutavaleyaAGO(this);
@@ -443,7 +446,7 @@ void Game::Walldelete()
 		}
 	}
 }
-//ゲームオーバー等の処理
+//ゲーム遷移の処理
 void Game::GameScene()
 {
 	if (door->GetChangeSta() && m_stage == First)

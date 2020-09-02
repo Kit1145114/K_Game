@@ -25,7 +25,7 @@ public:
 	void ViewingAngle();		//エネミーの視野角。
 	void VectorAcquisition();	//エネミーのベクトルを取得するための関数。
 	void Rotation();			//エネミーの回転処理。
-
+	virtual void EnemyEffect() {};			//エフェクト。
 public:
 	//エネミーが死んだかどうかを返す。
 	bool GetisDeath()
@@ -147,8 +147,8 @@ protected:
 	float flyDistance = 500.0f;							//飛行距離内
 	float m_angle = 0.0f;
 	float m_enemytrack = 1250.0f;						//追いかける範囲。
-	float attackDistance = 200.0f;						//範囲内で攻撃するための変数
-	float m_Kyori = 500.0f;
+	float attackDistance = 125.0f;						//範囲内で攻撃するための変数
+	float m_Kyori = 500.0f;								
 	float m_timer = 0.0f;								//タイマー。
 	bool isDeath = false;								//エネミーが死んだかどうか。
 	bool isHitMe = false;								//攻撃受けた。

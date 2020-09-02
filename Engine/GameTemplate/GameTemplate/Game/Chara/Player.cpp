@@ -45,8 +45,12 @@ Player::Player()
 	playerState = pl_idle;
 	playerENE = ene_Full;
 	m_attackEffect[0] = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/test.efk");
-	m_attackEffect[1] = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/PlayerAttack.efk");
+	m_attackEffect[1] = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/hit.efk");
 	m_attackEffect[2] = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Boost.efk");
+
+	TextureData textureData;
+	textureData.emissionFilePath = L"Resource/sprite/emission.dds";
+	Gmodel.InitTexture(&textureData);
 }
 
 Player::~Player()
@@ -56,7 +60,6 @@ Player::~Player()
 void Player::Update()
 {
 	//プレイヤーの更新情報を下に記述。
-	//Draw();	//プレイヤーの描画を呼ぶ。
 	if (playerState != pl_Death) {
 		Energy();
 		Move();							//プレイヤーの移動を呼ぶ。
@@ -87,7 +90,7 @@ void Player::Render()
 {
 
 }
-
+//プレイヤーのHP表示
 void Player::FontRender()
 {
 	//場所と色の指定。
@@ -107,8 +110,8 @@ void Player::Move()
 	float lStick_x = (g_pad[0].GetLStickXF());
 	float lStick_y = (g_pad[0].GetLStickYF());
 	//カメラの前方方向と右方向を取得。
-	CVector3 cameraForward = g_camera3D.GetForward();
-	CVector3 cameraRight = g_camera3D.GetRight();
+	cameraForward = g_camera3D.GetForward();
+	cameraRight = g_camera3D.GetRight();
 	//XZ平面での前方方向、右方向に変換する。
 	cameraForward.y = None;
 	cameraForward.Normalize();
@@ -117,11 +120,11 @@ void Player::Move()
 	//XZ成分の移動速度をクリア。
 	m_moveSpeed.x = None;
 	m_moveSpeed.z = None;
-	if (playerState != pl_Atk) {
+	if (playerState != pl_Atk ) {
 		if (g_pad[0].IsPress(enButtonX) && playerENE == ene_Full) {
 			//走る
-			m_moveSpeed += cameraForward * lStick_y * Speed * SPeed2;	//奥方向への移動速度を加算。
-			m_moveSpeed += cameraRight * lStick_x * Speed * SPeed2;		//右方向への移動速度を加算。
+			m_moveSpeed += cameraForward * lStick_y * Speed * RunSPeed;		//奥方向への移動速度を加算。
+			m_moveSpeed += cameraRight * lStick_x * Speed * RunSPeed;		//右方向への移動速度を加算。
 		}
 		else if (!g_pad[0].IsPress(enButtonX) || playerENE == ene_Charge)
 		{
@@ -131,18 +134,23 @@ void Player::Move()
 			g_effektEngine->Stop(m_playEffectHandle);
 		}
 	}
+	else if (playerState == pl_Atk)
+	{
+		m_moveSpeed.z += m_forward.z * AttackMoveSpeed;		//前後方向への移動速度を加算。
+		m_moveSpeed.x += m_forward.x * AttackMoveSpeed;		//左右方向への移動速度を加算。
+	}
 	//キャラクターコントローラーに１フレームの経過秒数、時間ベースの移動速度を渡している。
-	m_charaCon.SetPosition(m_position);		//キャラコンに座標を渡す。
+	//キャラコンに座標を渡す。
+	m_charaCon.SetPosition(m_position);	
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
-	//g_effektEngine->SetPosition(m_playEffectHandle, m_position);
 }
 //プレイヤーの回転処理
 void Player::Rotation()
 {
-	float None = 0.0f;		//マジックナンバーを防ぐ0を入れた数
-	float Rot = atan2(m_moveSpeed.x, m_moveSpeed.z);
 	CQuaternion qRot;
-	qRot.SetRotation(CVector3::AxisY(), Rot);
+	//移動した向きに回転させる。
+	m_Rot = atan2(m_moveSpeed.x, m_moveSpeed.z);
+	qRot.SetRotation(CVector3::AxisY(), m_Rot);
 	Gmodel.SetRotation(qRot);
 	//もし、動いていたら回転させる。
 	if (m_moveSpeed.x != None || m_moveSpeed.z != None)
@@ -150,7 +158,7 @@ void Player::Rotation()
 		m_rotation = qRot;
 		Gmodel.SetRotation(m_rotation);
 	}
-	if (m_moveSpeed.x == None && m_moveSpeed.z == None)
+	else if (m_moveSpeed.x == None || m_moveSpeed.z == None)
 	{
 		Gmodel.SetRotation(m_rotation);
 	}
@@ -180,12 +188,10 @@ void Player::PlayerState()
 		break;
 	case pl_Atk:	//攻撃状態。
 		ComboAttack();
-		m_moveSpeed.z = ZERO;
-		m_moveSpeed.x = ZERO;
+		toEnemyInduction();				//追従
 		break;
 	case pl_Death:	//死亡状態
 		g_anim.Play(0);
-		MessageBox(NULL, TEXT("はい雑魚乙＾＾"), TEXT("めっせ"), MB_OK);
 		StopSound(1);
 		break;
 	}
@@ -201,6 +207,7 @@ void Player::PlayerAttack()
 	}
 	else if (g_pad[0].IsTrigger(enButtonY))
 	{
+		toEnemyInduction();				//追従
 		playerState = pl_Atk;
 		m_isCombo = true;
 	}
@@ -245,22 +252,32 @@ void Player::MoveOperation()
 //アニメーションイベント
 void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 {
-	CVector3 A = m_position + (m_forward * UpPhyGhostObjPosition);
-	CVector3 e_diff;
-	A.y += UpPhyGhostObjPosition;
-	m_PhyGhostObj.CreateBox(A, m_rotation, box_scale);
+	//ゴーストオブジェクトを作る位置を決めています。
+	boxPos = m_position + (m_forward * UpPhyGhostObjPosition);
+	boxPos.y += UpPhyGhostObjPosition;
+	float m_efkPosUpY = 50.0f;
+	//アニメーションイベントが呼ばれたときにゴーストオブジェクトを生成。
+	m_PhyGhostObj.CreateBox(boxPos, m_rotation, box_scale);
 	//敵との判定
 	for (auto enemy : m_enemysList) {
+		//死亡していないとき。
 		if (!enemy->GetIsDead()) {
+			//敵のオブジェクトと、ゴーストがぶつかっているか。
 			g_physics.ContactTest(enemy->GetCharaCon(), [&](const btCollisionObject& contactObject) {
+				//ぶつかって、アニメーションイベントが呼ばれたら。
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
-					e_diff = (m_position + enemy->GetPosition()) / 2;
-						enemy->Damage(ATK);
-						enemy->SetHitMe(true);
-						m_se[0].Play(false);
-						m_playEffectHandle = g_effektEngine->Play(m_attackEffect[1]);
-						g_effektEngine->SetPosition(m_playEffectHandle,e_diff/*m_PhyGhostObj.GetPosition()enemy->GetPosition()*/);
+					//ダメージ、音。
+					enemy->Damage(ATK);
+					enemy->SetHitMe(true);
+					m_se[0].Play(false);
+					//エネミーとの間にエフェクトを発生させるために
+					//プレイヤーと敵の間を計算しています。
+					enemy_dis = enemy->GetPosition(); //= (m_position + enemy->GetPosition()) / 2;
+					enemy_dis.y += m_efkPosUpY;
+					m_playEffectHandle = g_effektEngine->Play(m_attackEffect[1]);
+					g_effektEngine->SetPosition(m_playEffectHandle,enemy_dis);
 				}
+				//素振りだった場合、別の音だけ鳴らす。
 				else if (m_PhyGhostObj.IsSelf(contactObject) == false && eventName)
 				{
 					m_se[2].Play(false);
@@ -302,6 +319,7 @@ void Player::Damage(int Damage)
 	if((Damage - DEF) >= ZERO)
 	//ダメージを食らった...。
 	HP -= (Damage - DEF);
+	g_Camera->SetDamegeFlag(true);
 	//もし、HPが0以下なら死亡処理。
 	if (HP <= 0.0f)
 	{
@@ -363,8 +381,8 @@ void Player::RookOnEnemys()
 	//計算して出た暫定的に一番小さい角度を記憶する変数。
 	float degreemum = M_PI * 2;
 	//範囲外。
-	float unRange = 2250.0;
-	float distance = 1500.0f;
+	float unRange = 3000.0;
+	float distance = 2000.0f;
 	for (Enemys* enemys : m_enemysList)
 	{
 		if (enemys->GetisDeath())
@@ -426,6 +444,7 @@ void Player::ComboAttack()
 	if (!m_ComboNow)
 	{
 		g_anim.Play(pl_Atk,0.1f);
+
 		//攻撃が終わったら。
 		if (!g_anim.IsPlaying())
 		{
@@ -447,8 +466,57 @@ void Player::ComboAttack()
 void Player::PlayerHeal(int healPoint)
 {
 	HP += healPoint;
+	//HP上限が超えないように。
 	if (HP > MaxHp)
 	{
 		HP = MaxHp;
 	}
+}
+//敵の方向に向ける処理。
+void Player::toEnemyInduction()
+{
+	float m_distance = 50.0f;
+	//リストから敵全員の位置を使います。
+	for (auto enemy : m_enemysList)
+	{
+		if (!enemy->GetIsDead()) {
+			toEnemy = enemy->GetPosition() - m_position;
+			Angle();
+		}
+		//距離内かつ角度内。
+		if (toNearEnemyPos.Length() <= m_distance
+			&& fabsf(m_angle) < CMath::PI * RookAngle)
+		{
+			//計算、代入。そしてモデルにセット。
+			PlayerRot = atan2(toNearEnemyPos.x, toNearEnemyPos.z);
+			m_rotation.SetRotation(CVector3::AxisY(), PlayerRot);
+			Gmodel.SetRotation(m_rotation);
+			isDiscoveryFlag = true;
+		}
+		else if(toNearEnemyPos.Length() >= m_distance
+			&& fabsf(m_angle) > CMath::PI* RookAngle)
+		{
+			//範囲にいないならその場所で攻撃モーション。
+			m_rotation.SetRotation(CVector3::AxisY(),m_Rot);
+			Gmodel.SetRotation(m_rotation);
+			isDiscoveryFlag = false;
+		}
+	}
+}
+//アングル。
+void Player::Angle()
+{
+	//一番近い敵のポジションを計算。
+	if (isDiscoveryFlag &&toEnemy.Length() < NearEnemys)
+	{
+		toNearEnemyPos = toEnemy;
+	}
+	toNearEnemyPos.Normalize();
+	m_angle = acosf(toNearEnemyPos.Dot(m_forward));
+}
+
+void Player::AttackMove()
+{
+	//m_moveSpeed += cameraForward * 10.0f;
+	//m_moveSpeed += cameraRight * 10.0f;
 }

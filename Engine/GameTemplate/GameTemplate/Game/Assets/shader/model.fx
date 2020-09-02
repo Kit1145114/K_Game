@@ -7,7 +7,7 @@
 // Shader Resource View
 /////////////////////////////////////////////////////////////
 /// 
-static const int NUM_CASCADES = 4;
+static const int NUM_CASCADES = 3;
 //アルベドテクスチャ。
 Texture2D<float4> g_albedoTexture : register(t0);	
 //ボーン行列
@@ -266,7 +266,7 @@ float4 PSMain( PSInput In ) : SV_Target0
 	//エミッション
 	if (isEmission == 1) {
 		float emission = g_emissionMap.Sample(g_sampler, In.TexCoord);
-		lig += float3(1.0f, 1.0f, 1.0f) * emission;
+		//lig += float3(2.0f, 2.0f, 2.0f) * emission;
 	}
 	
 	/*for (int i = 0; i < 4; i++) {
@@ -345,6 +345,11 @@ float4 PSMain( PSInput In ) : SV_Target0
 				}
 			}
 		}
+	}
+	//エミッション
+	if (isEmission == 1) {
+		float emission = g_emissionMap.Sample(g_sampler, In.TexCoord);
+		lig += float3(2.5f, 2.5f, 2.5f) * emission;
 	}
 	//lig *= 0.1f;
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);

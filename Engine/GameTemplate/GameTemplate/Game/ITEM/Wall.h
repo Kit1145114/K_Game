@@ -45,6 +45,7 @@ public:
 private:
 	SkinModel  m_wall;
 	CharacterController m_charaCon;						//キャラコン。
+	CSoundSource m_se;									//SE
 	CVector3 m_position = CVector3::Zero();				//ポジション
 	CVector3 m_scale = CVector3::One();					//スケール。
 	CQuaternion m_rotation = CQuaternion::Identity();	//ローテーション。

@@ -84,7 +84,7 @@ private:
 	int	m_stage = 0;						//進むステージ
 	int m_stagenum = 0;						//セットするステージの番号
 	int m_maxEnemys[4] = { 0 };				//グループの最大人数
-	int m_playerHP = 0;
+	int m_playerHP = 100;
 	//bool		isLive = false;
 	static Game* m_instance;		//ゲームのインスタンス。
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。

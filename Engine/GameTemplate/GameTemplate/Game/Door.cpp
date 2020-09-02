@@ -17,7 +17,6 @@ Door::~Door()
 
 void Door::Update()
 {
-	//Draw();
 	PlayerDistance();
 	Gate.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 }
@@ -34,7 +33,7 @@ void Door::Draw()
 void Door::PlayerDistance()
 {
 	m_distance = m_position - m_player->GetPosition();
-	if (m_distance.Length() < m_warpDistance && g_pad->IsTrigger(enButtonB))
+	if (m_distance.Length() < m_warpDistance /*&& g_pad->IsTrigger(enButtonB)*/)
 	{
 		ChangeStage = true;
 	}
