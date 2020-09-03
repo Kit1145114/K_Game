@@ -6,6 +6,7 @@ Boss::Boss()
 {
 	m_se[0].Init(L"Assets/sound/BossAttack1.wav");
 	m_se[1].Init(L"Assets/sound/BossAttack2.wav");
+	m_se[2].Init(L"Assets/sound/BossWalk.wav");
 	Model.Init(L"Assets/modelData/RobbotBoss.cmo");		//モデルの呼び出し。
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Attack.efk");
 	//モデルのアニメーションのロード。
@@ -95,6 +96,7 @@ void Boss::EMove()
 	}
 	else if (boss_State == bsWalkTracking) {
 		m_moveSpeed = Move * prm.SPD;
+		m_se[2].Play(true);
 	}
 	else if (boss_State == bsFlyTracking)
 	{
@@ -184,6 +186,7 @@ void Boss::EnemyState()
 		EMove();
 		Enemys::Rotation();
 		anim.Play(bsIdle);
+		m_se[2].Stop();
 		break;
 	case Enemys::bsWalkTracking:
 		Search();
@@ -196,14 +199,17 @@ void Boss::EnemyState()
 		EMove();
 		Enemys::Rotation();
 		anim.Play(bsFlyTracking);
+		m_se[2].Stop();
 	case Enemys::bsDeath:
 		Death();
+		m_se[2].Stop();
 		break;
 	case Enemys::bsSmallAttack:
 		Search();
 		EMove();
 		Enemys::Rotation();
 		anim.Play(bsSmallAttack);
+		m_se[2].Stop();
 		break;
 	case Enemys::bsBigAttack:
 		Search();
@@ -213,6 +219,7 @@ void Boss::EnemyState()
 		break;
 	case Enemys::bsHitMe:
 		Fear();
+		m_se[2].Stop();
 		break;
 	}
 }

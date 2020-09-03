@@ -5,7 +5,7 @@
 #include "graphics/Shader.h"
 #include"animation/Animation.h"
 #include"animation/AnimationClip.h"
-#include"GameObjectManajer.h"
+#include"Game/GameObjectManajer.h"
 #include"c3dmodel/C3DModelEffect.h"
 #include "shadow\CascadeShadowMap.h"
 

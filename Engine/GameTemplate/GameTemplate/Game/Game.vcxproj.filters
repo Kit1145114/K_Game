@@ -114,36 +114,15 @@
     <ClCompile Include="level\MapChip.cpp">
       <Filter>level</Filter>
     </ClCompile>
-    <ClCompile Include="Gamecpp\Game.cpp" />
-    <ClCompile Include="Gamecpp\GameObject.cpp">
-      <Filter>ソース</Filter>
-    </ClCompile>
-    <ClCompile Include="Gamecpp\GameObjectManajer.cpp">
-      <Filter>ソース</Filter>
-    </ClCompile>
-    <ClCompile Include="Gamecpp\main.cpp">
-      <Filter>ソース</Filter>
-    </ClCompile>
-    <ClCompile Include="Gamecpp\MAP.cpp">
-      <Filter>ソース</Filter>
-    </ClCompile>
     <ClCompile Include="graphics\Sprite.cpp" />
-    <ClCompile Include="HPText.cpp" />
-    <ClCompile Include="Sample.cpp" />
-    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
     <ClCompile Include="physics\PhysicsGhostObject.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
-    <ClCompile Include="AgoSample.cpp" />
     <ClCompile Include="sound\SoundSource.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp" />
     <ClCompile Include="sound\WaveFile.cpp" />
     <ClCompile Include="sound\WaveFileBank.cpp" />
-    <ClCompile Include="AroundPlayer.cpp" />
-    <ClCompile Include="Door.cpp" />
-    <ClCompile Include="DebugWireframe.cpp" />
-    <ClCompile Include="EnergyText.cpp" />
     <ClCompile Include="graphics\SpriteRender.cpp" />
     <ClCompile Include="graphics\2Dgraphics\Font.cpp" />
     <ClCompile Include="ITEM\ITEMBox.cpp" />
@@ -169,12 +148,30 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>ソース</Filter>
     </ClCompile>
-    <ClCompile Include="CEffektEngine.cpp" />
     <ClCompile Include="graphics\shadow\ShadowMap.cpp" />
     <ClCompile Include="graphics\shadow\CascadeShadowMap.cpp" />
     <ClCompile Include="graphics\postEffect\Bloom.cpp" />
     <ClCompile Include="graphics\postEffect\GaussianBlur.cpp" />
     <ClCompile Include="graphics\postEffect\PostEffect.cpp" />
+    <ClCompile Include="Text\HPText.cpp" />
+    <ClCompile Include="Text\EnergyText.cpp" />
+    <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="Game\GameObject.cpp">
+      <Filter>ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObjectManajer.cpp">
+      <Filter>ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\main.cpp">
+      <Filter>ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MAP.cpp">
+      <Filter>ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\RenderTarget.cpp" />
+    <ClCompile Include="graphics\2Dgraphics\CEffektEngine.cpp" />
+    <ClCompile Include="Debug\DebugWireframe.cpp" />
+    <ClCompile Include="Object\Door.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -258,36 +255,18 @@
     <ClInclude Include="level\MapChip.h">
       <Filter>level</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>ヘッダー</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectManajer.h">
-      <Filter>ヘッダー</Filter>
-    </ClInclude>
-    <ClInclude Include="MAP.h">
-      <Filter>ヘッダー</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>ヘッダー</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h" />
     <ClInclude Include="graphics\Sprite.h" />
-    <ClInclude Include="HPText.h" />
-    <ClInclude Include="Sample.h" />
-    <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelEffect.h" />
     <ClInclude Include="physics\PhysicsGhostObject.h" />
     <ClInclude Include="physics\BoxCollider.h" />
-    <ClInclude Include="AgoSample.h" />
     <ClInclude Include="sound\SoundSource.h" />
     <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="sound\WaveFile.h" />
     <ClInclude Include="sound\WaveFileBank.h" />
-    <ClInclude Include="AroundPlayer.h" />
-    <ClInclude Include="Door.h" />
-    <ClInclude Include="DebugWireframe.h" />
-    <ClInclude Include="EnergyText.h" />
     <ClInclude Include="graphics\SpriteRender.h" />
     <ClInclude Include="graphics\2Dgraphics\Font.h" />
     <ClInclude Include="ITEM\ITEMBox.h" />
@@ -311,7 +290,6 @@
     <ClInclude Include="GameSystem\GameOver.h" />
     <ClInclude Include="Chara\StoneGolem.h" />
     <ClInclude Include="ITEM\Wall.h" />
-    <ClInclude Include="CEffektEngine.h" />
     <ClInclude Include="system\GameTime.h" />
     <ClInclude Include="system\Stopwatch.h" />
     <ClInclude Include="graphics\shadow\ShadowMap.h" />
@@ -319,6 +297,22 @@
     <ClInclude Include="graphics\postEffect\Bloom.h" />
     <ClInclude Include="graphics\postEffect\GaussianBlur.h" />
     <ClInclude Include="graphics\postEffect\PostEffect.h" />
+    <ClInclude Include="Text\HPText.h" />
+    <ClInclude Include="Text\EnergyText.h" />
+    <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\GameObject.h">
+      <Filter>ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObjectManajer.h">
+      <Filter>ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MAP.h">
+      <Filter>ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\RenderTarget.h" />
+    <ClInclude Include="graphics\2Dgraphics\CEffektEngine.h" />
+    <ClInclude Include="Debug\DebugWireframe.h" />
+    <ClInclude Include="Object\Door.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
@@ -439,5 +433,9 @@
     <FxCompile Include="Assets\shader\dof.fx" />
     <FxCompile Include="Assets\shader\GaussianBlur.fx" />
     <FxCompile Include="Assets\shader\bloom.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\sound\PlayerWalk.wav" />
+    <Media Include="Assets\sound\BossWalk.wav" />
   </ItemGroup>
 </Project>

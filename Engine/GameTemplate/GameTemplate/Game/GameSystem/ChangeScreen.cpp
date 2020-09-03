@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ChangeScreen.h"
 #include"GameConst.h"
-#include"Game.h"
+#include"Game/Game.h"
 
 ChangeScreen::ChangeScreen()
 {

@@ -99,16 +99,14 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AgoSample.cpp" />
-    <ClCompile Include="AroundPlayer.cpp" />
-    <ClCompile Include="CEffektEngine.cpp" />
+    <ClCompile Include="graphics\2Dgraphics\CEffektEngine.cpp" />
     <ClCompile Include="Chara\Boss.cpp" />
     <ClCompile Include="GameSystem\GameOver.cpp" />
     <ClCompile Include="GameSystem\Fade.cpp" />
     <ClCompile Include="GameSystem\ChangeScreen.cpp" />
-    <ClCompile Include="DebugWireframe.cpp" />
-    <ClCompile Include="Door.cpp" />
-    <ClCompile Include="EnergyText.cpp" />
+    <ClCompile Include="Debug\DebugWireframe.cpp" />
+    <ClCompile Include="Object\Door.cpp" />
+    <ClCompile Include="Text\EnergyText.cpp" />
     <ClCompile Include="GameSystem\GameClear.cpp" />
     <ClCompile Include="graphics\postEffect\Bloom.cpp" />
     <ClCompile Include="graphics\postEffect\GaussianBlur.cpp" />
@@ -122,10 +120,10 @@
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="graphics\2Dgraphics\Font.cpp" />
     <ClCompile Include="Chara\Enemys.cpp" />
-    <ClCompile Include="Gamecpp\Game.cpp" />
+    <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="GameSystem\GameCamera.cpp" />
-    <ClCompile Include="Gamecpp\GameObject.cpp" />
-    <ClCompile Include="Gamecpp\GameObjectManajer.cpp" />
+    <ClCompile Include="Game\GameObject.cpp" />
+    <ClCompile Include="Game\GameObjectManajer.cpp" />
     <ClCompile Include="Chara\Golem.cpp" />
     <ClCompile Include="graphics\animation\Animation.cpp" />
     <ClCompile Include="graphics\animation\AnimationClip.cpp" />
@@ -139,11 +137,11 @@
     <ClCompile Include="graphics\SkinModelDataManager.cpp" />
     <ClCompile Include="graphics\SkinModelEffect.cpp" />
     <ClCompile Include="HID\Pad.cpp" />
-    <ClCompile Include="HPText.cpp" />
+    <ClCompile Include="Text\HPText.cpp" />
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\MapChip.cpp" />
-    <ClCompile Include="Gamecpp\main.cpp" />
-    <ClCompile Include="Gamecpp\MAP.cpp" />
+    <ClCompile Include="Game\main.cpp" />
+    <ClCompile Include="Game\MAP.cpp" />
     <ClCompile Include="math\kMath.cpp" />
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="math\Vector.cpp" />
@@ -161,8 +159,7 @@
     <ClCompile Include="graphics\Sprite.cpp" />
     <ClCompile Include="Chara\StoneEnemy.cpp" />
     <ClCompile Include="ITEM\RecoveryITEM.cpp" />
-    <ClCompile Include="RenderTarget.cpp" />
-    <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="graphics\RenderTarget.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp" />
     <ClCompile Include="sound\SoundSource.cpp" />
     <ClCompile Include="graphics\SpriteRender.cpp" />
@@ -175,16 +172,14 @@
     <ClCompile Include="ITEM\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AgoSample.h" />
-    <ClInclude Include="AroundPlayer.h" />
-    <ClInclude Include="CEffektEngine.h" />
+    <ClInclude Include="graphics\2Dgraphics\CEffektEngine.h" />
     <ClInclude Include="Chara\Boss.h" />
     <ClInclude Include="GameSystem\GameOver.h" />
     <ClInclude Include="GameSystem\Fade.h" />
     <ClInclude Include="GameSystem\ChangeScreen.h" />
-    <ClInclude Include="DebugWireframe.h" />
-    <ClInclude Include="Door.h" />
-    <ClInclude Include="EnergyText.h" />
+    <ClInclude Include="Debug\DebugWireframe.h" />
+    <ClInclude Include="Object\Door.h" />
+    <ClInclude Include="Text\EnergyText.h" />
     <ClInclude Include="GameSystem\GameClear.h" />
     <ClInclude Include="GameSystem\GameConst.h" />
     <ClInclude Include="graphics\postEffect\Bloom.h" />
@@ -199,10 +194,10 @@
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="Chara\Enemys.h" />
     <ClInclude Include="graphics\2Dgraphics\Font.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="Game\Game.h" />
     <ClInclude Include="GameSystem\GameCamera.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameObjectManajer.h" />
+    <ClInclude Include="Game\GameObject.h" />
+    <ClInclude Include="Game\GameObjectManajer.h" />
     <ClInclude Include="Chara\Golem.h" />
     <ClInclude Include="graphics\animation\Animation.h" />
     <ClInclude Include="graphics\animation\AnimationClip.h" />
@@ -217,10 +212,10 @@
     <ClInclude Include="graphics\SkinModelEffect.h" />
     <ClInclude Include="graphics\SkinModelShaderConst.h" />
     <ClInclude Include="HID\Pad.h" />
-    <ClInclude Include="HPText.h" />
+    <ClInclude Include="Text\HPText.h" />
     <ClInclude Include="level\Level.h" />
     <ClInclude Include="level\MapChip.h" />
-    <ClInclude Include="MAP.h" />
+    <ClInclude Include="Game\MAP.h" />
     <ClInclude Include="math\kMath.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\Vector.h" />
@@ -235,8 +230,7 @@
     <ClInclude Include="Chara\Player.h" />
     <ClInclude Include="graphics\Sprite.h" />
     <ClInclude Include="ITEM\RecoveryITEM.h" />
-    <ClInclude Include="RenderTarget.h" />
-    <ClInclude Include="Sample.h" />
+    <ClInclude Include="graphics\RenderTarget.h" />
     <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="sound\SoundSource.h" />
     <ClInclude Include="graphics\SpriteRender.h" />
@@ -522,6 +516,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\sound\BossWalk.wav" />
+    <Media Include="Assets\sound\PlayerWalk.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

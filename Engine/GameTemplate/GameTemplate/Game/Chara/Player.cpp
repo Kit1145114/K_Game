@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include"../GameSystem/GameConst.h"
-#include"Game.h"
+#include"Game/Game.h"
 #define _USE_MATH_DEFINES //M_PI 円周率呼び出し
 #include <math.h> 
 #include "graphics/shadow/ShadowMap.h"
@@ -12,6 +12,8 @@ Player::Player()
 	m_se[0].Init(L"Assets/sound/enemy_attack_00.wav");
 	m_se[1].Init(L"Assets/sound/Boost.wav");
 	m_se[2].Init(L"Assets/sound/swing.wav");
+	m_se[3].Init(L"Assets/sound/PlayerWalk.wav");
+	//Assets/sound/PlayerWalk.wav
 	//cmoファイルの読み込み。
 	Gmodel.Init(L"Assets/modelData/Player.cmo");		//プレイヤーの描画
 	g_animClip[pl_idle].Load(L"Assets/animData/P_idle.tka");	//待機のロード
@@ -85,11 +87,6 @@ void Player::Draw()
 		1
 	);
 }
-//プレイヤーのレンダー
-void Player::Render()
-{
-
-}
 //プレイヤーのHP表示
 void Player::FontRender()
 {
@@ -125,6 +122,7 @@ void Player::Move()
 			//走る
 			m_moveSpeed += cameraForward * lStick_y * Speed * RunSPeed;		//奥方向への移動速度を加算。
 			m_moveSpeed += cameraRight * lStick_x * Speed * RunSPeed;		//右方向への移動速度を加算。
+			SoundTrue(1);
 		}
 		else if (!g_pad[0].IsPress(enButtonX) || playerENE == ene_Charge)
 		{
@@ -138,6 +136,7 @@ void Player::Move()
 	{
 		m_moveSpeed.z += m_forward.z * AttackMoveSpeed;		//前後方向への移動速度を加算。
 		m_moveSpeed.x += m_forward.x * AttackMoveSpeed;		//左右方向への移動速度を加算。
+		
 	}
 	//キャラクターコントローラーに１フレームの経過秒数、時間ベースの移動速度を渡している。
 	//キャラコンに座標を渡す。
@@ -184,7 +183,7 @@ void Player::PlayerState()
 	case pl_FlyMove:
 		MoveOperation();
 		g_anim.Play(pl_FlyMove, 0.1f);
-		Sound(1);
+		SoundTrue(1);
 		break;
 	case pl_Atk:	//攻撃状態。
 		ComboAttack();
@@ -192,7 +191,6 @@ void Player::PlayerState()
 		break;
 	case pl_Death:	//死亡状態
 		g_anim.Play(0);
-		StopSound(1);
 		break;
 	}
 }
@@ -269,7 +267,7 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 					//ダメージ、音。
 					enemy->Damage(ATK);
 					enemy->SetHitMe(true);
-					m_se[0].Play(false);
+					SoundFalse(0);
 					//エネミーとの間にエフェクトを発生させるために
 					//プレイヤーと敵の間を計算しています。
 					enemy_dis = enemy->GetPosition(); //= (m_position + enemy->GetPosition()) / 2;
@@ -280,7 +278,7 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 				//素振りだった場合、別の音だけ鳴らす。
 				else if (m_PhyGhostObj.IsSelf(contactObject) == false && eventName)
 				{
-					m_se[2].Play(false);
+					SoundFalse(2);
 				}
 			});
 		}
@@ -291,17 +289,13 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
 				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
 					ItemBox->SetIsOpen(true);
-					m_se[0].Play(false);
+					SoundFalse(0);
 				}
 			});
 		}
 	}
 	//削除。
 	m_PhyGhostObj.Release();
-}
-//敵との距離計測とキル。(未使用)
-void Player::Track()
-{
 }
 //前ベクトル
 void Player::Forward()
@@ -514,4 +508,3 @@ void Player::Angle()
 	toNearEnemyPos.Normalize();
 	m_angle = acosf(toNearEnemyPos.Dot(m_forward));
 }
-//プレイヤーのエフェクト処理。

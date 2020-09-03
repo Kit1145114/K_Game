@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameOver.h"
-#include"Game.h"
+#include"Game/Game.h"
 
 GameOver::GameOver()
 {

@@ -2,7 +2,7 @@
 #include "physics/Physics.h"
 #include "Physics/RigidBody.h"
 #include "../character/CharacterController.h"
-#include "../DebugWireframe.h"
+#include "Debug/DebugWireframe.h"
 PhysicsWorld g_physics;
 
 namespace {

@@ -31,7 +31,7 @@
 //エフェクサーファイルのインクルード
 #include"EffekseerRuntime130/src/Effekseer/Effekseer.h"
 #include"EffekseerRuntime130/src/EffekseerRendererDX11/EffekseerRendererDX11.h"
-#include "CEffektEngine.h"
+#include "graphics/2Dgraphics/CEffektEngine.h"
 
 #include "physics/Physics.h"
 #include "HID/Pad.h"
@@ -52,7 +52,7 @@
 #include <xaudio2fx.h>
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
-#include"GameObjectManajer.h"
+#include"Game/GameObjectManajer.h"
 
 const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。
 const float FRAME_BUFFER_H = 720.0f;				//フレームバッファの高さ。
