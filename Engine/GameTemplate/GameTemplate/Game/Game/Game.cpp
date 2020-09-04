@@ -3,8 +3,6 @@
 #include"MAP.h"
 #include"Text/HPText.h"
 #include"Text/EnergyText.h"
-#include"ITEM/ITEMBox.h"
-#include"Object/Door.h"
 #include"Chara/Player.h"
 #include"Chara/Enemys.h"
 #include"Chara/StoneEnemy.h"
@@ -16,7 +14,9 @@
 #include"GameSystem/ChangeScreen.h"
 #include"GameSystem/GameClear.h"
 #include"GameSystem/GameOver.h"
-#include"ITEM/Wall.h"
+#include"Object/ITEMBox.h"
+#include"Object/Door.h"
+#include"Object/Wall.h"
 #include"Chara/StoneGolem.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成

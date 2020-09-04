@@ -113,7 +113,7 @@
     <ClCompile Include="graphics\postEffect\PostEffect.cpp" />
     <ClCompile Include="graphics\shadow\CascadeShadowMap.cpp" />
     <ClCompile Include="graphics\shadow\ShadowMap.cpp" />
-    <ClCompile Include="ITEM\ITEMBox.cpp" />
+    <ClCompile Include="Object\ITEMBox.cpp" />
     <ClCompile Include="physics\BoxCollider.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelDraw.cpp" />
     <ClCompile Include="graphics\c3dmodel\C3DModelEffect.cpp" />
@@ -169,7 +169,7 @@
     <ClCompile Include="GameSystem\Title.cpp" />
     <ClCompile Include="sound\WaveFile.cpp" />
     <ClCompile Include="sound\WaveFileBank.cpp" />
-    <ClCompile Include="ITEM\Wall.cpp" />
+    <ClCompile Include="Object\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphics\2Dgraphics\CEffektEngine.h" />
@@ -187,7 +187,7 @@
     <ClInclude Include="graphics\postEffect\PostEffect.h" />
     <ClInclude Include="graphics\shadow\CascadeShadowMap.h" />
     <ClInclude Include="graphics\shadow\ShadowMap.h" />
-    <ClInclude Include="ITEM\ITEMBox.h" />
+    <ClInclude Include="Object\ITEMBox.h" />
     <ClInclude Include="physics\BoxCollider.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelDraw.h" />
     <ClInclude Include="graphics\c3dmodel\C3DModelEffect.h" />
@@ -244,7 +244,7 @@
     <ClInclude Include="GameSystem\Title.h" />
     <ClInclude Include="sound\WaveFile.h" />
     <ClInclude Include="sound\WaveFileBank.h" />
-    <ClInclude Include="ITEM\Wall.h" />
+    <ClInclude Include="Object\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />

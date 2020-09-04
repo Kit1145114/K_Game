@@ -125,7 +125,6 @@
     <ClCompile Include="sound\WaveFileBank.cpp" />
     <ClCompile Include="graphics\SpriteRender.cpp" />
     <ClCompile Include="graphics\2Dgraphics\Font.cpp" />
-    <ClCompile Include="ITEM\ITEMBox.cpp" />
     <ClCompile Include="ITEM\RecoveryITEM.cpp" />
     <ClCompile Include="GameSystem\GameClear.cpp" />
     <ClCompile Include="Chara\Enemys.cpp" />
@@ -144,7 +143,6 @@
     <ClCompile Include="GameSystem\Fade.cpp" />
     <ClCompile Include="GameSystem\GameOver.cpp" />
     <ClCompile Include="Chara\StoneGolem.cpp" />
-    <ClCompile Include="ITEM\Wall.cpp" />
     <ClCompile Include="stdafx.cpp">
       <Filter>ソース</Filter>
     </ClCompile>
@@ -172,6 +170,8 @@
     <ClCompile Include="graphics\2Dgraphics\CEffektEngine.cpp" />
     <ClCompile Include="Debug\DebugWireframe.cpp" />
     <ClCompile Include="Object\Door.cpp" />
+    <ClCompile Include="Object\ITEMBox.cpp" />
+    <ClCompile Include="Object\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -269,7 +269,6 @@
     <ClInclude Include="sound\WaveFileBank.h" />
     <ClInclude Include="graphics\SpriteRender.h" />
     <ClInclude Include="graphics\2Dgraphics\Font.h" />
-    <ClInclude Include="ITEM\ITEMBox.h" />
     <ClInclude Include="ITEM\RecoveryITEM.h" />
     <ClInclude Include="GameSystem\GameClear.h" />
     <ClInclude Include="Chara\Boss.h" />
@@ -289,7 +288,6 @@
     <ClInclude Include="GameSystem\Fade.h" />
     <ClInclude Include="GameSystem\GameOver.h" />
     <ClInclude Include="Chara\StoneGolem.h" />
-    <ClInclude Include="ITEM\Wall.h" />
     <ClInclude Include="system\GameTime.h" />
     <ClInclude Include="system\Stopwatch.h" />
     <ClInclude Include="graphics\shadow\ShadowMap.h" />
@@ -313,6 +311,8 @@
     <ClInclude Include="graphics\2Dgraphics\CEffektEngine.h" />
     <ClInclude Include="Debug\DebugWireframe.h" />
     <ClInclude Include="Object\Door.h" />
+    <ClInclude Include="Object\ITEMBox.h" />
+    <ClInclude Include="Object\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />

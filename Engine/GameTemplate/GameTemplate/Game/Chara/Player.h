@@ -1,6 +1,6 @@
 #pragma once
 #include"Enemys.h"
-#include"ITEM/ITEMBox.h"
+#include"Object/ITEMBox.h"
 #include"character/CharacterController.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
@@ -198,7 +198,7 @@ private:
 	float m_Rot = 0.0f;									//プレイヤーの回転
 	float NSpeed = 1.0f;								//通常のスピード。
 	float RunSPeed = 3.5f;								//走れのスピード。
-	float JumpPower = 10.0f;							//ジャンプしたときの値
+	float JumpPower = 5.0f;								//ジャンプしたときの値
 	float m_angle;										//追従用の変数。
 	float AttackMoveSpeed = 500.0f;						//攻撃する時の動く値
 	float RookAngle = 3.5f;								//敵に向く角度

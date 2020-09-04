@@ -3,7 +3,7 @@
 #include"physics/PhysicsStaticObject.h"
 #include"../GameSystem/GameConst.h"
 #include "character/CharacterController.h"
-#include"RecoveryITEM.h"
+#include"ITEM/RecoveryITEM.h"
 #include"Chara/Player.h"
 
 class RecoveryITEM;
