@@ -67,7 +67,7 @@ void ITEMBox::State()
 //削除
 void ITEMBox::Delete()
 {
-	g_goMgr.QutavaleyaAGO(this);
+	g_goMgr.DeleteGO(this);
 }
 //開けるかどうか。
 void ITEMBox::Open()
@@ -78,7 +78,7 @@ void ITEMBox::Open()
 		//アニメーションが終わったらアイテム生成。
 		if (!itemDrop_flag)
 		{
-			RItem = g_goMgr.NewAGO<RecoveryITEM>();
+			RItem = g_goMgr.NewGO<RecoveryITEM>();
 			RItem->SetPositon(m_position);
 			RItem->SetPlayer(m_player);
 			itemDrop_flag = true;

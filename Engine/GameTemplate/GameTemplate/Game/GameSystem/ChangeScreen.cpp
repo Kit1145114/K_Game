@@ -5,7 +5,7 @@
 
 ChangeScreen::ChangeScreen()
 {
-	m_sprite = g_goMgr.NewAGO<SpriteRender>();
+	m_sprite = g_goMgr.NewGO<SpriteRender>();
 	m_sprite->Init(L"Assets/sprite/nowroading.dds", 1280, 720);
 	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
 }
@@ -13,7 +13,7 @@ ChangeScreen::ChangeScreen()
 
 ChangeScreen::~ChangeScreen()
 {
-	g_goMgr.QutavaleyaAGO(m_sprite);
+	g_goMgr.DeleteGO(m_sprite);
 }
 
 void ChangeScreen::Update()
@@ -30,9 +30,9 @@ void ChangeScreen::Update()
 void ChangeScreen::Death()
 {
 	//ゲーム生成。タイトル削除。
-	game = g_goMgr.NewAGO<Game>();
+	game = g_goMgr.NewGO<Game>();
 	game->SetStage(1);
 	game->SetPlayerHp(m_playerHp);
 	m_time = ZERO;
-	g_goMgr.QutavaleyaAGO(this);
+	g_goMgr.DeleteGO(this);
 }

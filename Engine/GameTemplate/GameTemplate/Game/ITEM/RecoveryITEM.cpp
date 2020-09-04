@@ -39,7 +39,7 @@ void RecoveryITEM::Update()
 //éÄÇ ÅB
 void RecoveryITEM::Death()
 {
-	g_goMgr.QutavaleyaAGO(this);
+	g_goMgr.DeleteGO(this);
 }
 //ï`âÊÅB
 void RecoveryITEM::Draw()

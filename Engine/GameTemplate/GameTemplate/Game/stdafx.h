@@ -42,16 +42,18 @@
 
 #include "graphics/SkinModel.h"
 #include "graphics/Skeleton.h"
-
+//アニメーション作成のものをインクルード
 #include "graphics/animation/Animation.h"
 #include "graphics/animation/AnimationClip.h"
+//カメラのインクルード
 #include "graphics/Camera.h"
-
+//音を再生するものをインクルード
 #include <xAudio2.h>
 #include <x3daudio.h>
 #include <xaudio2fx.h>
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
+//ゲームオブジェクトマネージャをインクルード
 #include"Game/GameObjectManajer.h"
 
 const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。

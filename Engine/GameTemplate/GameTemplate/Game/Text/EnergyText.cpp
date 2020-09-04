@@ -4,7 +4,7 @@
 
 EnergyText::EnergyText()
 {
-	m_sprite = g_goMgr.NewAGO<SpriteRender>();
+	m_sprite = g_goMgr.NewGO<SpriteRender>();
 	m_sprite->Init(L"Assets/sprite/Energy.dds", 1.666, 30);
 	m_sprite->SetPosition(m_position);
 	m_sprite->SetPivot(PIVOT);
@@ -13,7 +13,7 @@ EnergyText::EnergyText()
 
 EnergyText::~EnergyText()
 {
-	g_goMgr.QutavaleyaAGO(m_sprite);
+	g_goMgr.DeleteGO(m_sprite);
 }
 
 void EnergyText::EnergyUpdate()

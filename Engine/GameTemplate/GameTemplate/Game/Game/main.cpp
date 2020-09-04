@@ -20,7 +20,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_effektEngine = new CEffektEngine();
 	g_effektEngine->InitEffekseer();
 	//タイトルのNewGOで生成。
-	Title* title = g_goMgr.NewAGO<Title>();
+	Title* title = g_goMgr.NewGO<Title>();
 	
 	CStopwatch sw;
 	//ゲームループ。

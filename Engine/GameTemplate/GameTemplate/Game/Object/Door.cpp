@@ -11,8 +11,8 @@ Door::Door()
 
 Door::~Door()
 {
-	g_goMgr.QutavaleyaAGO(m_player);
-	g_goMgr.QutavaleyaAGO(this);
+	g_goMgr.DeleteGO(m_player);
+	g_goMgr.DeleteGO(this);
 }
 
 void Door::Update()

@@ -349,7 +349,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\Thethief_H.tks" />
     <None Include="Assets\animData\attack.tka" />
     <None Include="Assets\animData\box_idle.tka" />
     <None Include="Assets\animData\box_open.tka" />

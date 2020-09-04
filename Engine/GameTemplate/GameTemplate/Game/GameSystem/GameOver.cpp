@@ -9,12 +9,12 @@ GameOver::GameOver()
 
 GameOver::~GameOver()
 {
-	g_goMgr.QutavaleyaAGO(m_sprite);
+	g_goMgr.DeleteGO(m_sprite);
 }
 
 bool GameOver::Start()
 {
-	m_sprite = g_goMgr.NewAGO<SpriteRender>();
+	m_sprite = g_goMgr.NewGO<SpriteRender>();
 	m_sprite->Init(L"Assets/sprite/GameOver.dds", 1280, 720);
 	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
 	return true;
@@ -34,9 +34,9 @@ void GameOver::Update()
 void GameOver::Death()
 {
 	//ゲーム生成。タイトル削除。
-	Game* game = g_goMgr.NewAGO<Game>();
+	Game* game = g_goMgr.NewGO<Game>();
 	game->SetStage(0);
-	g_goMgr.QutavaleyaAGO(this);
+	g_goMgr.DeleteGO(this);
 }
 
 void GameOver::Flag()

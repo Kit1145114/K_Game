@@ -1,8 +1,7 @@
 #pragma once
 #include<vector>
-#include"GameObject.h"
-#include"RenderTarget.h"
-#include "RenderTarget.h"
+#include "GameObject.h"
+#include "graphics/RenderTarget.h"
 #include "graphics/Sprite.h"
 
 
@@ -18,7 +17,7 @@ public:
 	/// ゲームオブジクトを追加
 	/// </summary>
 	template<class T>
-	T* NewAGO()
+	T* NewGO()
 	{
 		T* newObj = new T();
 		m_goList.push_back(newObj);
@@ -29,7 +28,7 @@ public:
 	/// ゲームオブジェクトからリストを削除する。
 	/// </summary>
 	/// <param name="go"></param>削除するゲームオブジェクト
-	void QutavaleyaAGO(GameObject* go) {
+	void DeleteGO(GameObject* go) {
 			if (go->GetIsGO() == true) {
 				//見つかった。
 				//リストから削除する。

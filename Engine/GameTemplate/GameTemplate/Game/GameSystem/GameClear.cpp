@@ -4,7 +4,7 @@
 
 GameClear::GameClear()
 {
-	m_sprite = g_goMgr.NewAGO<SpriteRender>();
+	m_sprite = g_goMgr.NewGO<SpriteRender>();
 	m_sprite->Init(L"Assets/sprite/GameClear.dds", 1280, 720);
 	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
 	//音
@@ -20,7 +20,7 @@ GameClear::GameClear()
 
 GameClear::~GameClear()
 {
-	g_goMgr.QutavaleyaAGO(m_sprite);
+	g_goMgr.DeleteGO(m_sprite);
 }
 
 void GameClear::Update()
@@ -37,6 +37,6 @@ void GameClear::Update()
 void GameClear::Death()
 {
 	//ゲーム生成。タイトル削除。
-	Title* title = g_goMgr.NewAGO<Title>();
-	g_goMgr.QutavaleyaAGO(this);
+	Title* title = g_goMgr.NewGO<Title>();
+	g_goMgr.DeleteGO(this);
 }

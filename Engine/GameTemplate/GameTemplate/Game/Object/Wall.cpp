@@ -68,7 +68,7 @@ void Wall::State()
 void Wall::Death()
 {
 	m_physicsStaticObj.RemoveRigidBoby();
-	g_goMgr.QutavaleyaAGO(this);
+	g_goMgr.DeleteGO(this);
 }
 //ìÆÇ≠èàóù
 void Wall::Move()

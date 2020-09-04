@@ -325,7 +325,6 @@
     <None Include="Assets\animData\death.tka" />
     <None Include="Assets\animData\idle.tka" />
     <None Include="Assets\animData\attack.tka" />
-    <None Include="..\..\..\..\..\..\..\tkEngine2\Sample\RPGBattle\Game\Assets\modelData\Thethief_H.tks" />
     <None Include="Assets\modelData\enemy_00.tks" />
     <None Include="Assets\animData\RE1_idle.tka" />
     <None Include="Assets\animData\RE1_walk.tka" />
