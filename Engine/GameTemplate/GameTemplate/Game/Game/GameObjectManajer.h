@@ -55,7 +55,6 @@ public:
 	/// </summary>
 	void Delete();
 	//レンダー類
-		/// レンダァァァァァァァァイヤァァァァァァ
 	/// </summary>
 	void Render();
 	/// <summary>

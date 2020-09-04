@@ -18,14 +18,14 @@ public:
 
 	virtual bool Start();
 
-	void AgoUpdate()
+	void GoUpdate()
 	{
 		if (isUpdate&&isActive&&isStart) {
 			Update();
 		}
 	}
 
-	void AgoDraw()
+	void GoDraw()
 	{
 		if (isUpdate && isActive && isStart) {
 			Draw();

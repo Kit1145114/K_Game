@@ -21,7 +21,7 @@ void GameObjectManajer::Update()
 {
 	Start();
 	for (auto go : m_goList) {
-		go->AgoUpdate();
+		go->GoUpdate();
 	}
 	
 }
@@ -45,7 +45,7 @@ void GameObjectManajer::Delete()
 void GameObjectManajer::Draw()
 {
 	for (auto go : m_goList) {
-		go->AgoDraw();
+		go->GoDraw();
 	}
 }
 
@@ -124,15 +124,6 @@ void GameObjectManajer::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContex
 
 void GameObjectManajer::InitCamera()
 {
-	//g_camera3D.SetPosition({ 0.0f, 1000.0f, 2200.0f });
-	//g_camera3D.SetTarget({ 0.0f, 200.0f, 0.0f });
-	//g_camera3D.Update();
-	//g_camera2D.SetUpdateProjMatrixFunc(Camera::enUpdateProjMatrixFunc_Ortho);
-	//g_camera2D.SetWidth(FRAME_BUFFER_W);
-	//g_camera2D.SetHeight(FRAME_BUFFER_H);
-	//g_camera2D.SetPosition({ 0.0f, 0.0f, -10.0f });
-	//g_camera2D.SetTarget(CVector3::Zero());
-	//g_camera2D.Update();
 }
 
 void GameObjectManajer::Render()
