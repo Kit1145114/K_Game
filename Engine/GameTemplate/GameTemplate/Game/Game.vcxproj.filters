@@ -131,7 +131,6 @@
     <ClCompile Include="Chara\Player.cpp">
       <Filter>ソース</Filter>
     </ClCompile>
-    <ClCompile Include="Chara\StoneEnemy.cpp" />
     <ClCompile Include="Chara\Titan.cpp" />
     <ClCompile Include="Chara\Golem.cpp" />
     <ClCompile Include="Chara\Boss.cpp" />
@@ -273,7 +272,6 @@
     <ClInclude Include="GameSystem\GameClear.h" />
     <ClInclude Include="Chara\Boss.h" />
     <ClInclude Include="Chara\Titan.h" />
-    <ClInclude Include="Chara\StoneEnemy.h" />
     <ClInclude Include="Chara\Player.h">
       <Filter>ヘッダー</Filter>
     </ClInclude>
@@ -316,6 +314,7 @@
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
+    <MeshContentTask Include="Assets\modelData\MAP.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">
@@ -385,7 +384,6 @@
       <Filter>Assets\modelData</Filter>
     </None>
     <None Include="Assets\modelData\healitem.fbx" />
-    <None Include="Assets\modelData\MAP.FBX" />
     <None Include="Assets\modelData\Player.fbx" />
     <None Include="Assets\modelData\RobbotBoss.fbx" />
     <None Include="Assets\modelData\RobbotEnemy1.fbx" />

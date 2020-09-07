@@ -5,10 +5,10 @@
 #include"Text/EnergyText.h"
 #include"Chara/Player.h"
 #include"Chara/Enemys.h"
-#include"Chara/StoneEnemy.h"
 #include"Chara/Titan.h"
 #include"Chara/Golem.h"
 #include"Chara/Boss.h"
+#include"Chara/StoneGolem.h"
 #include"GameSystem/Title.h"
 #include"GameSystem/GameCamera.h"
 #include"GameSystem/ChangeScreen.h"
@@ -17,7 +17,6 @@
 #include"Object/ITEMBox.h"
 #include"Object/Door.h"
 #include"Object/Wall.h"
-#include"Chara/StoneGolem.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -174,19 +173,6 @@ bool Game::FirstStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		//存在しているだけの敵
-		if (objData.ForwardMatchName(L"Jon") == true) {
-			//敵(一人目)のオブジェクト。
-			Enemys* enemys = g_goMgr.NewGO<StoneEnemy>();
-			int num = _wtoi(&objData.name[3]);
-			enemys->SetObjNum(num);
-			enemys->SetPosition(objData.position);
-			enemys->SetRotation(objData.rotation);
-			//後で削除するのでリストに積んで記憶しておく。
-			m_enemysToPlayerList.push_back(enemys);
-			//フックしたのでtrueを返す。
-			return true;
-		}
 		if (objData.EqualObjectName(L"Player") == true) {
 			player = g_goMgr.NewGO<Player>();
 			player->SetPosition(objData.position);
@@ -319,17 +305,6 @@ bool Game::DebugStage()
 			//フックしたのでtrueを返す。
 			return true;
 		}
-		//else if (objData.EqualObjectName(L"Enemy3") == true) {
-		//	//敵(二人目)のオブジェクト。
-		//	Enemys* enemys = g_goMgr.NewAGO<StoneEnemy>();
-		//	enemys->SetPosition(objData.position);
-		//	enemys->SetRotation(objData.rotation);
-		//	//enemys->SetScale(objData.scale);
-		//	//後で削除するのでリストに積んで記憶しておく。
-		//	m_enemysList.push_back(enemys);
-		//	//フックしたのでtrueを返す。
-		//	return true;
-		//}
 		else if (objData.EqualObjectName(L"RobbotEnemy1") == true) {
 			//敵(二人目)のオブジェクト。
 			enemys = g_goMgr.NewGO<Titan>();
@@ -403,6 +378,7 @@ void Game::BossStageUpdate()
 	{
 		door = g_goMgr.NewGO<Door>();
 		door->SetPlayer(player);
+		door->SetPosition(DoorPos);
 		StageChange = true;
 	}
 	else if (!isLive && StageChange) {

@@ -253,7 +253,7 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 	//ゴーストオブジェクトを作る位置を決めています。
 	boxPos = m_position + (m_forward * UpPhyGhostObjPosition);
 	boxPos.y += UpPhyGhostObjPosition;
-	float m_efkPosUpY = 50.0f;
+	float m_efkPosUpY = 65.0f;
 	//アニメーションイベントが呼ばれたときにゴーストオブジェクトを生成。
 	m_PhyGhostObj.CreateBox(boxPos, m_rotation, box_scale);
 	//敵との判定

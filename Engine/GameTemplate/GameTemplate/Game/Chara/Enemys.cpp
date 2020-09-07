@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Enemys.h"
-#include"StoneEnemy.h"
 
 Enemys::Enemys()
 {

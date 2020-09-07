@@ -92,6 +92,7 @@ private:
 	std::vector<Enemys*>m_enemysToPlayerList;	//壁用のエネミーオブジェクトのリスト
 	std::unordered_map<int,Wall*>m_wallList;				//壁のリスト
 	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
+	CVector3 DoorPos = { 0.0f,-350.0f,0.0f };
 	//BGM
 	CSoundSource m_bgm;
 	//

@@ -2,7 +2,6 @@
 #include "MAP.h"
 #include"../Chara/Enemys.h"
 #include"../Chara/Golem.h"
-#include"../Chara/StoneEnemy.h"
 #include"../Chara/Titan.h"
 #include"../Chara/Player.h"
 
