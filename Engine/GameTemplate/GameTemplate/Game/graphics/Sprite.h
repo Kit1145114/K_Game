@@ -31,12 +31,11 @@ public:
 	/// </summary>
 	/// <param name="mView">カメラ行列</param>
 	/// <param name="mProj">プロジェクション行列</param>
-	void Draw(CMatrix mView, CMatrix mProj);
+	void Draw(CMatrix mView, CMatrix mProj,float alpha);
 	void SetActiveFlag(bool flag)
 	{
 		Active = flag;
 	}
-
 	
 	void InitDepthStencil();
 	void InitAphaBlendState();

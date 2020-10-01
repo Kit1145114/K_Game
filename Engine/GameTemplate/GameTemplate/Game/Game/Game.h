@@ -16,6 +16,8 @@ class EnergyText;				//エナジーバー用のclass
 class ITEMBox;					//箱のclass
 class Door;						//ドアのclassノ型
 class Wall;						//壁の型
+class Sky;						//空のclassの型。
+
 class Game : public GameObject
 {
 
@@ -72,6 +74,7 @@ private:
 	EnergyText* energy_bar = nullptr;		//エナジーバー
 	Door* door = nullptr;					//ドア
 	Wall* m_wall = nullptr;					//壁
+	Sky* m_sky = nullptr;					//空
 	Level		mapLevel;					//マップのレベル。。。。。。
 	StageNum	stage;
 	bool StageChange = false;

@@ -162,15 +162,16 @@
     <ClCompile Include="Game\main.cpp">
       <Filter>ソース</Filter>
     </ClCompile>
-    <ClCompile Include="Game\MAP.cpp">
-      <Filter>ソース</Filter>
-    </ClCompile>
     <ClCompile Include="graphics\RenderTarget.cpp" />
     <ClCompile Include="graphics\2Dgraphics\CEffektEngine.cpp" />
     <ClCompile Include="Debug\DebugWireframe.cpp" />
     <ClCompile Include="Object\Door.cpp" />
     <ClCompile Include="Object\ITEMBox.cpp" />
     <ClCompile Include="Object\Wall.cpp" />
+    <ClCompile Include="Object\MAP.cpp">
+      <Filter>ソース</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Sky.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -302,19 +303,21 @@
     <ClInclude Include="Game\GameObjectManajer.h">
       <Filter>ヘッダー</Filter>
     </ClInclude>
-    <ClInclude Include="Game\MAP.h">
-      <Filter>ヘッダー</Filter>
-    </ClInclude>
     <ClInclude Include="graphics\RenderTarget.h" />
     <ClInclude Include="graphics\2Dgraphics\CEffektEngine.h" />
     <ClInclude Include="Debug\DebugWireframe.h" />
     <ClInclude Include="Object\Door.h" />
     <ClInclude Include="Object\ITEMBox.h" />
     <ClInclude Include="Object\Wall.h" />
+    <ClInclude Include="Object\MAP.h">
+      <Filter>ヘッダー</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Sky.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
     <MeshContentTask Include="Assets\modelData\MAP.fbx" />
+    <MeshContentTask Include="Assets\modelData\Sky.fbx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\level\Map01.tkl">
@@ -422,6 +425,7 @@
     <ImageContentTask Include="Assets\sprite\nowroading.png" />
     <ImageContentTask Include="Assets\effect\Texture\burst02_red.png" />
     <ImageContentTask Include="Assets\effect\Texture\clockHand.png" />
+    <ImageContentTask Include="Assets\modelData\Sky.JPG" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\sprite\GameOver.dds" />

@@ -3,8 +3,10 @@
 #include"GameConst.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
+#include"../GameSystem/Fade.h"
 
 class Game;
+class Fade;
 class Title : public GameObject
 {
 public:
@@ -31,6 +33,8 @@ public:
 private:
 	//ステージ
 	StageNum Stage;
+	//フェード
+	Fade* m_Fade = nullptr;
 	//スプライト
 	SpriteRender* m_sprite;
 	//回転

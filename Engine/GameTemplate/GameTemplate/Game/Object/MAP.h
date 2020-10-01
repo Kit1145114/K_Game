@@ -4,7 +4,6 @@
 #include"graphics/c3dmodel/C3DModelDraw.h"
 #include"level/Level.h"
 
-class Enemys;
 class PhysicsStaticObject;
 class MAP	:	public GameObject
 {
@@ -38,7 +37,6 @@ public:
 private:
 	SkinModel	Map;						//マップのスキンモデル。
 	Level		mapLevel;					//マップのレベル。。。。。。
-	std::vector<Enemys*> m_enemysList;		//エネミーオブジェクトのリスト
 	C3DModelDraw m_mapDraw;					//C3Dモデルドロー。
 	PhysicsStaticObject m_physicsStaticObj;	//静的オブジェクト
 	CVector3 m_position = CVector3::Zero();	//ポジション

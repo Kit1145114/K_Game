@@ -29,8 +29,17 @@ public:
 		m_sprite.SetActiveFlag(flag);
 	}
 	void Update();
-	//void Draw();
+
 	void Render() override;
+
+	void mulColorAlpha(const CVector4& mulColor)
+	{
+		m_mulColor = mulColor;
+	}
+	void SetAlpha(float alpha)
+	{
+		m_AlphaColor = alpha;
+	}
 private:
 	bool m_isDraw3D = false;
 	bool Active = true;
@@ -39,5 +48,7 @@ private:
 	CQuaternion m_rotation = {0.0f,1.0f,0.0f,0.0f};	//!<回転。
 	CVector3 m_scale = CVector3::One();				//!<拡大率。
 	CVector2 m_pivot = { 0.5f,0.5f };				//!<ピボット。
+	CVector4 m_mulColor = CVector4::White();		//!<乗算カラー。
+	float m_AlphaColor = 0.0f;
 };
 

@@ -209,19 +209,19 @@ void Sprite::LoadTexture(const wchar_t* textureFIlePath)
 		&m_texture);
 }
 
-void Sprite::Draw(CMatrix mView, CMatrix mProj)
+void Sprite::Draw(CMatrix mView, CMatrix mProj , float alpha)
 {
 	//デバイスコンテキストを引っ張ってくる。
 	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
 	DirectX::CommonStates state(g_graphicsEngine->GetD3DDevice());
-	ID3D11BlendState* blendState = state.AlphaBlend();
+	ID3D11BlendState* blendState = m_alphablend;
 	ID3D11DepthStencilState* depthStencilState = state.DepthDefault();
 	//定数バッファを更新。
 	SSpriteCB cb;
 	//ワールド×ビュー×プロジェクション行列を計算。
 	cb.mWVP.Mul(m_world, mView);
 	cb.mWVP.Mul(cb.mWVP, mProj);
-	cb.alpha = m_alpha;
+	cb.alpha = alpha;
 	//定数バッファの内容をメインメモリからVRAMにコピー。
 	deviceContext->UpdateSubresource(m_cbGPU, 0, nullptr, &cb, 0, 0);
 	//定数バッファをレジスタb0にバインドする。
@@ -246,7 +246,8 @@ void Sprite::Draw(CMatrix mView, CMatrix mProj)
 	deviceContext->PSSetShader((ID3D11PixelShader *)m_ps.GetBody(), nullptr, 0);
 	//プリミティブのトポロジーを設定。
 	deviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	deviceContext->OMSetBlendState(m_alphablend, nullptr, 0xFFFFFFFF);
+	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	deviceContext->OMSetBlendState(m_alphablend, blendFactor, 0xFFFFFFFF);
 	deviceContext->OMSetDepthStencilState(m_depthstencil, 0);
 	deviceContext->RSSetState(m_rasterizer);
 	
@@ -267,7 +268,6 @@ void Sprite::Update(const CVector3& trans, const CQuaternion& rot, const CVector
 	CVector2 halfSize = m_size;
 	halfSize.x *= 0.5f;
 	halfSize.y *= 0.5f;
-	//halfSize.x = 1000.0f;
 	CMatrix mPivotTrans;
 
 	mPivotTrans.MakeTranslation(
@@ -317,11 +317,9 @@ void Sprite::InitAphaBlendState()
 	blendDesc.RenderTarget[0].BlendEnable = true;
 	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	/*blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_RED;*/
+	//blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ZERO;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
 	pd3d->CreateBlendState(&blendDesc, &m_alphablend);
 }
 

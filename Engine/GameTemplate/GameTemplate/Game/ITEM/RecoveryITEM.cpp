@@ -28,7 +28,6 @@ bool RecoveryITEM::Start()
 //更新情報
 void RecoveryITEM::Update()
 {
-	//Draw();
 	Rotation();
 	HealAcquisition();
 	m_anim.Update(GameTime().GetFrameDeltaTime());
@@ -40,15 +39,6 @@ void RecoveryITEM::Update()
 void RecoveryITEM::Death()
 {
 	g_goMgr.DeleteGO(this);
-}
-//描画。
-void RecoveryITEM::Draw()
-{
-	Item.Draw(
-		g_camera3D.GetViewMatrix(),
-		g_camera3D.GetProjectionMatrix(),
-		1
-	);
 }
 //回転情報
 void RecoveryITEM::Rotation()
@@ -75,7 +65,13 @@ void RecoveryITEM::HealAcquisition()
 	//そもそも動かなくても近づけばとれるよ。
 	if (m_diss.Length() < m_playerGetDiss)
 	{
-		m_player->PlayerHeal(m_healHp);
-		Death();
+		if (m_healCount < m_maxHeal){
+			m_player->PlayerHeal(m_healHp);
+			m_healCount++;
+			
+		}
+		else if(m_healCount >= m_maxHeal){
+			Death();
+		}
 	}
 }

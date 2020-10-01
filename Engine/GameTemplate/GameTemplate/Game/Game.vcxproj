@@ -106,6 +106,7 @@
     <ClCompile Include="GameSystem\ChangeScreen.cpp" />
     <ClCompile Include="Debug\DebugWireframe.cpp" />
     <ClCompile Include="Object\Door.cpp" />
+    <ClCompile Include="Object\Sky.cpp" />
     <ClCompile Include="Text\EnergyText.cpp" />
     <ClCompile Include="GameSystem\GameClear.cpp" />
     <ClCompile Include="graphics\postEffect\Bloom.cpp" />
@@ -141,7 +142,7 @@
     <ClCompile Include="level\Level.cpp" />
     <ClCompile Include="level\MapChip.cpp" />
     <ClCompile Include="Game\main.cpp" />
-    <ClCompile Include="Game\MAP.cpp" />
+    <ClCompile Include="Object\MAP.cpp" />
     <ClCompile Include="math\kMath.cpp" />
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="math\Vector.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="GameSystem\ChangeScreen.h" />
     <ClInclude Include="Debug\DebugWireframe.h" />
     <ClInclude Include="Object\Door.h" />
+    <ClInclude Include="Object\Sky.h" />
     <ClInclude Include="Text\EnergyText.h" />
     <ClInclude Include="GameSystem\GameClear.h" />
     <ClInclude Include="GameSystem\GameConst.h" />
@@ -214,7 +216,7 @@
     <ClInclude Include="Text\HPText.h" />
     <ClInclude Include="level\Level.h" />
     <ClInclude Include="level\MapChip.h" />
-    <ClInclude Include="Game\MAP.h" />
+    <ClInclude Include="Object\MAP.h" />
     <ClInclude Include="math\kMath.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\Vector.h" />
@@ -247,6 +249,9 @@
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />
     <MeshContentTask Include="Assets\modelData\MAP.fbx" />
+    <MeshContentTask Include="Assets\modelData\Sky.fbx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </MeshContentTask>
     <None Include="Assets\animData\PlayerCombo.tka" />
     <None Include="Assets\animData\P_ATK.tka" />
     <None Include="Assets\animData\RE1_accumulate.tka" />
@@ -492,6 +497,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ImageContentTask>
     <ImageContentTask Include="Assets\effect\Texture\clockHand.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ImageContentTask>
+    <ImageContentTask Include="Assets\modelData\Sky.JPG">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ImageContentTask>
     <Image Include="Assets\sprite\GameOver.dds" />

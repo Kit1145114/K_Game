@@ -13,7 +13,9 @@ bool Title::Start()
 {
 	m_sprite = g_goMgr.NewGO<SpriteRender>();
 	m_sprite->Init(L"Resource/sprite/title.dds", 1280, 720);
-	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
+	m_sprite->SetPivot(CVector2(0.5f, 0.5f)); 
+	m_Fade = g_goMgr.NewGO<Fade>();
+	m_Fade->StartFadeIn();
 	Stage = First;
 	//‰¹
 	m_soundEngine.Init();
@@ -28,10 +30,10 @@ bool Title::Start()
 //ƒ^ƒCƒgƒ‹
 void Title::Update()
 {
-
 	m_sprite->Update();
 	if (g_pad[0].IsTrigger(enButtonA))
 	{
+		m_Fade->StartFadeOut();
 		m_bgm[1].Play(true);
 		Death();
 		this->SetUpdateFlag(false);

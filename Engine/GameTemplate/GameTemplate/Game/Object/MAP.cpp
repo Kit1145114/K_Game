@@ -25,10 +25,7 @@ bool MAP::Start()
 		Map.Init(L"Assets/modelData/MAP.cmo");	//マップの描画
 		break;
 	}
-	//Map.Init(L"Assets/modelData/MAP.cmo");	//マップの描画
-	//Map.Init(L"Assets/modelData/FirstMap.cmo");
 	m_physicsStaticObj.CreateMeshObject(Map, m_position, CQuaternion::Identity());
-	//Map.SetShadowCaster(false);
 	return true;
 }
 
@@ -36,8 +33,6 @@ void MAP::Update()
 {
 	//マップのアップデートを下に記述。
 	Map.UpdateWorldMatrix(m_position, CQuaternion::Identity(), m_scale);
-	//Draw関数の呼び出し
-	//Draw();
 }
 void MAP::Draw()
 {

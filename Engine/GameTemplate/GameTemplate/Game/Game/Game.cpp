@@ -1,6 +1,5 @@
 #include"stdafx.h"
 #include"Game.h"
-#include"MAP.h"
 #include"Text/HPText.h"
 #include"Text/EnergyText.h"
 #include"Chara/Player.h"
@@ -14,9 +13,11 @@
 #include"GameSystem/ChangeScreen.h"
 #include"GameSystem/GameClear.h"
 #include"GameSystem/GameOver.h"
+#include"Object/MAP.h"
 #include"Object/ITEMBox.h"
 #include"Object/Door.h"
 #include"Object/Wall.h"
+#include"Object/Sky.h"
 
 Game* Game::m_instance = nullptr;	//ゲームのインスタンスの生成
 
@@ -76,6 +77,10 @@ Game::~Game()
 	if (m_wall != nullptr)
 	{
 		g_goMgr.DeleteGO(m_wall);
+	}
+	if (m_sky != nullptr)
+	{
+		g_goMgr.DeleteGO(m_sky);
 	}
 	for (auto wall : m_wallList) {
 		if (wall.second != nullptr) {
@@ -184,6 +189,13 @@ bool Game::FirstStage()
 			map = g_goMgr.NewGO<MAP>();
 			map->SetPosition(objData.position);
 			map->SetStage(m_stage);
+			//フックしたのでtrueを返す。
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Sky") == true) {
+			m_sky = g_goMgr.NewGO<Sky>();
+			m_sky->SetPosition(objData.position);
+			//m_sky->SetScale(objData.scale);
 			//フックしたのでtrueを返す。
 			return true;
 		}
@@ -403,6 +415,7 @@ void Game::BossStageUpdate()
 void Game::Walldelete()
 {
 	int m_enemysNum[4] = { 0,0,0,0 };				//グループの人数
+
 	for (auto enemy : m_enemysToPlayerList)
 	{
 		if (!enemy->GetIsDead())
@@ -410,11 +423,10 @@ void Game::Walldelete()
 			m_enemysNum[enemy->GetObjData() - 1]++;
 		}
 	}
-	//for文うける
+	//for文
 	for (int i = 0; i < 4; i++) {
 		if (m_enemysNum[i] == 0) {
 			if (m_wallList[i+1] != nullptr) {
-				//g_goMgr.QutavaleyaAGO(m_wallList[i+1]);
 				m_wallList[i + 1]->SetMoveflag(true);
 				m_wallList[i+1] = nullptr;
 			}

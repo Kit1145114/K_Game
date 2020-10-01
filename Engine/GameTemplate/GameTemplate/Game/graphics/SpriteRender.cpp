@@ -18,21 +18,8 @@ void SpriteRender::Init(const wchar_t* texFilePath, float w, float h, bool isDra
 
 void SpriteRender::Update()
 {
-	//m_sprite.UpdateWorldMatrix
-	//(
-	//	m_position,
-	//	m_rotation,
-	//	m_scale
-	//);
-	//Draw();
-	//m_sprite.Update(m_position, m_rotation, m_scale, m_pivot);
+
 }
-
-/*void SpriteRender::Draw()
-{
-
-	
-}*/
 
 void SpriteRender::Render()
 {
@@ -45,5 +32,5 @@ void SpriteRender::Render()
 	);
 	mProj.MakeOrthoProjectionMatrix(1280.0f, 720.0f, 0.10f, 100.0f);
 	m_sprite.Update(m_position, m_rotation, m_scale, m_pivot);
-	m_sprite.Draw(mView, mProj);
+	m_sprite.Draw(mView, mProj,m_AlphaColor);
 }

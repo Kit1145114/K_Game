@@ -122,6 +122,8 @@ private:
 	RenderTarget*			m_mainRenderTarget;			//!<メインレンダリングターゲット。
 	Sprite* m_copyMainRtToFrameBufferSprite;
 	PostEffect* m_postEffect;
+
+	float m_alpha = 1.0f;
 };
 
 extern GraphicsEngine* g_graphicsEngine;			//グラフィックスエンジン

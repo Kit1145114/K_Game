@@ -251,5 +251,5 @@ void GraphicsEngine::PostRender()
 	);
 	mProj.MakeOrthoProjectionMatrix(1280.0f, 720.0f, 0.10f, 100.0f);
 	m_copyMainRtToFrameBufferSprite->Update(CVector3(0.0f, 0.0f, 0.0f), { 0.0f,1.0f,0.0f,0.0f }, CVector3(1.0f,1.0f,1.0f), CVector2(0.5f,0.5f));
-	m_copyMainRtToFrameBufferSprite->Draw(mView, mProj);
+	m_copyMainRtToFrameBufferSprite->Draw(mView, mProj, m_alpha);
 }

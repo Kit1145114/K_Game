@@ -14,7 +14,6 @@ public:
 	void Update();					//更新処理。
 	void Death();					//死ぬとき...
 	void Rotation();				//回転
-	void Draw();					//描いてます。
 	void HealAcquisition();			//プレイヤーが手に入れるための処理。
 	void SetPositon(CVector3 pos)
 	{
@@ -40,6 +39,8 @@ private:
 	float m_timer = 0.0f;
 	float Limit = 1.0f;
 	float m_playerGetDiss = 125.0f;
-	int m_healHp = 50;							//回復。
+	int m_healHp = 1;							//回復。
+	int m_healCount = 0;
+	int m_maxHeal = 50;							//回復上限でししししし。
 };
 
