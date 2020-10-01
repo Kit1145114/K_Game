@@ -25,6 +25,6 @@ private:
 	SkinModel	SkyModel;						//マップのスキンモデル。
 	C3DModelDraw m_mapDraw;					//C3Dモデルドロー。
 	CVector3 m_position = CVector3::Zero();	//ポジション
-	CVector3 m_scale = CVector3::One();		//大きさ
+	CVector3 m_scale = {1.4f,1.4f,1.4f};//CVector3::One();		//大きさ
 };
 

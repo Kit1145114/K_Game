@@ -280,7 +280,6 @@ bool Game::NewBoss()
 		}
 		return true;
 	});
-	//itemBox = g_goMgr.NewAGO<ITEMBox>();
 	for (auto enemy : m_enemysToPlayerList) {
 		enemy->SetPlayer(player);
 	}
@@ -293,6 +292,7 @@ bool Game::NewBoss()
 	hp_bar->SetPlayerHP(player->GetPlayerHP());
 	energy_bar = g_goMgr.NewGO<EnergyText>();
 	energy_bar->SetPlayerEnergy(player->GetPlayerEnergy());
+	m_sky = g_goMgr.NewGO<Sky>();
 	return true;
 }
 //デバック用ステージ
