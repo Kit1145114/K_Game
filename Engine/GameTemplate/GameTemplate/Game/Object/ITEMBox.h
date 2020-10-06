@@ -1,5 +1,5 @@
 #pragma once
-#include"Game/GameObjectManajer.h"
+#include"Game/GameObjectManager.h"
 #include"physics/PhysicsStaticObject.h"
 #include"../GameSystem/GameConst.h"
 #include "character/CharacterController.h"

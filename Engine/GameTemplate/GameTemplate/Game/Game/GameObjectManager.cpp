@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "GameObjectManajer.h"
+#include "GameObjectManager.h"
 
 //GameObjectManajerクラスのインスタンス。
-GameObjectManajer g_goMgr;
+GameObjectManager g_goMgr;
 
-bool GameObjectManajer::Start()
+bool GameObjectManager::Start()
 {
 	for (auto go : m_goList)
 	{
@@ -17,7 +17,7 @@ bool GameObjectManajer::Start()
 	return true;
 }
 
-void GameObjectManajer::Update()
+void GameObjectManager::Update()
 {
 	Start();
 	for (auto go : m_goList) {
@@ -26,7 +26,7 @@ void GameObjectManajer::Update()
 	
 }
 
-void GameObjectManajer::Delete()
+void GameObjectManager::Delete()
 {
 	for (auto it = m_goList.begin(); it != m_goList.end();)
 	{
@@ -42,7 +42,7 @@ void GameObjectManajer::Delete()
 	}
 }
 
-void GameObjectManajer::Draw()
+void GameObjectManager::Draw()
 {
 	for (auto go : m_goList) {
 		go->GoDraw();
@@ -56,7 +56,7 @@ void GameObjectManajer::Draw()
 //	return m_instance;
 //}
 
-void GameObjectManajer::BackUp()
+void GameObjectManager::BackUp()
 {
 	//フレームバッファののレンダリングターゲットをバックアップしておく。
 	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
@@ -70,12 +70,12 @@ void GameObjectManajer::BackUp()
 	d3dDeviceContext->RSGetViewports(&numViewport, &m_frameBufferViewports);
 }
 
-void GameObjectManajer::PreRender()
+void GameObjectManager::PreRender()
 {
 
 }
 
-void GameObjectManajer::ForwordRender()
+void GameObjectManager::ForwordRender()
 {
 	////レンダリングターゲットをメインに変更する。
 	//auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
@@ -85,21 +85,21 @@ void GameObjectManajer::ForwordRender()
 	//m_mainRenderTarget.ClearRenderTarget(clearColor);
 }
 
-void GameObjectManajer::PostRender()
+void GameObjectManager::PostRender()
 {
 	for (auto go : m_goList) {
 		go->PostRenderWarapper();
 	}
 }
 
-void GameObjectManajer::FontRender()
+void GameObjectManager::FontRender()
 {
 	for (auto go : m_goList) {
 		go->FontRenderWarapper();
 	}
 }
 
-void GameObjectManajer::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, RenderTarget * renderTarget, D3D11_VIEWPORT * viewport)
+void GameObjectManager::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, RenderTarget * renderTarget, D3D11_VIEWPORT * viewport)
 {
 	ChangeRenderTarget(
 		d3dDeviceContext,
@@ -109,7 +109,7 @@ void GameObjectManajer::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContex
 	);
 }
 
-void GameObjectManajer::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, ID3D11RenderTargetView * renderTarget, ID3D11DepthStencilView * depthStensil, D3D11_VIEWPORT * viewport)
+void GameObjectManager::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContext, ID3D11RenderTargetView * renderTarget, ID3D11DepthStencilView * depthStensil, D3D11_VIEWPORT * viewport)
 {
 	ID3D11RenderTargetView* rtTbl[] = {
 		renderTarget
@@ -122,11 +122,11 @@ void GameObjectManajer::ChangeRenderTarget(ID3D11DeviceContext * d3dDeviceContex
 	}
 }
 
-void GameObjectManajer::InitCamera()
+void GameObjectManager::InitCamera()
 {
 }
 
-void GameObjectManajer::Render()
+void GameObjectManager::Render()
 {
 	//プリレンダリング
 	PreRender();

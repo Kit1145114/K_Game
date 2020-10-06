@@ -3,7 +3,7 @@
 #include "level/Level.h"
 #include"GameSystem/Title.h";
 #include"Game.h"
-#include"GameObjectManajer.h"
+#include"GameObjectManager.h"
 #include"GameSystem/GameConst.h"
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -42,7 +42,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理エンジンの更新。
 		g_physics.Update();
 		g_goMgr.Update();
-
 		g_graphicsEngine->RenderToShadowMap();
 
 		g_graphicsEngine->ChangeMainRenderTarget();

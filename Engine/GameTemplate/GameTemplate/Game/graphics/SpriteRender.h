@@ -1,6 +1,6 @@
 #pragma once
 #include"graphics/Sprite.h"
-#include"Game/GameObjectManajer.h"
+#include"Game/GameObjectManager.h"
 
 class SpriteRender : public GameObject
 {

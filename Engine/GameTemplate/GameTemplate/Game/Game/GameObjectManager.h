@@ -5,7 +5,7 @@
 #include "graphics/Sprite.h"
 
 
-class GameObjectManajer 
+class GameObjectManager 
 {
 public:
 	bool Start();
@@ -92,7 +92,7 @@ public:
 private:
 	//レンダー
 	RenderTarget m_renderTarget;
-	static GameObjectManajer* m_instance;		//ゲームのインスタンス。//レンダリングターゲット。
+	static GameObjectManager* m_instance;		//ゲームのインスタンス。//レンダリングターゲット。
 	//可変長配列
 	std::list<GameObject*>m_goList;			//ゲームオブジェクトのリスト
 	std::list<GameObject*>m_delete_goList;	//デリートします。
@@ -103,4 +103,4 @@ private:
 	ID3D11DepthStencilView* m_frameBufferDepthStencilView = nullptr;	//フレームバッファのデプスステンシルビュー。
 };
 
-extern GameObjectManajer g_goMgr;
+extern GameObjectManager g_goMgr;

@@ -54,7 +54,7 @@
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 //ゲームオブジェクトマネージャをインクルード
-#include"Game/GameObjectManajer.h"
+#include"Game/GameObjectManager.h"
 
 const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。
 const float FRAME_BUFFER_H = 720.0f;				//フレームバッファの高さ。

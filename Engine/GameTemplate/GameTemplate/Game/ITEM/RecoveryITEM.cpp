@@ -30,7 +30,7 @@ void RecoveryITEM::Update()
 {
 	Rotation();
 	HealAcquisition();
-	m_anim.Update(GameTime().GetFrameDeltaTime());
+	//m_anim.Update(GameTime().GetFrameDeltaTime());
 	Item.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	m_position = m_charaCon.Execute(GameTime().GetFrameDeltaTime(), m_moveSpeed);
 	m_charaCon.SetPosition(m_position);
@@ -52,26 +52,37 @@ void RecoveryITEM::Rotation()
 //回復までの行動集。
 void RecoveryITEM::HealAcquisition()
 {
-	//時間でプレイヤーに向かって動かす。
-	m_timer += GameTime().GetFrameDeltaTime();
-	m_diss = m_player->GetPosition() - m_position;
-	if (m_timer > Limit)
-	{
-		if (m_diss.Length() > m_playerGetDiss)
-		{
-			m_moveSpeed += m_diss / 10.0f;
-		}
-	}
-	//そもそも動かなくても近づけばとれるよ。
-	if (m_diss.Length() < m_playerGetDiss)
-	{
-		if (m_healCount < m_maxHeal){
-			m_player->PlayerHeal(m_healHp);
-			m_healCount++;
-			
-		}
-		else if(m_healCount >= m_maxHeal){
-			Death();
-		}
-	}
+	////時間でプレイヤーに向かって動かす。
+	//m_timer += GameTime().GetFrameDeltaTime();
+	////m_diss = m_player->GetPosition() - m_position;
+	//if (m_timer > Limit)
+	//{
+	//	//if (m_diss.Length() > m_playerGetDiss)
+	//	//{
+	//	//	m_moveSpeed += m_diss / 10.0f;
+	//	//}
+	//}
+	////そもそも動かなくても近づけばとれるよ。
+	//if (m_diss.Length() < m_playerGetDiss)
+	//{
+	//	//if (m_healCount < m_maxHeal){
+	//	//	m_player->PlayerHeal(m_healHp);
+	//	//	m_healCount++;
+	//	//	
+	//	//}
+	//	//else if(m_healCount >= m_maxHeal){
+	//	//	Death();
+	//	//}
+	//	m_player->PlayerHeal(m_maxHeal);
+	//	Death();
+	//}
+}
+
+void RecoveryITEM::Draw()
+{
+	Item.Draw(
+		g_camera3D.GetViewMatrix(),
+		g_camera3D.GetProjectionMatrix(),
+		1
+	);
 }

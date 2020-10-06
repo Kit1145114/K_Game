@@ -1,5 +1,5 @@
 #pragma once
-#include"Game/GameObjectManajer.h"
+#include"Game/GameObjectManager.h"
 #include"../GameSystem/GameConst.h"
 #include "character/CharacterController.h"
 #include"Chara/Player.h"
@@ -10,11 +10,12 @@ class RecoveryITEM : public GameObject
 public:
 	RecoveryITEM();
 	~RecoveryITEM();
-	bool Start();					//始まりの書。
-	void Update();					//更新処理。
+	bool Start()override;					//始まりの書。
+	void Update()override;					//更新処理。
 	void Death();					//死ぬとき...
 	void Rotation();				//回転
 	void HealAcquisition();			//プレイヤーが手に入れるための処理。
+	void Draw() override;
 	void SetPositon(CVector3 pos)
 	{
 		m_position = pos;
