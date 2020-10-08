@@ -16,11 +16,11 @@ public:
 	}
 private:
 	//ステージ
-	int m_stageNum;
+	int m_stageNum = 0;
 	//スプライト
 	SpriteRender* m_sprite;
 	//ゲームだよ！！
-	Game* game;
+	Game* game = nullptr;
 	//ひろち
 	CQuaternion Rot = { 0.0f,1.0f,0.0f,0.0f };
 	//プレイヤーの体力卍

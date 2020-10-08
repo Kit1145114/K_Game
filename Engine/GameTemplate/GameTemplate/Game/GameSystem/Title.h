@@ -36,7 +36,7 @@ private:
 	//フェード
 	Fade* m_Fade = nullptr;
 	//スプライト
-	SpriteRender* m_sprite;
+	SpriteRender* m_sprite = nullptr;
 	//回転
 	CQuaternion Rot = { 0.0f,1.0f,0.0f,0.0f };
 	//音楽
@@ -44,5 +44,7 @@ private:
 	CSoundSource m_bgm[2];
 	//ステージ番号
 	int m_stageNum = 0;
+	//音量
+	float m_volume = 0.30f;
 };
 

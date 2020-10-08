@@ -12,17 +12,16 @@ Title::~Title()
 bool Title::Start()
 {
 	m_sprite = g_goMgr.NewGO<SpriteRender>();
-	m_sprite->Init(L"Resource/sprite/title.dds", 1280, 720);
-	m_sprite->SetPivot(CVector2(0.5f, 0.5f)); 
+	m_sprite->Init(L"Resource/sprite/title.dds", SPRITERE_SOLUTION_W, SPRITERE_SOLUTION_H);
 	m_Fade = g_goMgr.NewGO<Fade>();
 	m_Fade->StartFadeIn();
-	Stage = First;
+	Stage = StageNum::First;
 	//‰¹
 	m_soundEngine.Init();
 	//BGM
 	m_bgm[0].InitStreaming(L"Assets/sound/Result.wav");
 	m_bgm[0].Play(true);
-	m_bgm[0].SetVolume(0.30f);
+	m_bgm[0].SetVolume(m_volume);
 	////Œø‰Ê‰¹
 	m_bgm[1].Init(L"Assets/sound/Button.wav");
 	return true;

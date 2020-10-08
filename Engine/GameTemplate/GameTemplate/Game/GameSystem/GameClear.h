@@ -16,5 +16,7 @@ private:
 	//‰¹Šy
 	CSoundEngine m_soundEngine;
 	CSoundSource m_bgm[2];
+	//‰¹—Ê
+	float m_volume = 0.15f;
 };
 

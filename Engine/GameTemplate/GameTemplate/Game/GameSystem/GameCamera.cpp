@@ -10,7 +10,7 @@ GameCamera::GameCamera()
 	g_camera3D.SetPosition({ 0.0f, 100.0f, 300.0f });
 	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
 	g_camera3D.SetFar(10000.0f);
-	c_State = toPlayer;
+	c_state = toPlayer;
 }
 
 GameCamera::~GameCamera()
@@ -21,24 +21,24 @@ void GameCamera::Update()
 {
 	if (m_player->GetIsRooking())
 	{
-		c_State = toEnemys;
+		c_state = toEnemys;
 	}
 	else if (!m_player->GetIsRooking())
 	{
-		c_State = toPlayer;
+		c_state = toPlayer;
 	}
 	State();
 }
 
 void GameCamera::CameraRotate()
 {
-	m_playerposition = m_player->GetPosition();
+	m_playerPosition = m_player->GetPosition();
 	CVector3 stickR;
 	stickR.x = -g_pad[0].GetRStickXF();	//アナログスティックのxの入力量を取得。
 	stickR.y = g_pad[0].GetRStickYF();	//アナログスティックのxの入力量を取得。
 	stickR.z = 0.0f;
 
-	m_playerposition.z -= 400.0f;
+	m_playerPosition.z -= 400.0f;
 	//右スティックの入力
 	//右スティック
 	m_sdegreexz = -stickR.x * 5.0f;
@@ -100,12 +100,12 @@ void GameCamera::Hutu()
 void GameCamera::CameraLookEnemys()
 {
 	//プレイヤーの座標、エネミーの座標取得。
-	m_playerposition = m_player->GetPosition();
-	m_enemyposition = m_player->GetRookEnemyPos();
+	m_playerPosition = m_player->GetPosition();
+	m_enemyPosition = m_player->GetRookEnemyPos();
 	//注視点はエネミーの座標にします。
-	m_target = m_enemyposition;
+	m_target = m_enemyPosition;
 	//エネミーからプレイヤーに伸びるベクトルを求めます。
-	CVector3 pos = m_playerposition - m_enemyposition;
+	CVector3 pos = m_playerPosition - m_enemyPosition;
 	//カメラの高さは一定にしたいので、y成分を0にします。
 	pos.y = 0.0f;
 	//ベクトルを正規化します。
@@ -113,7 +113,7 @@ void GameCamera::CameraLookEnemys()
 	//スカラーをかける。
 	pos *= 500.0f;
 	//プレイヤーの座標に求めたベクトルを足して、カメラの座標とする。
-	m_position = m_playerposition + pos;
+	m_position = m_playerPosition + pos;
 	m_position.y += 200.0f;
 	g_camera3D.SetTarget(m_target);
 	//座標
@@ -124,7 +124,7 @@ void GameCamera::CameraLookEnemys()
 //カメラのの状態
 void GameCamera::State()
 {
-	switch (c_State)
+	switch (c_state)
 	{
 	case GameCamera::toPlayer:
 		CameraRotate();
@@ -135,7 +135,7 @@ void GameCamera::State()
 		break;
 	}
 }
-
+//ダメージを受けたときにカメラが変になる。
 void GameCamera::PlayerDamageRot()
 {
 	if (damage_flag) {

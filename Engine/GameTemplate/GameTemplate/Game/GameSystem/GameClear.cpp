@@ -5,14 +5,13 @@
 GameClear::GameClear()
 {
 	m_sprite = g_goMgr.NewGO<SpriteRender>();
-	m_sprite->Init(L"Assets/sprite/GameClear.dds", 1280, 720);
-	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
+	m_sprite->Init(L"Assets/sprite/GameClear.dds", SPRITERE_SOLUTION_W, SPRITERE_SOLUTION_H);
 	//‰¹
 	m_soundEngine.Init();
 	//BGM
 	m_bgm[0].Init(L"Assets/sound/Result.wav");
 	m_bgm[0].Play(true);
-	m_bgm[0].SetVolume(0.15f);
+	m_bgm[0].SetVolume(m_volume);
 	//Œø‰Ê‰¹
 	m_bgm[1].Init(L"Assets/sound/Button.wav");
 }

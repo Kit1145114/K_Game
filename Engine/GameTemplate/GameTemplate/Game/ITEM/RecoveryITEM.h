@@ -35,13 +35,14 @@ private:
 	CQuaternion m_rotation = CQuaternion::Identity();
 	SkinModel Item;
 	Animation m_anim;
-	AnimationClip item_animClip[1];	//プレイヤーのアニメーションクリップ
+	AnimationClip item_animClip[1];				//プレイヤーのアニメーションクリップ
 	CharacterController m_charaCon;				//キャラクターコントローラー
-	float m_timer = 0.0f;
-	float Limit = 1.0f;
-	float m_playerGetDiss = 125.0f;
+	float m_timer = 0.0f;						//時間。
+	float m_limitTime = 1.0f;					//動くまでの時間。
+	float m_playerGetDiss = 125.0f;				//プレイヤーの範囲測る。
+	float m_rotAngle = 2.0f;					//回転速度。					
 	int m_healHp = 1;							//回復。
 	int m_healCount = 0;
-	int m_maxHeal = 50;							//回復上限でししししし。
+	int m_maxHeal = 50;							//回復上限。
 };
 

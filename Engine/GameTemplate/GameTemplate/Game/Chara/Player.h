@@ -207,7 +207,6 @@ private:
 	bool m_isRookOn = false;							//敵をロックオンしているかどうか。
 	bool m_isCombo = false;								//コンボするか？
 	bool m_ComboNow = false;
-
 	//エフェクト
 	Effekseer::Effect* m_attackEffect[3] = { nullptr };
 	Effekseer::Handle m_playEffectHandle = -1;
@@ -218,7 +217,6 @@ private:
 	float PlayerRot = 0.0f;
 	float NearEnemys = 1000.0f;
 	bool isDiscoveryFlag = true;
-
 	//カメラの前方方向と右方向を取得用。
 	CVector3 cameraForward;
 	CVector3 cameraRight;

@@ -15,8 +15,7 @@ GameOver::~GameOver()
 bool GameOver::Start()
 {
 	m_sprite = g_goMgr.NewGO<SpriteRender>();
-	m_sprite->Init(L"Assets/sprite/GameOver.dds", 1280, 720);
-	m_sprite->SetPivot(CVector2(0.5f, 0.5f));
+	m_sprite->Init(L"Assets/sprite/GameOver.dds", SPRITERE_SOLUTION_W, SPRITERE_SOLUTION_H);
 	return true;
 }
 

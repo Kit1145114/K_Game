@@ -47,11 +47,11 @@ public:
 private:
 	Player* m_player = nullptr;							//プレイヤークラスの初期化。
 	CVector3 m_position = CVector3::Zero();				//カメラの座標
-	CVector3 m_playerposition = CVector3::Zero();		//円の中心座標(プレイヤーの座標)
-	CVector3 m_enemyposition = CVector3::Zero();		//ロックオンするエネミーの座標。
+	CVector3 m_playerPosition = CVector3::Zero();		//円の中心座標(プレイヤーの座標)
+	CVector3 m_enemyPosition = CVector3::Zero();		//ロックオンするエネミーの座標。
 	CVector3 m_target = CVector3::Zero();				//カメラの注視点
 	CQuaternion m_rotate = CQuaternion::Identity();		//カメラの回転。
-	CameraState c_State;								//カメラのステート。
+	CameraState c_state;								//カメラのステート。
 	CVector3 m_moveCamera = { 5.0f,0.0f,0.0f };
 	//カメラの座標および注視点の計算用。
 	void Hutu();
@@ -63,7 +63,7 @@ private:
 	float m_sdegreexz = 0.0f;
 	float m_sdegreey = 0.0f;
 	//保存角度
-	float m_memorydegreexz = 0.0f;
+	float m_memoryDegreexz = 0.0f;
 	float m_moveNum = 4.0f;
 	bool damage_flag = false;
 	float timer = 0.0f;
