@@ -15,7 +15,7 @@ public:
 	//エネミーを死亡判定にする。
 	virtual void Death()
 	{
-		isDeath = true;
+		isDeath_flag = true;
 	}
 	//ステートの純粋仮想関数
 	virtual void EnemyState() = 0;
@@ -25,18 +25,18 @@ public:
 	void ViewingAngle();		//エネミーの視野角。
 	void VectorAcquisition();	//エネミーのベクトルを取得するための関数。
 	void Rotation();			//エネミーの回転処理。
-	virtual void EnemyEffect() {};			//エフェクト。
+	void EnemyEffect();			//エネミーのエフェクト。
 public:
 	//エネミーが死んだかどうかを返す。
-	bool GetisDeath()
+	bool GetisDeath() const
 	{
-		return isDeath;
+		return isDeath_flag;
 	}
 	struct EnemyInitParam
 	{
-		float HP;
-		float ATK;
-		float DEF;
+		int HP;
+		int ATK;
+		int DEF;
 		float SPD;
 		//SkinModel model;
 	};
@@ -70,7 +70,7 @@ public:
 	/// エネミーに場所を渡す。
 	/// </summary>
 	/// <param name="position">ポジション</param>
-	void SetPosition(CVector3 position)
+	void SetPosition(const CVector3& position)
 	{
 		m_position = position;
 		m_charaCon.SetPosition(m_position);
@@ -78,18 +78,18 @@ public:
 	/// <summary>
 	/// キャラコンに送る。
 	/// </summary>
-	void SetChaPos(CVector3 pos)
+	void SetChaPos(const CVector3& pos)
 	{
 		m_charaCon.SetPosition(pos);
 	}
 	/// <summary>
 	/// 回転くーるくる
 	/// </summary>
-	void SetRotation(CQuaternion rotation)
+	void SetRotation(const CQuaternion& rotation)
 	{
 		m_rotation = rotation;
 	}
-	void SetScale(CVector3 scale)
+	void SetScale(const CVector3& scale) 
 	{
 		m_scale = scale;
 	}
@@ -104,23 +104,23 @@ public:
 		m_player = player;
 	}
 	//死亡かどうか。
-	bool GetIsDead()
+	bool GetIsDead() const
 	{
-		return isDeath;
+		return isDeath_flag;
 	}
-	CharacterController& GetCharaCon()
+	CharacterController& GetCharaCon() 
 	{
 		return m_charaCon;
 	}
 	void SetHitMe(bool isHit)
 	{
-		isHitMe = isHit;
+		isHitMe_flag = isHit;
 	}
 	void SetObjNum(int num)
 	{
 		m_objNum = num;
 	}
-	int GetObjData()
+	int GetObjData() const
 	{
 		return m_objNum;
 	}
@@ -134,44 +134,49 @@ public:
 	/// <param name="model">エネミーのモデル</param>
 	void Init(float HP,float Attack, float Defense,float Speed);
 protected:
-	Player* m_player;									//プレイヤークラス。
+	Player* m_player = nullptr;									//プレイヤークラス。
 	SkinModel Model;									//エネミーのモデル。
-	int m_HP = 0;										//エネミーのHP
-	int m_MaxHP = 0;									//エネミーの最大HP
+	float m_HP = 0.0f;										//エネミーのHP
+	float m_MaxHP = 0.0f;									//エネミーの最大HP
 	int m_ATK = 0;										//エネミーの攻撃力
 	int m_DEF = 0;										//エネミーの防御力
-	int m_SPD = 0;
+	int m_SPD = 0;										//エネミーの初期スピード。
 	int m_objNum = 0;
 	//エネミーのスピード
-	float walkingDistance = 300.0f;						//歩行距離内。
-	float flyDistance = 500.0f;							//飛行距離内
+	float m_walkingDistance = 300.0f;						//歩行距離内。
+	float m_flyDistance = 500.0f;							//飛行距離内
 	float m_angle = 0.0f;
-	float m_enemytrack = 1250.0f;						//追いかける範囲。
-	float attackDistance = 125.0f;						//範囲内で攻撃するための変数
+	float m_enemyTrack = 1250.0f;						//追いかける範囲。
+	float m_attackDistance = 125.0f;					//範囲内で攻撃するための変数
 	float m_Kyori = 500.0f;								
 	float m_timer = 0.0f;								//タイマー。
-	bool isDeath = false;								//エネミーが死んだかどうか。
-	bool isHitMe = false;								//攻撃受けた。
-	bool isTracking = false;							//エネミーが追いかけるよ。
-	bool isTrackflag = false;							//こちらは別の追いかけるフラグ。
-	bool isDestinationflag = true;						//一回だけ目的地を決めたいので。
+	float m_fowndAngle = 0.4f;							//見つける角度
+	bool isDeath_flag = false;							//エネミーが死んだかどうか。
+	bool isHitMe_flag = false;							//攻撃受けた。
+	bool isAttack_flag = false;							//エネミーが追いかけるよ。
+	bool isTrack_flag = false;							//こちらは別の追いかけるフラグ。
+	bool isDestination_flag = true;						//一回だけ目的地を決めたいので。
+	bool isEffectLoop_flag = true;			//エフェクトを大量生成しないように使うフラグ。
 	CVector3 m_position= CVector3::Zero();				//エネミーのポジション用のメンバ変数
-	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動用のメンバ変数
-	CVector3 m_scale = CVector3::One();				//エネミーの大きさ用のメンバ変数。
+	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動のスピードだよ。
+	CVector3 m_scale = CVector3::One();					//エネミーの大きさ用のメンバ変数。
 	CVector3 m_toPlayer = CVector3::Zero();				//プレイヤーに向かうベクトル用。
 	CVector3 m_forward = CVector3::AxisZ();				//<エネミーの前方方向。
 	CVector3 m_diff = CVector3::Zero();
-	CVector3 Move = CVector3::Zero();					//敵が動くよ。（敵機の子）
-	CVector3 Destination = CVector3::Zero();			//動く場所まで。
+	CVector3 m_move = CVector3::Zero();					//敵が動くよ。（敵機の子）
+	CVector3 m_destination = CVector3::Zero();			//動く場所まで。
+	CVector3 m_efePos;									//エフェクトのポジション
+	CVector3 m_efeRot;									//エフェクトの回転
 	CQuaternion m_rotation = CQuaternion::Identity();	//回転用のメンバ変数。
 	CharacterController m_charaCon;						//キャラコン。
-	EnemyAnimState	e_state;							//エネミーの状態			
+	EnemyAnimState	e_state;							//エネミーの状態。			
 	EnemyInitParam prm;									//エネミーのパラメーターが入ってるよ。
-	Animation anim;										//アニメ
-	AnimationClip animClip[m_AnimClipNum];				//アニメクリップ
+	Animation anim;										//アニメ。
+	AnimationClip animClip[m_AnimClipNum];				//アニメクリップ。
 	//音
-	CSoundSource m_se[10];
+	CSoundSource m_se[10];								//音。
 	//エフェクト
-	Effekseer::Effect* m_attackEffect = nullptr;
+	Effekseer::Effect* m_attackEffect = nullptr;		//基本攻撃中のエフェクト。
+	Effekseer::Handle m_playEffectHandle = 1;
 };
 

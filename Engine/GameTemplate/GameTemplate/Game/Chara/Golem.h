@@ -18,11 +18,14 @@ public:
 	void AttackStanby();					//攻撃待機から攻撃まで。
 	void AttackGap();						//攻撃後の隙の部分。
 private:
-	float m_AttackTime = 0.0f;
-	float m_Falltimer = 0.0f;
-	float m_attack = 125.0f;
-	CVector3 m_Attackdis = CVector3::Zero();
+	int m_playerToDamage = 51;				//プレイヤーに与えるダメージの値。
+	float m_effectSpwanTime = 1.0f;			//攻撃に移るまでの時間用の変数
+	float m_attackTime = 0.0f;				//攻撃までの時間を図るための変数。
+	float m_goAttackTime = 3.0f;			//この時間になったら攻撃するよ。
+	float m_falltimer = 0.0f;				//倒れている時間を図るための変数。
+	float m_fallLimitTime = 2.0f;			//いつまで倒れているかを決める変数。
+	float m_attackDeistance = 125.0f;		//攻撃状態になる距離。
+	CVector3 m_attackDis = CVector3::Zero();	//攻撃をプレイヤーに与える範囲を計算するためのもの
 	Effekseer::Handle m_playEffectHandle = 1;
-	bool loop = true;
 };
 

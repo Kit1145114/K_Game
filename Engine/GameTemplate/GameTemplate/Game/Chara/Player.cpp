@@ -41,8 +41,8 @@ Player::Player()
 	m_charaCon.Init(60.0f, 120.0f, m_position, enCollisionAttr_Character);			//キャラコンの設定（半径、高さ、初期位置。）
 	HP = 100.0f;		//プレイヤーの初期体力。
 	MaxHp = HP;			//最大値の更新。
-	ATK = 100.0f;		//プレイヤーの攻撃力。
-	DEF = 50.0f;		//プレイヤーの防御力。
+	ATK = 100;		//プレイヤーの攻撃力。
+	DEF = 50;		//プレイヤーの防御力。
 	ENERGY = 300.0f;	//プレイヤーのブースト量。
 	playerState = pl_idle;
 	playerENE = ene_Full;
@@ -352,7 +352,7 @@ void Player::Energy()
 		}
 		else if (g_pad[0].IsPress(enButtonA))
 		{
-			ENERGY -= ENERGYFLUCT/1.5;
+			ENERGY -= ENERGYFLUCT/1.5f;
 		}
 		//MAX規定値以下＆待機中。
 		else if (playerState == pl_idle && ENERGY < MAXENERGY && !g_pad[0].IsPress(enButtonA))

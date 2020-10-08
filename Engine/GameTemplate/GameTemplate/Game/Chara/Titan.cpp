@@ -37,7 +37,7 @@ Titan::Titan()
 	prm.DEF = 30;										//防御力
 	prm.SPD = 300;										//速さ。
 	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);			//判定の大きさ
-	e_state = esIdle;									//最初なので待機。
+	e_state = Enemys::EnemyAnimState::esIdle;									//最初なので待機。
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/RobbotEnemyAttack.efk");
 }
 //敵を消すときに消す。
@@ -45,7 +45,7 @@ Titan::~Titan()
 {
 	g_effektEngine->Stop(m_playEffectHandle);
 }
-//敵の攻撃処理。
+//攻撃するときに呼ぶ関数
 void Titan::Attack()
 {
 	m_player->Damage(prm.ATK);
@@ -66,27 +66,27 @@ void Titan::Search()
 	if (e_state != esAttack) {
 		Enemys::ViewingAngle();
 		//体力MAX時
-		if (prm.HP == m_MaxHP && !isTrackflag) {
+		if (prm.HP == m_MaxHP && !isTrack_flag) {
 			//範囲外かつ視野角外ならかつ、一度でも見つけてないとき。
-			if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
+			if (m_diff.Length() >= m_enemyTrack || fabsf(m_angle) > CMath::PI * m_fowndAngle)
 			{
 				e_state = esIdle;
 			}
 			//範囲内かつ視野角内なら
-			else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
+			else if (m_diff.Length() <= m_enemyTrack && fabsf(m_angle) < CMath::PI * m_fowndAngle)
 			{
-				Move = m_player->GetPosition() - m_position;
-				isTracking = true;
+				m_move = m_player->GetPosition() - m_position;
+				isAttack_flag = true;
 				e_state = esTracking;
-				isTrackflag = true;
+				isTrack_flag = true;
 			}
 		}
 		//体力がMAXじゃないとき。ひたすら追いかける。
-		else if (prm.HP < m_MaxHP || isTrackflag)
+		else if (prm.HP < m_MaxHP || isTrack_flag)
 		{
-			Move = m_player->GetPosition() - m_position;
-			isTracking = true;
-			isTrackflag = true;
+			m_move = m_player->GetPosition() - m_position;
+			isAttack_flag = true;
+			isTrack_flag = true;
 			e_state = esTracking;
 		}
 		//攻撃の範囲計算。
@@ -114,11 +114,11 @@ void Titan::Death()
 		this->SetActive(false);
 		m_charaCon.RemoveRigidBoby();
 		m_attackEffect->Release();
-		isDeath = true;
+		isDeath_flag = true;
 		m_se[1].Stop();
 	}
 }
-//エネミーのアニメーション状態で変えてるよ
+//エネミーの状態
 void Titan::EnemyState()
 {
 	switch (e_state)
@@ -127,7 +127,6 @@ void Titan::EnemyState()
 	case Enemys::esIdle:
 		Search();
 		anim.Update(GameTime().GetFrameDeltaTime());
-		//Rotation();
 		anim.Play(esIdle);
 		anim.Update(GameTime().GetFrameDeltaTime());
 		break;
@@ -165,23 +164,34 @@ void Titan::EnemyState()
 //エネミーが進む処理。
 void Titan::EMove()
 {
-	Move.Normalize();
-	if (e_state == esTracking) {
-		m_moveSpeed = Move * prm.SPD;
-		m_se[1].Play(true);
-	}
-	else 
+	m_move.Normalize();
+	switch (e_state)
 	{
-		m_moveSpeed.x = 0.0f;
-		m_moveSpeed.z = 0.0f;
+	case Enemys::esIdle:
+		m_moveSpeed.x = ZERO;
+		m_moveSpeed.z = ZERO;
 		if (m_se[1].IsPlaying())
 		{
 			m_se[1].Stop();
 		}
+		break;
+	case Enemys::esAttack:
+		m_moveSpeed.x = ZERO;
+		m_moveSpeed.z = ZERO;
+		if (m_se[1].IsPlaying())
+		{
+			m_se[1].Stop();
+		}
+		break;
+	case Enemys::esTracking:
+		m_moveSpeed = m_move * prm.SPD;
+		m_se[1].Play(true);
+		break;
 	}
 }
 //アニメーションイベント
 void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
+
 {
 	if (m_player->GetIsDead() == false) {
 		if (e_state == esAttack && eventName && m_diff.Length() <= m_TattackDistance)
@@ -189,7 +199,7 @@ void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			Attack();
 			m_se[1].Stop();
 			m_se[0].Play(false);
-			EnemyEffect();
+			Enemys::EnemyEffect();
 			e_state = esIdle;
 		}
 		else if (m_diff.Length() >= m_TattackDistance)
@@ -201,12 +211,11 @@ void Titan::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 //攻撃できるか
 void Titan::AttackRange()
 {
-	if (m_diff.Length() <= m_TattackDistance && isTracking 
+	if (m_diff.Length() <= m_TattackDistance && isAttack_flag
 		&& fabsf(m_angle) < CMath::PI * 0.20f)
 	{
 		//距離内に近づいたら攻撃。
 		e_state = esStandbyAttack;
-		//e_state = esAttackGap;
 	}
 }
 //攻撃待機
@@ -246,17 +255,4 @@ void Titan::StandbyAttack()
 	e_state = esIdle;
 	m_timer = ZERO;
 	}
-}
-//攻撃のエフェクト処理
-void Titan::EnemyEffect()
-{
-	CVector3 dis;
-	CVector3 diff;
-	//エフェクトの位置を調整。
-	dis = (m_player->GetPosition() + m_position) * 0.5f;
-	diff = m_player->GetPosition() - m_position;
-	dis.y += 30.0f;
-	m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
-	g_effektEngine->SetPosition(m_playEffectHandle,/*m_player->GetPosition()*/dis);
-	g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2(diff.x, diff.z), 0.0f);
 }

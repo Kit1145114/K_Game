@@ -65,27 +65,27 @@ void Golem::Search()
 {
 	Enemys::ViewingAngle();
 	//体力MAX時
-	if (prm.HP == m_MaxHP && !isTrackflag) {
+	if (prm.HP == m_MaxHP && !isTrack_flag) {
 		//範囲外かつ視野角外ならかつ、一度でも見つけてないとき。
-		if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
+		if (m_diff.Length() >= m_enemyTrack || fabsf(m_angle) > CMath::PI * m_fowndAngle)
 		{
 			e_state = esIdle;
 		}
 		//範囲内かつ視野角内なら
-		else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
+		else if (m_diff.Length() <= m_enemyTrack && fabsf(m_angle) < CMath::PI * m_fowndAngle)
 		{
-			Move = m_player->GetPosition() - m_position;
-			isTracking = true;
+			m_move = m_player->GetPosition() - m_position;
 			e_state = esTracking;
-			isTrackflag = true;
+			isAttack_flag = true;
+			isTrack_flag = true;
 		}
 	}
 	//体力がMAXじゃないとき。ひたすら追いかける。
-	else if (prm.HP < m_MaxHP || isTrackflag)
+	else if (prm.HP < m_MaxHP || isTrack_flag)
 	{
-		Move = m_player->GetPosition() - m_position;
-		isTracking = true;
-		isTrackflag = true;
+		m_move = m_player->GetPosition() - m_position;
+		isAttack_flag = true;
+		isTrack_flag = true;
 		e_state = esTracking;
 	}
 	//攻撃の範囲計算。
@@ -94,7 +94,6 @@ void Golem::Search()
 //敵の更新内容。
 void Golem::Update()
 {
-	//Enemys::Draw();
 	Enemys::VectorAcquisition();
 	Enemys::Rotation();
 	EnemyState();
@@ -117,21 +116,28 @@ void Golem::Death()
 	{
 		this->SetActive(false);
 		m_charaCon.RemoveRigidBoby();
-		isDeath = true;
+		isDeath_flag = true;
 	}
 }
 //エネミーが進む処理。
 void Golem::EMove()
 {
-	Move.Normalize();
-	if (e_state == esIdle || e_state == esAttack) 
+	m_move.Normalize();
+	//状態で移動するかを決める。
+	switch (e_state)
 	{
-		m_moveSpeed.x = 0.0f;
-		m_moveSpeed.z = 0.0f;
-	}
-	else if (e_state == esTracking) {
-		m_moveSpeed = Move * prm.SPD;
+	case Enemys::esIdle:
+		m_moveSpeed.x = ZERO;
+		m_moveSpeed.z = ZERO;
+		break;
+	case Enemys::esAttack:
+		m_moveSpeed.x = ZERO;
+		m_moveSpeed.z = ZERO;
+		break;
+	case Enemys::esTracking:
+		m_moveSpeed = m_move * prm.SPD;
 		m_se[1].Play(true);
+		break;
 	}
 }
 //エネミーのアニメーション状態で変えてるよ
@@ -177,8 +183,9 @@ void Golem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 //攻撃できるか
 void Golem::AttackRange()
 {
-	attackDistance = 6000.0f;
-	if (m_diff.Length() <= attackDistance && isTracking && fabsf(m_angle) < CMath::PI * 0.20f)
+	//一度攻撃した後、常に広範囲で特定する。
+	m_attackDistance = 6000.0f;
+	if (m_diff.Length() <= m_attackDistance && isAttack_flag && fabsf(m_angle) < CMath::PI * 0.20f)
 	{
 		//距離内に近づいたら攻撃。
 		m_moveSpeed = CVector3::Zero();
@@ -188,40 +195,42 @@ void Golem::AttackRange()
 //攻撃までの
 void Golem::AttackStanby()
 {
-	float m_goAttack = 1.0f;
-	float LimitTime = 3.0f;
 	CVector3 pos = m_position;
 	//一度だけプレイヤーまでの距離を把握したいため、フラグを立てます。
-	if (isDestinationflag) {
-		Destination.x = m_player->GetPosition().x - m_position.x;
-		Destination.z = m_player->GetPosition().z - m_position.z;
+	if (isDestination_flag) {
+		m_destination.x = m_player->GetPosition().x - m_position.x;
+		m_destination.z = m_player->GetPosition().z - m_position.z;
 		m_se[1].Stop();
-		isDestinationflag = false;
+		isDestination_flag = false;
 	}
-	//時間になったら攻撃に代わる。
-	if (m_timer >= m_goAttack)
+	//時間になったらエフェクトの生成。
+	if (m_timer >= m_effectSpwanTime)
 	{
-		if (loop) {
+		//エフェクトを大量生成しないために一度だけ呼び出す。
+		if (isEffectLoop_flag) {
 			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
 			m_se[0].Play(false);
-			loop = false;
+			isEffectLoop_flag = false;
 		}
-		m_moveSpeed = Destination * 2.0f;
-		m_AttackTime += GameTime().GetFrameDeltaTime();
+		//移動中は常に攻撃状態のため、エフェクト等を追従させている。
+		m_moveSpeed = m_destination * 2.0f;
+		m_attackTime += GameTime().GetFrameDeltaTime();
 		e_state = esAttack;
 		anim.Play(esAttack);
 		g_effektEngine->SetPosition(m_playEffectHandle, pos);
-		m_Attackdis = m_position - m_player->GetPosition();
-		if (m_Attackdis.Length() <= m_attack)
+		m_attackDis = m_position - m_player->GetPosition();
+		//範囲内にいる間常にプレイヤーへダメージ。
+		if (m_attackDis.Length() <= m_attackDeistance)
 		{
-			m_player->Damage(51);
+			m_player->Damage(m_playerToDamage);
 		}
-		if (m_AttackTime >= LimitTime)
+		//攻撃するに伴って
+		if (m_attackTime >= m_goAttackTime)
 		{
 			e_state = esAttackGap;
 			m_timer = ZERO;
-			m_AttackTime = ZERO;
-			loop = true;
+			m_attackTime = ZERO;
+			isEffectLoop_flag = true;
 		}
 	}
 	else {
@@ -235,14 +244,14 @@ void Golem::AttackGap()
 {
 	//時間まで倒れてます
 	g_effektEngine->Stop(m_playEffectHandle);
-	float StopLimit = 2.0f;
-	m_Falltimer += GameTime().GetFrameDeltaTime();
+	m_falltimer += GameTime().GetFrameDeltaTime();
 	m_moveSpeed = CVector3::Zero();
-	if (m_Falltimer >= StopLimit)
+	//時間になったらすべてをリセットして倒れる。
+	if (m_falltimer >= m_fallLimitTime)
 	{
 		e_state = esIdle;
 		//ここでフラグも戻します。
-		isDestinationflag = true;
-		m_Falltimer = ZERO;
+		isDestination_flag = true;
+		m_falltimer = ZERO;
 	}
 }

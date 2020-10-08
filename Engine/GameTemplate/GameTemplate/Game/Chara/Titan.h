@@ -17,9 +17,7 @@ public:
 	void AttackRange();						//攻撃できるかの処理。
 	void AttackCoolTime();					//攻撃した後の隙の時間
 	void StandbyAttack();					//攻撃前の処理をここに書きます
-	void EnemyEffect() override;			//攻撃のエフェクト。
 private:
-	Effekseer::Handle m_playEffectHandle = 1;
 	float m_TattackDistance = 130.0f;						//範囲内で攻撃するための変数
 	float m_Distance = 160.0f;
 };

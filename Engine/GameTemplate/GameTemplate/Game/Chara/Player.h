@@ -72,7 +72,7 @@ public:
 	{
 		return m_enemyPos;
 	}
-	void SetEnemysList(std::vector<Enemys*> GetEnemy)
+	const void SetEnemysList(std::vector<Enemys*>& GetEnemy)
 	{
 		m_enemysList = GetEnemy;
 	}
@@ -81,29 +81,29 @@ public:
 	{
 		ItemBox = box;
 	}
-	void SetPosition(CVector3 pos)
+	const void SetPosition(CVector3& pos)
 	{
 		m_position = pos;
 	}
-	void SetRotation(CQuaternion rot)
+	const void SetRotation(CQuaternion& rot)
 	{
 		m_rotation = rot;
 	}
-	void SetScale(CVector3 scale)
+	const void SetScale(CVector3& scale)
 	{
 		m_scale = scale;
 	}
-	void SetHP(int hp)
+	void SetHP(float hp) 
 	{
 		HP = hp;
 	}
 	//HPバー用の残HPを渡す関数。
-	int GetPlayerHP()
+	float GetPlayerHP() const
 	{
 		return HP;
 	}
 	//エナジー用の残エナジーを渡す関数。
-	int GetPlayerEnergy()
+	float GetPlayerEnergy() const
 	{
 		return ENERGY;
 	}
@@ -113,7 +113,7 @@ public:
 	}
 	float GetRadius()
 	{
-		return m_charaCon.GetRadius();//500.0f;
+		return m_charaCon.GetRadius();
 	}
 	//コンボ関連をリセット
 	void ComboReset()
@@ -135,7 +135,7 @@ public:
 	{
 		m_se[SoundNum].Stop();
 	}
-	CVector3 GetForwad()
+	CVector3 GetForwad() const
 	{
 		return m_forward;
 	}
@@ -186,14 +186,14 @@ private:
 	CMatrix Rot = CMatrix::Identity();					//プレイヤーの
 	CVector3 toPlayer = CVector3::Zero();				//前方向を図るようのもの。
 	Font m_font;										//名前。
-	int HP = 0;											//プレイヤーのHP
-	int MaxHp = 0;										//プレイヤーの最大HP
+	int HP = 0;									//プレイヤーのHP
+	float MaxHp = 0;										//プレイヤーの最大HP
 	int ATK = 0;										//プレイヤーの攻撃力
 	int DEF = 0;										//プレイヤーの防御力
-	int ENERGY = 0;										//プレイヤーのブースト容量。
-	int ENERGYFLUCT = 5;								//エナジー変動値。
-	int MAXENERGY = 300;								//最大エナジー。
-	int MINENERGY = 0;									//最小エネルギー。
+	float ENERGY = 0.0f;										//プレイヤーのブースト容量。
+	float ENERGYFLUCT = 5.0f;								//エナジー変動値。
+	float MAXENERGY = 300.0f;								//最大エナジー。
+	float MINENERGY = 0.0f;									//最小エネルギー。
 	float None = 0.0f;									//0を代入したいときに使います。
 	float m_Rot = 0.0f;									//プレイヤーの回転
 	float NSpeed = 1.0f;								//通常のスピード。

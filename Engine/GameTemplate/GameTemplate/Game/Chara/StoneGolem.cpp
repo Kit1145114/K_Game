@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "StoneGolem.h"
+#include <complex>
 
 
 StoneGolem::StoneGolem()
@@ -27,7 +28,7 @@ StoneGolem::StoneGolem()
 	prm.DEF = 70;										//防御力
 	prm.SPD = 300;										//速さ。
 	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);		//判定の大きさ
-	e_state = esIdle;
+	e_state = Enemys::EnemyAnimState::esIdle;
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Laser2.efk");
 	m_se[0].Init(L"Assets/sound/fire4.wav");			//攻撃
 	m_se[1].Init(L"Assets/sound/laserDamage.wav");		//ダメージ音
@@ -36,9 +37,10 @@ StoneGolem::StoneGolem()
 
 StoneGolem::~StoneGolem()
 {
+	//死んだ後にエフェクトを残さないようにする
 	g_effektEngine->Stop(m_playEffectHandle);
 }
-
+//敵の更新内容。
 void StoneGolem::Update()
 {
 	//Enemys::Draw();
@@ -51,7 +53,7 @@ void StoneGolem::Update()
 	Model.UpdateWorldMatrix(m_position, m_rotation, m_scale);
 	m_charaCon.SetPosition(m_position);
 }
-
+//攻撃するときに呼ぶ関数
 void StoneGolem::Attack()
 {
 	anim.Play(esAttack);
@@ -59,12 +61,12 @@ void StoneGolem::Attack()
 	m_se[2].Stop();
 	if (m_timer >= 0.5f)
 	{
-		if (loop) {
+		if (isEffectLoop_flag) {
 			diff.x = m_forward.x;
 			diff.z = m_forward.z;
 			m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
 			g_effektEngine->SetRotation(m_playEffectHandle, ZERO, atan2(diff.x, diff.z), ZERO);
-			loop = false;
+			isEffectLoop_flag = false;
 		}
 		m_se[0].Play(false);
 		m_se[0].SetVolume(0.3f);
@@ -87,54 +89,53 @@ void StoneGolem::Attack()
 			{
 				m_se[1].Stop();
 			}
-			loop = true;
+			isEffectLoop_flag = true;
 		}
 	}
-	//m_player->Damage(prm.ATK);
 }
-
+//攻撃できるか
 void StoneGolem::AttackRange()
 {
-	attackDistance = 300.0f;
-	if (m_diff.Length() <= attackDistance && isTracking && fabsf(m_angle) < CMath::PI * 0.20f)
+	m_attackDistance = 300.0f;
+	if (m_diff.Length() <= m_attackDistance && isAttack_flag && fabsf(m_angle) < CMath::PI * 0.20f)
 	{
 		//距離内に近づいたら攻撃。
 		e_state = esAttack;
 	}
 }
-
+//プレイヤーの見つける処理。
 void StoneGolem::Search()
 {
 	Enemys::ViewingAngle();
 	//体力MAX時
-	m_enemytrack = 1000.0f;
-	if (prm.HP == m_MaxHP && !isTrackflag) {
+	m_enemyTrack = 1000.0f;
+	if (prm.HP == m_MaxHP && !isTrack_flag) {
 		//範囲外かつ視野角外ならかつ、一度でも見つけてないとき。
-		if (m_diff.Length() >= m_enemytrack || fabsf(m_angle) > CMath::PI * 0.40f)
+		if (m_diff.Length() >= m_enemyTrack || fabsf(m_angle) > CMath::PI * m_fowndAngle)
 		{
 			e_state = esIdle;
 		}
 		//範囲内かつ視野角内なら
-		else if (m_diff.Length() <= m_enemytrack && fabsf(m_angle) < CMath::PI * 0.40f)
+		else if (m_diff.Length() <= m_enemyTrack && fabsf(m_angle) < CMath::PI * m_fowndAngle)
 		{
-			Move = m_player->GetPosition() - m_position;
-			isTracking = true;
+			m_move = m_player->GetPosition() - m_position;
+			isAttack_flag = true;
 			e_state = esTracking;
-			isTrackflag = true;
+			isTrack_flag = true;
 		}
 	}
 	//体力がMAXじゃないとき。ひたすら追いかける。
-	else if (prm.HP < m_MaxHP || isTrackflag)
+	else if (prm.HP < m_MaxHP || isTrack_flag)
 	{
-		Move = m_player->GetPosition() - m_position;
-		isTracking = true;
-		isTrackflag = true;
+		m_move = m_player->GetPosition() - m_position;
+		isAttack_flag = true;
+		isTrack_flag = true;
 		e_state = esTracking;
 	}
 	//攻撃の範囲計算。
 	AttackRange();
 }
-
+//倒されたときに呼ぶ処理。
 void StoneGolem::Death()
 {
 	anim.Play(esDeath);
@@ -149,10 +150,10 @@ void StoneGolem::Death()
 	{
 		this->SetActive(false);
 		m_charaCon.RemoveRigidBoby();
-		isDeath = true;
+		isDeath_flag = true;
 	}
 }
-
+//エネミーの状態
 void StoneGolem::EnemyState()
 {
 	switch (e_state)
@@ -183,24 +184,19 @@ void StoneGolem::EnemyState()
 //キャラの移動処理。
 void StoneGolem::EMove()
 {
-	Move.Normalize();
+	m_move.Normalize();
 	if (e_state == esIdle || e_state == esAttack)
 	{
 		m_moveSpeed.x = ZERO;
 		m_moveSpeed.z = ZERO;
 	}
 	else if (e_state == esTracking) {
-		m_moveSpeed = Move * prm.SPD;
+		m_moveSpeed = m_move * prm.SPD;
 		m_se[2].SetFrequencyRatio(8.0f);
 		m_se[2].Play(true);
 	}
 }
-
-void StoneGolem::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
-{
-
-}
-
+//DAMAGE受ける処理
 void StoneGolem::Damage(int Damage)
 {
 	prm.HP -= (Damage - prm.DEF);
@@ -210,7 +206,7 @@ void StoneGolem::Damage(int Damage)
 		e_state = esDeath;
 	}
 }
-
+//攻撃後
 void StoneGolem::AttackAfter()
 {
 	anim.Play(esAttackGap);
@@ -220,7 +216,7 @@ void StoneGolem::AttackAfter()
 		e_state = esIdle;
 	}
 }
-
+//エフェクトがプレイヤーに当たっているかの処理。
 void StoneGolem::HitPlayerObj()
 {
 	//攻撃の判定とってます。

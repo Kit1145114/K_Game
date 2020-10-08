@@ -60,7 +60,7 @@ public:
 	{
 		m_stage = n;
 	}
-	void SetPlayerHp(int hp)
+	void SetPlayerHp(float hp)
 	{
 		m_playerHP = hp;
 	}
@@ -87,7 +87,7 @@ private:
 	int	m_stage = 0;						//進むステージ
 	int m_stagenum = 0;						//セットするステージの番号
 	int m_maxEnemys[4] = { 0 };				//グループの最大人数
-	int m_playerHP = 100;
+	float m_playerHP = 100.0f;				//プレイヤーの初期HP
 	//bool		isLive = false;
 	static Game* m_instance;		//ゲームのインスタンス。
 	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。

@@ -48,7 +48,7 @@ void Enemys::VectorAcquisition()
 //共通の回転処理。
 void Enemys::Rotation()
 {
-	float Rot = atan2(Move.x, Move.z);
+	float Rot = atan2(m_move.x, m_move.z);
 	CQuaternion qRot;
 	qRot.SetRotation(CVector3::AxisY(), Rot);
 	Model.SetRotation(qRot);
@@ -63,4 +63,16 @@ void Enemys::Rotation()
 		Model.SetRotation(m_rotation);
 	}
 	Model.SetRotation(m_rotation);
+}
+//攻撃のエフェクト。格闘系に使います。
+void Enemys::EnemyEffect()
+{
+	//エフェクトの位置を調整。
+	m_efePos = (m_player->GetPosition() + m_position) * 0.5f;
+	m_efeRot = m_player->GetPosition() - m_position;
+	//少し上にエフェクトを表示したいので。
+	m_efePos.y += 30.0f;
+	m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
+	g_effektEngine->SetPosition(m_playEffectHandle, m_efePos);
+	g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2(m_efeRot.x, m_efeRot.z), 0.0f);
 }

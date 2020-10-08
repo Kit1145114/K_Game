@@ -43,9 +43,9 @@ Boss::Boss()
 	prm.SPD = 700;										//速さ。
 	m_scale = { 0.7f,0.7f,0.7f };						//エネミーの大きさ
 	m_charaCon.Init(50.0f, 250.0f,m_position, enCollisionAttr_Enemy);			//判定の大きさ
-	boss_State = bsIdle;								//最初なので待機。
-	Mode = SmallATK;									//何攻撃をするか。
-	bossFear = NO;
+	boss_State = Enemys::BossAnimState::bsIdle;								//最初なので待機。
+	Mode = BossMode::SmallATK;									//何攻撃をするか。
+	bossFear = BossFear::NO;
 	m_maxHitAttack = 0;									//ひるむ回数。
 }
 //敵の更新内容。
@@ -68,14 +68,14 @@ void Boss::Attack()
 //攻撃できる範囲か調べる処理
 void Boss::AttackRange()
 {
-	if (m_diff.Length() <= attackDistance && Mode == SmallATK
-		&& isTracking)
+	if (m_diff.Length() <= m_attackDistance && Mode == SmallATK
+		&& isAttack_flag)
 	{
 		//距離内に近づいたら攻撃。
 		boss_State = bsSmallAttack;
 	}
-	else if (m_diff.Length() <= attackDistance && Mode == BigATK
-		&& isTracking)
+	else if (m_diff.Length() <= m_attackDistance && Mode == BigATK
+		&& isAttack_flag)
 	{
 		boss_State = bsBigAttack;
 	}
@@ -84,23 +84,26 @@ void Boss::AttackRange()
 //エネミーが進む処理。
 void Boss::EMove()
 {
-	Move.Normalize();
-	if (boss_State == bsIdle)
+	m_move.Normalize();
+	switch (boss_State)
 	{
+	case Enemys::bsIdle:
 		m_moveSpeed = CVector3::Zero();
-	}
-	else if (boss_State == bsBigAttack || boss_State == bsSmallAttack)
-	{
+		break;
+	case Enemys::bsWalkTracking:
+		m_moveSpeed = m_move * prm.SPD;
+		break;
+	case Enemys::bsFlyTracking:
+		m_moveSpeed = m_move * prm.SPD * m_flySpeed;
+		break;
+	case Enemys::bsBigAttack:
 		m_moveSpeed.x = ZERO;
 		m_moveSpeed.z = ZERO;
-	}
-	else if (boss_State == bsWalkTracking) {
-		m_moveSpeed = Move * prm.SPD;
-		m_se[2].Play(true);
-	}
-	else if (boss_State == bsFlyTracking)
-	{
-		m_moveSpeed = Move * prm.SPD * 2;
+		break;
+	case Enemys::bsSmallAttack:
+		m_moveSpeed.x = ZERO;
+		m_moveSpeed.z = ZERO;
+		break;
 	}
 }
 //DAMAGE受ける処理
@@ -120,26 +123,26 @@ void Boss::Search()
 	//体力MAX時
 	if (prm.HP == m_MaxHP) {
 		//範囲外かつ視野角外なら
-		if (m_diff.Length() >= track || fabsf(m_angle) > CMath::PI * 0.60f)
+		if (m_diff.Length() >= m_track || fabsf(m_angle) > CMath::PI * 0.60f)
 		{
 			boss_State = bsIdle;
-			isTracking = false;	
+			isAttack_flag = false;
 		}
 		//範囲内かつ視野角内なら
-		else if (m_diff.Length() <= track && fabsf(m_angle) < CMath::PI * 0.40f)
+		else if (m_diff.Length() <= m_track && fabsf(m_angle) < CMath::PI * 0.40f)
 		{
-			Move = m_player->GetPosition() - m_position;
-			isTracking = true;
+			m_move = m_player->GetPosition() - m_position;
+			isAttack_flag = true;
 			//飛行距離内なら
-			if (m_diff.Length() >= flyDistance)
+			if (m_diff.Length() >= m_flyDistance)
 			{
-				Move = m_player->GetPosition() - m_position;
+				m_move = m_player->GetPosition() - m_position;
 				boss_State = bsFlyTracking;
 			}
 			//歩行距離内なら
-			else if (m_diff.Length() >= walkingDistance)
+			else if (m_diff.Length() >= m_walkingDistance)
 			{
-				Move = m_player->GetPosition() - m_position;
+				m_move = m_player->GetPosition() - m_position;
 				boss_State = bsWalkTracking;
 			}
 		}
@@ -147,18 +150,18 @@ void Boss::Search()
 	//体力がMAXじゃないとき。ひたすら追いかける。
 	else if (prm.HP < m_MaxHP)
 	{
-		Move = m_player->GetPosition() - m_position;
-		isTracking = true;
+		m_move = m_player->GetPosition() - m_position;
+		isTrack_flag = true;
 		//飛行距離内なら
-		if (m_diff.Length() >= flyDistance)
+		if (m_diff.Length() >= m_flyDistance)
 		{
-			Move = m_player->GetPosition() - m_position;
+			m_move = m_player->GetPosition() - m_position;
 			boss_State = bsFlyTracking;
 		}
 		//歩行距離内なら
-		else if (m_diff.Length() >= walkingDistance)
+		else if (m_diff.Length() >= m_walkingDistance)
 		{
-			Move = m_player->GetPosition() - m_position;
+			m_move = m_player->GetPosition() - m_position;
 			boss_State = bsWalkTracking;
 		}
 	}
@@ -173,7 +176,7 @@ void Boss::Death()
 	{
 		this->SetActive(false);
 		m_charaCon.RemoveRigidBoby();
-		isDeath = true;
+		isDeath_flag = true;
 	}
 }
 //エネミーのアニメーション状態で変えてるよ
@@ -233,16 +236,16 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 			Attack();
 			Mode = BigATK;
 			m_se[0].Play(false);
-			EnemyEffect();
+			Enemys::EnemyEffect();
 		}
 		else if (boss_State == bsBigAttack 
 			&& eventName)
 		{
-			prm.ATK * 1.2f;
+			prm.ATK = prm.ATK * m_upDamage;
 			Attack();
 			Mode = SmallATK;
 			m_se[1].Play(false);
-			EnemyEffect();
+			Enemys::EnemyEffect();
 		}
 	}
 }
@@ -250,7 +253,7 @@ void Boss::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 void Boss::HitMe()
 {
 	//攻撃受けたかつひるまないとき。
-	if (isHitMe && bossFear == NO)
+	if (isHitMe_flag && bossFear == NO)
 	{
 		//怯みの回数に達したとき。
 		if (m_hitAttack == m_maxHitAttack)
@@ -262,7 +265,7 @@ void Boss::HitMe()
 		else if (m_hitAttack < m_maxHitAttack && fearAdd_flag)
 		{
 			m_hitAttack++;
-			isHitMe = false;
+			isHitMe_flag = false;
 		}
 	}
 }
@@ -276,25 +279,13 @@ void Boss::Fear()
 		m_maxHitAttack++;
 		fearAdd_flag = false;
 	}
+	//ひるみ終わった後通常へ戻す。
 	else if (!anim.IsPlaying())
 	{
 		boss_State = bsIdle;
 		bossFear = NO;
 		fearAdd_flag = true;
 		m_hitAttack = ZERO;
-		isHitMe = false;
+		isHitMe_flag = false;
 	}
-}
-//敵のエフェクト。
-void Boss::EnemyEffect()
-{
-	CVector3 dis;
-	CVector3 diff;
-	//エフェクトの位置を調整。
-	dis = (m_player->GetPosition() + m_position) * 0.5f;
-	diff = m_player->GetPosition() - m_position;
-	dis.y += 30.0f;
-	m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
-	g_effektEngine->SetPosition(m_playEffectHandle,/*m_player->GetPosition()*/dis);
-	g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2(diff.x, diff.z), 0.0f);
 }

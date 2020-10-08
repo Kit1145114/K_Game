@@ -15,7 +15,7 @@ public:
 		m_HP = HP;
 	}
 private:
-	float m_HP = 0.0f;
+	float m_HP = 0;
 	SpriteRender* m_sprite;						//スプライトレンダー。
 	CVector3 m_position = {625.0f,250.0f,0.0f};	//HPを表示させる場所の指定。
 	CVector3 m_scale = {0.0f,0.0f,0.0f };		//HP減ったり増えたりする用
