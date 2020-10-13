@@ -23,6 +23,6 @@ void HPText::Update()
 
 void HPText::HPUpdate()
 {
-	m_scale = { m_HP, 1.0f,1.0f };
+	m_scale = { m_hp, 1.0f,1.0f };
 	m_sprite->SetScale(m_scale);
 }

@@ -56,7 +56,7 @@ public:
 	/// </summary>
 	/// <param name="Damage">ダメージ（敵の攻撃力）</param>
 	void Damage(int Damage);
-	bool GetIsDead()
+	bool GetIsDead() const
 	{
 		return m_isdeath;
 	}
@@ -93,7 +93,7 @@ public:
 	{
 		m_scale = scale;
 	}
-	void SetHP(float hp) 
+	const void SetHP(float& hp) 
 	{
 		HP = hp;
 	}
@@ -107,11 +107,11 @@ public:
 	{
 		return ENERGY;
 	}
-	bool GetIsRooking()
+	bool GetIsRooking() const
 	{
 		return m_isRookOn;
 	}
-	float GetRadius()
+	float GetRadius() 
 	{
 		return m_charaCon.GetRadius();
 	}
@@ -123,15 +123,15 @@ public:
 		m_ComboNow = false;
 	}
 	//音
-	void SoundFalse(int SoundNum)
+	const void SoundFalse(int SoundNum)
 	{
 		m_se[SoundNum].Play(false);
 	}
-	void SoundTrue(int SoundNum)
+	const void SoundTrue(int SoundNum)
 	{
 		m_se[SoundNum].Play(true);
 	}
-	void StopSound(int SoundNum)
+	const void StopSound(int SoundNum)
 	{
 		m_se[SoundNum].Stop();
 	}

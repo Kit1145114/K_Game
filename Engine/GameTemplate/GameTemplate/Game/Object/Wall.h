@@ -22,23 +22,23 @@ public:
 	void State();
 	void Death();
 	void Idle();
-	void SetPosition(CVector3 pos)
+	const void SetPosition(CVector3& pos)
 	{
 		m_position = pos;
 	}
-	void SetRotation(CQuaternion rot)
+	const void SetRotation(CQuaternion& rot)
 	{
 		m_rotation = rot;
 	}
-	void SetObjNum(int num)
+	const void SetObjNum(int& num)
 	{
 		m_objNum = num;
 	}
-	void SetMoveflag(bool flag)
+	const void SetMoveflag(bool flag) 
 	{
-		m_moveFlag = flag;
+		m_move_flag = flag;
 	}
-	int GetObjData()
+	int GetObjData() const
 	{
 		return m_objNum;
 	}
@@ -54,8 +54,8 @@ private:
 	AnimationClip w_animClip[m_AnimClipNum];			//プレイヤーのアニメーションクリップ
 	WallState wallState;
 	int m_objNum = 0;									
-	bool m_moveFlag = false;							//動いていいか
-	bool m_deathFlag = false;							//死
+	bool m_move_flag = false;							//動いていいか
+	bool m_death_flag = false;							//死
 	float m_timer = 0.0f;								//動く時間
 };
 

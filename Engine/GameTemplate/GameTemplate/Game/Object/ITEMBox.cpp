@@ -32,7 +32,6 @@ bool ITEMBox::Start()
 //アップデート処理。
 void ITEMBox::Update()
 {
-	//Draw();
 	State();
 	box_anim.Update(GameTime().GetFrameDeltaTime());
 	Box.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
@@ -76,12 +75,12 @@ void ITEMBox::Open()
 	if (!box_anim.IsPlaying())
 	{
 		//アニメーションが終わったらアイテム生成。
-		if (!itemDrop_flag)
+		if (!isItemDrop_flag)
 		{
 			RItem = g_goMgr.NewGO<RecoveryITEM>();
 			RItem->SetPositon(m_position);
 			RItem->SetPlayer(m_player);
-			itemDrop_flag = true;
+			isItemDrop_flag = true;
 		}
 		m_timer += GameTime().GetFrameDeltaTime();
 		//時間で削除。
@@ -93,7 +92,7 @@ void ITEMBox::Open()
 
 void ITEMBox::Close()
 {
-	if (isOpen)
+	if (isOpen_flag)
 	{
 		state = open;
 		m_playEffectHandle = g_effektEngine->Play(m_effect[0]);

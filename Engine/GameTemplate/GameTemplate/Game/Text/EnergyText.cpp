@@ -18,7 +18,7 @@ EnergyText::~EnergyText()
 
 void EnergyText::EnergyUpdate()
 {
-	m_scale = { m_Energy, 1.0f,1.0f };
+	m_scale = { m_energy, 1.0f,1.0f };
 	m_sprite->SetScale(m_scale);
 }
 

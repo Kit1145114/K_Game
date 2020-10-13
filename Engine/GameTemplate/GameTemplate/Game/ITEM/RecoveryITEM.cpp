@@ -43,7 +43,7 @@ void RecoveryITEM::Rotation()
 {
 	//èÌÇ…âÒÇËë±ÇØÇ‹Ç∑ÅB
 	CQuaternion qRot;
-	qRot.SetRotationDeg(CVector3::AxisY(), m_rotSpeed);
+	qRot.SetRotationDeg(CVector3::AxisY(), m_rotAngle);
 	m_rotation.Multiply(qRot);
 	Item.SetRotation(m_rotation);
 }

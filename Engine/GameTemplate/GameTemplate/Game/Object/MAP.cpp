@@ -19,24 +19,24 @@ bool MAP::Start()
 	switch (m_stage)
 	{
 		case 0:
-		Map.Init(L"Assets/modelData/FirstStage.cmo");
+		map.Init(L"Assets/modelData/FirstStage.cmo");
 		break;
 		case 1:
-		Map.Init(L"Assets/modelData/MAP.cmo");	//マップの描画
+		map.Init(L"Assets/modelData/MAP.cmo");	//マップの描画
 		break;
 	}
-	m_physicsStaticObj.CreateMeshObject(Map, m_position, CQuaternion::Identity());
+	m_physicsStaticObj.CreateMeshObject(map, m_position, CQuaternion::Identity());
 	return true;
 }
 
 void MAP::Update()
 {
 	//マップのアップデートを下に記述。
-	Map.UpdateWorldMatrix(m_position, CQuaternion::Identity(), m_scale);
+	map.UpdateWorldMatrix(m_position, CQuaternion::Identity(), m_scale);
 }
 void MAP::Draw()
 {
-	Map.Draw(
+	map.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix(),
 		0

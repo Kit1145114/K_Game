@@ -35,6 +35,6 @@ void Door::PlayerDistance()
 	m_distance = m_position - m_player->GetPosition();
 	if (m_distance.Length() < m_warpDistance /*&& g_pad->IsTrigger(enButtonB)*/)
 	{
-		ChangeStage = true;
+		isChangeStage_flag = true;
 	}
 }

@@ -87,7 +87,7 @@ void Wall::Move()
 void Wall::Idle()
 {
 	w_anim.Play(w_idle, 0.1f);
-	if (m_moveFlag)
+	if (m_move_flag)
 	{
 		wallState = w_move;
 	}
