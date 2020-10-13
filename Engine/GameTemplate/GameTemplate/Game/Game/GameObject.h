@@ -20,14 +20,14 @@ public:
 
 	void GoUpdate()
 	{
-		if (isUpdate&&isActive&&isStart) {
+		if (isUpdate_flag&&isActive_flag&&isStart_flag) {
 			Update();
 		}
 	}
 
 	void GoDraw()
 	{
-		if (isUpdate && isActive && isStart) {
+		if (isUpdate_flag && isActive_flag && isStart_flag) {
 			Draw();
 		}
 	}
@@ -36,60 +36,60 @@ public:
 
 	void PostRenderWarapper()
 	{
-		if (isUpdate&isActive&&isStart) {
+		if (isUpdate_flag&isActive_flag&&isStart_flag) {
 			Render();
 		}
 	}
 	void FontRenderWarapper()
 	{
-		if (isUpdate&isActive&&isStart) {
+		if (isUpdate_flag&isActive_flag&&isStart_flag) {
 			FontRender();
 		}
 	}
 	void RecestDelete()
 	{
-		isRecestDelete = true;
+		isRecestDelete_flag = true;
 	}
 	void SetIsNewGO()
 	{
-		isNewGO = true;
+		isNewGO_flag = true;
 	}
 	bool IsRecestDelete()
 	{
-		return isRecestDelete;
+		return isRecestDelete_flag;
 	}
 	bool GetIsGO()
 	{
-		return isNewGO;
+		return isNewGO_flag;
 	}
 	//アップデートするかどうか
 	bool GetisUpdate() const
 	{
-		return isUpdate;
+		return isUpdate_flag;
 	}
 	//アップデートフラグを設定する
 	void SetUpdateFlag(bool flag)
 	{
-		isUpdate = flag;
+		isUpdate_flag = flag;
 	}	
 	void SetActive(bool flag)
 	{
-		isActive = flag;
+		isActive_flag = flag;
 	}
 	//スタート関数のフラグを変える。
 	void SetIsStart(bool flag)
 	{
-		isStart = flag;
+		isStart_flag = flag;
 	}
 	bool GetIsStart()
 	{
-		return isStart;
+		return isStart_flag;
 	}
 private:
-	bool isRecestDelete = false;	//フラグ
-	bool isNewGO = false;
-	bool isUpdate = true;
-	bool isActive = true;
-	bool isStart = false;
+	bool isRecestDelete_flag = false;	//フラグ
+	bool isNewGO_flag = false;
+	bool isUpdate_flag = true;
+	bool isActive_flag = true;
+	bool isStart_flag = false;
 };
 

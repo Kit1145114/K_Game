@@ -62,22 +62,22 @@ public:
 	}
 	void SetPlayerHp(float hp)
 	{
-		m_playerHP = hp;
+		m_playerHp = hp;
 	}
 private:
-	Player* player = nullptr;				//プレイヤーのインスタンス。
-	MAP* map = nullptr;						//マップのインスタンス。
-	GameCamera* g_Camera = nullptr;			//カメラのインスタンス。
-	Enemys* enemys = nullptr;				//エネミーのインスタンス。
-	HPText* hp_bar = nullptr;				//HPバー。
-	ITEMBox* itemBox = nullptr;				//箱
-	EnergyText* energy_bar = nullptr;		//エナジーバー
-	Door* door = nullptr;					//ドア
+	Player* m_player = nullptr;				//プレイヤーのインスタンス。
+	MAP* m_map = nullptr;					//マップのインスタンス。
+	GameCamera* m_camera = nullptr;			//カメラのインスタンス。
+	Enemys* m_enemys = nullptr;				//エネミーのインスタンス。
+	HPText* m_hpText = nullptr;				//HPバー。
+	ITEMBox* m_itemBox = nullptr;			//箱
+	EnergyText* m_energyText = nullptr;		//エナジーバー
+	Door* m_door = nullptr;					//ドア
 	Wall* m_wall = nullptr;					//壁
 	Sky* m_sky = nullptr;					//空
 	Level		mapLevel;					//マップのレベル。。。。。。
 	StageNum	stage;
-	bool StageChange = false;
+	bool stageChange_flag = false;
 	bool wallDeath_flag = false;			//壁削除のフラグ。
 	bool deathEnemys1_Flag = false;			//グループ１全員死んだか
 	bool deathEnemys2_Flag = false;			//グループ２全員死んだか
@@ -85,17 +85,16 @@ private:
 	bool deathEnemys4_Flag = false;			//グループ４全員死んだか
 	bool isWallDelete_Flag[4] = {false,false,false,false};
 	int	m_stage = 0;						//進むステージ
-	int m_stagenum = 0;						//セットするステージの番号
+	int m_stageNum = 0;						//セットするステージの番号
 	int m_maxEnemys[4] = { 0 };				//グループの最大人数
-	float m_playerHP = 100.0f;				//プレイヤーの初期HP
-	//bool		isLive = false;
-	static Game* m_instance;		//ゲームのインスタンス。
-	const int ENEMY_NUM = 4;		//登場するエネミーの数をここで定義。
+	float m_playerHp = 100.0f;				//プレイヤーの初期HP
+	static Game* m_instance;				//ゲームのインスタンス。
+	const int ENEMY_NUM = 4;				//登場するエネミーの数をここで定義。
 		//可変長配列
-	std::vector<Enemys*>m_enemysToPlayerList;	//壁用のエネミーオブジェクトのリスト
+	std::vector<Enemys*>m_enemysToPlayerList;				//壁用のエネミーオブジェクトのリスト
 	std::unordered_map<int,Wall*>m_wallList;				//壁のリスト
 	CVector3 m_initPlayerPos = { 0.0f,500.0f,0.0f };
-	CVector3 DoorPos = { 0.0f,-350.0f,0.0f };
+	CVector3 m_doorPos = { 0.0f,-350.0f,0.0f };
 	//BGM
 	CSoundSource m_bgm;
 	//
