@@ -1,7 +1,15 @@
 #pragma once
+#include"Chara/IPlayerEventListener.h"
 
 class Player;
-class GameCamera : public GameObject
+/// <summary>
+/// ゲームカメラクラス
+/// </summary>
+/// <remark>
+/// このクラスはObserverパターンのConcreteObserver役のクラスです。
+/// このクラスはプレイヤーの状態を監視しています。
+/// </remark>
+class GameCamera : public GameObject ,IPlayerEventListener
 {
 public:
 	/// <summary>
@@ -20,8 +28,9 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~GameCamera();
+	bool Start()override;			//プレイヤーのイベントリスナー登録がメイン。
 	void Update() override;			//カメラの更新関数。
-	void State();			//カメラの状態。
+	void State();					//カメラの状態。
 	/// <summary>
 	/// プレイヤーのざひょうもってくりゅ。
 	/// </summary>
@@ -39,10 +48,22 @@ public:
 	/// カメラを敵にロックする。
 	/// </summary>
 	void CameraLookEnemys();
+	/// <summary>
+	/// プレイヤーがロックオンしている時常に呼ばれる処理。
+	/// </summary>
+	void OnStartLockOn(Player* pl)override;
+	/// <summary>
+	/// プレイヤーがロックオンしていない時に常に呼ばれる処理。
+	/// </summary>
+	void OnEndLockOn(Player* pl)override;
+	/// <summary>
+	/// プレイヤーがダメージを受けたときに画面が揺れる処理。
+	/// </summary>
+	void OnDamage(Player* pl)override;
 
-	void SetDamegeFlag(bool flag)
+	CVector3 GetPosition() const
 	{
-		damage_flag = flag;
+		return m_position;
 	}
 private:
 	Player* m_player = nullptr;							//プレイヤークラスの初期化。

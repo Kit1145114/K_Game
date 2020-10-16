@@ -25,6 +25,7 @@ bool ITEMBox::Start()
 	);
 	box_anim.Play(close);
 	state = close;
+	m_openSound.Init(L"Assets/sound/enemy_attack_00.wav");
 	m_charaCon.Init(100.0f, 50.0f, m_position, enCollisionAttr_Enemy);	//キャラコンの設定（半径、高さ、初期位置。）
 	m_effect[0] = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/drop.efk");
 	return true;
@@ -67,6 +68,7 @@ void ITEMBox::State()
 void ITEMBox::Delete()
 {
 	g_goMgr.DeleteGO(this);
+	m_player->DeleteEvenetListener(this);
 }
 //開けるかどうか。
 void ITEMBox::Open()
@@ -98,4 +100,20 @@ void ITEMBox::Close()
 		m_playEffectHandle = g_effektEngine->Play(m_effect[0]);
 		g_effektEngine->SetPosition(m_playEffectHandle, m_position);
 	}
+}
+
+void ITEMBox::OnOccurredAttackCollision(PhysicsGhostObject& colli, const wchar_t* eventName, int m_playerAtkPoint)
+{
+	g_physics.ContactTest(m_charaCon, [&](const btCollisionObject& contactObject) {
+		if (colli.IsSelf(contactObject) == true && eventName) {
+			SetIsOpen(true);
+			m_openSound.Play(0);						//音;
+		}
+	});
+}
+
+void ITEMBox::BindPlayer(Player* player)
+{
+	m_player = player;
+	player->AddEventListener(this);
 }

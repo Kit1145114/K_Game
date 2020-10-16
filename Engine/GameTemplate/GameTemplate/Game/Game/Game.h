@@ -6,6 +6,7 @@
 #include"GameSystem/GameConst.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
+#include"Chara/IPlayerEventListener.h"
 
 class Player;					//プレイヤー用のclassの型を作成。
 class MAP;						//マップ用のclassの型を生成。
@@ -18,7 +19,7 @@ class Door;						//ドアのclassノ型
 class Wall;						//壁の型
 class Sky;						//空のclassの型。
 
-class Game : public GameObject
+class Game : public GameObject, IPlayerEventListener
 {
 
 	enum EnRenderMode {
@@ -31,7 +32,6 @@ class Game : public GameObject
 		RobbotoEnemy1,
 		RobbotoEnemy2,
 		treeGolem,
-		Jon,
 		BossEnemy
 	};
 public:
@@ -56,14 +56,20 @@ public:
 	void PlayerBarUpdate();			//プレイヤーの体力、ブーストのアプデ。
 	//敵とぷえいやーの距離を測る
 public:
-	void SetStage(int n)
+	const void SetStage(int n) 
 	{
 		m_stage = n;
 	}
-	void SetPlayerHp(float hp)
+	const void SetPlayerHp(float hp) 
 	{
 		m_playerHp = hp;
 	}
+	/// <summary>
+	/// プレイヤーが死亡したときに呼ばれる処理。
+	/// </summary>
+	/// <param name="pl"></param>
+	void OnPlayerDead(Player* pl) override;
+	/// <summary>
 private:
 	Player* m_player = nullptr;				//プレイヤーのインスタンス。
 	MAP* m_map = nullptr;					//マップのインスタンス。

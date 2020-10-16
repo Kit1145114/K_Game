@@ -5,6 +5,7 @@
 #define _USE_MATH_DEFINES //M_PI 円周率呼び出し
 #include <math.h> 
 #include "graphics/shadow/ShadowMap.h"
+#include"../GameSystem/GameCamera.h"
 
 Player::Player()
 {
@@ -256,44 +257,10 @@ void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
 	float m_efkPosUpY = 65.0f;
 	//アニメーションイベントが呼ばれたときにゴーストオブジェクトを生成。
 	m_PhyGhostObj.CreateBox(boxPos, m_rotation, box_scale);
-	//敵との判定
-	for (auto enemy : m_enemysList) {
-		//死亡していないとき。
-		if (!enemy->GetIsDead()) {
-			//敵のオブジェクトと、ゴーストがぶつかっているか。
-			g_physics.ContactTest(enemy->GetCharaCon(), [&](const btCollisionObject& contactObject) {
-				//ぶつかって、アニメーションイベントが呼ばれたら。
-				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName){
-					//ダメージ、音。
-					enemy->Damage(ATK);
-					enemy->SetHitMe(true);
-					SoundFalse(0);
-					//エネミーとの間にエフェクトを発生させるために
-					//プレイヤーと敵の間を計算しています。
-					enemy_dis = enemy->GetPosition(); //= (m_position + enemy->GetPosition()) / 2;
-					enemy_dis.y += m_efkPosUpY;
-					m_playEffectHandle = g_effektEngine->Play(m_attackEffect[1]);
-					g_effektEngine->SetPosition(m_playEffectHandle,enemy_dis);
-				}
-				//素振りだった場合、別の音だけ鳴らす。
-				else if (m_PhyGhostObj.IsSelf(contactObject) == false && eventName)
-				{
-					SoundFalse(2);
-				}
-			});
-		}
+	for (auto& listener : m_eventListenerList) {
+		listener->OnOccurredAttackCollision(m_PhyGhostObj,eventName,ATK);
 	}
-	//箱との判定。
-	if(ItemBox != nullptr){
-		if (!ItemBox->GetIsOpen()) {
-			g_physics.ContactTest(ItemBox->GetCharaCon(), [&](const btCollisionObject& contactObject) {
-				if (m_PhyGhostObj.IsSelf(contactObject) == true && eventName) {
-					ItemBox->SetIsOpen(true);
-					SoundFalse(0);
-				}
-			});
-		}
-	}
+
 	//削除。
 	m_PhyGhostObj.Release();
 }
@@ -313,7 +280,11 @@ void Player::Damage(int Damage)
 	if((Damage - DEF) >= ZERO)
 	//ダメージを食らった...。
 	HP -= (Damage - DEF);
-	g_Camera->SetDamegeFlag(true);
+	//リスナーにダメージを受けたことを通知する。
+	for (auto& Listener : m_eventListenerList)
+	{
+		Listener->OnDamage(this);
+	}
 	//もし、HPが0以下なら死亡処理。
 	if (HP <= 0.0f)
 	{
@@ -323,6 +294,15 @@ void Player::Damage(int Damage)
 	if (m_isdeath)
 	{
 		playerState = pl_Death;
+		//プレイヤーが死亡したことをイベントリスナーに通知。
+		NotifyDeadEventToListener();
+	}
+}
+void Player::NotifyDeadEventToListener()
+{
+	//イベントリスナーに死亡を通知する。
+	for (auto& listener : m_eventListenerList) {
+		listener->OnPlayerDead(this);
 	}
 }
 //エネルギーに関する処理。
@@ -370,68 +350,85 @@ void Player::Energy()
 //敵をロックオンするための処理。
 void Player::RookOnEnemys()
 {
+	//現在のロックオン状態を記録する。
+	bool isOldLockOnFlag = m_isLockOn;
 	//プレイヤーの向いている角度の計算。
 	float degreep = atan2(m_forward.x, m_forward.z);
 	//計算して出た暫定的に一番小さい角度を記憶する変数。
 	float degreemum = M_PI * 2;
 	//範囲外。
-	float unRange = 3000.0;
 	float distance = 2000.0f;
+	//一番近いエネミーとの距離。初期値は大きな数値にしておく。
+	float distanceNearEnemy = 10000000;
+	//ロックオン可能フラグ
+	bool isPossibleLockOn = false;
 	for (Enemys* enemys : m_enemysList)
 	{
 		if (enemys->GetisDeath())
 			continue;
-		CVector3 pos = m_position - enemys->GetPosition();
-		diff = m_position - enemys->GetPosition();
-		//プレイヤーとエネミーの距離が一定以外だったら下の処理をスキップ。
-		if (pos.Length() >= unRange)
-			continue;
-		//プレイヤーとエネミーを結ぶベクトルを出す。
-		CVector3 pos2 = enemys->GetPosition() - m_position;
-		m_enemyPos = enemys->GetPosition();
-		//y座標、すなわち高さを0に。
-		pos2.y = 0.0f;
-		//ベクトルを正規化する。
-		pos2.Normalize();
-		//プレイヤーとエネミーを結ぶベクトルの角度を計算します
-		float degree = atan2f(pos2.x, pos2.z);
-		//「プレイヤーの正面のベクトル角度、
-		//「プレイヤーとエネミーを結ぶベクトルの角度の計算。
-		if (M_PI <= (degreep - degree)) {
-			degree = degreep - degree + M_PI * 2;
-		}
-		else if (-M_PI >= (degreep-degree)){
-		degree = degreep - degree + M_PI * 2;
-		}
-		else
-		{
-			degree = degreep - degree;
-		}
-		//求めた角度にプレイヤーとエネミーの距離に応じて補正をかける。
-		//距離が長いほど補正は大きい(値が大きくなります)
-		degree = degree + degree * (pos.Length() / unRange)* 0.3f;
-		//求めた値を比較していき、一番小さい値を決めていきます。
-		if (fabs(degreemum) >= fabs(degree))
-		{
+		CVector3 dist = m_position - enemys->GetPosition();
+		//①視点から注視点に向かって伸びるベクトルV1を計算する。
+		CVector3 m_cameraToPlayer = g_Camera->GetPosition() - m_position;
+		//②視点からエネミーに向かって伸びるベクトルV2を計算する。
+		CVector3 m_cameraToEnemy = g_Camera->GetPosition() - enemys->GetPosition();
+		//③V1を正規化する。
+		m_cameraToPlayer.Normalize();
+		//④V2を正規化する。
+		m_cameraToEnemy.Normalize();
+		//⑤V1とV2の内積結果tを求める。
+		float t = m_cameraToPlayer.Dot(m_cameraToEnemy);
+
+
+		float distEnemy = dist.Length();
+		if (distEnemy < distanceNearEnemy
+			&& distEnemy < distance
+			&& t >= ZERO  
+		) {
+			//こいつのほうが近い。
+			//一番近いエネミーの距離を更新する。
+			distanceNearEnemy = distEnemy;
 			m_enemyPos = enemys->GetPosition();
-			degreemum = degree;
+			//ロックオン可能にする。
+			isPossibleLockOn = true;
 		}
+
 	}	
 	//求めた一番小さい値が一定値より小さい場合、ターゲティングをオンにする。
-	if (fabs(degreemum) <= M_PI/3&& g_pad[0].IsTrigger(enButtonB)
-		&& diff.Length() < unRange) {
-		m_isRookOn = true;
+	if (m_isLockOn) {
+		if (g_pad[0].IsTrigger(enButtonB)) {
+			m_isLockOn = false;
+		}
 	}
-	//一定値より大きい場合、ターゲティングをオフにする。
-	else if(diff.Length() > unRange && m_isRookOn){
-		m_isRookOn = false;
+	else {
+		if (isPossibleLockOn) {
+			if (g_pad[0].IsTrigger(enButtonB)) {
+				m_isLockOn = true;
+			}
+		}
 	}
-	else if (m_isRookOn && g_pad[0].IsTrigger(enButtonB))
-	{
-		m_isRookOn = false;
+
+	//ロックオンの切り替わりをリスナーに通知。
+	TryNotifyChangeLockonEventToListener(isOldLockOnFlag);
+}
+void Player::TryNotifyChangeLockonEventToListener(bool isOldLockOnFlag)
+{
+	if (isOldLockOnFlag != m_isLockOn) {
+		//ロックオン状態が変わったので、リスナーに通知。
+		if (m_isLockOn) {
+			//ロックオン状態に切り替わったのをリスナーに通知。
+			for (auto& listener : m_eventListenerList) {
+				listener->OnStartLockOn(this);
+			}
+		}
+		else {
+			//ロックオン状態が終わったのをリスナーに通知。
+			for (auto& listener : m_eventListenerList) {
+				listener->OnEndLockOn(this);
+			}
+		}
 	}
 }
-//言ったらバーサーカーソウル。
+//攻撃中に再度入力することで、2発目の攻撃がでます。
 void Player::ComboAttack()
 {
 	//コンボじゃないときは一回

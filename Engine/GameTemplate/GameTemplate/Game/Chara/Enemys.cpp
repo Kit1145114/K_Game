@@ -3,12 +3,14 @@
 
 Enemys::Enemys()
 {
-	
+	m_damagedEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/hit.efk");
+	m_se[0].Init(L"Assets/sound/enemy_attack_00.wav");
+	m_se[1].Init(L"Assets/sound/swing.wav");
 }
 
 Enemys::~Enemys()
 {
-
+	m_player->DeleteEvenetListener(this);
 }
 
 void Enemys::Init(float HP, float Attack, float Defense, float Speed/*, SkinModel model*/)
@@ -18,6 +20,11 @@ void Enemys::Init(float HP, float Attack, float Defense, float Speed/*, SkinMode
 	m_DEF		=	Defense;		//防御力を代入。
 	m_SPD		=	Speed;			//基礎速度を代入。
 	//m_sm		=	model;			//エネミーのモデル。
+}
+void Enemys::BindPlayer(Player* player)
+{
+	m_player = player;
+	player->AddEventListener(this);
 }
 //共通のドロー関数なのでここに記載。
 void Enemys::Draw()
@@ -75,4 +82,29 @@ void Enemys::EnemyEffect()
 	m_playEffectHandle = g_effektEngine->Play(m_attackEffect);
 	g_effektEngine->SetPosition(m_playEffectHandle, m_efePos);
 	g_effektEngine->SetRotation(m_playEffectHandle, 0.0f, atan2(m_efeRot.x, m_efeRot.z), 0.0f);
+}
+//攻撃受けたときじゃい。
+void Enemys::OnOccurredAttackCollision(PhysicsGhostObject& colli, const wchar_t* eventName, int m_playerAtkPoint)
+{
+	//敵のオブジェクトと、ゴーストがぶつかっているか。
+	g_physics.ContactTest(m_charaCon, [&](const btCollisionObject& contactObject) {
+		//ぶつかって、アニメーションイベントが呼ばれたら。
+		if (colli.IsSelf(contactObject) == true && eventName) {
+			//ダメージ、音。
+			Damage(m_playerAtkPoint);
+			SetHitMe(true);
+			m_damagedSe[0];
+			//エネミーとの間にエフェクトを発生させるために
+			//プレイヤーと敵の間を計算しています。
+			CVector3 m_playerDistance = m_position; //= (m_position + enemy->GetPosition()) / 2;
+			m_playerDistance.y += m_efkPosUpY;
+			m_playEffectHandle = g_effektEngine->Play(m_damagedEffect);
+			g_effektEngine->SetPosition(m_playEffectHandle, m_playerDistance);
+		}
+		//素振りだった場合、別の音だけ鳴らす。
+		else if (colli.IsSelf(contactObject) == false && eventName)
+		{
+			m_damagedSe[1];
+		}
+	});
 }

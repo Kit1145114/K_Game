@@ -227,7 +227,8 @@ bool Game::FirstStage()
 	});
 	m_door->SetPlayer(m_player);
 	for (auto enemy : m_enemysToPlayerList) {
-		enemy->SetPlayer(m_player);
+		//プレイヤーのリスナーとして関連付けをする。
+		enemy->BindPlayer(m_player);
 	}
 	m_camera = g_goMgr.NewGO<GameCamera>();
 	m_camera->SetPlayer(m_player);
@@ -235,7 +236,8 @@ bool Game::FirstStage()
 	m_player->SetEnemysList(m_enemysToPlayerList);
 	m_player->SetCamera(m_camera);
 	m_player->SetHP(m_playerHp);
-	m_itemBox->SetPlayer(m_player);
+	m_player->AddEventListener(this);
+	m_itemBox->BindPlayer(m_player);
 	m_hpText = g_goMgr.NewGO<HPText>();
 	m_hpText->SetPlayerHP(m_player->GetPlayerHP());
 	m_energyText = g_goMgr.NewGO<EnergyText>();
@@ -281,13 +283,14 @@ bool Game::NewBoss()
 		return true;
 	});
 	for (auto enemy : m_enemysToPlayerList) {
-		enemy->SetPlayer(m_player);
+		enemy->BindPlayer(m_player);
 	}
 	m_camera = g_goMgr.NewGO<GameCamera>();
 	m_camera->SetPlayer(m_player);
 	m_player->SetBox(m_itemBox);
 	m_player->SetEnemysList(m_enemysToPlayerList);
 	m_player->SetCamera(m_camera);
+	m_player->AddEventListener(this);
 	m_hpText = g_goMgr.NewGO<HPText>();
 	m_hpText->SetPlayerHP(m_player->GetPlayerHP());
 	m_energyText = g_goMgr.NewGO<EnergyText>();
@@ -346,12 +349,13 @@ bool Game::DebugStage()
 		return true;
 	});
 	for (auto enemy : m_enemysToPlayerList) {
-		enemy->SetPlayer(m_player);
+		enemy->BindPlayer(m_player);
 	}
 	m_itemBox = g_goMgr.NewGO<ITEMBox>();
 	m_wall = g_goMgr.NewGO<Wall>();
 	m_player->SetBox(m_itemBox);
 	m_player->SetEnemysList(m_enemysToPlayerList);
+	m_player->AddEventListener(this);
 	m_camera = g_goMgr.NewGO<GameCamera>();
 	m_camera->SetPlayer(m_player);
 	m_hpText = g_goMgr.NewGO<HPText>();
@@ -360,6 +364,12 @@ bool Game::DebugStage()
 	m_energyText->SetPlayerEnergy(m_player->GetPlayerEnergy());
 	return true;
 }
+void Game::OnPlayerDead(Player* pl)
+{
+	GameOver* gameover = g_goMgr.NewGO<GameOver>();
+	g_goMgr.DeleteGO(this);
+	pl->DeleteEvenetListener(this);
+}
 //最初のステージで行うアップデート。
 void Game::FirstStageUpdate()
 {
@@ -367,7 +377,7 @@ void Game::FirstStageUpdate()
 	PlayerBarUpdate();
 	//壁を消す処理。
 	Walldelete();
-	//ステージ移動とオーバーの処理
+	//ステージ遷移
 	GameScene();
 }
 //ボスのステージで行うアップデート。
@@ -405,11 +415,6 @@ void Game::BossStageUpdate()
 			g_goMgr.DeleteGO(this);
 		}
 	}
-	if (m_player->GetPlayerHP() <= ZERO)
-	{
-		GameOver* gameover = g_goMgr.NewGO<GameOver>();
-		g_goMgr.DeleteGO(this);
-	}
 }
 //壁の処理。
 void Game::Walldelete()
@@ -440,11 +445,6 @@ void Game::GameScene()
 	{
 		ChangeScreen* changescreen = g_goMgr.NewGO<ChangeScreen>();
 		changescreen->SetPlayerHP(m_player->GetPlayerHP());
-		g_goMgr.DeleteGO(this);
-	}
-	if (m_player->GetIsDead())
-	{
-		GameOver* gameover = g_goMgr.NewGO<GameOver>();
 		g_goMgr.DeleteGO(this);
 	}
 }

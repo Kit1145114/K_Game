@@ -21,6 +21,8 @@ private:
 	float m_attackTime = 0.0f;
 	float m_objPosAdd = 2.5f;
 	float m_trackToPlayer = 1000.0f;					//エネミーによって追いかける範囲が変わるため。
+	float m_goAttackTime = 3.5f;
+	float m_efePosUpY = 142.0f;
 	Effekseer::Handle m_playEffectHandle = 2;
 	CVector3 m_efePos = CVector3::Zero();
 	CVector3 diff = CVector3::Zero();

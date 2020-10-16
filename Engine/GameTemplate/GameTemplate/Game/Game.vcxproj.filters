@@ -313,6 +313,7 @@
     <ClInclude Include="Game\GameObjectManager.h">
       <Filter>ヘッダー</Filter>
     </ClInclude>
+    <ClInclude Include="Chara\IPlayerEventListener.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\animData\attack.FBX" />

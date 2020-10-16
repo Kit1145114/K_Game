@@ -5,10 +5,18 @@
 #include "character/CharacterController.h"
 #include"ITEM/RecoveryITEM.h"
 #include"Chara/Player.h"
+#include"Chara/IPlayerEventListener.h"
 
 class RecoveryITEM;
 class Player;
-class ITEMBox : public GameObject
+/// <summary>
+/// アイテムボックスクラス
+/// </summary>
+/// <remark>
+/// このクラスはObserverパターンのConcreteObserver役のクラスです。
+/// このクラスはプレイヤーの状態を監視しています。
+/// </remark>
+class ITEMBox : public GameObject,IPlayerEventListener
 {
 public:
 	ITEMBox();
@@ -44,28 +52,27 @@ public:
 	}
 public:
 	//ポジションを渡す用。
-	void SetPosition(CVector3 pos)
+	const void SetPosition(CVector3& pos)
 	{
 		m_position = pos;
 	}
 	//大きさを渡す用
-	void SetScale(CVector3 scale)
+	const void SetScale(CVector3& scale)
 	{
 		m_scale = scale;
 	}
 	//プレイヤーの情報を渡す。
-	void SetPlayer(Player* player)
-	{
-		m_player = player;
-	}
+	void BindPlayer(Player* player);
+	void OnOccurredAttackCollision(PhysicsGhostObject& colli, const wchar_t* eventName,
+		int m_playerAtkPoint)override;
+
 private:
-	RecoveryITEM* RItem;
-	Player* m_player;
+	RecoveryITEM* RItem = nullptr;
+	Player* m_player = nullptr;
 	SkinModel	Box;							//マップのスキンモデル。
 	Animation box_anim;							//アニメーション。
 	AnimationClip box_animClip[m_AnimClipNum];	//プレイヤーのアニメーションクリップ
 	boxstate state;								//状態。
-	//PhysicsStaticObject m_physicsStaticObj;		//静的オブジェクト
 	CharacterController m_charaCon;				//キャラクターコントローラー
 
 	CVector3 m_position		= CVector3::Zero();			//ポジション
@@ -75,9 +82,11 @@ private:
 	bool isItemDrop_flag = false;					//アイテムが出たか。
 	float m_timer = 0.0f;						//時間
 	float m_deathTime = 1.0f;					//箱が開封されてから消えるまでの時間。
-
+	CSoundSource m_openSound;						//音
 		//エフェクト
 	Effekseer::Effect* m_effect[3] = { nullptr };
 	Effekseer::Handle m_playEffectHandle = 10;
+	//リスナー
+	std::list<IPlayerEventListener*>m_playerEventListenerList;
 };
 

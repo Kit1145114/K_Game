@@ -6,14 +6,30 @@
 #include"sound/SoundSource.h"
 #include"graphics/2Dgraphics/Font.h"
 #include"physics/PhysicsGhostObject.h"
-#include"../GameSystem/GameCamera.h"
 
 class Enemys;
 class ITEMBox;
 class GameCamera;
+class IPlayerEventListener;
+
+/// <summary>
+/// プレイヤーを制御するクラス
+/// </summary>
+/// <remark>
+/// このクラスはObserverパターンのSubject役のクラスになっています。
+/// プレイヤーの状態を監視するObserver役のインスタンスを登録するには
+/// AddEventListener関数を使用してください。
+/// </remark>
 class Player : public GameObject
 {					
 public:
+	/// <summary>
+	/// プレイヤーのイベント。
+	/// </summary>
+	enum Event {
+		event_dead,		//死亡した。
+		event_num,		//イベントの数。
+	};
 	/// <summary>
 	/// プレイヤーのステート
 	/// </summary>
@@ -50,7 +66,29 @@ public:
 	void PlayerAttack();			//プレイヤーの攻撃類
 	void Energy();					//エネルギー用の関数。
 	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);		//アニメーションイベント。
-
+	/// <summary>
+	/// イベントリスナーの登録。
+	/// </summary>
+	/// <param name="listener">リスナー。</param>
+	void AddEventListener(IPlayerEventListener* listener)
+	{
+		m_eventListenerList.push_back(listener);
+	}
+	/// <summary>
+	/// イベントリスナーの解除。
+	/// </summary>
+	/// <param name="listener">リスナー</param>
+	void DeleteEvenetListener(IPlayerEventListener* listener)
+	{
+		auto it = std::find(
+			m_eventListenerList.begin(),
+			m_eventListenerList.end(),
+			listener);
+		if (it != m_eventListenerList.end()) {
+			//見つかった。
+			m_eventListenerList.erase(it);
+		}
+	}
 	/// <summary>
 	/// プレイヤーに与えるダメージの設定。
 	/// </summary>
@@ -109,7 +147,7 @@ public:
 	}
 	bool GetIsRooking() const
 	{
-		return m_isRookOn;
+		return m_isLockOn;
 	}
 	float GetRadius() 
 	{
@@ -160,6 +198,16 @@ public:
 	//計算しましゅ。
 	void Angle();
 private:
+	/// <summary>
+	/// 死亡イベントをリスナーに通知する。
+	/// </summary>
+	void NotifyDeadEventToListener();
+	/// <summary>
+	/// ロックオン状態が切り替わったイベントをリスナーに通知できるか試す。
+	/// </summary>
+	/// <param name="isOldLockOnFlag">1フレーム前のロックオンフラグ。</param>
+	void TryNotifyChangeLockonEventToListener(bool isOldLockOnFlag);
+private:
 	SkinModel Gmodel;									//スキンモデル。
 	Animation g_anim;									//アニメーション。
 	ITEMBox* ItemBox = nullptr;							//アイテム用のもの
@@ -204,7 +252,7 @@ private:
 	float RookAngle = 3.5f;								//敵に向く角度
 	float AttackMoveRot = 10.0f;						//攻撃するときに動く角度。
 	bool m_isdeath = false;								//死亡判定。
-	bool m_isRookOn = false;							//敵をロックオンしているかどうか。
+	bool m_isLockOn = false;							//敵をロックオンしているかどうか。
 	bool m_isCombo = false;								//コンボするか？
 	bool m_ComboNow = false;
 	//エフェクト
@@ -220,6 +268,7 @@ private:
 	//カメラの前方方向と右方向を取得用。
 	CVector3 cameraForward;
 	CVector3 cameraRight;
+	std::list< IPlayerEventListener*> m_eventListenerList;	//イベントリスナーのリスト。
 };
 /// <summary>
 /// プレイヤー、タグ。

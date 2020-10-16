@@ -17,16 +17,14 @@ GameCamera::~GameCamera()
 {
 }
 
+bool GameCamera::Start()
+{
+	m_player->AddEventListener(this);
+	return true;
+}
+
 void GameCamera::Update()
 {
-	if (m_player->GetIsRooking())
-	{
-		c_state = toEnemys;
-	}
-	else if (!m_player->GetIsRooking())
-	{
-		c_state = toPlayer;
-	}
 	State();
 }
 
@@ -111,10 +109,10 @@ void GameCamera::CameraLookEnemys()
 	//ベクトルを正規化します。
 	pos.Normalize();
 	//スカラーをかける。
-	pos *= 500.0f;
+	pos *= 200.0f;
 	//プレイヤーの座標に求めたベクトルを足して、カメラの座標とする。
 	m_position = m_playerPosition + pos;
-	m_position.y += 200.0f;
+	m_position.y += 500.0f;
 	g_camera3D.SetTarget(m_target);
 	//座標
 	g_camera3D.SetPosition(m_position);
@@ -171,4 +169,21 @@ void GameCamera::PlayerDamageRot()
 			damage_flag = false;
 		}
 	}
+}
+//
+void GameCamera::OnStartLockOn(Player* pl)
+{
+	//カメラのターゲットを敵へ。
+	c_state = toEnemys;
+}
+//
+void GameCamera::OnEndLockOn(Player* pl)
+{
+	//カメラのターゲットをプレイヤーへ。
+	c_state = toPlayer;
+}
+//
+void GameCamera::OnDamage(Player* pl)
+{
+	damage_flag = true;
 }

@@ -27,6 +27,7 @@ StoneGolem::StoneGolem()
 	prm.ATK = 51;										//攻撃力
 	prm.DEF = 70;										//防御力
 	prm.SPD = 300;										//速さ。
+	m_enemyTrack = 1000.0f;								//体力MAX時
 	m_charaCon.Init(50.0f, 100.0f, m_position, enCollisionAttr_Enemy);		//判定の大きさ
 	e_state = Enemys::EnemyAnimState::esIdle;
 	m_attackEffect = g_effektEngine->CreateEffekseerEffect(L"Assets/effect/Laser2.efk");
@@ -71,14 +72,14 @@ void StoneGolem::Attack()
 		m_se[0].Play(false);
 		m_se[0].SetVolume(0.3f);
 		m_efePos = m_position;
-		m_efePos.y += 142.0f;
+		m_efePos.y += m_efePosUpY;
 		//攻撃のエフェクト
 		g_effektEngine->SetPosition(m_playEffectHandle, m_efePos);
 		//攻撃したときのゴーストがプレイヤーと当たっているか。
 		HitPlayerObj();
 		//終わるまでの時間を回す。
 		m_attackTime += GameTime().GetFrameDeltaTime();
-		if (m_attackTime >= 3.5f)
+		if (m_attackTime >= m_goAttackTime)
 		{
 			g_effektEngine->Stop(m_playEffectHandle);
 			e_state = esAttackGap;
@@ -107,8 +108,6 @@ void StoneGolem::AttackRange()
 void StoneGolem::Search()
 {
 	Enemys::ViewingAngle();
-	//体力MAX時
-	m_enemyTrack = 1000.0f;
 	if (prm.HP == m_MaxHP && !isTrack_flag) {
 		//範囲外かつ視野角外ならかつ、一度でも見つけてないとき。
 		if (m_diff.Length() >= m_enemyTrack || fabsf(m_angle) > CMath::PI * m_fowndAngle)

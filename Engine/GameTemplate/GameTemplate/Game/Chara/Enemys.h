@@ -4,9 +4,18 @@
 #include"GameSystem/GameConst.h"
 #include"sound/SoundEngine.h"
 #include"sound/SoundSource.h"
+#include"IPlayerEventListener.h"
 
+class IPlayerEventListener;
 class Player;
-class Enemys : public GameObject
+/// <summary>
+/// 敵クラス
+/// </summary>
+/// <remark>
+/// このクラスはObserverパターンのConcreteObserver役のクラスです。
+/// このクラスはプレイヤーの状態を監視しています。
+/// </remark>
+class Enemys : public GameObject,IPlayerEventListener
 {
 public:
 	 Enemys();
@@ -15,13 +24,13 @@ public:
 	//エネミーを死亡判定にする。
 	virtual void Death()
 	{
+
 		isDeath_flag = true;
 	}
 	//ステートの純粋仮想関数
 	virtual void EnemyState() = 0;
 	virtual void Draw() override final; 				//敵の描画処理。
 	//ここから先は敵の共通する処理を記載。呼び出しはEnemys::〇〇;
-
 	void ViewingAngle();		//エネミーの視野角。
 	void VectorAcquisition();	//エネミーのベクトルを取得するための関数。
 	void Rotation();			//エネミーの回転処理。
@@ -99,10 +108,8 @@ public:
 		return m_position;
 	}
 	//プレイヤー...いただいてます。
-	void SetPlayer(Player* player)
-	{
-		m_player = player;
-	}
+	void BindPlayer(Player* player);
+
 	//死亡かどうか。
 	bool GetIsDead() const
 	{
@@ -132,12 +139,17 @@ public:
 	/// <param name="Defense">防御力</param>
 	/// <param name="Speed">基礎速度</param>
 	/// <param name="model">エネミーのモデル</param>
-	void Init(float HP,float Attack, float Defense,float Speed);
+	void Init(float HP, float Attack, float Defense, float Speed);
+	/// <summary>
+	/// エネミーがプレイヤーから攻撃されたときの処理。
+	/// </summary>
+	void OnOccurredAttackCollision(PhysicsGhostObject& colli, const wchar_t* eventName
+	, int m_playerAtkPoint)override;
 protected:
-	Player* m_player = nullptr;									//プレイヤークラス。
+	Player* m_player = nullptr;							//プレイヤークラス。
 	SkinModel Model;									//エネミーのモデル。
-	float m_HP = 0.0f;										//エネミーのHP
-	float m_MaxHP = 0.0f;									//エネミーの最大HP
+	float m_HP = 0.0f;									//エネミーのHP
+	float m_MaxHP = 0.0f;								//エネミーの最大HP
 	int m_ATK = 0;										//エネミーの攻撃力
 	int m_DEF = 0;										//エネミーの防御力
 	int m_SPD = 0;										//エネミーの初期スピード。
@@ -151,12 +163,14 @@ protected:
 	float m_Kyori = 500.0f;								
 	float m_timer = 0.0f;								//タイマー。
 	float m_fowndAngle = 0.4f;							//見つける角度
+	float m_efkPosUpY = 65.0f;							//エフェクトを足元から上に映すので。
 	bool isDeath_flag = false;							//エネミーが死んだかどうか。
 	bool isHitMe_flag = false;							//攻撃受けた。
 	bool isAttack_flag = false;							//エネミーが追いかけるよ。
 	bool isTrack_flag = false;							//こちらは別の追いかけるフラグ。
 	bool isDestination_flag = true;						//一回だけ目的地を決めたいので。
-	bool isEffectLoop_flag = true;			//エフェクトを大量生成しないように使うフラグ。
+	bool isEffectLoop_flag = true;						//エフェクトを大量生成しないように使うフラグ。
+	bool isDamaged_flag = false;						
 	CVector3 m_position= CVector3::Zero();				//エネミーのポジション用のメンバ変数
 	CVector3 m_moveSpeed = CVector3::Zero();			//エネミーの移動のスピードだよ。
 	CVector3 m_scale = CVector3::One();					//エネミーの大きさ用のメンバ変数。
@@ -175,8 +189,13 @@ protected:
 	AnimationClip animClip[m_AnimClipNum];				//アニメクリップ。
 	//音
 	CSoundSource m_se[10];								//音。
+	CSoundSource m_damagedSe[2];							//ダメージの時の音。
 	//エフェクト
 	Effekseer::Effect* m_attackEffect = nullptr;		//基本攻撃中のエフェクト。
+	Effekseer::Effect* m_damagedEffect = nullptr;
 	Effekseer::Handle m_playEffectHandle = 1;
+	//プレイヤー通知する物
+	std::list<IPlayerEventListener*> m_playerEventListenerList;
+
 };
 
