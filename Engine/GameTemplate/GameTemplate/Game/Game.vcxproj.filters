@@ -366,12 +366,6 @@
     <None Include="Assets\animData\Wall_Move.tka" />
     <None Include="Assets\sprite\AGO.JPG" />
     <None Include="Assets\sprite\Change.png" />
-    <None Include="Assets\sprite\Energy.jpg" />
-    <None Include="Assets\sprite\fade.png" />
-    <None Include="Assets\sprite\GameClear.png" />
-    <None Include="Assets\sprite\GameOver.png" />
-    <None Include="Assets\sprite\glass.jpg" />
-    <None Include="Assets\sprite\Midori.jpg" />
     <None Include="Assets\sprite\title1.png" />
     <None Include="Assets\modelData\Ago.fbx" />
     <None Include="Assets\modelData\BOX.fbx" />
@@ -422,11 +416,17 @@
     <ImageContentTask Include="Assets\effect\Texture\Wind01.png" />
     <ImageContentTask Include="Assets\effect\Texture\wind02.png" />
     <ImageContentTask Include="Assets\modelData\emission.png" />
-    <ImageContentTask Include="Assets\sprite\title.png" />
     <ImageContentTask Include="Assets\sprite\nowroading.png" />
     <ImageContentTask Include="Assets\effect\Texture\burst02_red.png" />
     <ImageContentTask Include="Assets\effect\Texture\clockHand.png" />
     <ImageContentTask Include="Assets\modelData\Sky.JPG" />
+    <ImageContentTask Include="Assets\sprite\Energy.jpg" />
+    <ImageContentTask Include="Assets\sprite\fade.png" />
+    <ImageContentTask Include="Assets\sprite\GameClear.png" />
+    <ImageContentTask Include="Assets\sprite\GameOver.png" />
+    <ImageContentTask Include="Assets\sprite\glass.jpg" />
+    <ImageContentTask Include="Assets\sprite\Midori.jpg" />
+    <ImageContentTask Include="Assets\sprite\title.png" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\sprite\GameOver.dds" />
