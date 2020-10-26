@@ -32,7 +32,7 @@ public:
 	void Update() override;			//カメラの更新関数。
 	void State();					//カメラの状態。
 	/// <summary>
-	/// プレイヤーのざひょうもってくりゅ。
+	/// プレイヤーの座標を持ってくる。
 	/// </summary>
 	void SetPlayer(Player* player)
 	{

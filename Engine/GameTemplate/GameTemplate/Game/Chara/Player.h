@@ -94,9 +94,13 @@ public:
 	/// </summary>
 	/// <param name="Damage">ダメージ（敵の攻撃力）</param>
 	void Damage(int Damage);
+	/// <summary>
+	/// プレイヤーが死んでいるかどうか。
+	/// </summary>
+	/// <return>死んだかどうかのフラグ<return>
 	bool GetIsDead() const
 	{
-		return m_isdeath;
+		return m_isdeath_flag;
 	}
 	/// <summary>
 	/// プレイヤーのポジションを渡す。
@@ -106,23 +110,45 @@ public:
 	{
 		return m_position;
 	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	const CVector3& GetRookEnemyPos()
 	{
 		return m_enemyPos;
 	}
+	/// <summary>
+	/// エネミーのリストを設定する。
+	/// </summary>
+	/// <param name="GetEnemy">受け取るリスト</param>
+	/// <returns></returns>
 	const void SetEnemysList(std::vector<Enemys*>& GetEnemy)
 	{
 		m_enemysList = GetEnemy;
 	}
-
+	/// <summary>
+	/// ボックスのインスタンス
+	/// </summary>
+	/// <param name="box"></param>
 	void SetBox(ITEMBox* box)
 	{
 		ItemBox = box;
 	}
+	/// <summary>
+	/// プレイヤーのポジションを受け取る。
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <returns></returns>
 	const void SetPosition(CVector3& pos)
 	{
 		m_position = pos;
 	}
+	/// <summary>
+	/// プレイヤーの向きを取得。
+	/// </summary>
+	/// <param name="rot"></param>
+	/// <returns></returns>
 	const void SetRotation(CQuaternion& rot)
 	{
 		m_rotation = rot;
@@ -147,7 +173,7 @@ public:
 	}
 	bool GetIsRooking() const
 	{
-		return m_isLockOn;
+		return m_isLockOn_flag;
 	}
 	float GetRadius() 
 	{
@@ -157,8 +183,8 @@ public:
 	void ComboReset()
 	{
 		playerState = pl_idle;
-		m_isCombo = false;
-		m_ComboNow = false;
+		m_isCombo_flag = false;
+		m_ComboNow_flag = false;
 	}
 	//音
 	const void SoundFalse(int SoundNum)
@@ -251,10 +277,10 @@ private:
 	float AttackMoveSpeed = 500.0f;						//攻撃する時の動く値
 	float RookAngle = 3.5f;								//敵に向く角度
 	float AttackMoveRot = 10.0f;						//攻撃するときに動く角度。
-	bool m_isdeath = false;								//死亡判定。
-	bool m_isLockOn = false;							//敵をロックオンしているかどうか。
-	bool m_isCombo = false;								//コンボするか？
-	bool m_ComboNow = false;
+	bool m_isdeath_flag = false;								//死亡判定。
+	bool m_isLockOn_flag = false;							//敵をロックオンしているかどうか。
+	bool m_isCombo_flag = false;								//コンボするか？
+	bool m_ComboNow_flag = false;
 	//エフェクト
 	Effekseer::Effect* m_attackEffect[3] = { nullptr };
 	Effekseer::Handle m_playEffectHandle = -1;

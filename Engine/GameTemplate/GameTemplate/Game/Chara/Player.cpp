@@ -69,7 +69,6 @@ void Player::Update()
 		PlayerAttack();					//プレイヤーの攻撃類
 		PlayerState();					//プレイヤーの状態を呼ぶ。
 		Rotation();						//プレイヤーの回転を呼ぶ。
-		//Track();						//プレイヤーが敵を探す。
 		Forward();						//プレイヤーの前ベクトル取得。
 		RookOnEnemys();					//エネミーをターゲティングする用。
 	}
@@ -200,15 +199,15 @@ void Player::PlayerAttack()
 {
 	//もしBボタンが押されたら、パンチ。
 	//攻撃モーションとゴーストの当たり判定を生成。
-	if (m_isCombo && g_pad[0].IsTrigger(enButtonY))
+	if (m_isCombo_flag && g_pad[0].IsTrigger(enButtonY))
 	{
-		m_ComboNow = true;
+		m_ComboNow_flag = true;
 	}
 	else if (g_pad[0].IsTrigger(enButtonY))
 	{
 		toEnemyInduction();				//追従
 		playerState = pl_Atk;
-		m_isCombo = true;
+		m_isCombo_flag = true;
 	}
 }
 //プレイヤーの移動類。
@@ -288,16 +287,17 @@ void Player::Damage(int Damage)
 	//もし、HPが0以下なら死亡処理。
 	if (HP <= 0.0f)
 	{
-		m_isdeath = true;
+		m_isdeath_flag = true;
 	}
 	//You are Dead。
-	if (m_isdeath)
+	if (m_isdeath_flag)
 	{
 		playerState = pl_Death;
 		//プレイヤーが死亡したことをイベントリスナーに通知。
 		NotifyDeadEventToListener();
 	}
 }
+//リスナーにプレイヤーが死んだことを通知する処理。
 void Player::NotifyDeadEventToListener()
 {
 	//イベントリスナーに死亡を通知する。
@@ -351,7 +351,7 @@ void Player::Energy()
 void Player::RookOnEnemys()
 {
 	//現在のロックオン状態を記録する。
-	bool isOldLockOnFlag = m_isLockOn;
+	bool isOldLockOnFlag = m_isLockOn_flag;
 	//プレイヤーの向いている角度の計算。
 	float degreep = atan2(m_forward.x, m_forward.z);
 	//計算して出た暫定的に一番小さい角度を記憶する変数。
@@ -394,15 +394,15 @@ void Player::RookOnEnemys()
 
 	}	
 	//求めた一番小さい値が一定値より小さい場合、ターゲティングをオンにする。
-	if (m_isLockOn) {
+	if (m_isLockOn_flag) {
 		if (g_pad[0].IsTrigger(enButtonB)) {
-			m_isLockOn = false;
+			m_isLockOn_flag = false;
 		}
 	}
 	else {
 		if (isPossibleLockOn) {
 			if (g_pad[0].IsTrigger(enButtonB)) {
-				m_isLockOn = true;
+				m_isLockOn_flag = true;
 			}
 		}
 	}
@@ -410,11 +410,12 @@ void Player::RookOnEnemys()
 	//ロックオンの切り替わりをリスナーに通知。
 	TryNotifyChangeLockonEventToListener(isOldLockOnFlag);
 }
+//プレイヤーがカメラの注視点を変更したときに呼ぶ処理
 void Player::TryNotifyChangeLockonEventToListener(bool isOldLockOnFlag)
 {
-	if (isOldLockOnFlag != m_isLockOn) {
+	if (isOldLockOnFlag != m_isLockOn_flag) {
 		//ロックオン状態が変わったので、リスナーに通知。
-		if (m_isLockOn) {
+		if (m_isLockOn_flag) {
 			//ロックオン状態に切り替わったのをリスナーに通知。
 			for (auto& listener : m_eventListenerList) {
 				listener->OnStartLockOn(this);
@@ -432,7 +433,7 @@ void Player::TryNotifyChangeLockonEventToListener(bool isOldLockOnFlag)
 void Player::ComboAttack()
 {
 	//コンボじゃないときは一回
-	if (!m_ComboNow)
+	if (!m_ComboNow_flag)
 	{
 		g_anim.Play(pl_Atk,0.1f);
 
@@ -443,7 +444,7 @@ void Player::ComboAttack()
 		}
 	}
 	//コンボ中は二回
-	else if (m_ComboNow&& !g_anim.IsPlaying())
+	else if (m_ComboNow_flag&& !g_anim.IsPlaying())
 	{
 		g_anim.Play(pl_Combo,0.1f);
 		//攻撃が終わったら。

@@ -50,17 +50,25 @@ public:
 	bool DebugStage();				//デバック用のステージ。
 	void Update();					//ゲームのアップデート関数。
 	void FirstStageUpdate();		//最初のステージで行うアップデート。
-	void BossStageUpdate();			//ボスのステージで行うアップでーろ。
+	void BossStageUpdate();			//ボスのステージで行うアップデート。
 	void Walldelete();				//壁の処理
 	void GameScene();				//ゲームオーバー等の処理。
 	void PlayerBarUpdate();			//プレイヤーの体力、ブーストのアプデ。
 	//敵とぷえいやーの距離を測る
 public:
-	const void SetStage(int n) 
+	/// <summary>
+	/// ステージ
+	/// </summary>
+	/// <param name="n">ステージ番号</param>
+	const void SetStage(int number) 
 	{
-		m_stage = n;
+		m_stage = number;
 	}
-	const void SetPlayerHp(float hp) 
+	/// <summary>
+	/// ステージ移動するときHPを引き継ぐ処理。
+	/// </summary>
+	/// <param name="hp">プレイヤーのHP</param>
+	const void TakeOverPlayerHp(float hp) 
 	{
 		m_playerHp = hp;
 	}
